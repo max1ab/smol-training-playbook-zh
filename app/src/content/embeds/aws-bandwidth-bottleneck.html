@@ -321,6 +321,52 @@
     font-weight: 600;
     color: var(--primary-color);
   }
+
+  /* Checkbox styling for the bandwidth toggle */
+  #real-bandwidth-toggle {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 3px;
+    background-color: var(--page-bg);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+  }
+
+  #real-bandwidth-toggle:hover {
+    border-color: var(--primary-color);
+  }
+
+  #real-bandwidth-toggle:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(from var(--primary-color) r g b / 0.1);
+  }
+
+  #real-bandwidth-toggle:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  #real-bandwidth-toggle:checked::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--on-primary);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  #real-bandwidth-toggle:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.2.5/svg.min.js"></script>
@@ -1650,8 +1696,8 @@
 
       // For single ensemble (CPU-GPU, GPU-GPU via CPU, storage paths), zoom in more
       if (ensembleCount === 1 && systemCount === 1) {
-        viewboxWidth *= 0.75;  // Zoom in by reducing viewbox width
-        viewboxHeight *= 0.75; // Zoom in by reducing viewbox height
+        viewboxWidth *= 0.65;  // Zoom in by reducing viewbox width (increased from 0.75)
+        viewboxHeight *= 0.65; // Zoom in by reducing viewbox height (increased from 0.75)
       }
 
       // For 2 systems in vertical layout, use scaled dimensions
@@ -1705,7 +1751,7 @@
 
       // For single ensemble, shift content up slightly
       if (ensembleCount === 1 && systemCount === 1) {
-        viewboxY += 80;  // Shift up by reducing viewboxY
+        viewboxY += 150;  // Shift up by reducing viewboxY (reduced from 80)
       }
 
       // For single node mode (no Node/NUMA groups), shift content down by 50px
@@ -1818,7 +1864,7 @@
       const baseCrossLinksGroup = svg.querySelector('g[data-group="base-cross-links"]');
 
       if (baseLinksGroup) {
-        baseLinksGroup.style.opacity = '0.2';
+        baseLinksGroup.style.opacity = '0.35';
 
         // Increase stroke width of group borders to make them more visible when ghosted
         baseLinksGroup.querySelectorAll('[data-group-border]').forEach(border => {
@@ -1827,15 +1873,15 @@
         });
       }
       if (baseCrossLinksGroup) {
-        baseCrossLinksGroup.style.opacity = '0.1';
+        baseCrossLinksGroup.style.opacity = '0.25';
       }
 
       // Dim nodes individually (they're not in a group)
       svg.querySelectorAll('g[data-node-type]').forEach(el => {
-        el.style.opacity = '0.5';
+        el.style.opacity = '0.6';
         // Dim text labels
         el.querySelectorAll('text').forEach(text => {
-          text.style.opacity = '0.15';
+          text.style.opacity = '0.25';
         });
       });
 
@@ -1929,7 +1975,7 @@
             legendItem.style.opacity = '1';
           } else {
             // Not used - ghosted
-            legendItem.style.opacity = '0.25';
+            legendItem.style.opacity = '0.4';
           }
         });
       }
@@ -2349,8 +2395,8 @@
         const isChecked = showRealBandwidthsOverride === true || (showRealBandwidthsOverride === null && embedConfig.showRealBandwidths);
         const controlsHTML = `
           <div>
-            <label id="real-bandwidth-label" style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-color); cursor: pointer; opacity: 0.3; transition: opacity 0.2s;">
-              <input type="checkbox" id="real-bandwidth-toggle" ${isChecked ? 'checked' : ''} style="cursor: pointer;" disabled>
+            <label id="real-bandwidth-label" style="display: flex; align-items: center; gap: 0px; font-size: 14px; color: var(--text-color); cursor: pointer; opacity: 0.3; transition: opacity 0.2s;">
+              <input type="checkbox" id="real-bandwidth-toggle" ${isChecked ? 'checked' : ''} disabled>
               <span>Show Real Bandwidths</span>
             </label>
           </div>

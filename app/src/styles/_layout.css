@@ -81,6 +81,14 @@
   padding: calc(var(--content-padding-x)*2);
   border-radius: calc(var(--button-radius)*2);
   background-color: var(--page-bg);
+  -webkit-mask:
+    linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%),
+    linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%);
+  -webkit-mask-composite: intersect;
+  mask:
+    linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%),
+    linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%);
+  mask-composite: intersect;
 }
 
 .wide>* {
@@ -92,6 +100,9 @@
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+  padding: calc(var(--content-padding-x)*2);
+  border-radius: calc(var(--button-radius)*2);
+  background-color: var(--page-bg);
 }
 
 @media (--bp-content-collapse) {

@@ -50,11 +50,9 @@ const hasCaption =
 const hasTitle = Astro.slots.has("title");
 const uid = `ri_${Math.random().toString(36).slice(2)}`;
 const dataZoomable =
-  zoomable !== false || (imgProps as any)["data-zoomable"] ? "1" : undefined;
+  zoomable !== false || (imgProps as any)["data-zoomable"] ? "1" : "1";
 const dataDownloadable =
-  downloadable === true || (imgProps as any)["data-downloadable"]
-    ? "1"
-    : undefined;
+  downloadable !== false || (imgProps as any)["data-downloadable"] ? "1" : "1";
 const hasLink = typeof linkHref === "string" && linkHref.length > 0;
 const resolvedTarget = hasLink ? linkTarget || "_blank" : undefined;
 const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
