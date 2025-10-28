@@ -1754,12 +1754,12 @@
         viewboxY += 150;  // Shift up by reducing viewboxY (reduced from 80)
       }
 
-      // For single node mode (no Node/NUMA groups), shift content down by 50px
+      // For single node mode (no Node/NUMA groups), shift content down by 80px
       // BUT only if: 1) not an EFA filter, 2) a filter is active
       const isEfaFilter = currentActivePathId === 'gpu-gpu-efa-intranode' || currentActivePathId === 'gpu-gpu-efa-internode';
       const hasActiveFilter = currentActivePathId && currentActivePathId !== '';
       if (!isInternodeLayout && hasActiveFilter && !isEfaFilter) {
-        viewboxY -= 50;  // Shift down by decreasing viewboxY
+        viewboxY -= 80;  // Shift down by decreasing viewboxY (increased from 50px)
       }
 
       const draw = SVG().addTo(container).size('100%', '100%').viewbox(0, viewboxY, viewboxWidth, paddedViewboxHeight);

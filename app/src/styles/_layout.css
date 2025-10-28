@@ -75,11 +75,11 @@
 
 .wide {
   /* Target up to ~1100px while staying within viewport minus page gutters */
-  width: min(1100px, 100vw - var(--content-padding-x) * 2);
+  width: min(1100px, 100vw - var(--content-padding-x) * 4);
   margin-left: 50%;
   transform: translateX(-50%);
-  padding: calc(var(--content-padding-x)*2);
-  border-radius: calc(var(--button-radius)*2);
+  padding: calc(var(--content-padding-x)*4);
+  border-radius: calc(var(--button-radius)*4);
   background-color: var(--page-bg);
   -webkit-mask:
     linear-gradient(to right, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%),
@@ -100,9 +100,17 @@
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: calc(var(--content-padding-x)*2);
-  border-radius: calc(var(--button-radius)*2);
+  padding: calc(var(--content-padding-x)*4);
+  border-radius: calc(var(--button-radius)*4);
   background-color: var(--page-bg);
+  -webkit-mask:
+    linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%);
+  mask:
+    linear-gradient(to bottom, transparent 0px, black 20px, black calc(100% - 20px), transparent 100%);
+}
+
+.full-width figure figcaption {
+  text-align: center !important;
 }
 
 @media (--bp-content-collapse) {

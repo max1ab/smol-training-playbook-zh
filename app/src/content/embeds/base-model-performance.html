@@ -3,8 +3,6 @@
 <style>
     .base-model-performance {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        background: var(--page-bg);
-        border-radius: 8px;
         max-width: 900px;
         margin: 0 auto;
     }
@@ -12,10 +10,6 @@
     .base-model-performance .chart-container {
         position: relative;
         width: 100%;
-        background: var(--surface-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -96,7 +90,7 @@
         stroke-width: 2.5;
         fill: none;
         marker-end: url(#arrowhead);
-        opacity: 0.7;
+        opacity: 0.4;
     }
 
     .base-model-performance .arrow-label {
@@ -128,10 +122,6 @@
     }
 
     @media (max-width: 768px) {
-        .base-model-performance {
-            padding: 20px 10px;
-        }
-
         .base-model-performance .chart-container {
             height: 500px;
         }
@@ -195,13 +185,13 @@
             const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
             const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
             marker.setAttribute('id', 'arrowhead');
-            marker.setAttribute('markerWidth', '10');
-            marker.setAttribute('markerHeight', '10');
-            marker.setAttribute('refX', '9');
+            marker.setAttribute('markerWidth', '6');
+            marker.setAttribute('markerHeight', '6');
+            marker.setAttribute('refX', '5');
             marker.setAttribute('refY', '3');
             marker.setAttribute('orient', 'auto');
             const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-            polygon.setAttribute('points', '0 0, 10 3, 0 6');
+            polygon.setAttribute('points', '0 0, 6 3, 0 6');
             polygon.setAttribute('fill', 'var(--muted-color)');
             marker.appendChild(polygon);
             defs.appendChild(marker);
@@ -342,14 +332,14 @@
                 circle.setAttribute('cx', x);
                 circle.setAttribute('cy', y);
                 circle.setAttribute('r', isHighlight ? 35 : 28);
-                circle.setAttribute('fill', 'white');
+                circle.setAttribute('fill', 'rgba(255, 255, 255, 0.3)');
                 circle.setAttribute('class', 'model-circle');
                 if (isHighlight) {
                     circle.setAttribute('stroke', model.color);
-                    circle.setAttribute('stroke-width', '4');
+                    circle.setAttribute('stroke-width', '2');
                 } else {
                     circle.setAttribute('stroke', 'rgba(0, 0, 0, 0.25)');
-                    circle.setAttribute('stroke-width', '2');
+                    circle.setAttribute('stroke-width', '1');
                 }
                 g.appendChild(circle);
 

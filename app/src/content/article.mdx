@@ -110,7 +110,6 @@ import Screenshot_2025_10_24_at_09_37_24_2961384e_bcac_8055_9e8e_ffbd3a1aa368 fr
 import Screenshot_2025_09_26_at_22_36_40_27a1384e_bcac_8063_94e0_f1c689e7d9b9 from './assets/image/Screenshot_2025-09-26_at_22_36_40_27a1384e-bcac-8063-94e0-f1c689e7d9b9.png';
 import GtU8DnoWsAAruEG_28e1384e_bcac_8051_8122_ed6cacf8f632 from './assets/image/GtU8DnoWsAAruEG_28e1384e-bcac-8051-8122-ed6cacf8f632.png';
 import Screenshot_2025_10_01_at_11_31_19_28e1384e_bcac_8005_8c5e_f0af3bf70372 from './assets/image/Screenshot_2025-10-01_at_11_31_19_28e1384e-bcac-8005-8c5e-f0af3bf70372.png';
-import image20283129_29a1384e_bcac_800d_8b92_f46377d66a61 from './assets/image/image20283129_29a1384e-bcac-800d-8b92-f46377d66a61.png';
 import image_2881384e_bcac_80d6_84fe_d705cb1eae0a from './assets/image/image_2881384e-bcac-80d6-84fe-d705cb1eae0a.png';
 import image_2881384e_bcac_801d_9f3d_c875181b9dd1 from './assets/image/image_2881384e-bcac-801d-9f3d-c875181b9dd1.png';
 import image_2881384e_bcac_80ed_9bdf_c077977d77b8 from './assets/image/image_2881384e-bcac-80ed-9bdf-c077977d77b8.png';
@@ -2677,7 +2676,402 @@ With our data carefully curated and our mixture validated through ablations, we'
 
 ## The training marathon
 
-[The training marathon](2921384e-bcac-80b9-ac9e-e2ed81f6f335)
+You've made it this far, congrats! The real fun is about to begin.
+
+At this point, we have everything in place: a validated architecture, a finalized data mixture, and tuned hyperparameters. The only thing left is setting up the infrastructure and hitting "train".
+
+For SmolLM3, we trained on 384 H100 GPUs (48 nodes) for nearly a month, processing 11 trillion tokens. This section walks you through what actually happens during a long training run: the pre-flight checks, the inevitable surprises, and how we kept things stable. You'll see firsthand why both solid ablation practices and reliable infrastructure matter. We cover the technical infrastructure details of GPU hardware, storage systems, and optimizing throughputs in the next chapter.
+
+It's a bit like setting off on a long road trip. We might have a perfect itinerary, but before we pull out of the driveway, we still check the car's engine, tires, and fuel. LLM training is the same, even with all the prep work, there's still a final round of sanity checks that can save us from unpleasant surprises mid-run.
+
+Our team has been through this many times: from StarCoder and StarCoder2, to SmolLM, SmolLM2, and now SmolLM3. Every single run is different. Even if you've trained a dozen models, each new run finds a fresh way to surprise you. This section is about stacking the odds in your favor so you're ready for those surprises.
+
+### Pre-flight checklist: What to verify before hitting "train"
+
+Before hitting "train", we go through a checklist to ensure everything works end-to-end:
+
+ **Infrastructure readiness:**  
+
+- If your cluster supports reservations, use them. For SmolLM3, we had a fixed 48-node reservation for the entire run. That meant no queueing delays, consistent throughput, and the ability to track node health over time. 
+- Stress-test GPUs before launch (we use [GPU Fryer](https://github.com/huggingface/gpu-fryer) and [DCGM Diagnostics](https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-diagnostics.html)) to catch throttling or performance degradation. For SmolLM3, we found two GPUs throttling and replaced them before starting the run.
+- Avoid storage bloat: our system uploads each checkpoint to S3, then deletes the local copy right after saving the next one, so we never store more than one on the fast local GPU SSDs.
+
+ **Evaluation setup:** Evaluations are deceptively time-consuming. Even with everything implemented, running them manually, logging results, and making plots can eat up hours each time. So try to automate them completely, and ensure they are running and logging correctly before the run starts. For SmolLM3, every saved checkpoint automatically triggered an evaluation job on the cluster that got logged to wandb/trackio.
+
+ **Checkpoint & auto-resume system:**  Verify that checkpoints are saved correctly and that the training job can resume from the latest one without manual intervention. On Slurm, we use  `--requeue`  option so a failed job gets automatically relaunched, resuming from the most recent checkpoint.
+
+ **Metrics logging:**  Confirm that you're logging all the metrics you care about: evaluation scores, throughput (tokens/sec), training loss, gradient norm, node health (GPU utilization, temperature, memory usage), and any custom debug metrics specific to your run.
+
+ **Training configuration sanity check:** Double-check your training config, launch scripts, and Slurm submission commands.
+
+<Note title="Infrastructure deep-dive" variant="info">
+
+For detailed guidance on GPU testing, storage benchmarking, monitoring setup, and building resilient training systems, see the [Infrastructure chapter](#infrastructure---the-unsung-hero).
+</Note>
+
+### Scaling surprises 
+
+After running extensive ablations for SmolLM3, we were ready for the full-scale run. Our 3B ablations on 100B tokens looked promising. The architectural changes compared to SmolLM2 (GQA, NoPE, document masking, tokenizer) either improved or maintained performance, and we found a good data mixture that balances English, multilingual, code, and math performance. We optimized our configuration for around 30% MFU on 384 GPUS (48 nodes).
+
+<Sidenote>
+
+We ran some ablations on 48 nodes to validate the throughput before launching the run. You can find more details about them in the Infrastructure chapter.
+</Sidenote>
+
+We were ready for the big one: 11T tokens. That's when reality started throwing curveballs.
+
+####  **Mystery #1 – The vanishing throughput** 
+
+Within hours of launch, throughput plummeted. It was a big jump with repeated sharp drops.
+
+<Note title="Why throughput matters" emoji="📍" variant="info">
+
+Throughput measures how many tokens per second our system processes during training. It directly impacts our training time, a 50% drop in throughput means our month-long run becomes a two-month run. In the Infrastructure chapter, we'll show how we optimized throughput for SmolLM3 before starting the run.
+</Note>
+
+<HtmlEmbed
+src="embeds/d3-line-chart.html"
+config={{
+dataUrl: "./data/throughput_weka_drops.csv",
+xColumn: "step",
+yColumn: "throughput",
+runColumn: "run_name",
+smoothing: false,
+xAxisLabel: "Training Step",
+yAxisLabel: "Tokens/sec/GPU",
+title: "Throughput Weka Drops"
+}}
+/>
+
+
+
+This didn't happen in any ablation run, so what changed? Three things:
+
+1. Hardware can develop issues, GPUs that worked fine in ablations might fail and network connections might degrade under sustained load.
+1. We were now training on the full dataset instead of subsets: ~24 TB spanning dozens of web, code, math, and multilingual sources.
+1. We set the real step count for 11T tokens instead of the short 100B-token ablation horizon.
+
+Intuitively, neither dataset size nor step count should cause throughput drops, so we naturally suspected hardware issues first. We checked our node monitoring metrics, which showed that the big throughput jump correlated with spikes in disk read latency. That pointed us straight at our data storage.
+
+<Note title="Storage options in our cluster" emoji="📍" variant="info">
+
+Our cluster has three storage tiers for training data:
+
+-  **FSx** : Network-attached storage which uses [Weka](https://www.weka.io/) a "keep-hot" caching model that stores frequently accessed files locally and evicts inactive "cold" files to S3 as capacity fills up.
+-  **Scratch (Local NVMe RAID)** : Fast local storage on each node (8×3.5TB NVMe drives in RAID), which is faster than FSx but limited to local node access.
+-  **S3** : Remote object storage for cold data and backups.
+
+You can find more details in the Infrastructure chapter.
+</Note>
+
+For SmolLM3's 24TB dataset, we initially stored the data in FSx (Weka). With 24TB of training data, on top of storage already used by several other teams, we were pushing Weka's storage to the limit. So it started evicting dataset shards mid-training, which meant we had to fetch them back, creating stalls, which explained the big throughput jump. Worse: there was no way to pin our dataset folders as hot for the full training.
+
+ **Fix #1 – Changing data storage** 
+
+We didn't find a way to pin our dataset folders as hot for the full training in Weka, so we tried to change the storage method. Streaming directly from S3 was slow, so we decided to store the data in each node in its local storage  `/scratch` .
+
+This came with a catch: If a node died and was replaced, the new replacement GPUs had no data. Downloading 24TB from S3 with  `s5cmd`  took 3h. We cut that to 1h30 by copying from another healthy node using  `fpsync`  instead of going through S3. This was faster given all the nodes were in the same datacenter.
+
+Still, 1h30 of downtime per node failure, and the need for manually copying the data to the new node immediately, was painful. The hack that finally made it bearable: reserve a spare node in our Slurm reservation with the dataset preloaded. If a node died, we swapped it instantly with the spare node, so zero recovery delay. While idle, the spare ran evals or dev jobs, so it wasn't wasted.
+
+This fixed Mystery #1… or so we thought.
+
+####  **Mystery #2 – The persisting throughput drops** 
+
+Even after moving to scratch, the individual throughput drops kept happening although we didn't find any anomaly in the hardware monitoring metrics. The chart below compares the throughput we got, after fixing the storage issue in orange, to the throughput we were getting during the ablations in blue. As you can see, the drops became much sharper.
+
+<HtmlEmbed
+src="embeds/d3-line-chart.html"
+config={{
+dataUrl: "./data/throughput_drops_comparison.csv",
+xColumn: "step",
+yColumn: "throughput",
+runColumn: "run_name",
+smoothing: false,
+xAxisLabel: "Training Step",
+yAxisLabel: "Tokens/sec/GPU",
+title: "Throughput Drops Comparison"
+}}
+/>
+
+
+
+Still suspecting hardware, we decided to test on fewer nodes. With 384 GPUs, there's a high chance something could be failing. Surprisingly, we could reproduce the exact same throughput drops on a single node, no matter which specific node we tested. This ruled out hardware issues.
+
+Remember the three things that changed from our ablations? We had already addressed the data storage issue by moving to local node storage. Hardware was now eliminated. That left only one variable: the step count. We tested this by rolling back to smaller step counts (from 3M to 32k) and the thoughput drops became smaller! Larger step counts produced sharper, more frequent drops.
+
+Remember the three things that changed from our ablations? We had already addressed the data storage issue by moving to local node storage. Hardware was now eliminated. That left only one variable: the step count.
+
+To test this, we ran identical configurations with only the training steps changed from 32k to 3.2M. You can see the [exact configs we used](https://huggingface.co/datasets/HuggingFaceTB/ablations-training-configs/tree/main/throughput_debugging):
+
+```diff
+## Short run (32k steps)
+- "lr_decay_starting_step": 2560000
+- "lr_decay_steps": 640000
+- "train_steps": 3200000
+
+## Long run (3.2M steps)
++ "lr_decay_starting_step": 26000
++ "lr_decay_steps": 6000
++ "train_steps": 32000
+
+```
+The results shown in the figure below were clear: shorter runs had small throughput drops, while longer step counts produced sharper, more frequent drops. So the issue was not the hardware, but a software bottleneck, likely in the dataloader! Given that most other training components process each batch identically regardless of step count.
+
+<HtmlEmbed
+src="embeds/d3-line-chart.html"
+config={{
+dataUrl: "./data/throughput_debug_1node_full.csv",
+xColumn: "step",
+yColumn: "throughput",
+runColumn: "run_name",
+smoothing: false,
+xAxisLabel: "Training Step",
+yAxisLabel: "Tokens/sec/GPU",
+title: "Throughput Debug 1 Node"
+}}
+/>
+
+
+
+That's when we realized we'd never actually done large-scale pretraining with nanotron's dataloader. SmolLM2 had been trained with steady throughput using a Megatron-LM derived dataloader ([TokenizedBytes](https://github.com/huggingface/nanotron/blob/7bc9923285a03069ebffe994379a311aceaea546/src/nanotron/data/tokenized_bytes.py#L80)) through an internal wrapper around nanotron. For SmolLM3, we switched to nanotron's built-in dataloader ( `nanosets` ).
+
+After deep diving into its implementation, we found that it was naively building one giant index that grew with each training step. For very large steps, this caused a higher shared memory which triggered throughput drops.
+
+ **Fix #2 – Bring in TokenizedBytes dataloader** 
+
+To confirm that the dataloader was indeed the culprit, we launched the same configuration with our internal SmolLM2 framework using  `TokenizedBytes`  dataloader. No drops. Even on 48 nodes using the same datasets.
+
+Fastest path forward: copy this dataloader into nanotron. The drops were gone and the throughput back to target.
+
+We were ready to relaunch… until the next curveball.
+
+####  **Mystery #3 – The noisy loss** 
+
+With the new dataloader, we didn't have throughput drops but the loss curve looked more noisy.
+
+ `nanosets`  had been producing smoother loss, and the difference rang a bell from an old debugging war: a few years ago, we'd found a shuffling bug in our pretraining code where documents were shuffled, but sequences inside a batch were not, leading to small spikes. 
+
+Checking our new dataloader confirmed it: it was reading sequences sequentially from each document. That's fine for short files, but with domains like code, a single long low-quality file can fill an entire batch and cause loss spikes.
+
+ **Fix #3 – Shuffle at the sequence level** 
+
+We had two options:
+
+1. Change the dataloader to do random access (risk: higher memory usage).
+1. Pre-shuffle tokenized sequences offline.
+
+With the time pressure to start the run and our cluster reservation running, we went with option #2 as the safer, faster fix. Tokenized data was already on each node, so reshuffling locally was cheap (~1 h). We also generated shuffled sequences for each epoch with different seeds to avoid repeating shuffling patterns across epochs.
+
+####  **Launch, Take Two** 
+
+By now we had:
+
+-  **Stable throughput**  (scratch storage + spare node strategy)
+-  **No step-count-induced drops**  ( `TokenizedBytes`  dataloader)
+-  **Clean, sequence-level shuffling**  (offline pre-shuffle per epoch)
+
+We relaunched. This time, everything held. The loss curve was smooth, throughput was consistent, and we could finally focus on training instead of firefighting.
+
+ **Mystery #4 – Unsatisfactory performance** 
+
+After fixing the throughput and dataloader issues, we launched the run again and trained smoothly for the first two days. Throughput was stable, loss curves looked as expected, and nothing in the logs suggested any problems. At around the 1T token mark, however, the evaluations revealed something unexpected.
+
+As part of our monitoring, we evaluate intermediate checkpoints and compare them to historical runs. For instance, we had the intermediate checkpoints from SmolLM2 (1.7B) trained on a similar recipe, so we could track how both models progressed at the same stages of training. The results were puzzling: despite having more parameters and a better data mixture, the 3B model was performing worse than the 1.7B at the same training point. Loss was still decreasing, and benchmark scores were improving, but the improvement rate was clearly below expectations.
+
+Given that we had thoroughly tested every architecture and data change introduced in SmolLM3 compared to SmolLM2, we validated the training framework and there were only a few remaining untested differences between the two training setups. The most obvious was tensor parallelism. SmolLM2 could fit on a single GPU and was trained without TP, while SmolLM3 required TP=2 to fit in memory. We didn't suspect it or think of testing it before, since TP was used in the 3B ablations and their results made sense.
+
+ **Fix #4 - The final fix** 
+
+To test the TP bug hypothesis, we trained a 1.7B model with the exact same setup as SmolLM3 — same architecture changes (document masking, NoPE), same data mixture, same hyperparameters — both with and without TP. The difference was immediate: the TP version consistently had a higher loss and lower downstream performance than the non-TP version. That confirmed we were looking at a TP-related bug.
+
+We then examined the TP implementation in detail, comparing weights from TP and non-TP runs. The problem turned out to be subtle but significant: we were using identical random seeds across all TP ranks, when each rank should have been initialized with a different seed. This caused correlated weight initialization across shards, which affected convergence. The effect was not catastrophic — the model still trained and improved — but it introduced enough inefficiency to explain the gap we observed at scale.
+Below is the bug fix:
+
+```diff
+diff --git a/src/nanotron/trainer.py b/src/nanotron/trainer.py
+index 1234567..abcdefg 100644
+--- a/src/nanotron/trainer.py
++++ b/src/nanotron/trainer.py
+@@ -185,7 +185,10 @@ class DistributedTrainer:
+     ):
+         # Set random states
+-        set_random_seed(self.config.general.seed)
++        # Set different random seed for each TP rank to ensure diversity
++        tp_rank = dist.get_rank(self.parallel_context.tp_pg)
++        set_random_seed(self.config.general.seed + tp_rank)
+
++
+```
+
+<HtmlEmbed
+src="embeds/d3-line-chart.html"
+config={{
+dataUrl: "./data/tp_debug_fix_loss.csv",
+xDomain: [0, 9e9],
+yDomain: [2.7, 3.7],
+smoothing: true,
+title: "TP Debug Fix Loss"
+}}
+/>
+
+
+
+Once we fixed the seeds so that each TP rank used a different seed, we repeated the ablations experiments and confirmed that TP and non-TP runs now matched in both loss curves and downstream performance. To make sure there were no other hidden issues, we ran additional sanity checks: a SmolLM2-style (architecture and data wise) run at 3B parameters, and a separate SmolLM3 run at 3B parameters, comparing both to SmolLM2's checkpoints. The results now aligned with expectations: the 1.7B SmolLM2 performed worse than the 3B SmolLM2 variant, which in turn was below SmolLM3's 3B performance.
+
+<Wide>
+
+<HtmlEmbed
+src="embeds/d3-six-line-charts.html"
+config={{
+dataUrl: "./data/evals_tp_bug_fix_200B.csv",
+charts: [
+{ title: "HellaSwag", metric: "hellaswag" },
+{ title: "MMLU", metric: "mmlu" },
+{ title: "ARC", metric: "arc" },
+{ title: "PIQA", metric: "piqa" },
+{ title: "OpenBookQA", metric: "openbookqa" },
+{ title: "WinoGrande", metric: "winogrande" }
+],
+smoothing: true,
+smoothingWindow: 15
+}}
+/>
+</Wide>
+
+
+
+This debugging process reinforced one of the core principles we outlined earlier in this blog: 
+
+"The real value of a solid ablation setup goes beyond just building a good model. When things inevitably go wrong during our main training run (and they will, no matter how much we prepare), we want to be confident in every decision we made and quickly identify which components weren't properly tested and could be causing the issues. This preparation saves debugging time and keeps our sanity intact. There's nothing worse than staring at a mysterious training failure with no idea where the bug could be hiding."
+
+Because every other component in our training had been validated, we could pinpoint TP as the only plausible cause and fix the bug within a single day of detecting the performance gap.
+
+With that, we had resolved the last in a series of unexpected issues that had surfaced since launch. Third time's a charm, from that point on, the remaining month of training was relatively uneventful, just the steady work of turning trillions of tokens into a finished model, interrupted by occasional restarts due to node failures.
+
+### Staying the course
+
+As the previous section showed, scaling from ablations to full pretraining wasn't just "plug and play." unexpected challenges, it brought unexpected challenges, but we successfully identified and resolved each issue. This section covers the essential monitoring setup and considerations for large-scale training runs. We'll address critical questions: When should you restart training after encountering problems? How do you handle issues that surface deep into a run? Which metrics truly matter? Should you maintain a fixed data mixture throughout training?
+
+#### Training monitoring: Beyond loss curves
+
+The reason we caught the tensor-parallelism bug was not the loss curve, which looked fine, but the fact that downstream evaluations were lagging behind expectations. Additionally, having evaluations from SmolLM2's intermediate checkpoints was critical: they gave us a sanity check that the 3B model wasn't on the right track early. So if you're training large models, start running downstream evaluations early, and if you're comparing to an open-source model, ask whether the authors can provide intermediate checkpoints, those can be invaluable as reference points.
+
+On the infrastructure side, the most important metric is throughput, measured in tokens per second. For SmolLM3, we expected stable throughput between 13,500–14,000 tokens/sec across the run, and any sustained deviation was a red flag. But throughput alone is not enough: you also need continuous hardware health monitoring to anticipate and detect hardware failures. Some of the key metrics we tracked included: GPU temperatures, memory usage and compute utilization. We log them into Grafana dashboards and set up real-time Slack alerts for hardware anomalies.
+
+#### Fix and restart vs fix on the fly
+
+Given that we restarted our run after 1T tokens, an important question arises: do you always need to restart when something goes wrong? The answer depends on the severity and root cause of the issue.
+
+In our case, the TP seeding bug meant we were starting on the wrong foot, half our weights weren't properly initialized. The model was showing performance similar to SmolLM2 and plateauing at similar points, meaning we'd likely end up with a model that performed the same but cost almost twice as much to train. Restarting made sense. However, many issues can be course-corrected mid-run to avoid wasting compute. The most common issue involves loss spikes, those sudden jumps in training loss that can either signal minor hiccups or divergence.
+
+As [Stas Bekman](https://media.istockphoto.com/id/486869012/fr/photo/ch%C3%A8vre-est-%C3%A0-nous.jpg?s=612x612&w=0&k=20&c=F26PCPZiy1P3FLZS23GWhKcQ8Buqfx8StHYoX85hq-s%3D) nicely puts it in the [Machine Learning Engineering Open Book ](https://github.com/stas00/ml-engineering/blob/master/training/instabilities/training-loss-patterns.md)"Training loss plots are similar to heartbeat patterns—there's the good, the bad, and the you-should-worry ones."
+
+<HtmlEmbed
+src="embeds/d3-line-chart.html"
+config={{
+dataUrl: "./data/spike_loss.csv",
+xColumn: "tokens",
+yColumn: "loss",
+runColumn: "run_name",
+xAxisLabel: "Tokens",
+yAxisLabel: "Loss"
+}}
+/>
+
+
+
+Loss spikes fall into two categories:
+
+- Recoverable spikes: These can recover either fast (immediately after the spike) or slow (requiring several more training steps to return to the pre-spike trajectory). You can usually continue training through these. If recovery is very slow, you can try rewinding to a previous checkpoint to skip problematic batches.
+- Non-recoverable spikes: The model either diverges or plateaus at worse performance than before the spike. These require more significant intervention than simply rewinding to a previous checkpoint.
+
+While we don't fully understand training instabilities, we know they become more frequent at scale. Common culprits, assuming a conservative architecture and optimizer, include:
+
+- High learning rates: These cause instability early in training and can be fixed by reducing the learning rate.
+- Bad data: Usually the main cause of recoverable spikes, though recovery may be slow. This can happen deep into training when the model encounters low-quality data. 
+- Data-parameter state interactions: PaLM observed that spikes often result from specific combinations of data batches and model parameter states, rather than "bad data" alone. Training on the same problematic batches from a different checkpoint didn't reproduce the spikes.
+- Poor initialization: Recent work by OLMo2 showed that switching from scaled initialization to a simple normal distribution (mean=0, std=0.02) improved stability.
+- Precision issues: While no one trains with FP16 anymore, [BLOOM](https://arxiv.org/abs/2211.05100) found it highly unstable compared to BF16.
+
+ **Before spikes happen, build in stability:** 
+
+Small models with conservative learning rates and good data rarely spike, but larger models require proactive stability measures. As more teams have trained at scale, we've accumulated a toolkit of techniques that help prevent training instability:
+
+Data filtering and shuffling: By this point in the blog, you've noticed how often we circle back to data. Making sure your data is clean and well-shuffled can prevent spikes. For instance, OLMo2 found that removing documents with repeated n-grams (32+ repetitions of 1-13 token spans) significantly reduced spike frequency.
+
+Training modifications: Z-loss regularization keeps output logits from growing too large without affecting performance. And excluding embeddings from weight decay also helps.
+
+Architectural changes: QKNorm (normalizing query and key projections before attention) has proven effective. OLMo2 and other teams found it helps with stability, and interestingly, [Marin team](https://wandb.ai/marin-community/marin/reports/Marin-32B-Work-In-Progress--VmlldzoxMzM1Mzk1NQ) found that it can even be applied mid-run to fix divergence issues. 
+
+ **When spikes happen anyway - damage control:** 
+
+Even with these precautions, spikes can still occur. Here are some options for fixing them:
+
+-  **Skip problematic batches** : Rewind to before the spike and skip the problematic batches. This is the most common fix for spikes. The Falcon team [@almazrouei2023falconseriesopenlanguage] skipped 1B tokens to resolve their spikes, while the PaLM team [@palm] found that skipping 200-500 batches around the spike location prevented recurrence.
+-  **Tighten gradient clipping** : Reduce the gradient norm threshold temporarily
+-  **Apply architectural fixes**  such as QKnorm, as done in Marin.
+
+### Mid-training
+
+Modern LLM pretraining typically involves multiple stages with different data mixtures, often followed by a final phase to extend context length. For example, Qwen3 uses a three-stage approach: a general stage on 30T tokens at 4k context, a reasoning stage with 5T higher-quality tokens emphasizing STEM and coding, and finally a long context stage on hundreds of billions of tokens at 32k context length. SmolLM3 follows a similar philosophy, with planned interventions to introduce higher-quality datasets and extend context, alongside reactive adjustments based on performance monitoring.
+As we explained in the data curation section, some interventions are planned from the start: for SmolLM3, we knew we'd introduce higher-quality math (FineMath4+) and code (Stack-Edu) in Stage 2, then add curated Q&A and reasoning math and code data during the final decay phase. Other interventions are reactive, driven by monitoring performance during training. For example, in SmolLM2, when we found math and code performance lagging behind our targets, we responded by curating entirely new datasets (FineMath and Stack-Edu) and introducing them mid-training.
+
+As we explained in the data curation section, the data mixture doesn't have to stay fixed throughout training. Multi-stage training allows us to strategically shift dataset proportions as training progresses. Some interventions are planned from the start: for SmolLM3, we knew we'd introduce higher-quality FineMath4+ and Stack-Edu in Stage 2, then add curated Q&A and reasoning data during the final decay phase. Other interventions are reactive, driven by monitoring performance during training. For example, in SmolLM2, when we found math and code performance lagging behind our targets, we curated entirely new datasets (FineMath and Stack-Edu) and introduced them mid-training. This flexibility—whether following a planned curriculum or adapting to emerging gaps—is what allows us to maximize the value of our compute budget.
+
+#### Stage 2 and stage 3 mixtures
+
+The chart below show our 3 training stages and the progression of our web/code/math ratios during training. The SmolLM3 training configs for each stage are available [here](https://github.com/huggingface/smollm/tree/main/text/pretraining/smollm3) with exact data weights. For more details on the rationale and composition behind each stage, refer to the data curation section.
+
+<Wide>
+
+<HtmlEmbed src="/embeds/data-mixture-stages.html" />
+</Wide>
+
+
+
+ **Stage 1: Base training (8T tokens, 4k context)** 
+The foundation stage uses our core pretraining mixture: web data (FineWeb-Edu, DCLM, FineWeb2, FineWeb2-HQ), code from The Stack v2 and StarCoder2, and math from FineMath3+ and InfiWebMath3+. All training happens at 4k context length.
+
+ **Stage 2: High-quality injection (2T tokens, 4k context)** 
+We introduce higher-quality filtered datasets: Stack-Edu for code, FineMath4+ and InfiWebMath4+ for math, and MegaMath for advanced mathematical reasoning (we add the Qwen Q&A data, synthetic rewrites, and text-code interleaved blocks).
+
+ **Stage 3: LR decay with reasoning & Q&A data (1.1T tokens, 4k context)** 
+During the learning rate decay phase, we further upsample high-quality code and math datasets while introducing instruction and reasoning data like OpenMathReasoning, OpenCodeReasoning and OpenMathInstruct. The Q&A samples are simply concatenated and separated by new lines.
+
+#### Long context extension: From 4k to 128k tokens
+
+Context length determines how much text your model can process, it's crucial for tasks like analyzing long documents, maintaining coherent multi-turn conversations, or processing entire codebases. SmolLM3 started training at 4k tokens, but we needed to scale to 128k for real-world applications.
+
+ **Why extend context mid-training?** 
+
+Training on long contexts from the start is computationally expensive since attention mechanisms scale quadratically with sequence length. Moreover, research shows that extending context with a few dozen to a hundred billion tokens toward the end of training, or during continual pretraining, is enough to reach good long context performance [@prolong].
+
+ **Sequential scaling: 4k→32k→64k** 
+
+We didn't jump straight to 128k. Instead, we gradually extended context in stages, giving the model time to adapt at each length before pushing further. We ran two long context stages: first from 4k to 32k, then from 32k to 64k (the 128k capability comes from inference-time extrapolation, not training). We found that starting a fresh learning rate schedule for each stage over 50B tokens worked better than extending context during the last 100B tokens of the main decay phase. At each stage, we ran ablations to find a good long context data mix and RoPE theta value, and evaluated on the Ruler benchmark.
+
+<Note title="Long context evals on base model" emoji="💡" variant="info">
+
+During the long context ablations, we found [HELMET](https://arxiv.org/abs/2410.02694) benchmark to be very noisy on base models 
+(the same training with different seeds gives variable results). [Gao et al.](https://arxiv.org/abs/2410.02660) 
+recommend doing SFT on top to reduce variance on the benchmarks' tasks. 
+Instead we go for Ruler, which we found to give more reliable signal at the base 
+model level.
+</Note>
+
+During this phase, it's common to upsample long context documents such as lengthy web pages and books to improve long context performance [@prolong; qwen3]. We ran several ablations upsampling books, articles, and even synthetically generated documents for tasks like retrieval and fill-in-the-middle, following Qwen2.5-1M's approach [@qwen1Million] with FineWeb-Edu and Python-Edu. Surprisingly, we didn't observe any improvement over just using the baseline mixture from Stage 3, which was already competitive with other state-of-the-art models like Llama 3.2 3B and Qwen2.5 3B on Ruler. We hypothesize this is because the baseline mixture naturally includes long documents from web data and code (estimated at 10% of tokens), and that using NoPE helped.
+
+<Sidenote>
+
+For more insights into long context extension, we recommend reading the paper [How to Train Long-Context Language Models (Effectively)](https://arxiv.org/abs/2410.02660)
+</Sidenote>
+
+ **RoPE ABF (RoPE with Adjusted Base Frequency):**  When going from 4k to 32k, we increased RoPE theta (base frequency) to 2M, and to go from 32k to 64k, we increased it to 5M. We found that using larger values like 10M slightly improves Ruler score but hurts some short context task like GSM8k, so we kept 5M which didn't impact short context. 
+During this context extension phase, we also used the opportunity to further upsampled math, code, and reasoning Q&A data, and we added few hundred thousand samples in ChatML format.
+
+ **YARN extrapolation: Reaching 128k** 
+Even after training on 64k contexts, we wanted SmolLM3 to handle 128k at inference. Rather than training on 128k sequences (prohibitively expensive), we used YARN (Yet Another RoPE extensioN method) [@yarn], which allows the model to extrapolate beyond its training length. In theory, YARN allows a four-fold increase in sequence length. We found that using the 64k checkpoint gave better performance at 128k than using the 32k checkpoint, confirming the benefit of training closer to the target inference length. However, pushing to 256k (four-fold from 64k) showed degraded Ruler performance, so we recommend using the model up to 128k.
 
 ### Wrapping up pretraining
 
@@ -3422,7 +3816,7 @@ Packing solves this by concatenating multiple sequences together until a desired
 
 <Wide>
 
-<HtmlEmbed src="/embeds/data-packing.html" />
+<HtmlEmbed frameless src="/embeds/data-packing.html" />
 </Wide>
 
 
@@ -3521,7 +3915,7 @@ The mid-training approach traces back to ULMFit [[@ulmfit](https://arxiv.org/a
 
 <Wide>
 
-<HtmlEmbed src="embeds/training-pipeline.html"/>
+<HtmlEmbed frameless src="embeds/training-pipeline.html"/>
 </Wide>
 
 
@@ -3732,7 +4126,12 @@ We also ran experiments to determine how dataset size influences results, testin
 
 Bringing all these choices together led to the final SmolLM3-3B model, which was best-in-class for its size and sat on the Pareto front with Qwen's own hybrid reasoning models: 
 
-<Image src={image20283129_29a1384e_bcac_800d_8b92_f46377d66a61} alt="Image" />
+<Wide>
+
+<HtmlEmbed src="embeds/base-model-performance.html"/>
+</Wide>
+
+
 
 Not too shabby for a few weeks work!
 
@@ -3934,7 +4333,7 @@ Similarly, researchers at FAIR have compared the effect of being fully offline t
 
 <Wide>
 
-<HtmlEmbed src="embeds/rl-training-sync.html"/>
+<HtmlEmbed frameless src="embeds/rl-training-sync.html"/>
 </Wide>
 
 
