@@ -3113,7 +3113,35 @@ Once the pre-training finishes we should have an SFT baseline within a day
 
 <Reference caption="Choose your own (post-training) adventure.">
 
-<HtmlEmbed src="embeds/post-training-adventure.html"/>
+```mermaid
+flowchart TD
+    %% Main algorithms
+    Base["Base model"]
+    SFT["SFT"]
+    ORPO["ORPO"]
+    DPOAPO["DPO and friends"]
+    RL["RL (here be dragons)"]
+    KTO["KTO"]
+
+    Base --> SFT
+    Base --> ORPO
+    Base --> KTO
+    Base --> RL
+
+    SFT --> ORPO
+    SFT --> DPOAPO
+    SFT --> RL
+    SFT --> KTO
+
+    classDef baseModel fill:#f9f9f9
+    classDef sft fill:#ffd0c5
+    classDef algorithm fill:#fef3c7
+    classDef note fill:#f5f5f5
+    
+    class Base baseModel
+    class SFT sft
+    class ORPO,DPOAPO,RL,KTO algorithm
+```
 </Reference>
 
 Pre-training gave us SmolLM3's raw ability, but before the GPUs are cooled down we enter the next frontier of model capabilities:  *post-training* . This includes supervised fine-tuning, reinforcement learning, model merging, and more — all designed to bridge the gap between "a model that predicts text" to "a model people can actually use". If pre-training is about brute-forcing knowledge into weights, post-training is about sculpting that raw capability into something reliable and steerable. And just like pre-training, the polished post-training papers don't capture the late-night surprises: GPU meltdowns, finicky data mixtures, or the way a seemingly minor chat template decision can ripple through downstream benchmarks. In this section, we'll show how we navigated the messy world of post-training to turn SmolLM3 from a strong base model into a state-of-the-art hybrid reasoner.
@@ -5546,7 +5574,7 @@ Successfully ran diagnostic for group.
  **Node reservation:**  Because SmolLM3 was trained on a Slurm managed cluster, we booked a fixed 48-node reservation for the entire run. This setup allowed us to track the health and performance of the exact same nodes over time, it was also necessary to solve a data storage issues we discussed. We also reserved a spare node (like a car's spare wheel) so if one failed, we could swap it in immediately without waiting for repairs. While idle, the spare node ran eval jobs or dev experiments.
 
  **Continuous monitoring:**  During training, we tracked key metrics across all nodes such as GPU temperatures, memory usage, compute utilization and throughput fluctuations. We use [Prometheus](https://prometheus.io/) to collect [DCGM](https://github.com/NVIDIA/DCGM) metrics from all GPUs and visualize them in [Grafana](https://grafana.com/) dashboards for real-time monitoring. For detailed setup instructions on deploying Prometheus and Grafana for GPU monitoring on AWS infrastructure, see [this example setup guide](https://github.com/aws-samples/awsome-distributed-training/tree/3ae961d022399021cc4053c3ba19b182ca6b8dc8/4.validation_and_observability/4.prometheus-grafana). A Slack bot alerted us when any node showed suspicious behavior, allowing us to proactively replace failing hardware before it crashed the entire training run.
- 
+
 
 
 <a href="/screencapture-grafana-huggingface.pdf" target="_blank">Access to dashboard</a>
@@ -5724,7 +5752,9 @@ The results show we're pushing close to the 80GB limit. This means we need some 
 
 Now that we know the model fits in memory with some form of parallelism, we need to determine how to achieve our target global batch size (GBS) of approximately 2 million tokens. This constraint gives us our first equation:
 
->  >  **GBS = DP × MBS × GRAD_ACC × SEQLEN ≈ 2M tokens** 
+$$
+GBS = DP × MBS × GRAD_ACC × SEQLEN ≈ 2M tokens
+$$
 
 Where:
 
@@ -5735,7 +5765,9 @@ Where:
 
 We also have a hardware constraint from our 384 H100s:
 
->  >  **DP × TP × PP = 384 = 2^7 × 3** 
+$$
+DP × TP × PP = 384 = 2^7 × 3
+$$
 
 Where:
 
