@@ -21,6 +21,7 @@ const { id, caption } = Astro.props as Props;
 <style>
     .reference-wrapper {
         margin: 0;
+        margin-bottom: var(--spacing-4);
     }
 
     .reference {
@@ -29,6 +30,34 @@ const { id, caption } = Astro.props as Props;
 
     .reference__content {
         /* Le contenu peut être n'importe quoi */
+    }
+
+    .reference__content :global(*) {
+        margin-bottom: 0;
+    }
+
+    .reference__content :global(img) {
+        margin-bottom: 0;
+    }
+
+    .reference__content :global(.ri-root) {
+        margin-bottom: 0;
+    }
+
+    .reference__content :global(.ri-root) :global(.reference__caption) {
+        margin-top: 0;
+    }
+
+    .reference__content :global(.table-scroll) {
+        margin-bottom: 0;
+    }
+
+    .reference__content :global(pre) {
+        margin-bottom: 0;
+    }
+
+    .reference__content :global(.astro-code) {
+        margin-bottom: 0;
     }
 
     .reference__caption {

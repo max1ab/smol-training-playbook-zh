@@ -129,22 +129,22 @@ Reading time: 2-4 days.
 
 Published research makes it look straightforward: strategic architecture choices, carefully curated datasets, and sufficient compute. The results are polished, the ablations are structured and clean. Every decision seems obvious in hindsight. But these technical reports only show what worked and apply a bit of rosy retrospection – they don't capture the 2am dataloader debugging sessions, the loss spikes, or the subtle tensor parallelism bug (see later!) that quietly sabotages your training. The reality is messier, more iterative, and full of decisions that don't make it into the final technical report.
 
-Join us as we look behind the scenes of training SmolLM3, a 3B multilingual reasoning model trained on 11T tokens. This is not an ordinary blog post, but rather the untangling of a spiderweb of decisions, discoveries, and dead ends that led to deep insights into what it takes to build world-class language models.
+Join us as we look behind the scenes of training [SmolLM3](https://huggingface.co/HuggingFaceTB/SmolLM3-3B), a 3B multilingual reasoning model trained on 11T tokens. This is not an ordinary blog post, but rather the untangling of a spiderweb of decisions, discoveries, and dead ends that led to deep insights into what it takes to build world-class language models.
 
 It is also the final opus in our model-training long-form series: we've worked through building datasets at scale ([FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1)), orchestrating thousands of GPUs to sing in unison ([Ultra Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)), and selecting the best evaluations at each step of the process ([Evaluation Guidebook](https://github.com/huggingface/evaluation-guidebook)). Now we shape it all together to build a strong AI model. We'll walk you through the complete journey – not just the final recipe that worked, but showcase how experiments fail, infrastructure breaks, and how debugging processes shaped our decisions.
 
-The story reads like a drama: You'll see how promising small-scale ablations sometimes don't translate at scale, why we restarted a training after 1T tokens, how we balanced the competing objectives of multilinguality, math, and code while maintaining strong English performance, and finally how we post-trained a hybrid reasoning model.
+The story reads like a drama: you'll see how promising small-scale ablations sometimes don't translate at scale, why we restarted a training after 1T tokens, how we balanced the competing objectives of multilinguality, math, and code while maintaining strong English performance, and finally how we post-trained a hybrid reasoning model.
 
-We also tried to avoid a cold list of all we did in favor of an organized story through our adventure. Think of this as a guide for anyone trying to go from "we have a great dataset and GPUs" to "we built a really strong model". We hope being this open will helps close the gap between research and production, and make your next training run a little less chaotic. 
+We also tried to avoid a cold list of all we did in favour of an organized story through our adventure. Think of this as a guide for anyone trying to go from "we have a great dataset and GPUs" to "we built a really strong model". We hope being this open will helps close the gap between research and production, and make your next training run a little less chaotic. 
 
 ### How to read this blog post
 
 You don't need to read this blog post from top to bottom, and at this point it's too long to realistically read end-to-end in one sitting anyway. The blog post is structured in several distinct pieces that can be skipped or read individually:
 
 -  **Training compass:**  A high-level discussion about whether or not you should pretrain your own model. We walk you through fundamental questions to ask yourself before burning through all your VC money, and how to think systematically through the decision process. This is a high-level section, if you want to skip straight to the technical content, scroll quickly past this part.
--  **Pretraining:** The sections following the training compass cover everything you need to know to build a solid recipe for your own pretraining run: how to run ablations, select evaluations, mix data sources, make architecture choices, tune hyperparameters, and finally endure the training marathon. This section also applies if you're not planning to pretrain from scratch but are interested in long fine-tuning (aka mid-training).
--  **Post-training:** In this part of the blog you'll learn all the tricks to get most out of your pretrained models. Learn the whole post-training alphabet starting with SFT, DPO and GRPO as well as the dark arts and alchemy of model merging. Most of the knowledge about making these algorithms work well is learned through painful lessons, and we'll share our experience here to hopefully spare you some of them.
--  **Infrastructure:** If pretraining is the cake and post-training is the icing and cherry on top, then infrastructure is the industrial-grade oven. Without it, nothing happens, and if it's broken your happy Sunday baking session turns into a fire hazard. Knowledge about how to understand, analyze, and debug GPU clusters is scattered across the internet in various libraries, docs, and forums. This section walks through GPU layout, communication patterns between CPU/GPU/Nodes/Storage, and how to identify and overcome bottlenecks. 
+-  **Pretraining:** The sections following the training compass cover everything you need to know to build a solid recipe for your own pretraining run: how to run ablations, select evaluations, mix data sources, make architecture choices, tune hyperparameters, and finally endure the training marathon. This section also applies if you're not planning to pretrain from scratch but are interested in continued pretraining (aka mid-training).
+-  **Post-training:** In this part of the blog you'll learn all the tricks needed to get most out of your pretrained models. Learn the whole post-training alphabet starting with SFT, DPO and GRPO as well as the dark arts and alchemy of model merging. Most of the knowledge about making these algorithms work well is learned through painful lessons, and we'll share our experience here to hopefully spare you some of them.
+-  **Infrastructure:** If pretraining is the cake and post-training is the icing and cherry on top, then infrastructure is the industrial-grade oven. Without it, nothing happens, and if it's broken, your happy Sunday baking session turns into a fire hazard. Knowledge about how to understand, analyse, and debug GPU clusters is scattered across the internet in various libraries, docs, and forums. This section walks through GPU layout, communication patterns between CPU/GPU/nodes/storage, and how to identify and overcome bottlenecks. 
 
 So where do we even start? Pick the section that you find most exciting and let's go!
 
@@ -741,11 +741,11 @@ In some cases, a bug can be solved by upgrading the library to the latest versio
 
 Following these rules might feel overly cautious, but the alternative is spending days debugging mysterious performance drops that turn out to be caused by an unrelated dependency update from days earlier. The golden principle: once you have a good setup,  *no change should go untested!*
 
-## Designing the Model Architecture
+## Designing the model architecture
 
 Now that we have our experimental framework in place, it's time to make the big decisions that will define our model. Every choice we make, from model size to attention mechanisms to tokenizer choice, creates constraints and opportunities that will affect model training and usage. 
 
-Remember the [Training Compass](#training-compass:-why-→-what-→-how): before making any technical choices, we need clarity on the  *why*  and  *what* . Why are we training this model, and what should it look like?
+Remember the [training compass](#training-compass-why--what--how): before making any technical choices, we need clarity on the  *why*  and  *what* . Why are we training this model, and what should it look like?
 
 It sounds obvious, but as we explained in the Training Compass, being deliberate here shapes our decisions and keeps us from getting lost in the endless space of possible experiments. Are we aiming for a SOTA model in English? Is long context a priority? Or a we trying to validate a new architecture?  The training loop may look similar in all these cases, but the experiments we run and the trade-offs we accept will be different. Answering this question early helps us decide how to balance our time between data and architecture work, and how much to innovate in each before starting the run. 
 
@@ -1456,7 +1456,10 @@ On a technical level MoEs have a simple goal: grow total parameters without incr
 
  If this is your first time encountering MoE, don't worry, the mechanics are not complicated. Let's start with the standard dense architecture and have a look at the necessary changes for the MoE (figure by [Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch04/07_moe)):
 
+<Wide>
+
 <Image src={image_2931384e_bcac_8062_bc11_d1ee3706d996} alt="Image" />
+</Wide>
 
 With MoEs, we replace that single MLP with multiple MLPs ("experts") and add a learnable router before the MLPs. For each token, the router selects a small subset of experts to execute. This is where the distinction between total parameters and active parameters comes from: the model has many experts, but any given token only uses a few.
 
@@ -1503,7 +1506,10 @@ Two examples:
 
 <Image src={Capture_decran_2025_10_20_a_13_25_47_2921384e_bcac_8087_83e5_fa7a40c1f342} alt="Image" />
 
+<Wide>
+
 <Image src={Capture_decran_2025_10_20_a_13_26_08_2921384e_bcac_80b5_ac36_fb73d6374208} alt="Image" />
+</Wide>
 
 Here is a table with the sparsity of some MoE model:
 
@@ -1580,7 +1586,10 @@ Another method that is used widely to improve MoEs is the concept of shared expe
 
 A shared-expert setup routes every token to a small set of always-on experts. These shared experts absorb the basic, recurring patterns in the data so the remaining experts can specialize more aggressively. In practice, you usually don't need many of them; model designers commonly choose one, at most two. As granularity increases (e.g., moving from a Qwen3-style setting to something closer to Qwen3-Next), shared experts tend to become more useful. Looking at the following plot, the overall impact is modest, it doesn't dramatically change the EL. A simple rule of thumb works well in most cases: just use one shared expert, which matches choices in models like DeepSeek V3, K2, and Qwen3-Next and tends to maximize efficiency without adding unnecessary complexity. Figure from @antgroup .
 
+<Wide>
+
 <Image src={Capture_decran_2025_10_21_a_11_11_38_2931384e_bcac_8008_ad8d_d5ab0c539d3a} alt="Image" />
+</Wide>
 
 So a shared expert is an expert where some tokens are always routed through. What about the other experts? How do we learn when to rout to each expert and make sure that we don't just use a handful of experts? Next we'll discuss load balancing which tackles exactly that problem.
 
@@ -1607,7 +1616,10 @@ A key detail is the scope at which you compute routing statistics: are  $f_i$  a
 
 The following plot from Qwen's paper illustrates the difference of micro-batch vs global batch aggregation and it's impact on performance and specialization:
 
+<Wide>
+
 <Image src={Capture_decran_2025_10_21_a_15_34_27_2931384e_bcac_8066_834b_c485ae8d1fa5} alt="Image" />
+</Wide>
 
 Generally, ablating architecture choices around MoE is tricky as there is an interplay with many aspects. For example the usefulness of a shared expert might depend on the granularity of the model. So it's worth spending some time to make sure you have a good set of experiments to really get the insights you are looking for! 
 
@@ -1889,7 +1901,7 @@ The figure below compares how GPT-2's English-only tokenizer [@gpt2] and Gemma 3
 
 <Wide>
 
-<HtmlEmbed src="/embeds/tokenization-comparison.html" />
+<HtmlEmbed frameless src="/embeds/tokenization-comparison.html" />
 </Wide>
 
 
@@ -2048,7 +2060,7 @@ The results reveal some winners and trade-offs depending on your priorities:
 
 <Wide>
 
-<HtmlEmbed src="embeds/tokenizer-comparison.html"/>
+<HtmlEmbed frameless src="embeds/tokenizer-comparison.html"/>
 </Wide>
 
 
@@ -2523,7 +2535,7 @@ sea_snell</a>">
 
 Perfect is the enemy of good, especially when we're working with finite compute budgets and deadlines.
 
-### Scaling laws: How many parameters, how much data?
+### Scaling laws: how many parameters, how much data?
 
 In the early days of deep learning, before language models (and the clusters they were trained on) were "large", training runs were often not heavily constrained by compute. When training a model, you'd just pick the largest model and batch size that fit on your hardware and then train until the model started overfitting or you ran out of data. However, even in these early days there was a sense that scale was helpful — for example, [Hestness et al.](https://arxiv.org/abs/1712.00409) provided a comprehensive set of results in 2017 showing that training larger models for longer produced predictable gains. 
 
@@ -3101,35 +3113,7 @@ Once the pre-training finishes we should have an SFT baseline within a day
 
 <Reference caption="Choose your own (post-training) adventure.">
 
-```mermaid
-flowchart TD
-    %% Main algorithms
-    Base["Base model"]
-    SFT["SFT"]
-    ORPO["ORPO"]
-    DPOAPO["DPO and friends"]
-    RL["RL (here be dragons)"]
-    KTO["KTO"]
-
-    Base --> SFT
-    Base --> ORPO
-    Base --> KTO
-    Base --> RL
-
-    SFT --> ORPO
-    SFT --> DPOAPO
-    SFT --> RL
-    SFT --> KTO
-
-    classDef baseModel fill:#f9f9f9
-    classDef sft fill:#ffd0c5
-    classDef algorithm fill:#fef3c7
-    classDef note fill:#f5f5f5
-    
-    class Base baseModel
-    class SFT sft
-    class ORPO,DPOAPO,RL,KTO algorithm
-```
+<HtmlEmbed src="embeds/post-training-adventure.html"/>
 </Reference>
 
 Pre-training gave us SmolLM3's raw ability, but before the GPUs are cooled down we enter the next frontier of model capabilities:  *post-training* . This includes supervised fine-tuning, reinforcement learning, model merging, and more — all designed to bridge the gap between "a model that predicts text" to "a model people can actually use". If pre-training is about brute-forcing knowledge into weights, post-training is about sculpting that raw capability into something reliable and steerable. And just like pre-training, the polished post-training papers don't capture the late-night surprises: GPU meltdowns, finicky data mixtures, or the way a seemingly minor chat template decision can ripple through downstream benchmarks. In this section, we'll show how we navigated the messy world of post-training to turn SmolLM3 from a strong base model into a state-of-the-art hybrid reasoner.
@@ -4760,14 +4744,11 @@ The PCIe specification differs between generations, each doubling the transfer r
 | 7.0 | 128.0 GT/s | 15.125 | 30.25 | 60.5 | 121 | 242 |
 </Reference>
 
-<Wide>
-
 <HtmlEmbed
 src="/embeds/aws-bandwidth-bottleneck.html"
 config={{ initialFilter: 'cpu-gpu' }}
 caption="CPU-to-GPU communication path."
 />
-</Wide>
 
 From the topology diagram and the PCIe bandwidth table, we can see that the CPU-to-GPU path goes through two PCIe hops: first from the CPU to the PCIe switch via PCIe Gen4 x8 (15.754 GB/s), then from the PCIe switch to the GPU via PCIe Gen5 x16 (63.015 GB/s).  *This means the bottleneck for CPU-GPU communication is the first hop at 15.754 GB/s* . Let's validate this with another util,  `nvbandwidth` !
 
@@ -5452,7 +5433,10 @@ The benchmark evaluates storage system performance across Throughput, Latency, I
   </ul>
 </Note>
 
+<Wide>
+
 <HtmlEmbed src="/embeds/gds-interactive-heatmaps.html" caption="Benchmark results comparing storage system performance across varying thread counts and I/O sizes. The heatmaps visualize throughput (GiB/s) and IOPS patterns, revealing optimal configurations for each storage tier. Note: GPUDirect Storage (GDS) is not currently supported in this cluster configuration."/>
+</Wide>
 
 
 
@@ -5562,10 +5546,10 @@ Successfully ran diagnostic for group.
  **Node reservation:**  Because SmolLM3 was trained on a Slurm managed cluster, we booked a fixed 48-node reservation for the entire run. This setup allowed us to track the health and performance of the exact same nodes over time, it was also necessary to solve a data storage issues we discussed. We also reserved a spare node (like a car's spare wheel) so if one failed, we could swap it in immediately without waiting for repairs. While idle, the spare node ran eval jobs or dev experiments.
 
  **Continuous monitoring:**  During training, we tracked key metrics across all nodes such as GPU temperatures, memory usage, compute utilization and throughput fluctuations. We use [Prometheus](https://prometheus.io/) to collect [DCGM](https://github.com/NVIDIA/DCGM) metrics from all GPUs and visualize them in [Grafana](https://grafana.com/) dashboards for real-time monitoring. For detailed setup instructions on deploying Prometheus and Grafana for GPU monitoring on AWS infrastructure, see [this example setup guide](https://github.com/aws-samples/awsome-distributed-training/tree/3ae961d022399021cc4053c3ba19b182ca6b8dc8/4.validation_and_observability/4.prometheus-grafana). A Slack bot alerted us when any node showed suspicious behavior, allowing us to proactively replace failing hardware before it crashed the entire training run.
+ 
 
-[screencapture-grafana-huggingface-tech-d-science-node-status-draft-hopper-node-status-2025-10-13-13_12_27.pdf](/media/2921384e-bcac-807b-b544-e308e74095eb/screencapture-grafana-huggingface-tech-d-science-node-status-draft-hopper-node-status-2025-10-13-13_12_27_28b1384e-bcac-80dc-8940-c84982fa0560.pdf)
 
-<a href="/public/screencapture-grafana-huggingface.pdf" target="_blank">Access to dashboard</a>
+<a href="/screencapture-grafana-huggingface.pdf" target="_blank">Access to dashboard</a>
 This multi-layered approach meant hardware issues became manageable interruptions.
 
  **Thermal Reality Check: When GPUs Slow Down** 
@@ -5849,13 +5833,15 @@ Below is a curated list of papers, books, and blog posts that have informed us t
 #### Post-training
 
 - [InstructGPT:](https://huggingface.co/papers/2203.02155) OpenAI's foundational paper to turn base models into helpful assistants. The precursor to ChatGPT and a key step on humanity's path up the Kardashev scale.
+- [Llama 2](https://huggingface.co/papers/2307.09288) & [3](https://huggingface.co/papers/2407.21783): Extremely detailed tech reports from Meta on the training behind their Llama models (may they rest in peace). They each contain many insights into human data collection, both for human preferences and model evaluation.
+- Secrets of RLHF in LLMs, [Part I](https://huggingface.co/papers/2307.04964) & [II](https://huggingface.co/papers/2401.06080): these papers contain lots of goodies on the nuts and bolts for RLHF, specifically on how to train strong reward models. 
 - [Direct Preference Optimisation:](https://huggingface.co/papers/2305.18290) the breakthrough paper from 2023 that convinced everyone to stop doing RL with LLMs.
 - [DeepSeek-R1](https://huggingface.co/papers/2501.12948): the breakthrough paper from 2025 that convinced everyone to start doing RL with LLMs.
-- [Dr. GRPO:](https://huggingface.co/papers/2503.20783) one of the most important papers on understanding baked-in biases with GRPO and how to fix them.
+- [Dr. GRPO:](https://huggingface.co/papers/2503.20783) one of the most important papers on understanding the baked-in biases with GRPO and how to fix them.
 - [DAPO: ](https://huggingface.co/papers/2503.14476)Bytedance shares many implementation details to unlock stable R1-Zero-like training for the community.
 - [ScaleRL:](https://huggingface.co/papers/2510.13786) a massive flex from Meta to derive scaling laws for RL. Burns over 400k GPU hours to establish a training recipe that scales reliably over many orders of compute.
-- [LoRA without Regret:](https://thinkingmachines.ai/blog/lora/) a beautifully written blog post which finds that RL with LoRA can match full-finetuning (a most surprising result).
-- [Command A:](https://huggingface.co/papers/2504.00698) a remarkably detailed tech report from Cohere on various strategies to post-train LLMs effectively in practice.
+- [LoRA without Regret:](https://thinkingmachines.ai/blog/lora/) a beautifully written blog post which finds that RL with low-rank LoRA can match full-finetuning (a most surprising result).
+- [Command A:](https://huggingface.co/papers/2504.00698) a remarkably detailed tech report from Cohere on various strategies to post-train LLMs effectively.
 
 #### Infrastructure
 

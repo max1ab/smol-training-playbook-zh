@@ -75,13 +75,21 @@
 
             const colors = getColors();
 
-            // Background colors - gray tones like training compass
+            // Background colors - muted tones like wrong reasons
             const bgColors = {
                 sm: 'var(--surface-bg)', // Dark mode ready SM background
-                control: colors[0], // Keep categorical colors for components
-                registers: colors[1],
-                cores: colors[2],
-                cache: colors[3]
+                control: `color-mix(in srgb, ${colors[0]} 25%, var(--surface-bg))`, // More visible categorical colors
+                registers: `color-mix(in srgb, ${colors[1]} 25%, var(--surface-bg))`,
+                cores: `color-mix(in srgb, ${colors[2]} 25%, var(--surface-bg))`,
+                cache: `color-mix(in srgb, ${colors[3]} 25%, var(--surface-bg))`
+            };
+
+            // Border colors - darker versions of background colors
+            const borderColors = {
+                control: `color-mix(in srgb, ${colors[0]} 60%, var(--surface-bg))`,
+                registers: `color-mix(in srgb, ${colors[1]} 60%, var(--surface-bg))`,
+                cores: `color-mix(in srgb, ${colors[2]} 60%, var(--surface-bg))`,
+                cache: `color-mix(in srgb, ${colors[3]} 60%, var(--surface-bg))`
             };
 
             // Create diagram container
@@ -91,12 +99,12 @@
 
             // Create responsive SVG with fixed internal dimensions
             const containerWidth = diagramContainer.clientWidth || 1200;
-            const smHeight = 375; // Fixed internal height
-            const containerHeight = smHeight + 20; // Fixed internal height
+            const smHeight = 375; // Fixed internal height (375 + 15)
+            const containerHeight = smHeight + 0; // Fixed internal height
             const draw = SVG().addTo(diagramContainer).size('100%', containerHeight).viewbox(0, 0, containerWidth, containerHeight);
 
             // SM dimensions - scaled to fit container width
-            const totalWidth = containerWidth - 40; // Leave 20px margin on each side
+            const totalWidth = containerWidth - 20; // Leave 10px margin on each side (20px total reduction)
             const smWidth = (totalWidth - 80) / 3; // Total width minus spacings, divided by 3 SMs
             const normalSpacing = 20; // Normal spacing between blocks
             const ellipsisSpacing = 80; // Much larger spacing for ellipsis
@@ -140,7 +148,7 @@
                 const controlY = y + 70;
                 smGroup.rect(smWidth - 30, 35)
                     .fill(bgColors.control)
-                    .stroke({ color: 'rgba(0,0,0,0.2)', width: 1 })
+                    .stroke({ color: borderColors.control, width: 1 })
                     .radius(8)
                     .move(x + 15, controlY);
                 smGroup.text('Control')
@@ -152,7 +160,7 @@
                 const registersY = controlY + 50;
                 smGroup.rect(smWidth - 30, 35)
                     .fill(bgColors.registers)
-                    .stroke({ color: 'rgba(0,0,0,0.2)', width: 1 })
+                    .stroke({ color: borderColors.registers, width: 1 })
                     .radius(8)
                     .move(x + 15, registersY);
                 smGroup.text('Registers')
@@ -190,7 +198,7 @@
 
                         smGroup.rect(coreSize, coreSize)
                             .fill(bgColors.cores)
-                            .stroke({ color: 'rgba(0,0,0,0.2)', width: 1 })
+                            .stroke({ color: borderColors.cores, width: 1 })
                             .radius(4)
                             .move(coreX, coreY);
 
@@ -205,7 +213,7 @@
                 const cacheY = coresY + coresHeight + 15;
                 smGroup.rect(smWidth - 30, 35)
                     .fill(bgColors.cache)
-                    .stroke({ color: 'rgba(0,0,0,0.2)', width: 1 })
+                    .stroke({ color: borderColors.cache, width: 1 })
                     .radius(8)
                     .move(x + 15, cacheY);
                 smGroup.text('Constant Cache')
@@ -220,7 +228,7 @@
                 // Shared Memory (left side)
                 smGroup.rect(memoryWidth, 40)
                     .fill(bgColors.cache)
-                    .stroke({ color: 'rgba(0,0,0,0.2)', width: 1 })
+                    .stroke({ color: borderColors.cache, width: 1 })
                     .radius(8)
                     .move(x + 15, memoryY);
                 smGroup.text('Shared')
@@ -235,7 +243,7 @@
                 // L1 Cache (right side)
                 smGroup.rect(memoryWidth, 40)
                     .fill(bgColors.cache)
-                    .stroke({ color: 'rgba(0,0,0,0.2)', width: 1 })
+                    .stroke({ color: borderColors.cache, width: 1 })
                     .radius(8)
                     .move(x + 15 + memoryWidth + 10, memoryY);
                 smGroup.text('L1')
