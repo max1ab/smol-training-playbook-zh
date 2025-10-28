@@ -10,90 +10,100 @@
   }
 
   .d3-parameter-comparison .model-selector {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
 
-  .d3-parameter-comparison .model-selector label {
-    display: block;
-    font-size: 0.9em;
-    font-weight: 600;
+  .d3-parameter-comparison .section-title {
+    font-size: 1.1em;
+    font-weight: 700;
     color: var(--text-color);
-    margin-bottom: 8px;
-  }
-
-  .d3-parameter-comparison .selector-row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+    margin: 0 0 12px 0;
   }
 
   .d3-parameter-comparison .button-group {
     display: flex;
-    gap: 2px;
-    flex: 1;
-    background: var(--border-color);
-    border-radius: 8px;
-    padding: 2px;
-  }
-
-  .d3-parameter-comparison .model-btn {
-    flex: 1;
-    background: transparent;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 0.85em;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: var(--muted-color);
-    white-space: nowrap;
-  }
-
-  .d3-parameter-comparison .model-btn:hover {
-    background: var(--surface-bg);
-    color: var(--text-color);
-  }
-
-  .d3-parameter-comparison .model-btn.active {
+    gap: 0;
+    width: 100%;
     background: var(--page-bg);
-    color: var(--text-color);
-    font-weight: 600;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 0.25px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 0;
+    margin-bottom: 24px;
   }
 
-  .d3-parameter-comparison .export-btn {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-size: 0.8em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    white-space: nowrap;
+  .d3-parameter-comparison .actions-group {
+    display: flex;
+    gap: 8px;
+    width: 100%;
   }
 
-  .d3-parameter-comparison .export-btn:hover {
-    background: color-mix(in srgb, var(--primary-color) 80%, black);
+  .d3-parameter-comparison .actions-group .button {
+    flex: 1;
+    margin: 0 !important;
+    border-radius: var(--button-radius) !important;
+    border: 1px solid var(--primary-color) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 8px !important;
   }
 
-  .d3-parameter-comparison .export-btn:active {
-    background: color-mix(in srgb, var(--primary-color) 60%, black);
+  .d3-parameter-comparison .btn-icon {
+    flex-shrink: 0;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
   }
 
-  .d3-parameter-comparison .config-link {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 0.8em;
-    color: var(--primary-color);
-    text-decoration: none;
+  .d3-parameter-comparison .actions-group .button:hover .btn-icon {
+    opacity: 1;
+  }
+
+  /* Utilisation des styles de boutons du template */
+  .d3-parameter-comparison .button-group {
+    display: flex;
+    gap: 0;
+    width: 100%;
+    background: var(--page-bg);
+    border: 0.25px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 0;
+    margin-bottom: 24px;
+  }
+
+  .d3-parameter-comparison .button-group .button {
+    flex: 1;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: calc(var(--button-padding-y) * 2) var(--button-padding-x) !important;
+  }
+
+  .d3-parameter-comparison .button-group .button:first-child {
+    border-radius: 8px 0 0 8px !important;
+  }
+
+  .d3-parameter-comparison .button-group .button:last-child {
+    border-radius: 0 8px 8px 0 !important;
+  }
+
+  .d3-parameter-comparison .button-group .button:not(:first-child) {
+    border-left: 1px solid var(--primary-color) !important;
+  }
+
+  .d3-parameter-comparison .button-group .button.active {
+    background: var(--primary-color) !important;
+    color: var(--page-bg) !important;
+    font-weight: 900 !important;
+  }
+
+  .d3-parameter-comparison .button-group .button.active:first-child {
+    border-left: none !important;
   }
 
 
   .d3-parameter-comparison .model-info {
-    margin: 20px 0;
+    margin: 10px 0;
   }
 
   .d3-parameter-comparison .model-size-card {
@@ -313,9 +323,14 @@
       gap: 4px;
     }
 
-    .d3-parameter-comparison .model-btn {
-      font-size: 0.8em;
-      padding: 6px 8px;
+    .d3-parameter-comparison .actions-group {
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .d3-parameter-comparison .button-group .button,
+    .d3-parameter-comparison .actions-group .button {
+      padding: 8px 12px;
     }
   }
 
@@ -324,13 +339,8 @@
       grid-template-columns: 1fr;
     }
 
-    .d3-parameter-comparison .selector-row {
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .d3-parameter-comparison .export-btn {
-      width: 100%;
+    .d3-parameter-comparison .section-title {
+      font-size: 1em;
     }
   }
 </style>
@@ -449,17 +459,30 @@
       // Create HTML structure
       container.innerHTML = `
       <div class="model-selector">
-        <label>Model</label>
-        <div class="selector-row">
-          <div class="button-group" id="modelButtonGroup">
-            <button class="model-btn active" data-model="llama3.2-1b">Llama 3.2 1B</button>
-            <button class="model-btn" data-model="smollm3-3b">SmolLM3 3B</button>
-            <button class="model-btn" data-model="llama3.1-8b">Llama 3.1 8B</button>
-            <button class="model-btn" data-model="llama3.1-70b">Llama 3.1 70B</button>
-          </div>
-          <button class="export-btn" id="exportBtn">Export Config JSON</button>
+        <h3 class="section-title">Choose a Model</h3>
+        <div class="button-group" id="modelButtonGroup">
+          <button class="button button--ghost active" data-model="llama3.2-1b">Llama 3.2 1B</button>
+          <button class="button button--ghost" data-model="smollm3-3b">SmolLM3 3B</button>
+          <button class="button button--ghost" data-model="llama3.1-8b">Llama 3.1 8B</button>
+          <button class="button button--ghost" data-model="llama3.1-70b">Llama 3.1 70B</button>
         </div>
-        <small><a href="#" class="config-link" id="configLink" target="_blank">View original config file</a></small>
+        <div class="actions-group">
+          <button class="button button--ghost" id="exportBtn">
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span class="btn-text">Export JSON</span>
+          </button>
+          <a href="#" class="button button--ghost" id="configLink" target="_blank">
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span class="btn-text">View Original</span>
+          </a>
+        </div>
       </div>
 
       <div class="model-info">
@@ -691,7 +714,7 @@
       }
 
       function getSelectedModel() {
-        const activeBtn = container.querySelector('.model-btn.active');
+        const activeBtn = container.querySelector('.button-group .button.active');
         return activeBtn ? activeBtn.dataset.model : 'llama3.2-1b';
       }
 
@@ -747,9 +770,9 @@
       // Add event listeners
       const buttonGroup = container.querySelector('#modelButtonGroup');
       buttonGroup.addEventListener('click', (e) => {
-        if (e.target.classList.contains('model-btn')) {
+        if (e.target.classList.contains('button')) {
           // Remove active class from all buttons
-          buttonGroup.querySelectorAll('.model-btn').forEach(btn => btn.classList.remove('active'));
+          buttonGroup.querySelectorAll('.button').forEach(btn => btn.classList.remove('active'));
           // Add active class to clicked button
           e.target.classList.add('active');
           updateDisplay();
