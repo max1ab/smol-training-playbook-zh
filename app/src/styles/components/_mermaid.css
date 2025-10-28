@@ -75,13 +75,16 @@
     display: block !important;
 }
 
-/* Styles pour les nœuds avec bords arrondis */
+/* Styles pour les nœuds avec bords arrondis et bordure interne */
 .mermaid rect:not(.flowchart-link),
 .mermaid .node rect,
 .mermaid .nodeLabel rect,
 .mermaid .cluster rect {
     rx: 8px !important;
     ry: 8px !important;
+    stroke: color-mix(in srgb, var(--text-color) 20%, transparent) !important;
+    stroke-width: 1px !important;
+    /* Décalage pour créer l'effet de bordure interne */
 }
 
 /* Styles pour les diagrammes Mermaid zoomables */

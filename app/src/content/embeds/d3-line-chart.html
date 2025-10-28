@@ -10,7 +10,8 @@
     "yDomain": [2.1, 2.7],                          // Y-axis range
     "smoothingWindow": 15,                          // Moving average window size
     "smoothingCurve": "monotoneX",                  // D3 curve: "linear", "monotoneX", "catmullRom", "basis"
-    "title": "My Chart"                             // Chart title for tooltip
+    "title": "My Chart",                            // Chart title for tooltip
+    "xFormatAsFileSize": true                       // Format X axis as file sizes (B, kB, MB, GB)
   }
   
   CSV format: run_name, tokens, loss (or custom x/y columns)
@@ -24,6 +25,21 @@
       yDomain: [2.0, 2.8],
       smoothingWindow: 20,
       title: "Attention Loss"
+    }} 
+  />
+  
+  Example with file size formatting:
+  <HtmlEmbed 
+    src="embeds/d3-line-chart.html" 
+    config={{ 
+      dataUrl: "./data/device_local_copy_bandwidth.csv",
+      xColumn: "message_size",
+      yColumn: "bandwidth",
+      runColumn: "run_name",
+      xScaleType: "log",
+      xFormatAsFileSize: true,
+      xAxisLabel: "Message Size",
+      yAxisLabel: "Bandwidth (GB/s)"
     }} 
   />
 -->
@@ -297,6 +313,7 @@
       }
 
       const embedConfig = readEmbedConfig();
+      console.log('Embed config:', embedConfig);
 
       // Configuration (with overrides from embed config)
       const CONFIG = {
@@ -319,7 +336,8 @@
         runColumn: embedConfig.runColumn || 'run_name',
         xScaleType: embedConfig.xScaleType || 'linear',  // 'linear' or 'log'
         yScaleType: embedConfig.yScaleType || 'linear',  // 'linear' or 'log'
-        referenceLine: embedConfig.referenceLine || null  // { value: number, label?: string, color?: string, dashArray?: string }
+        referenceLine: embedConfig.referenceLine || null,  // { value: number, label?: string, color?: string, dashArray?: string }
+        xFormatAsFileSize: embedConfig.xFormatAsFileSize || false  // Format X axis as file sizes (B, kB, MB, GB)
       };
 
       let width = CONFIG.width;
@@ -421,7 +439,7 @@
       let formatY = (v) => v;
 
       // Function to determine smart format based on data values
-      function createSmartFormatter(values) {
+      function createSmartFormatter(values, isFileSize = false) {
         if (!values || values.length === 0) return (v) => v;
 
         const min = d3.min(values);
@@ -430,6 +448,25 @@
 
         // Check if all values are effectively integers (within 0.001 tolerance)
         const allIntegers = values.every(v => Math.abs(v - Math.round(v)) < 0.001);
+
+        // File size formatting (B, kB, MB, GB)
+        if (isFileSize) {
+          return (v) => {
+            console.log('Formatting file size value:', v);
+            if (v >= 1e9) {
+              const gb = v / 1e9;
+              return d3.format('.2f')(gb) + ' GB';
+            } else if (v >= 1e6) {
+              const mb = v / 1e6;
+              return d3.format('.2f')(mb) + ' MB';
+            } else if (v >= 1000) {
+              const kb = v / 1000;
+              return d3.format('.1f')(kb) + ' kB';
+            } else {
+              return d3.format('d')(Math.round(v)) + ' B';
+            }
+          };
+        }
 
         // Large numbers (billions): format as "X.XXB"
         if (max >= 1e9) {
@@ -872,7 +909,7 @@
 
         // Build tooltip HTML
         let html = `<div><strong>${CONFIG.title}</strong></div>`;
-        html += `<div>tokens ${formatX(nearest)}</div>`;
+        html += `<div>${formatX(nearest)}</div>`;
 
         // Interpolate values for all series
         const entries = series.map(s => {
@@ -1040,7 +1077,14 @@
           // Create smart formatters based on actual data
           const xValues = data.map(d => d.tokens);
           const yValues = data.map(d => d.loss);
-          formatX = createSmartFormatter(xValues);
+
+          // Force file size formatting if xColumn contains "size" or "message"
+          const shouldFormatAsFileSize = CONFIG.xFormatAsFileSize ||
+            CONFIG.xColumn.toLowerCase().includes('size') ||
+            CONFIG.xColumn.toLowerCase().includes('message');
+
+          console.log('Should format as file size:', shouldFormatAsFileSize, 'xColumn:', CONFIG.xColumn);
+          formatX = createSmartFormatter(xValues, shouldFormatAsFileSize);
           formatY = createSmartFormatter(yValues);
 
           const colors = getRunColors(runList.length);

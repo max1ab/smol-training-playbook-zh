@@ -43,12 +43,24 @@
     line-height: 1.2;
   }
 
+  /* Dark mode adjustments for better readability */
+  [data-theme="dark"] .training-compass .stage-header {
+    background: oklch(from var(--primary-color) calc(l + 0.25) calc(c * 0.8) h / 0.3);
+    color: oklch(from var(--primary-color) calc(l + 0.1) calc(c * 1.4) h);
+    border-color: oklch(from var(--primary-color) calc(l + 0.1) calc(c * 1.2) h / 0.7);
+  }
+
   .training-compass .arrow-right {
     font-size: 32px;
     color: oklch(from var(--primary-color) l c h / 0.5);
     flex-shrink: 0;
     margin: 0 var(--spacing-2);
     font-weight: 300;
+  }
+
+  /* Dark mode adjustments for better readability */
+  [data-theme="dark"] .training-compass .arrow-right {
+    color: oklch(from var(--primary-color) calc(l + 0.1) c h / 0.7);
   }
 
   .training-compass .stage-items {
@@ -66,6 +78,13 @@
     font-size: 14px;
     color: var(--muted-color);
     font-weight: 500;
+  }
+
+  /* Dark mode adjustments for better readability */
+  [data-theme="dark"] .training-compass .stage-item {
+    background: var(--surface-bg);
+    border-color: var(--border-color);
+    color: var(--text-color);
   }
 
   .training-compass .stage-dots {
