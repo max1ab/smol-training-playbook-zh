@@ -9,7 +9,7 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  const initSidenotes = () => {
     const containers = document.querySelectorAll(".sidenote-container");
 
     containers.forEach((container) => {
@@ -84,7 +84,57 @@
         sidenoteContainer.style.opacity = "1";
       }
     });
-  });
+  };
+
+  // Fonction pour démarrer l'initialisation avec observer si nécessaire
+  const startInit = () => {
+    // Essayer immédiatement
+    initSidenotes();
+
+    // Si on ne trouve pas de sidenotes, utiliser MutationObserver pour attendre
+    // que le contenu MDX soit rendu (important pour les Spaces Hugging Face)
+    const containers = document.querySelectorAll(".sidenote-container");
+
+    if (containers.length === 0) {
+      // Aucun sidenote trouvé, observer les changements du DOM
+      const observer = new MutationObserver((mutations, obs) => {
+        const newContainers = document.querySelectorAll(".sidenote-container");
+        if (newContainers.length > 0) {
+          // Des sidenotes sont apparus, initialiser
+          initSidenotes();
+          // Arrêter l'observation après un délai pour éviter les boucles infinies
+          setTimeout(() => {
+            obs.disconnect();
+          }, 5000); // 5 secondes max
+        }
+      });
+
+      // Observer les changements dans le body (ou main si disponible)
+      const targetNode = document.querySelector("main") || document.body;
+      if (targetNode) {
+        observer.observe(targetNode, {
+          childList: true,
+          subtree: true,
+        });
+      }
+
+      // Arrêter l'observation après 10 secondes max (sécurité)
+      setTimeout(() => {
+        observer.disconnect();
+      }, 10000);
+    }
+  };
+
+  // Exécuter immédiatement si le DOM est déjà chargé, sinon attendre DOMContentLoaded
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startInit, {
+      once: true,
+    });
+  } else {
+    // Le DOM est déjà chargé, exécuter immédiatement
+    // Mais utiliser un petit délai pour s'assurer que tous les composants sont rendus
+    setTimeout(startInit, 100);
+  }
 </script>
 
 <style is:global>
