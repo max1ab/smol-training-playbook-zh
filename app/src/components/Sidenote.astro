@@ -86,10 +86,42 @@
     });
   };
 
+  // Vérifier que les styles sont bien appliqués
+  const verifyStylesApplied = () => {
+    const wrappers = document.querySelectorAll(".sidenote-wrapper");
+    let allApplied = true;
+
+    wrappers.forEach((wrapper) => {
+      const sidenote = wrapper.querySelector(
+        ".sidenote-container",
+      ) as HTMLElement;
+      if (sidenote) {
+        const computed = window.getComputedStyle(sidenote);
+        // Vérifier que position absolute est bien appliquée
+        if (computed.position !== "absolute" && window.innerWidth > 768) {
+          allApplied = false;
+          // Réappliquer les styles si nécessaire
+          sidenote.style.position = "absolute";
+          sidenote.style.top = "0";
+          sidenote.style.right = "-292px";
+          sidenote.style.width = "260px";
+          sidenote.style.display = "block";
+        }
+      }
+    });
+
+    return allApplied;
+  };
+
   // Fonction pour démarrer l'initialisation avec observer si nécessaire
   const startInit = () => {
     // Essayer immédiatement
     initSidenotes();
+
+    // Vérifier et réappliquer les styles si nécessaire
+    setTimeout(() => {
+      verifyStylesApplied();
+    }, 50);
 
     // Si on ne trouve pas de sidenotes, utiliser MutationObserver pour attendre
     // que le contenu MDX soit rendu (important pour les Spaces Hugging Face)
@@ -102,10 +134,14 @@
         if (newContainers.length > 0) {
           // Des sidenotes sont apparus, initialiser
           initSidenotes();
+          // Vérifier les styles après initialisation
+          setTimeout(() => {
+            verifyStylesApplied();
+          }, 50);
           // Arrêter l'observation après un délai pour éviter les boucles infinies
           setTimeout(() => {
             obs.disconnect();
-          }, 5000); // 5 secondes max
+          }, 5000);
         }
       });
 
@@ -125,16 +161,66 @@
     }
   };
 
-  // Exécuter immédiatement si le DOM est déjà chargé, sinon attendre DOMContentLoaded
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", startInit, {
-      once: true,
-    });
-  } else {
-    // Le DOM est déjà chargé, exécuter immédiatement
-    // Mais utiliser un petit délai pour s'assurer que tous les composants sont rendus
-    setTimeout(startInit, 100);
-  }
+  // Attendre que toutes les ressources soient chargées (images, etc.)
+  const waitForFullLoad = () => {
+    // Helper pour utiliser requestIdleCallback si disponible
+    const idleOrTimeout = (callback: () => void, timeout: number) => {
+      if (typeof (window as any).requestIdleCallback === "function") {
+        (window as any).requestIdleCallback(callback, { timeout });
+      } else {
+        setTimeout(callback, timeout);
+      }
+    };
+
+    if (document.readyState === "loading") {
+      // Attendre DOMContentLoaded puis window.load
+      document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+          idleOrTimeout(startInit, 300);
+        },
+        { once: true },
+      );
+
+      // Aussi attendre window.load pour les ressources
+      window.addEventListener(
+        "load",
+        () => {
+          setTimeout(() => {
+            initSidenotes();
+            verifyStylesApplied();
+          }, 100);
+        },
+        { once: true },
+      );
+    } else if (document.readyState === "interactive") {
+      // DOM est chargé mais pas toutes les ressources
+      idleOrTimeout(startInit, 300);
+
+      // Aussi attendre window.load
+      window.addEventListener(
+        "load",
+        () => {
+          setTimeout(() => {
+            initSidenotes();
+            verifyStylesApplied();
+          }, 100);
+        },
+        { once: true },
+      );
+    } else {
+      // Tout est déjà chargé
+      idleOrTimeout(startInit, 300);
+
+      // Vérifier une dernière fois après un délai pour s'assurer que tout est bien rendu
+      setTimeout(() => {
+        initSidenotes();
+        verifyStylesApplied();
+      }, 500);
+    }
+  };
+
+  waitForFullLoad();
 </script>
 
 <style is:global>
