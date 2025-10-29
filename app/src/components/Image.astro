@@ -383,6 +383,16 @@ const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
     z-index: var(--z-overlay);
   }
 
+  /* Ensure medium-zoom overlay is above figcaption */
+  :global(.medium-zoom-overlay) {
+    z-index: var(--z-overlay) !important;
+  }
+
+  /* Ensure zoomed image is above overlay */
+  :global(.medium-zoom-image--opened) {
+    z-index: calc(var(--z-overlay) + 1) !important;
+  }
+
   /* Download link inside figures */
   figure .download-link {
     position: relative;

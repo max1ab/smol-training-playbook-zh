@@ -31,3 +31,9 @@
   background: none !important;
   margin-bottom: var(--block-spacing-y) !important;
 }
+
+/* Iframes avec smoothing=0 : compensation du padding interne */
+iframe[src*="smoothing=0"] {
+  width: calc(100% + 40px) !important;
+  margin-left: -40px;
+}

@@ -206,21 +206,31 @@
 
   /* Trackio footer */
   .d3-line-chart .trackio-footer {
-    text-align: center;
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-color);
+    text-align: left;
+    margin-top: 12px;
+    margin-bottom: -2px;
+    padding: 0;
+    opacity: 0.35;
+  }
+
+  @media (prefers-color-scheme: light) {
+    .d3-line-chart .trackio-footer {
+      opacity: 0.7;
+    }
   }
 
   .d3-line-chart .trackio-footer a {
-    font-size: 11px;
+    font-size: 9px;
     color: var(--muted-color);
+    opacity: 1;
     text-decoration: none;
-    transition: color 0.2s ease;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s ease;
   }
 
   .d3-line-chart .trackio-footer a:hover {
-    color: var(--text-color);
+    opacity: 0.6;
   }
 </style>
 <script>

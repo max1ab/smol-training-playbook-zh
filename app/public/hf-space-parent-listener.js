@@ -10,11 +10,8 @@
 (function () {
     'use strict';
 
-    console.log('HF Space Parent Listener initialized');
-
     // Écouter les messages de l'iframe
     window.addEventListener('message', function (event) {
-        console.log('Received message from iframe:', event.data);
 
         // Vérifier le type de message
         if (event.data && event.data.type) {
@@ -25,7 +22,7 @@
                     handleUrlChange(event.data);
                     break;
                 default:
-                    console.log('Unknown message type:', event.data.type);
+                // Message type inconnu, ignorer
             }
         }
     });
@@ -43,8 +40,6 @@
                 // Utiliser replaceState pour éviter d'ajouter une entrée dans l'historique
                 window.history.replaceState(null, '', newUrl.toString());
 
-                console.log('Updated parent URL to:', newUrl.toString());
-
                 // Optionnel : faire défiler vers l'élément correspondant dans la page parente
                 const targetElement = document.querySelector(hash);
                 if (targetElement) {
@@ -52,18 +47,15 @@
                 }
             }
         } catch (error) {
-            console.error('Error updating parent URL:', error);
+            // Erreur silencieuse lors de la mise à jour de l'URL
         }
     }
 
     // Fonction utilitaire pour tester la communication
     window.testIframeCommunication = function () {
-        console.log('Testing iframe communication...');
         const iframe = document.querySelector('iframe');
         if (iframe) {
             iframe.contentWindow.postMessage({ type: 'test' }, '*');
-        } else {
-            console.log('No iframe found');
         }
     };
 
