@@ -302,7 +302,7 @@
             providedConfig = cfg.trim().startsWith('{') ? JSON.parse(cfg) : cfg;
           }
         } catch (e) {
-          console.warn('Failed to parse data-config:', e);
+          // Failed to parse data-config
         }
         return providedConfig || {};
       }
@@ -594,9 +594,7 @@
           // Filter data for this metric
           const metricData = allData.filter(d => d[metric] != null && !isNaN(d[metric]));
 
-          // Debug
           if (!metricData.length) {
-            console.warn(`No data for metric "${metric}". Available keys:`, allData.length > 0 ? Object.keys(allData[0]) : 'no data');
             return;
           }
 
@@ -779,12 +777,10 @@
       // Load data
       async function load() {
         try {
-          console.log('Loading data from:', CONFIG.dataUrl);
           const response = await fetch(CONFIG.dataUrl, { cache: 'no-cache' });
           if (!response.ok) throw new Error(`Failed to load data: ${response.status} ${response.statusText}`);
 
           const csvText = await response.text();
-          console.log('CSV loaded, length:', csvText.length);
 
           // Parse CSV (long format: run_name, metric, tokens, value)
           const rawRows = d3.csvParse(csvText, d => ({
@@ -793,11 +789,6 @@
             tokens: +d[CONFIG.xColumn],
             value: +d.value
           }));
-
-          console.log('Parsed raw rows:', rawRows.length);
-          if (rawRows.length > 0) {
-            console.log('Sample raw row:', rawRows[0]);
-          }
 
           // Pivot data: group by run + tokens, create columns for each metric
           const pivotMap = new Map();
@@ -813,13 +804,8 @@
           });
 
           allData = Array.from(pivotMap.values());
-          console.log('Pivoted data:', allData.length);
-          if (allData.length > 0) {
-            console.log('Sample pivoted row:', allData[0]);
-          }
 
           runList = Array.from(new Set(allData.map(d => d.run))).sort();
-          console.log('Runs found:', runList);
 
           const colors = getRunColors(runList.length);
           runList.forEach((run, i) => { runColorMap[run] = colors[i % colors.length]; });

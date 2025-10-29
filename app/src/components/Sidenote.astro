@@ -13,40 +13,75 @@
     const containers = document.querySelectorAll(".sidenote-container");
 
     containers.forEach((container) => {
-      // Find the previous element (sibling just before)
-      const previousElement = container.previousElementSibling as HTMLElement;
+      // Vérifier si on est déjà dans un wrapper (éviter les doublons)
+      if (container.closest(".sidenote-wrapper")) {
+        return; // Déjà traité
+      }
 
-      if (previousElement && previousElement.parentNode) {
-        // Create a wrapper div that will contain both the previous element and the sidenote
+      // Trouver l'élément précédent (sibling juste avant)
+      let previousElement =
+        container.previousElementSibling as HTMLElement | null;
+
+      // Si pas d'élément précédent direct, essayer de trouver via le parent
+      if (!previousElement && container.parentNode) {
+        const parent = container.parentNode as HTMLElement;
+        // Si le parent n'a qu'un seul enfant (le container), chercher le sibling du parent
+        if (parent.children.length === 1 && parent.previousElementSibling) {
+          previousElement = parent.previousElementSibling as HTMLElement;
+        }
+      }
+
+      if (
+        previousElement &&
+        previousElement.parentNode &&
+        container.parentNode
+      ) {
+        // Créer un wrapper div qui contiendra l'élément précédent et le sidenote
         const wrapper = document.createElement("div");
         wrapper.className = "sidenote-wrapper";
 
-        // Insert the wrapper before the previous element
-        previousElement.parentNode.insertBefore(wrapper, previousElement);
+        const parent = container.parentNode;
 
-        // Move both the previous element and the sidenote container into the wrapper
-        wrapper.appendChild(previousElement);
-        wrapper.appendChild(container);
+        // Cas normal : même parent
+        if (previousElement.parentNode === parent) {
+          parent.insertBefore(wrapper, previousElement);
+          wrapper.appendChild(previousElement);
+          wrapper.appendChild(container);
+        } else {
+          // Cas où ils sont dans des parents différents
+          const prevParent = previousElement.parentNode;
+          prevParent.insertBefore(wrapper, previousElement);
+          wrapper.appendChild(previousElement);
+          parent.removeChild(container);
+          wrapper.appendChild(container);
+        }
 
-        // Style the wrapper to create the layout
+        // Style le wrapper
         wrapper.style.position = "relative";
         wrapper.style.display = "block";
 
-        // Style the sidenote container so it positions correctly
+        // Style le sidenote container
         const sidenoteContainer = container as HTMLElement;
         sidenoteContainer.style.position = "absolute";
         sidenoteContainer.style.top = "0";
         sidenoteContainer.style.right = "-292px"; // 260px width + 32px gap
         sidenoteContainer.style.width = "260px";
 
-        // Display the container with a fade-in
+        // Afficher le container avec un fade-in
         sidenoteContainer.style.display = "block";
         sidenoteContainer.style.opacity = "0";
 
-        // Fade-in with transition
-        setTimeout(() => {
-          sidenoteContainer.style.opacity = "1";
-        }, 10);
+        // Fade-in avec requestAnimationFrame (plus fiable que setTimeout)
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            sidenoteContainer.style.opacity = "1";
+          });
+        });
+      } else {
+        // Fallback : si pas d'élément précédent, afficher juste le sidenote normalement
+        const sidenoteContainer = container as HTMLElement;
+        sidenoteContainer.style.display = "block";
+        sidenoteContainer.style.opacity = "1";
       }
     });
   });

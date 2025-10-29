@@ -203,6 +203,25 @@
     margin: 12px 0 0 0;
     flex-wrap: wrap;
   }
+
+  /* Trackio footer */
+  .d3-line-chart .trackio-footer {
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .d3-line-chart .trackio-footer a {
+    font-size: 11px;
+    color: var(--muted-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .d3-line-chart .trackio-footer a:hover {
+    color: var(--text-color);
+  }
 </style>
 <script>
   (() => {
@@ -291,6 +310,12 @@
       container.appendChild(chartCard);
       container.appendChild(header);
 
+      // Add Trackio footer
+      const footer = document.createElement('div');
+      footer.className = 'trackio-footer';
+      footer.innerHTML = '<a href="https://github.com/gradio-app/trackio" target="_blank" rel="noopener noreferrer">Made with Trackio</a>';
+      container.appendChild(footer);
+
       const d3 = window.d3;
 
       // Read config from HtmlEmbed props
@@ -307,13 +332,12 @@
             providedConfig = cfg.trim().startsWith('{') ? JSON.parse(cfg) : cfg;
           }
         } catch (e) {
-          console.warn('Failed to parse data-config:', e);
+          // Failed to parse data-config
         }
         return providedConfig || {};
       }
 
       const embedConfig = readEmbedConfig();
-      console.log('Embed config:', embedConfig);
 
       // Configuration (with overrides from embed config)
       const CONFIG = {
@@ -452,7 +476,6 @@
         // File size formatting (B, kB, MB, GB)
         if (isFileSize) {
           return (v) => {
-            console.log('Formatting file size value:', v);
             if (v >= 1e9) {
               const gb = v / 1e9;
               return d3.format('.2f')(gb) + ' GB';
@@ -1083,7 +1106,6 @@
             CONFIG.xColumn.toLowerCase().includes('size') ||
             CONFIG.xColumn.toLowerCase().includes('message');
 
-          console.log('Should format as file size:', shouldFormatAsFileSize, 'xColumn:', CONFIG.xColumn);
           formatX = createSmartFormatter(xValues, shouldFormatAsFileSize);
           formatY = createSmartFormatter(yValues);
 
