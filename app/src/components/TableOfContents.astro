@@ -502,10 +502,14 @@ const { tableOfContentAutoCollapse = false } = Astro.props as Props;
     let scrollDebounceTimer = null;
     let lastRequestedIdx = -1;
     let isProcessing = false;
+    let hasUserScrolled = false; // Flag pour savoir si l'utilisateur a vraiment scrollé
 
     // Fonction pour mettre à jour l'URL avec l'ancre actuelle
-    const updateURL = (headingId) => {
+    const updateURL = (headingId, force = false) => {
       if (!headingId) return;
+
+      // Ne pas mettre à jour l'URL si l'utilisateur n'a pas scrollé et que ce n'est pas forcé
+      if (!force && !hasUserScrolled) return;
 
       const newUrl = `${window.location.pathname}${window.location.search}#${headingId}`;
 
@@ -607,6 +611,9 @@ const { tableOfContentAutoCollapse = false } = Astro.props as Props;
     };
 
     const onScroll = () => {
+      // Marquer que l'utilisateur a scrollé
+      hasUserScrolled = true;
+
       // active link highlight
       let activeIdx = -1;
       let activeHeadingId = null;
@@ -674,22 +681,34 @@ const { tableOfContentAutoCollapse = false } = Astro.props as Props;
           // Attendre que le DOM soit prêt puis faire défiler vers l'élément
           setTimeout(() => {
             targetElement.scrollIntoView({ block: "start" });
-            // Mettre à jour l'URL après le scroll
+            // Mettre à jour l'URL après le scroll (forcé car c'est une navigation initiale avec ancre)
             setTimeout(() => {
-              updateURL(hash.substring(1)); // Enlever le # du hash
+              updateURL(hash.substring(1), true); // Enlever le # du hash, forcer la mise à jour
             }, 100);
           }, 100);
         }
-      } else {
-        // Si pas d'ancre, initialiser avec la première section
-        if (headingsArr.length > 0) {
-          updateURL(headingsArr[0].id);
-        }
       }
+      // Ne plus mettre à jour l'URL automatiquement si pas d'ancre
     };
 
-    // Initialize state
-    onScroll();
+    // Initialize state (sans mettre à jour l'URL)
+    // Ne pas marquer hasUserScrolled ici pour éviter les mises à jour d'URL au chargement
+    let activeIdx = -1;
+    for (let i = headingsArr.length - 1; i >= 0; i--) {
+      const top = headingsArr[i].getBoundingClientRect().top;
+      if (top - 60 <= 0) {
+        links.forEach((l) => l.classList.remove("active"));
+        const id = "#" + headingsArr[i].id;
+        const actives = Array.from(links).filter(
+          (l) => l.getAttribute("href") === id,
+        );
+        actives.forEach((a) => a.classList.add("active"));
+        activeIdx = i;
+        prevActiveHeadingId = headingsArr[i].id;
+        break;
+      }
+    }
+    prevActiveIdx = activeIdx;
 
     // Gérer la navigation initiale
     handleInitialNavigation();
@@ -706,6 +725,13 @@ const { tableOfContentAutoCollapse = false } = Astro.props as Props;
         // Si pas d'ancre, aller au début de la page
         window.scrollTo({ top: 0 });
       }
+    });
+
+    // Marquer qu'un scroll a eu lieu quand l'utilisateur clique sur un lien du TOC
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        hasUserScrolled = true;
+      });
     });
 
     // Close mobile accordion when a link inside it is clicked
