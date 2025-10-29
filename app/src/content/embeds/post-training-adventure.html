@@ -15,8 +15,11 @@
         .post-training-container {
             position: relative;
             width: 100%;
-            height: 450px;
+            height: 250px;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .node-text {
@@ -52,18 +55,18 @@
         }
 
         .node-base-model {
-            fill: #f9f9f9;
-            stroke: var(--muted-color, #666666);
+            fill: var(--surface-bg);
+            stroke: var(--muted-color);
         }
 
         .node-sft {
-            fill: #ffd0c5;
-            stroke: var(--muted-color, #666666);
+            fill: var(--surface-bg);
+            stroke: var(--muted-color);
         }
 
         .node-other {
-            fill: #fff2cc;
-            stroke: var(--muted-color, #666666);
+            fill: var(--surface-bg);
+            stroke: var(--muted-color);
         }
     </style>
 </head>
@@ -81,7 +84,7 @@
                 'base': {
                     id: 'base',
                     label: 'Base model',
-                    x: 400, // Centré au-dessus du groupe du bas
+                    x: 400, // Centré horizontalement
                     y: 80,  // Premier niveau
                     type: 'base-model',
                     width: 120,
@@ -90,8 +93,8 @@
                 'sft': {
                     id: 'sft',
                     label: 'SFT',
-                    x: 400, // Même X que Base model pour alignement vertical
-                    y: 200, // Deuxième niveau
+                    x: 400, // Centré horizontalement, aligné avec Base model
+                    y: 225, // Deuxième niveau
                     type: 'sft',
                     width: 80,
                     height: 40
@@ -99,37 +102,37 @@
                 'orpo': {
                     id: 'orpo',
                     label: 'ORPO',
-                    x: 250, // Premier nœud du groupe du bas
+                    x: 175, // Premier nœud du groupe du bas (centré)
                     y: 360, // Troisième niveau
                     type: 'other',
-                    width: 80,
+                    width: 140, // Largeur augmentée
                     height: 40
                 },
                 'dpo': {
                     id: 'dpo',
                     label: 'DPO and friends',
-                    x: 400, // Deuxième nœud (centré dans le groupe)
+                    x: 325, // Deuxième nœud (centré)
                     y: 360,
                     type: 'other',
-                    width: 120,
+                    width: 140, // Largeur augmentée
                     height: 40
                 },
                 'rl': {
                     id: 'rl',
                     label: 'RL (here be dragons)',
-                    x: 550, // Troisième nœud
+                    x: 475, // Troisième nœud (centré)
                     y: 360,
                     type: 'other',
-                    width: 160,
+                    width: 140, // Largeur augmentée
                     height: 40
                 },
                 'kto': {
                     id: 'kto',
                     label: 'KTO',
-                    x: 700, // Quatrième nœud
+                    x: 625, // Quatrième nœud (centré)
                     y: 360,
                     type: 'other',
-                    width: 80,
+                    width: 140, // Largeur augmentée
                     height: 40
                 }
             },
@@ -161,8 +164,14 @@
             constructor(container) {
                 this.container = container;
                 this.svg = null;
+                this.colors = this.getColors();
 
                 this.init();
+            }
+
+            getColors() {
+                // Use CSS variables for dark mode compatibility
+                return ['var(--primary-color, #007bff)', 'var(--muted-color, #6c757d)'];
             }
 
             init() {
@@ -171,7 +180,7 @@
                     .append('svg')
                     .attr('width', '100%')
                     .attr('height', '100%')
-                    .attr('viewBox', '0 0 800 450');
+                    .attr('viewBox', '50 50 700 350');
 
                 this.render();
             }
@@ -191,6 +200,7 @@
                     .attr('class', d => `link link-${d.type}`)
                     .attr('d', d => this.getLinkPath(d))
                     .attr('fill', 'none')
+                    .attr('stroke', d => d.type === 'direct' ? this.colors[0] : this.colors[1])
                     .attr('marker-end', d => `url(#arrowhead-${d.type})`);
 
                 // Render nodes
@@ -208,7 +218,17 @@
                     .attr('height', d => d.height)
                     .attr('rx', 8)
                     .attr('ry', 8)
-                    .attr('stroke-width', 2);
+                    .attr('stroke-width', 2)
+                    .attr('fill', d => {
+                        if (d.type === 'base-model') return 'var(--surface-bg)';
+                        if (d.type === 'sft') return `color-mix(in srgb, ${this.colors[0]} 25%, var(--surface-bg))`;
+                        return `color-mix(in srgb, ${this.colors[1]} 25%, var(--surface-bg))`;
+                    })
+                    .attr('stroke', d => {
+                        if (d.type === 'base-model') return 'var(--muted-color)';
+                        if (d.type === 'sft') return `color-mix(in srgb, ${this.colors[0]} 60%, var(--surface-bg))`;
+                        return `color-mix(in srgb, ${this.colors[1]} 60%, var(--surface-bg))`;
+                    });
 
                 // Add node text
                 nodeGroups.append('text')
@@ -238,7 +258,7 @@
                     .attr('orient', 'auto')
                     .append('path')
                     .attr('d', 'M0,-5L10,0L0,5')
-                    .attr('class', 'arrowhead');
+                    .attr('fill', this.colors[0]);
 
                 // Via-SFT arrowhead
                 defs.append('marker')
@@ -251,7 +271,7 @@
                     .attr('orient', 'auto')
                     .append('path')
                     .attr('d', 'M0,-5L10,0L0,5')
-                    .attr('class', 'arrowhead-via-sft');
+                    .attr('fill', this.colors[1]);
             }
 
             getLinkPath(link) {
@@ -261,7 +281,7 @@
                 if (!source || !target) return '';
 
                 // Calculate connection points with distance from node edges
-                const distance = 15; // Distance from node edge
+                const nodeDistance = 15; // Distance from node edge
 
                 let sourceX, sourceY, targetX, targetY;
 
@@ -269,35 +289,61 @@
                 if (link.from === 'base' && link.to === 'sft') {
                     // Source point (bottom of base node)
                     sourceX = source.x;
-                    sourceY = source.y + source.height / 2 + distance;
+                    sourceY = source.y + source.height / 2 + nodeDistance;
 
                     // Target point (top of SFT node)
                     targetX = target.x;
-                    targetY = target.y - target.height / 2 - distance;
+                    targetY = target.y - target.height / 2 - nodeDistance;
                 } else {
                     // Default case: bottom of source to top of target
                     sourceX = source.x;
-                    sourceY = source.y + source.height / 2 + distance;
+                    sourceY = source.y + source.height / 2 + nodeDistance;
 
                     targetX = target.x;
-                    targetY = target.y - target.height / 2 - distance;
+                    targetY = target.y - target.height / 2 - nodeDistance;
 
                     // Handle multiple connections to the same target node
                     const targetConnections = CONFIG.links.filter(l => l.to === link.to);
                     if (targetConnections.length > 1) {
-                        const linkIndex = targetConnections.findIndex(l => l.from === link.from && l.to === link.to);
-                        const totalLinks = targetConnections.length;
-                        const spacing = 20; // Gap between connections
-                        const offset = (linkIndex - (totalLinks - 1) / 2) * spacing;
+                        // Special handling for RL and KTO (right side nodes)
+                        if (link.to === 'rl' || link.to === 'kto') {
+                            // Sort connections: SFT connections first (left), then Base model (right)
+                            const sortedConnections = targetConnections.sort((a, b) => {
+                                if (a.from === 'sft' && b.from === 'base') return -1; // SFT first
+                                if (a.from === 'base' && b.from === 'sft') return 1;  // Base second
+                                return 0;
+                            });
 
-                        targetX += offset;
-                        sourceX += offset;
+                            const linkIndex = sortedConnections.findIndex(l => l.from === link.from && l.to === link.to);
+                            const totalLinks = targetConnections.length;
+                            const spacing = 20; // Gap between connections
+                            const offset = (linkIndex - (totalLinks - 1) / 2) * spacing;
+
+                            targetX += offset;
+                            sourceX += offset;
+                        } else {
+                            // Default behavior for other nodes (ORPO, DPO)
+                            const linkIndex = targetConnections.findIndex(l => l.from === link.from && l.to === link.to);
+                            const totalLinks = targetConnections.length;
+                            const spacing = 20; // Gap between connections
+                            const offset = (linkIndex - (totalLinks - 1) / 2) * spacing;
+
+                            targetX += offset;
+                            sourceX += offset;
+                        }
                     }
 
                     // Handle multiple connections from the same source node
                     const sourceConnections = CONFIG.links.filter(l => l.from === link.from);
                     if (sourceConnections.length > 1) {
-                        const linkIndex = sourceConnections.findIndex(l => l.from === link.from && l.to === link.to);
+                        // Sort connections by target node position for even spacing
+                        const sortedConnections = sourceConnections.sort((a, b) => {
+                            const nodeA = CONFIG.nodes[a.to];
+                            const nodeB = CONFIG.nodes[b.to];
+                            return nodeA.x - nodeB.x; // Sort by x position
+                        });
+
+                        const linkIndex = sortedConnections.findIndex(l => l.from === link.from && l.to === link.to);
                         const totalLinks = sourceConnections.length;
                         const spacing = 8; // Smaller gap for source connections
                         const offset = (linkIndex - (totalLinks - 1) / 2) * spacing;
@@ -307,11 +353,17 @@
                     }
                 }
 
+                // Simple curved line instead of straight line
                 const dx = targetX - sourceX;
                 const dy = targetY - sourceY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Simple straight line instead of curve
-                return `M ${sourceX} ${sourceY} L ${targetX} ${targetY}`;
+                // Control point for curve (offset perpendicular to the line)
+                const controlOffset = Math.min(distance * 0.3, 50); // Maximum curve offset
+                const controlX = sourceX + dx / 2;
+                const controlY = sourceY + dy / 2 - controlOffset; // Arc vers le haut
+
+                return `M ${sourceX} ${sourceY} Q ${controlX} ${controlY} ${targetX} ${targetY}`;
             }
         }
 
