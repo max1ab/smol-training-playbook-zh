@@ -104,10 +104,18 @@ const htmlWithId =
 
 <script>
   // Re-execute <script> tags inside the injected fragment (innerHTML doesn't run scripts)
+  // Uses IntersectionObserver for lazy loading - only executes when embed is visible
   const scriptEl = document.currentScript;
+  const figure = scriptEl?.previousElementSibling?.closest(".html-embed");
   const mount = scriptEl ? scriptEl.previousElementSibling : null;
+
+  if (!mount || !figure) return;
+
+  let executed = false;
   const execute = () => {
-    if (!mount) return;
+    if (executed || !mount) return;
+    executed = true;
+
     const scripts = mount.querySelectorAll("script");
     scripts.forEach((old) => {
       // ignore non-executable types (e.g., application/json)
@@ -135,11 +143,66 @@ const htmlWithId =
         }
       }
     });
+
+    // Mark as loaded
+    figure.classList.add("html-embed--loaded");
   };
-  // Execute after DOM is parsed (ensures deferred module scripts are executed first)
-  if (document.readyState === "loading")
-    document.addEventListener("DOMContentLoaded", execute, { once: true });
-  else execute();
+
+  // Check if IntersectionObserver is supported
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !executed) {
+            observer.disconnect();
+            // Small delay to ensure DOM is ready
+            if (document.readyState === "loading") {
+              document.addEventListener("DOMContentLoaded", execute, {
+                once: true,
+              });
+            } else {
+              // Use requestAnimationFrame to ensure execution after DOM is fully ready
+              requestAnimationFrame(() => {
+                setTimeout(execute, 0);
+              });
+            }
+          }
+        });
+      },
+      {
+        // Start loading when element is 100px away from viewport
+        rootMargin: "100px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(figure);
+
+    // Fallback: if still not loaded after 3 seconds, load anyway (for edge cases)
+    setTimeout(() => {
+      if (!executed) {
+        observer.disconnect();
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", execute, {
+            once: true,
+          });
+        } else {
+          requestAnimationFrame(() => {
+            setTimeout(execute, 0);
+          });
+        }
+      }
+    }, 3000);
+  } else {
+    // Fallback for browsers without IntersectionObserver support
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", execute, { once: true });
+    } else {
+      requestAnimationFrame(() => {
+        setTimeout(execute, 0);
+      });
+    }
+  }
 </script>
 
 <style is:global>
@@ -402,6 +465,36 @@ const htmlWithId =
       max-width: 980px !important;
       margin-left: auto !important;
       margin-right: auto !important;
+    }
+    /* Better rendering for d3-loss-curves when printing */
+    .html-embed .d3-loss-curves {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 300px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      overflow: visible !important;
+    }
+    .html-embed .d3-loss-curves svg {
+      width: 100% !important;
+      height: auto !important;
+      max-height: 500px !important;
+    }
+    /* Ensure legend is visible in print */
+    .html-embed .d3-loss-curves .legend {
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 4px !important;
+      margin-top: 10px !important;
+      bottom: auto !important;
+      left: auto !important;
+      max-width: 100% !important;
+    }
+    /* Hide annotation in print */
+    .html-embed .d3-loss-curves .annotation {
+      display: none !important;
     }
   }
 </style>
