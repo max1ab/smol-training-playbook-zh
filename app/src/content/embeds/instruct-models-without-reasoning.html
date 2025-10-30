@@ -1,0 +1,356 @@
+<div class="instruct-models-without-reasoning"></div>
+
+<style>
+    .instruct-models-without-reasoning {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .instruct-models-without-reasoning .chart-container {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1.5 / 1;
+    }
+
+    .instruct-models-without-reasoning svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .instruct-models-without-reasoning .axis-line {
+        stroke: var(--border-color);
+        stroke-width: 2;
+    }
+
+    .instruct-models-without-reasoning .axis-label {
+        fill: var(--text-color);
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .instruct-models-without-reasoning .tick-line {
+        stroke: var(--border-color);
+        stroke-width: 1;
+        opacity: 0.3;
+    }
+
+    .instruct-models-without-reasoning .tick-label {
+        fill: var(--muted-color);
+        font-size: 12px;
+    }
+
+    .instruct-models-without-reasoning .pareto-border {
+        stroke: var(--border-color);
+        stroke-width: 2;
+        fill: none;
+        stroke-dasharray: 5, 5;
+    }
+
+    .instruct-models-without-reasoning .model-label {
+        fill: var(--text-color);
+        font-size: 14px;
+        font-weight: 600;
+        text-anchor: middle;
+        pointer-events: none;
+    }
+
+    .instruct-models-without-reasoning .model-sublabel {
+        fill: var(--muted-color);
+        font-size: 12px;
+        text-anchor: middle;
+        pointer-events: none;
+    }
+
+    .instruct-models-without-reasoning .arrow {
+        stroke: var(--muted-color);
+        stroke-width: 2.5;
+        fill: none;
+        marker-end: url(#arrowhead);
+        opacity: 0.4;
+    }
+
+    .instruct-models-without-reasoning .arrow-label {
+        fill: var(--text-color);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 768px) {
+        .instruct-models-without-reasoning .chart-container {
+            height: 500px;
+        }
+
+        .instruct-models-without-reasoning .axis-label {
+            font-size: 14px;
+        }
+
+        .instruct-models-without-reasoning .model-label {
+            font-size: 12px;
+        }
+
+        .instruct-models-without-reasoning .arrow-label {
+            font-size: 14px;
+        }
+    }
+</style>
+
+<script>
+    (() => {
+        const bootstrap = () => {
+            const scriptEl = document.currentScript;
+            let container = scriptEl ? scriptEl.previousElementSibling : null;
+            if (!(container && container.classList && container.classList.contains('instruct-models-without-reasoning'))) {
+                const candidates = Array.from(document.querySelectorAll('.instruct-models-without-reasoning'))
+                    .filter((el) => !(el.dataset && el.dataset.mounted === 'true'));
+                container = candidates[candidates.length - 1] || null;
+            }
+            if (!container) return;
+            if (container.dataset) {
+                if (container.dataset.mounted === 'true') return;
+                container.dataset.mounted = 'true';
+            }
+
+            // Données issues de l'image partagée
+            const models = [
+                { name: 'Qwen3 1.7B', size: 2.0, winRate: 2.35, logo: 'qwen', color: '#8B5CF6' },
+                { name: 'Qwen2.5 3B Instruct', size: 3.0, winRate: 2.5, logo: 'qwen', color: '#8B5CF6' },
+                { name: 'Llama3.2 3B Instruct', size: 3.2, winRate: 1.6, logo: 'meta', color: '#4299E1' },
+                { name: 'SmolLM3 3B', size: 3.0, winRate: 3.8, logo: 'hf', color: '#FFD43B' },
+                { name: 'Qwen3 4B', size: 4.1, winRate: 4.65, logo: 'qwen', color: '#8B5CF6' }
+            ];
+
+            // Dimensions
+            const padding = 20;
+            const margin = { top: 20 + padding, right: 20 + padding, bottom: 80 + padding, left: 100 + padding };
+            const width = 900 - margin.left - margin.right;
+            const height = 600 - margin.top - margin.bottom;
+
+            // X borné (comme le visuel d'origine), Y démarre à 0
+            const xScale = (value) => margin.left + ((value - 1.5) / (4.5 - 1.5)) * width;
+            const yScale = (value) => height + margin.top - (value / 5.0) * height;
+
+            // SVG
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+
+            // Flèche (marker)
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+            marker.setAttribute('id', 'arrowhead');
+            marker.setAttribute('markerWidth', '6');
+            marker.setAttribute('markerHeight', '6');
+            marker.setAttribute('refX', '5');
+            marker.setAttribute('refY', '3');
+            marker.setAttribute('orient', 'auto');
+            const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            polygon.setAttribute('points', '0 0, 6 3, 0 6');
+            polygon.setAttribute('fill', 'var(--muted-color)');
+            marker.appendChild(polygon);
+            defs.appendChild(marker);
+            svg.appendChild(defs);
+
+            // Frontière (diagonale grisée)
+            const paretoBorder = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const borderD = `M ${xScale(1.6)} ${yScale(1.6)} L ${xScale(4.4)} ${yScale(4.9)}`;
+            paretoBorder.setAttribute('d', borderD);
+            paretoBorder.setAttribute('class', 'pareto-border');
+            svg.appendChild(paretoBorder);
+
+            // Axes
+            const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            xAxis.setAttribute('x1', margin.left);
+            xAxis.setAttribute('y1', height + margin.top);
+            xAxis.setAttribute('x2', width + margin.left);
+            xAxis.setAttribute('y2', height + margin.top);
+            xAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(xAxis);
+
+            const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            yAxis.setAttribute('x1', margin.left);
+            yAxis.setAttribute('y1', margin.top);
+            yAxis.setAttribute('x2', margin.left);
+            yAxis.setAttribute('y2', height + margin.top);
+            yAxis.setAttribute('class', 'axis-line');
+            svg.appendChild(yAxis);
+
+            // Grille X (pas depuis 0)
+            for (let i = 2.0; i <= 4.5; i += 0.5) {
+                const x = xScale(i);
+                const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                tick.setAttribute('x1', x);
+                tick.setAttribute('y1', margin.top);
+                tick.setAttribute('x2', x);
+                tick.setAttribute('y2', height + margin.top);
+                tick.setAttribute('class', 'tick-line');
+                svg.appendChild(tick);
+
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', x);
+                label.setAttribute('y', height + margin.top + 25);
+                label.setAttribute('text-anchor', 'middle');
+                label.setAttribute('class', 'tick-label');
+                label.textContent = i.toFixed(1);
+                svg.appendChild(label);
+            }
+
+            // Grille Y
+            for (let i = 0.0; i <= 5.0; i += 0.5) {
+                const y = yScale(i);
+                const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                tick.setAttribute('x1', margin.left);
+                tick.setAttribute('y1', y);
+                tick.setAttribute('x2', width + margin.left);
+                tick.setAttribute('y2', y);
+                tick.setAttribute('class', 'tick-line');
+                svg.appendChild(tick);
+
+                const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label.setAttribute('x', margin.left - 15);
+                label.setAttribute('y', y + 5);
+                label.setAttribute('text-anchor', 'end');
+                label.setAttribute('class', 'tick-label');
+                label.textContent = i.toFixed(1);
+                svg.appendChild(label);
+            }
+
+            // Labels axes
+            const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            xLabel.setAttribute('x', margin.left + width / 2);
+            xLabel.setAttribute('y', height + margin.top + 65);
+            xLabel.setAttribute('text-anchor', 'middle');
+            xLabel.setAttribute('class', 'axis-label');
+            xLabel.innerHTML = '<tspan font-weight="700">Model Size</tspan><tspan font-weight="400"> (Billion parameters)</tspan>';
+            svg.appendChild(xLabel);
+
+            const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            yLabel.setAttribute('x', -(height / 2 + margin.top));
+            yLabel.setAttribute('y', 55);
+            yLabel.setAttribute('text-anchor', 'middle');
+            yLabel.setAttribute('transform', 'rotate(-90)');
+            yLabel.setAttribute('class', 'axis-label');
+            yLabel.innerHTML = '<tspan font-weight="700">Win rate (%)</tspan><tspan font-weight="400"> • 8 popular LLM Benchmarks</tspan>';
+            svg.appendChild(yLabel);
+
+            // Flèches d'indication
+            const arrow1StartX = margin.left + 80;
+            const arrow1Length = 170;
+            const arrow1EndX = arrow1StartX + arrow1Length;
+            const arrow1Y = yScale(4.8);
+
+            const arrow1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            arrow1.setAttribute('d', `M ${arrow1EndX} ${arrow1Y} L ${arrow1StartX} ${arrow1Y}`);
+            arrow1.setAttribute('class', 'arrow');
+            svg.appendChild(arrow1);
+
+            const arrow1Label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            arrow1Label.setAttribute('x', (arrow1StartX + arrow1EndX) / 2);
+            arrow1Label.setAttribute('y', arrow1Y - 10);
+            arrow1Label.setAttribute('text-anchor', 'middle');
+            arrow1Label.setAttribute('class', 'arrow-label');
+            arrow1Label.textContent = 'faster / cheaper';
+            svg.appendChild(arrow1Label);
+
+            const arrow2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            arrow2.setAttribute('d', `M ${xScale(1.75)} ${yScale(3.5)} L ${xScale(1.75)} ${yScale(4.5)}`);
+            arrow2.setAttribute('class', 'arrow');
+            svg.appendChild(arrow2);
+
+            const arrow2Label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            arrow2Label.setAttribute('x', xScale(1.75) - 50);
+            arrow2Label.setAttribute('y', yScale(4.0) + 35);
+            arrow2Label.setAttribute('text-anchor', 'middle');
+            arrow2Label.setAttribute('dominant-baseline', 'middle');
+            arrow2Label.setAttribute('transform', `rotate(-90 ${xScale(1.75) - 50} ${yScale(4.0)})`);
+            arrow2Label.setAttribute('class', 'arrow-label');
+            arrow2Label.textContent = 'better';
+            svg.appendChild(arrow2Label);
+
+            // Points modèles
+            models.forEach(model => {
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                g.setAttribute('class', 'model-point');
+
+                const x = xScale(model.size);
+                const y = yScale(model.winRate);
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                const isHighlight = model.name.startsWith('SmolLM3');
+                circle.setAttribute('cx', x);
+                circle.setAttribute('cy', y);
+                circle.setAttribute('r', isHighlight ? 35 : 28);
+                circle.setAttribute('fill', 'rgba(255, 255, 255, 0.3)');
+                if (isHighlight) {
+                    circle.setAttribute('stroke', model.color);
+                    circle.setAttribute('stroke-width', '2');
+                } else {
+                    circle.setAttribute('stroke', 'rgba(0, 0, 0, 0.25)');
+                    circle.setAttribute('stroke-width', '1');
+                }
+                g.appendChild(circle);
+
+                // Logo
+                const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+                const logoOffset = isHighlight ? 26 : 22;
+                foreignObject.setAttribute('x', x - logoOffset);
+                foreignObject.setAttribute('y', isHighlight ? y - 28 : y - 22);
+                foreignObject.setAttribute('width', isHighlight ? 54 : 44);
+                foreignObject.setAttribute('height', isHighlight ? 54 : 44);
+                let logoSize;
+                if (model.logo === 'qwen' || model.logo === 'hf') {
+                    logoSize = isHighlight ? 52 : 44;
+                } else if (model.logo === 'meta') {
+                    logoSize = 32;
+                } else {
+                    logoSize = 36;
+                }
+                foreignObject.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" style="width: ${isHighlight ? 54 : 44}px; height: ${isHighlight ? 54 : 44}px; display: flex; align-items: center; justify-content: center;"><img src="/data/${model.logo}-logo.svg" style="width: ${logoSize}px; height: auto; max-height: ${logoSize}px;" /></div>`;
+                g.appendChild(foreignObject);
+
+                // Labels
+                const nameParts = model.name.split(' ');
+                const label1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label1.setAttribute('x', x);
+                label1.setAttribute('y', isHighlight ? y + 55 : y + 50);
+                label1.setAttribute('class', 'model-label');
+                if (isHighlight) {
+                    label1.setAttribute('font-weight', '800');
+                    label1.setAttribute('font-size', '16px');
+                }
+                label1.textContent = nameParts.slice(0, -1).join(' ');
+                g.appendChild(label1);
+
+                const label2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                label2.setAttribute('x', x);
+                label2.setAttribute('y', isHighlight ? y + 73 : y + 66);
+                label2.setAttribute('class', 'model-sublabel');
+                if (isHighlight) {
+                    label2.setAttribute('font-weight', '800');
+                    label2.setAttribute('font-size', '14px');
+                }
+                label2.textContent = nameParts[nameParts.length - 1];
+                g.appendChild(label2);
+
+                svg.appendChild(g);
+            });
+
+            // Conteneur
+            const chartContainer = document.createElement('div');
+            chartContainer.className = 'chart-container';
+            chartContainer.appendChild(svg);
+            container.appendChild(chartContainer);
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootstrap, { once: true });
+        } else {
+            bootstrap();
+        }
+    })();
+</script>
