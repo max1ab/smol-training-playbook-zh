@@ -42,8 +42,40 @@ const {
   linkTarget,
   linkRel,
   fullWidth,
+  src,
   ...imgProps
 } = Astro.props as Props;
+
+// Try to get original image src from ImageMetadata object
+const getOriginalSrc = (imageSrc: any): string => {
+  if (typeof imageSrc === "string") {
+    return imageSrc;
+  }
+  // ImageMetadata from astro:assets has a 'src' property with the URL
+  if (imageSrc && typeof imageSrc === "object") {
+    // Check if this is an import with ?url (returns the original path directly)
+    if ("default" in imageSrc && typeof imageSrc.default === "string") {
+      return imageSrc.default;
+    }
+    // Try src property (optimized version)
+    if ("src" in imageSrc && typeof imageSrc.src === "string") {
+      return imageSrc.src;
+    }
+    // Try pathname property
+    if ("pathname" in imageSrc && typeof imageSrc.pathname === "string") {
+      return imageSrc.pathname;
+    }
+    // Fallback: try all string properties
+    for (const key of Object.keys(imageSrc)) {
+      if (typeof imageSrc[key] === "string" && imageSrc[key].length > 0) {
+        return imageSrc[key];
+      }
+    }
+  }
+  return "";
+};
+
+const originalSrc = getOriginalSrc(src);
 const hasCaptionSlot = Astro.slots.has("caption");
 const hasCaption =
   hasCaptionSlot || (typeof caption === "string" && caption.length > 0);
@@ -56,6 +88,9 @@ const dataDownloadable =
 const hasLink = typeof linkHref === "string" && linkHref.length > 0;
 const resolvedTarget = hasLink ? linkTarget || "_blank" : undefined;
 const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
+
+// Use downloadSrc if provided, otherwise try to use the original src
+const resolvedDownloadSrc = downloadSrc || originalSrc;
 ---
 
 <div
@@ -79,20 +114,22 @@ const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
                 rel={resolvedRel}
               >
                 <AstroImage
+                  src={src}
                   {...imgProps}
                   data-zoomable={dataZoomable}
                   data-downloadable={dataDownloadable}
                   data-download-name={downloadName}
-                  data-download-src={downloadSrc}
+                  data-download-src={resolvedDownloadSrc}
                 />
               </a>
             ) : (
               <AstroImage
+                src={src}
                 {...imgProps}
                 data-zoomable={dataZoomable}
                 data-downloadable={dataDownloadable}
                 data-download-name={downloadName}
-                data-download-src={downloadSrc}
+                data-download-src={resolvedDownloadSrc}
               />
             )}
             <button
@@ -115,10 +152,10 @@ const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
             target={resolvedTarget}
             rel={resolvedRel}
           >
-            <AstroImage {...imgProps} data-zoomable={dataZoomable} />
+            <AstroImage src={src} {...imgProps} data-zoomable={dataZoomable} />
           </a>
         ) : (
-          <AstroImage {...imgProps} data-zoomable={dataZoomable} />
+          <AstroImage src={src} {...imgProps} data-zoomable={dataZoomable} />
         )}
         <figcaption>
           {hasCaptionSlot ? (
@@ -138,20 +175,22 @@ const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
             rel={resolvedRel}
           >
             <AstroImage
+              src={src}
               {...imgProps}
               data-zoomable={dataZoomable}
               data-downloadable={dataDownloadable}
               data-download-name={downloadName}
-              data-download-src={downloadSrc}
+              data-download-src={resolvedDownloadSrc}
             />
           </a>
         ) : (
           <AstroImage
+            src={src}
             {...imgProps}
             data-zoomable={dataZoomable}
             data-downloadable={dataDownloadable}
             data-download-name={downloadName}
-            data-download-src={downloadSrc}
+            data-download-src={resolvedDownloadSrc}
           />
         )}
         <button
@@ -173,6 +212,7 @@ const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
         rel={resolvedRel}
       >
         <AstroImage
+          src={src}
           {...imgProps}
           data-zoomable={dataZoomable}
           class={fullWidth ? "full" : ""}
@@ -180,6 +220,7 @@ const resolvedRel = hasLink ? linkRel || "noopener noreferrer" : undefined;
       </a>
     ) : (
       <AstroImage
+        src={src}
         {...imgProps}
         data-zoomable={dataZoomable}
         class={fullWidth ? "full" : ""}

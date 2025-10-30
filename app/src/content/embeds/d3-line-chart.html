@@ -204,34 +204,7 @@
     flex-wrap: wrap;
   }
 
-  /* Trackio footer */
-  .d3-line-chart .trackio-footer {
-    text-align: left;
-    margin-top: 12px;
-    margin-bottom: -2px;
-    padding: 0;
-    opacity: 0.35;
-  }
-
-  @media (prefers-color-scheme: light) {
-    .d3-line-chart .trackio-footer {
-      opacity: 0.7;
-    }
-  }
-
-  .d3-line-chart .trackio-footer a {
-    font-size: 9px;
-    color: var(--muted-color);
-    opacity: 1;
-    text-decoration: none;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    transition: opacity 0.2s ease;
-  }
-
-  .d3-line-chart .trackio-footer a:hover {
-    opacity: 0.6;
-  }
+  /* Trackio footer removed */
 </style>
 <script>
   (() => {
@@ -320,11 +293,7 @@
       container.appendChild(chartCard);
       container.appendChild(header);
 
-      // Add Trackio footer
-      const footer = document.createElement('div');
-      footer.className = 'trackio-footer';
-      footer.innerHTML = '<a href="https://github.com/gradio-app/trackio" target="_blank" rel="noopener noreferrer">Made with Trackio</a>';
-      container.appendChild(footer);
+      // Footer removed
 
       const d3 = window.d3;
 
@@ -471,6 +440,19 @@
       // Smart formatters (will be set after data loading)
       let formatX = (v) => v;
       let formatY = (v) => v;
+      const MAX_TICKS = 10;
+
+      function limitTicks(ticks, maxCount, domain) {
+        if (!Array.isArray(ticks)) return ticks;
+        if (ticks.length <= maxCount) return ticks;
+        const first = ticks[0];
+        const last = ticks[ticks.length - 1];
+        const step = Math.ceil(ticks.length / maxCount);
+        const sampled = ticks.filter((_, i) => i % step === 0);
+        if (sampled[0] !== first && first >= domain[0]) sampled.unshift(first);
+        if (sampled[sampled.length - 1] !== last && last <= domain[1]) sampled.push(last);
+        return sampled.slice(0, maxCount);
+      }
 
       // Function to determine smart format based on data values
       function createSmartFormatter(values, isFileSize = false) {
@@ -483,18 +465,21 @@
         // Check if all values are effectively integers (within 0.001 tolerance)
         const allIntegers = values.every(v => Math.abs(v - Math.round(v)) < 0.001);
 
-        // File size formatting (B, kB, MB, GB)
+        // File size formatting (binary units: B, KiB, MiB, GiB)
         if (isFileSize) {
+          const KiB = 1024;
+          const MiB = KiB * 1024;
+          const GiB = MiB * 1024;
           return (v) => {
-            if (v >= 1e9) {
-              const gb = v / 1e9;
-              return d3.format('.2f')(gb) + ' GB';
-            } else if (v >= 1e6) {
-              const mb = v / 1e6;
-              return d3.format('.2f')(mb) + ' MB';
-            } else if (v >= 1000) {
-              const kb = v / 1000;
-              return d3.format('.1f')(kb) + ' kB';
+            if (v >= GiB) {
+              const gib = v / GiB;
+              return (gib % 1 === 0 ? d3.format('d')(gib) : d3.format('.2f')(gib)) + ' GiB';
+            } else if (v >= MiB) {
+              const mib = v / MiB;
+              return (mib % 1 === 0 ? d3.format('d')(mib) : d3.format('.2f')(mib)) + ' MiB';
+            } else if (v >= KiB) {
+              const kib = v / KiB;
+              return (kib % 1 === 0 ? d3.format('d')(kib) : d3.format('.1f')(kib)) + ' KiB';
             } else {
               return d3.format('d')(Math.round(v)) + ' B';
             }
@@ -574,9 +559,10 @@
         const innerWidth = xScale.range()[1];
 
         // Smart grid ticks (same as axis ticks)
+
         const getGridTicks = (scale, scaleType) => {
           if (scaleType !== 'log') {
-            return scale.ticks(6);
+            return scale.ticks(Math.min(6, MAX_TICKS));
           }
 
           const domain = scale.domain();
@@ -605,7 +591,8 @@
             ticks.sort((a, b) => a - b);
           }
 
-          return ticks.filter(t => t >= domain[0] && t <= domain[1]);
+          const within = ticks.filter(t => t >= domain[0] && t <= domain[1]);
+          return limitTicks(within, MAX_TICKS, domain);
         };
 
         // Update grid lines
@@ -640,18 +627,27 @@
           .attr('d', d => line(applySmoothing(d.values, smoothEnabled)));
 
         // Smart tick generation for zoomed view
-        const getSmartTicksZoom = (scale, scaleType) => {
+        const getSmartTicksZoom = (scale, scaleType, useBinary = false) => {
           if (scaleType !== 'log') {
-            return scale.ticks(6);
+            return scale.ticks(Math.min(6, MAX_TICKS));
           }
 
           const domain = scale.domain();
+          if (useBinary) {
+            const minPow2 = Math.ceil(Math.log2(domain[0]));
+            const maxPow2 = Math.floor(Math.log2(domain[1]));
+            const ticks = [];
+            for (let p = minPow2; p <= maxPow2; p++) ticks.push(Math.pow(2, p));
+            const within = ticks.filter(t => t >= domain[0] && t <= domain[1]);
+            return limitTicks(within, MAX_TICKS, domain);
+          }
+
           const minLog = Math.log10(domain[0]);
           const maxLog = Math.log10(domain[1]);
           const logRange = maxLog - minLog;
 
           if (logRange < 2) {
-            return scale.ticks(Math.min(4, Math.ceil(logRange * 2)));
+            return scale.ticks(Math.min(MAX_TICKS, Math.min(4, Math.ceil(logRange * 2))));
           }
 
           const ticks = [];
@@ -671,10 +667,11 @@
             ticks.sort((a, b) => a - b);
           }
 
-          return ticks.filter(t => t >= domain[0] && t <= domain[1]);
+          const within = ticks.filter(t => t >= domain[0] && t <= domain[1]);
+          return limitTicks(within, MAX_TICKS, domain);
         };
 
-        const newXTicks = getSmartTicksZoom(newXScale, CONFIG.xScaleType);
+        const newXTicks = getSmartTicksZoom(newXScale, CONFIG.xScaleType, !!CONFIG.xFormatAsFileSize);
         const newYTicks = getSmartTicksZoom(newYScale, CONFIG.yScaleType);
 
         // Update axes with rescaled domains
@@ -742,33 +739,38 @@
           .translateExtent([[0, 0], [innerWidth, innerHeight]]);
 
         // Smart tick generation for log scales
-        const getSmartTicks = (scale, scaleType, targetCount = 6) => {
+        const getSmartTicks = (scale, scaleType, targetCount = 6, useBinary = false) => {
           if (scaleType !== 'log') {
-            return scale.ticks(targetCount);
+            return scale.ticks(Math.min(targetCount, MAX_TICKS));
           }
 
-          // For log scale, use custom tick logic to avoid crowding
           const domain = scale.domain();
+          if (useBinary) {
+            const minPow2 = Math.ceil(Math.log2(domain[0]));
+            const maxPow2 = Math.floor(Math.log2(domain[1]));
+            const ticks = [];
+            for (let p = minPow2; p <= maxPow2; p++) ticks.push(Math.pow(2, p));
+            const within = ticks.filter(t => t >= domain[0] && t <= domain[1]);
+            return limitTicks(within, MAX_TICKS, domain);
+          }
+
+          // For log scale, use custom tick logic to avoid crowding (powers of 10)
           const minLog = Math.log10(domain[0]);
           const maxLog = Math.log10(domain[1]);
           const logRange = maxLog - minLog;
 
-          // If range is small (< 2 orders of magnitude), use fewer ticks
           if (logRange < 2) {
-            return scale.ticks(Math.min(4, Math.ceil(logRange * 2)));
+            return scale.ticks(Math.min(MAX_TICKS, Math.min(4, Math.ceil(logRange * 2))));
           }
 
-          // For larger ranges, show powers of 10 and maybe intermediate values
           const ticks = [];
           const minPower = Math.ceil(minLog);
           const maxPower = Math.floor(maxLog);
 
-          // Always include powers of 10
           for (let power = minPower; power <= maxPower; power++) {
             ticks.push(Math.pow(10, power));
           }
 
-          // If we have too few ticks and the range is not too large, add intermediate values
           if (ticks.length < 4 && logRange < 3) {
             const intermediateTicks = [];
             for (let power = minPower; power < maxPower; power++) {
@@ -778,11 +780,11 @@
             ticks.sort((a, b) => a - b);
           }
 
-          // Filter ticks to be within domain
-          return ticks.filter(t => t >= domain[0] && t <= domain[1]);
+          const within = ticks.filter(t => t >= domain[0] && t <= domain[1]);
+          return limitTicks(within, MAX_TICKS, domain);
         };
 
-        const xTicks = getSmartTicks(xScale, CONFIG.xScaleType, 6);
+        const xTicks = getSmartTicks(xScale, CONFIG.xScaleType, 6, !!CONFIG.xFormatAsFileSize);
         const yTicks = getSmartTicks(yScale, CONFIG.yScaleType, 6);
 
         // Grid (use smart ticks)
@@ -1115,6 +1117,9 @@
           const shouldFormatAsFileSize = CONFIG.xFormatAsFileSize ||
             CONFIG.xColumn.toLowerCase().includes('size') ||
             CONFIG.xColumn.toLowerCase().includes('message');
+
+          // Ensure CONFIG flag reflects detection for consistent tick logic
+          CONFIG.xFormatAsFileSize = shouldFormatAsFileSize;
 
           formatX = createSmartFormatter(xValues, shouldFormatAsFileSize);
           formatY = createSmartFormatter(yValues);
