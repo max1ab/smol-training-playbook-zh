@@ -27,7 +27,7 @@
 
   .d3-grpo-full-length .grid line {
     stroke: var(--grid-color);
-    stroke-dasharray: 2, 2;
+    stroke-dasharray: 2,2;
   }
 
   .d3-grpo-full-length .confidence-band {
@@ -45,6 +45,14 @@
     fill: var(--text-color);
     font-size: 12px;
     font-weight: 600;
+  }
+
+  .d3-grpo-full-length .axis-label.reward {
+    fill: var(--reward-color);
+  }
+
+  .d3-grpo-full-length .axis-label.length {
+    fill: var(--length-color);
   }
 
   .d3-grpo-full-length .header {
@@ -194,9 +202,9 @@
         if (attr && attr.trim()) {
           providedData = attr.trim().startsWith('[') ? JSON.parse(attr) : attr.trim();
         }
-      } catch (_) { }
+      } catch (_) {}
 
-      const DEFAULT_CSV = '/data/rl_reward_curves.csv';
+      const DEFAULT_CSV = '/data/grpo/rl_reward_curves.csv';
       const ensureDataPrefix = (p) => {
         if (typeof p !== 'string' || !p) return p;
         // If it starts with /, it's already absolute
@@ -211,11 +219,11 @@
       const CSV_PATHS = Array.isArray(providedData)
         ? normalizeInput(providedData)
         : (typeof providedData === 'string' ? normalizeInput(providedData) || [DEFAULT_CSV] : [
-          DEFAULT_CSV,
-          './assets/data/rl_reward_curves.csv',
-          '../assets/data/rl_reward_curves.csv',
-          '../../assets/data/rl_reward_curves.csv'
-        ]);
+            DEFAULT_CSV,
+            './assets/data/grpo/rl_reward_curves.csv',
+            '../assets/data/grpo/rl_reward_curves.csv',
+            '../../assets/data/grpo/rl_reward_curves.csv'
+          ]);
 
       const fetchFirstAvailable = async (paths) => {
         const errors = [];
@@ -275,13 +283,17 @@
 
       // State
       let width = 800, height = 400;
-      const margin = { top: 16, right: 28, bottom: 56, left: 64 };
+      const margin = { top: 16, right: 64, bottom: 56, left: 64 };
       let rawData = {}; // Store both datasets
-      let series = [];
+      let rewardSeries = [];
+      let lengthSeries = [];
       let hiddenSeries = new Set();
       let showRunningAverage = true;
-      let currentMetric = 'reward'; // 'reward' or 'length'
       const RUNNING_AVG_WINDOW = 50; // steps
+
+      // Define colors for reward and length
+      const REWARD_COLOR = '#4E79A7';
+      const LENGTH_COLOR = '#F28E2B';
 
       // Color setup
       const getColors = (count) => {
@@ -346,7 +358,7 @@
         };
 
         // Build series data using train/global_step for x-axis
-        series = runNames.map(runName => {
+        const series = runNames.map(runName => {
           const meanCol = `${runName} - ${metricSuffix}`;
           const minCol = `${meanCol}__MIN`;
           const maxCol = `${meanCol}__MAX`;
@@ -374,6 +386,13 @@
             runningAvgPoints
           };
         });
+
+        // Store in appropriate series array
+        if (metricType === 'reward') {
+          rewardSeries = series;
+        } else {
+          lengthSeries = series;
+        }
       }
 
       function updateSize() {
@@ -389,66 +408,78 @@
 
       function render() {
         const { innerWidth, innerHeight } = updateSize();
-        if (series.length === 0) return;
+        if (rewardSeries.length === 0 || lengthSeries.length === 0) return;
 
-        // Filter visible series
-        const visibleSeries = series.filter(s => !hiddenSeries.has(s.name));
-        if (visibleSeries.length === 0) return;
+        // Filter visible series for both metrics
+        const visibleReward = rewardSeries.filter(s => !hiddenSeries.has(`reward-${s.name}`));
+        const visibleLength = lengthSeries.filter(s => !hiddenSeries.has(`length-${s.name}`));
 
         // Select which points to use based on running average toggle
         const getPoints = (s) => showRunningAverage ? s.runningAvgPoints : s.points;
 
-        // No filtering for full-length data
-        const getFilteredPoints = (s) => getPoints(s);
+        // Get all points for x-domain calculation
+        const allRewardPoints = visibleReward.flatMap(s => getPoints(s));
+        const allLengthPoints = visibleLength.flatMap(s => getPoints(s));
 
-        // Get all points for domain calculation
-        const allPoints = visibleSeries.flatMap(s => getFilteredPoints(s));
-
-        // Scales - calculate from data
+        // X scale (shared)
+        const maxStep = Math.max(
+          d3.max(allRewardPoints, d => d.step) || 0,
+          d3.max(allLengthPoints, d => d.step) || 0
+        );
         const xScale = d3.scaleLinear()
-          .domain([0, d3.max(allPoints, d => d.step) || 1])
+          .domain([0, maxStep || 1])
           .range([0, innerWidth])
           .nice();
 
-        // Set y-axis domain based on current metric - calculate from data
-        const minVal = d3.min(allPoints, d => d.mean);
-        const maxVal = d3.max(allPoints, d => d.mean);
-        const yDomain = [minVal * 0.95, maxVal * 1.05];
-
-        const yScale = d3.scaleLinear()
-          .domain(yDomain)
+        // Y scales (dual axes)
+        const minReward = d3.min(allRewardPoints, d => d.mean);
+        const maxReward = d3.max(allRewardPoints, d => d.mean);
+        const yScaleReward = d3.scaleLinear()
+          .domain([minReward * 0.95, maxReward * 1.05])
           .range([innerHeight, 0]);
 
-        // Grid
+        const minLength = d3.min(allLengthPoints, d => d.mean);
+        const maxLength = d3.max(allLengthPoints, d => d.mean);
+        const yScaleLength = d3.scaleLinear()
+          .domain([minLength * 0.95, maxLength * 1.05])
+          .range([innerHeight, 0]);
+
+        // Grid (based on left axis - reward)
         gGrid.selectAll('.grid-y').data([0])
           .join('g')
           .attr('class', 'grid grid-y')
-          .call(d3.axisLeft(yScale)
+          .call(d3.axisLeft(yScaleReward)
             .tickSize(-innerWidth)
             .tickFormat('')
           )
           .call(g => g.select('.domain').remove());
 
-        // Colors
-        const colors = getColors(series.length);
-        const colorScale = (name) => {
-          const idx = series.findIndex(s => s.name === name);
-          return colors[idx % colors.length];
-        };
-
-        // Line generator
-        const line = d3.line()
+        // Line generators
+        const rewardLine = d3.line()
           .x(d => xScale(d.step))
-          .y(d => yScale(d.mean))
+          .y(d => yScaleReward(d.mean))
           .curve(d3.curveMonotoneX);
 
-        // Render lines
-        gLines.selectAll('.line')
-          .data(visibleSeries, d => d.name)
+        const lengthLine = d3.line()
+          .x(d => xScale(d.step))
+          .y(d => yScaleLength(d.mean))
+          .curve(d3.curveMonotoneX);
+
+        // Render reward lines
+        gLines.selectAll('.line.reward')
+          .data(visibleReward, d => `reward-${d.name}`)
           .join('path')
-          .attr('class', 'line')
-          .attr('d', d => line(getFilteredPoints(d)))
-          .attr('stroke', d => colorScale(d.name));
+          .attr('class', 'line reward')
+          .attr('d', d => rewardLine(getPoints(d)))
+          .attr('stroke', REWARD_COLOR);
+
+        // Render length lines
+        gLines.selectAll('.line.length')
+          .data(visibleLength, d => `length-${d.name}`)
+          .join('path')
+          .attr('class', 'line length')
+          .attr('d', d => lengthLine(getPoints(d)))
+          .attr('stroke', LENGTH_COLOR);
 
         // Axes
         const xAxis = gAxes.selectAll('.x-axis').data([0])
@@ -457,10 +488,20 @@
           .attr('transform', `translate(0,${innerHeight})`)
           .call(d3.axisBottom(xScale).ticks(Math.min(10, Math.floor(innerWidth / 80))));
 
-        const yAxis = gAxes.selectAll('.y-axis').data([0])
+        const yAxisLeft = gAxes.selectAll('.y-axis-left').data([0])
           .join('g')
-          .attr('class', 'y-axis axis')
-          .call(d3.axisLeft(yScale).ticks(8));
+          .attr('class', 'y-axis-left axis')
+          .call(d3.axisLeft(yScaleReward).ticks(8))
+          .call(g => g.selectAll('.tick line').attr('stroke', REWARD_COLOR).attr('opacity', 0.3))
+          .call(g => g.selectAll('.tick text').attr('fill', REWARD_COLOR));
+
+        const yAxisRight = gAxes.selectAll('.y-axis-right').data([0])
+          .join('g')
+          .attr('class', 'y-axis-right axis')
+          .attr('transform', `translate(${innerWidth},0)`)
+          .call(d3.axisRight(yScaleLength).ticks(8))
+          .call(g => g.selectAll('.tick line').attr('stroke', LENGTH_COLOR).attr('opacity', 0.3))
+          .call(g => g.selectAll('.tick text').attr('fill', LENGTH_COLOR));
 
         // Axis labels
         gAxes.selectAll('.x-label').data([0])
@@ -471,17 +512,28 @@
           .attr('y', innerHeight + 45)
           .text('Training step');
 
-        gAxes.selectAll('.y-label').data([0])
+        gAxes.selectAll('.y-label-left').data([0])
           .join('text')
-          .attr('class', 'y-label axis-label')
+          .attr('class', 'y-label-left axis-label reward')
           .attr('text-anchor', 'middle')
           .attr('transform', `translate(-48,${innerHeight / 2}) rotate(-90)`)
-          .text(currentMetric === 'reward' ? 'Reward' : 'Mean Terminated Length');
+          .text('Reward');
+
+        gAxes.selectAll('.y-label-right').data([0])
+          .join('text')
+          .attr('class', 'y-label-right axis-label length')
+          .attr('text-anchor', 'middle')
+          .attr('transform', `translate(${innerWidth + 48},${innerHeight / 2}) rotate(90)`)
+          .text('Mean Terminated Length');
+
+        // Set CSS variables for colors
+        document.documentElement.style.setProperty('--reward-color', REWARD_COLOR);
+        document.documentElement.style.setProperty('--length-color', LENGTH_COLOR);
 
         // Tooltip interactions
         const bisect = d3.bisector(d => d.step).left;
 
-        svg.on('mousemove', function (event) {
+        svg.on('mousemove', function(event) {
           const [mx] = d3.pointer(event, gRoot.node());
           const step = xScale.invert(mx);
 
@@ -491,16 +543,25 @@
           }
           tooltipHtml += `<br/>`;
 
-          visibleSeries.forEach(s => {
-            const points = getFilteredPoints(s);
+          // Add reward values
+          visibleReward.forEach(s => {
+            const points = getPoints(s);
             const idx = bisect(points, step);
             if (idx > 0 && idx < points.length) {
               const p = points[idx];
-              const color = colorScale(s.name);
-              const valueStr = currentMetric === 'reward'
-                ? `${(p.mean * 100).toFixed(1)}%`
-                : `${p.mean.toFixed(1)} tokens`;
-              tooltipHtml += `<div style="margin-top:4px"><span style="color:${color}">●</span> ${s.name}: ${valueStr}</div>`;
+              const valueStr = `${(p.mean * 100).toFixed(1)}%`;
+              tooltipHtml += `<div style="margin-top:4px"><span style="color:${REWARD_COLOR}">●</span> Reward: ${valueStr}</div>`;
+            }
+          });
+
+          // Add length values
+          visibleLength.forEach(s => {
+            const points = getPoints(s);
+            const idx = bisect(points, step);
+            if (idx > 0 && idx < points.length) {
+              const p = points[idx];
+              const valueStr = `${p.mean.toFixed(1)} tokens`;
+              tooltipHtml += `<div style="margin-top:4px"><span style="color:${LENGTH_COLOR}">●</span> Length: ${valueStr}</div>`;
             }
           });
 
@@ -547,10 +608,10 @@
         if (!title) {
           title = document.createElement('div');
           title.className = 'legend-title';
-          title.textContent = 'Configuration';
+          title.textContent = 'Legend';
           legend.appendChild(title);
         } else {
-          title.textContent = 'Configuration';
+          title.textContent = 'Legend';
         }
 
         let items = legend.querySelector('.items');
@@ -560,136 +621,57 @@
           legend.appendChild(items);
         }
 
-        const colors = getColors(series.length);
-
         items.innerHTML = '';
-        series.forEach((s, i) => {
-          const item = document.createElement('span');
-          item.className = 'item';
-          if (hiddenSeries.has(s.name)) {
-            item.classList.add('dimmed');
-          }
 
-          const swatch = document.createElement('span');
-          swatch.className = 'swatch';
-          swatch.style.background = colors[i % colors.length];
+        // Add reward legend item
+        const rewardItem = document.createElement('span');
+        rewardItem.className = 'item';
 
-          const text = document.createElement('span');
-          text.textContent = s.name;
+        const rewardSwatch = document.createElement('span');
+        rewardSwatch.className = 'swatch';
+        rewardSwatch.style.background = REWARD_COLOR;
 
-          item.appendChild(swatch);
-          item.appendChild(text);
-          items.appendChild(item);
+        const rewardText = document.createElement('span');
+        rewardText.textContent = 'Reward';
 
-          item.addEventListener('click', () => {
-            if (hiddenSeries.has(s.name)) {
-              hiddenSeries.delete(s.name);
-            } else {
-              hiddenSeries.add(s.name);
-            }
-            makeLegend();
-            render();
-          });
-        });
+        rewardItem.appendChild(rewardSwatch);
+        rewardItem.appendChild(rewardText);
+        items.appendChild(rewardItem);
+
+        // Add length legend item
+        const lengthItem = document.createElement('span');
+        lengthItem.className = 'item';
+
+        const lengthSwatch = document.createElement('span');
+        lengthSwatch.className = 'swatch';
+        lengthSwatch.style.background = LENGTH_COLOR;
+
+        const lengthText = document.createElement('span');
+        lengthText.textContent = 'Mean Terminated Length';
+
+        lengthItem.appendChild(lengthSwatch);
+        lengthItem.appendChild(lengthText);
+        items.appendChild(lengthItem);
       }
 
       function makeControls() {
-        let header = container.querySelector('.header');
-        if (!header) {
-          header = document.createElement('div');
-          header.className = 'header';
-          container.appendChild(header);
-        }
-
-        let controls = header.querySelector('.controls');
-        if (!controls) {
-          controls = document.createElement('div');
-          controls.className = 'controls';
-          header.appendChild(controls);
-        }
-
-        controls.innerHTML = '';
-
-        // Metric selection group
-        const metricGroup = document.createElement('div');
-        metricGroup.className = 'control-group';
-
-        const metricLabel = document.createElement('label');
-        metricLabel.textContent = 'Metric';
-        metricGroup.appendChild(metricLabel);
-
-        const metricToggleGroup = document.createElement('div');
-        metricToggleGroup.className = 'toggle-group';
-
-        const rewardBtn = document.createElement('button');
-        rewardBtn.className = 'toggle-btn' + (currentMetric === 'reward' ? ' active' : '');
-        rewardBtn.textContent = 'Reward';
-        rewardBtn.addEventListener('click', () => {
-          if (currentMetric !== 'reward') {
-            currentMetric = 'reward';
-            parseData(rawData.reward, 'reward');
-            makeControls();
-            makeLegend();
-            render();
-          }
-        });
-
-        const lengthBtn = document.createElement('button');
-        lengthBtn.className = 'toggle-btn' + (currentMetric === 'length' ? ' active' : '');
-        lengthBtn.textContent = 'Length';
-        lengthBtn.addEventListener('click', () => {
-          if (currentMetric !== 'length') {
-            currentMetric = 'length';
-            parseData(rawData.length, 'length');
-            makeControls();
-            makeLegend();
-            render();
-          }
-        });
-
-        metricToggleGroup.appendChild(rewardBtn);
-        metricToggleGroup.appendChild(lengthBtn);
-        metricGroup.appendChild(metricToggleGroup);
-        controls.appendChild(metricGroup);
-
-        // Display options group
-        const displayGroup = document.createElement('div');
-        displayGroup.className = 'control-group';
-
-        const displayLabel = document.createElement('label');
-        displayLabel.textContent = 'Display';
-        displayGroup.appendChild(displayLabel);
-
-        const displayToggleGroup = document.createElement('div');
-        displayToggleGroup.className = 'toggle-group';
-
-        const runningAvgBtn = document.createElement('button');
-        runningAvgBtn.className = 'toggle-btn' + (showRunningAverage ? ' active' : '');
-        runningAvgBtn.textContent = `Running Avg (${RUNNING_AVG_WINDOW} steps)`;
-        runningAvgBtn.addEventListener('click', () => {
-          showRunningAverage = !showRunningAverage;
-          makeControls();
-          render();
-        });
-
-        displayToggleGroup.appendChild(runningAvgBtn);
-        displayGroup.appendChild(displayToggleGroup);
-        controls.appendChild(displayGroup);
+        // No controls needed for dual-axis view
+        // This function is kept for consistency but does nothing
       }
 
       // Load both datasets
       const REWARD_PATHS = [
-        '/data/rl_reward_full_length.csv',
-        './assets/data/rl_reward_full_length.csv',
-        '../assets/data/rl_reward_full_length.csv',
-        '../../assets/data/rl_reward_full_length.csv'
+        '/data/grpo/rl_reward_full_length.csv',
+        './assets/data/grpo/rl_reward_full_length.csv',
+        '../assets/data/grpo/rl_reward_full_length.csv',
+        '../../assets/data/grpo/rl_reward_full_length.csv'
       ];
 
       const LENGTH_PATHS = [
-        '/data/rl_mean_terminated_length_full_length.csv',
-        './assets/data/rl_mean_terminated_length_full_length.csv',
-        '../assets/data/rl_mean_terminated_length_full_length.csv',
-        '../../assets/data/rl_mean_terminated_length_full_length.csv'
+        '/data/grpo/rl_mean_terminated_length_full_length.csv',
+        './assets/data/grpo/rl_mean_terminated_length_full_length.csv',
+        '../assets/data/grpo/rl_mean_terminated_length_full_length.csv',
+        '../../assets/data/grpo/rl_mean_terminated_length_full_length.csv'
       ];
 
       Promise.all([
@@ -701,8 +683,10 @@
           rawData.reward = rewardCsvText;
           rawData.length = lengthCsvText;
 
-          // Initialize with reward data
+          // Parse both datasets
           parseData(rewardCsvText, 'reward');
+          parseData(lengthCsvText, 'length');
+
           makeLegend();
           makeControls();
           render();
