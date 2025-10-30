@@ -247,34 +247,7 @@
     border: 1px solid var(--border-color);
   }
 
-  /* Trackio footer */
-  .d3-multi-charts .trackio-footer {
-    text-align: left;
-    margin-top: 12px;
-    margin-bottom: -2px;
-    padding: 0;
-    opacity: 0.35;
-  }
-
-  @media (prefers-color-scheme: light) {
-    .d3-multi-charts .trackio-footer {
-      opacity: 0.7;
-    }
-  }
-
-  .d3-multi-charts .trackio-footer a {
-    font-size: 9px;
-    color: var(--muted-color);
-    opacity: 1;
-    text-decoration: none;
-    font-weight: 400;
-    letter-spacing: 0.3px;
-    transition: opacity 0.2s ease;
-  }
-
-  .d3-multi-charts .trackio-footer a:hover {
-    opacity: 0.6;
-  }
+  /* Trackio footer removed */
 </style>
 <script>
   (() => {
@@ -357,11 +330,7 @@
       grid.className = 'd3-multi-charts__grid';
       container.appendChild(grid);
 
-      // Add Trackio footer
-      const footer = document.createElement('div');
-      footer.className = 'trackio-footer';
-      footer.innerHTML = '<a href="https://github.com/gradio-app/trackio" target="_blank" rel="noopener noreferrer">Made with Trackio</a>';
-      container.appendChild(footer);
+      // Trackio footer removed
 
       // Create chart cells
       CONFIG.charts.forEach((chartConfig, idx) => {

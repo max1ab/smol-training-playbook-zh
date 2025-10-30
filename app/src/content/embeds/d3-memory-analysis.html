@@ -1,0 +1,704 @@
+<div class="d3-memory-analysis"></div>
+<style>
+    .d3-memory-analysis {
+        position: relative;
+        width: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    .d3-memory-analysis svg {
+        display: block;
+        width: 100%;
+    }
+
+    .d3-memory-analysis .charts-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        margin-bottom: 16px;
+    }
+
+    .d3-memory-analysis .chart-section {
+        position: relative;
+    }
+
+    .d3-memory-analysis .chart-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 16px;
+        text-align: center;
+    }
+
+    .d3-memory-analysis .axes path,
+    .d3-memory-analysis .axes line {
+        stroke: var(--axis-color);
+    }
+
+    .d3-memory-analysis .axes text {
+        fill: var(--tick-color);
+        font-size: 11px;
+    }
+
+    .d3-memory-analysis .grid line {
+        stroke: var(--grid-color);
+        stroke-dasharray: 2, 2;
+    }
+
+    .d3-memory-analysis .bar {
+        cursor: pointer;
+        transition: opacity 0.15s ease;
+    }
+
+    .d3-memory-analysis .bar:hover {
+        opacity: 0.8;
+    }
+
+    .d3-memory-analysis .bar-label {
+        font-size: 11px;
+        font-weight: 600;
+        fill: var(--text-color);
+        text-anchor: middle;
+    }
+
+    .d3-memory-analysis .common-legend {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        margin-top: 16px;
+    }
+
+    .d3-memory-analysis .common-legend .legend-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-color);
+    }
+
+    .d3-memory-analysis .common-legend .items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        justify-content: center;
+    }
+
+    .d3-memory-analysis .common-legend .item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        font-size: 12px;
+        color: var(--text-color);
+    }
+
+    .d3-memory-analysis .common-legend .swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        border: 1px solid var(--border-color);
+    }
+
+    .d3-memory-analysis .axis-label {
+        font-size: 12px;
+        font-weight: 600;
+        fill: var(--text-color);
+    }
+
+    .d3-memory-analysis .d3-tooltip {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate(-9999px, -9999px);
+        pointer-events: none;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        line-height: 1.5;
+        border: 1px solid var(--border-color);
+        background: var(--surface-bg);
+        color: var(--text-color);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+        opacity: 0;
+        transition: opacity 0.12s ease;
+        z-index: 1000;
+    }
+
+    .d3-memory-analysis .d3-tooltip.visible {
+        opacity: 1;
+    }
+
+    .d3-memory-analysis .d3-tooltip__inner {
+        text-align: left;
+    }
+
+    .d3-memory-analysis .d3-tooltip__inner strong {
+        color: var(--text-color);
+        font-weight: 700;
+    }
+
+    .d3-memory-analysis .d3-tooltip__inner .tooltip-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+    }
+
+    .d3-memory-analysis .d3-tooltip__inner .tooltip-swatch {
+        width: 16px;
+        height: 16px;
+        border-radius: 3px;
+        border: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+        .d3-memory-analysis .charts-wrapper {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+<script>
+    (() => {
+        const ensureD3 = (cb) => {
+            if (window.d3 && typeof window.d3.select === 'function') return cb();
+            let s = document.getElementById('d3-cdn-script');
+            if (!s) {
+                s = document.createElement('script');
+                s.id = 'd3-cdn-script';
+                s.src = 'https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js';
+                document.head.appendChild(s);
+            }
+            const onReady = () => {
+                if (window.d3 && typeof window.d3.select === 'function') cb();
+            };
+            s.addEventListener('load', onReady, { once: true });
+            if (window.d3) onReady();
+        };
+
+        const bootstrap = () => {
+            const scriptEl = document.currentScript;
+            let container = scriptEl ? scriptEl.previousElementSibling : null;
+            if (!(container && container.classList && container.classList.contains('d3-memory-analysis'))) {
+                const candidates = Array.from(document.querySelectorAll('.d3-memory-analysis'))
+                    .filter((el) => !(el.dataset && el.dataset.mounted === 'true'));
+                container = candidates[candidates.length - 1] || null;
+            }
+            if (!container) return;
+            if (container.dataset) {
+                if (container.dataset.mounted === 'true') return;
+                container.dataset.mounted = 'true';
+            }
+
+            container.style.position = container.style.position || 'relative';
+
+            // Tooltip setup
+            let tip = container.querySelector('.d3-tooltip');
+            let tipInner;
+            if (!tip) {
+                tip = document.createElement('div');
+                tip.className = 'd3-tooltip';
+                tipInner = document.createElement('div');
+                tipInner.className = 'd3-tooltip__inner';
+                tip.appendChild(tipInner);
+                container.appendChild(tip);
+            } else {
+                tipInner = tip.querySelector('.d3-tooltip__inner') || tip;
+            }
+
+            // Data
+            const breakdownData = [
+                { component: 'Model BF16', value: 5865.0 },
+                { component: 'FP32 Parameters', value: 11730.0 },
+                { component: 'FP32 Gradients', value: 11730.0 },
+                { component: 'Optimizer States', value: 23460.0 },
+                { component: 'DDP Gradient Buffers', value: 0.0 },
+                { component: 'ZERO-3 Buffers', value: 0.0 },
+                { component: 'Overhead', value: 104.0 },
+                { component: 'Activations', value: 21288.0 }
+            ];
+
+            const timelineData = [
+                {
+                    stage: 'Model Init', segments: [
+                        { name: 'Model BF16', value: 5865.0 }
+                    ]
+                },
+                {
+                    stage: 'Gradient Accumulator Init',
+                    segments: [
+                        { name: 'Model BF16', value: 5865.0 },
+                        { name: 'FP32 Parameters', value: 11730.0 },
+                        { name: 'FP32 Gradients', value: 11730.0 }
+                    ]
+                },
+                {
+                    stage: 'Fwd-Bwd Peak',
+                    segments: [
+                        { name: 'Model BF16', value: 5865.0 },
+                        { name: 'FP32 Parameters', value: 11730.0 },
+                        { name: 'FP32 Gradients', value: 11730.0 },
+                        { name: 'Activations', value: 21288.0 }
+                    ]
+                },
+                {
+                    stage: 'Optimizer Step',
+                    segments: [
+                        { name: 'Model BF16', value: 5865.0 },
+                        { name: 'FP32 Parameters', value: 11730.0 },
+                        { name: 'FP32 Gradients', value: 11730.0 },
+                        { name: 'Optimizer States', value: 23460.0 }
+                    ]
+                },
+                {
+                    stage: '2nd Fwd-Bwd Peak',
+                    segments: [
+                        { name: 'Model BF16', value: 5865.0 },
+                        { name: 'FP32 Parameters', value: 11730.0 },
+                        { name: 'FP32 Gradients', value: 11730.0 },
+                        { name: 'Optimizer States', value: 23460.0 },
+                        { name: 'Activations', value: 21288.0 }
+                    ]
+                },
+                {
+                    stage: '2nd Optimizer Step',
+                    segments: [
+                        { name: 'Model BF16', value: 5865.0 },
+                        { name: 'FP32 Parameters', value: 11730.0 },
+                        { name: 'FP32 Gradients', value: 11730.0 },
+                        { name: 'Optimizer States', value: 23460.0 }
+                    ]
+                }
+            ];
+
+            // Calculate totals for timeline
+            timelineData.forEach(d => {
+                d.total = d.segments.reduce((sum, seg) => sum + seg.value, 0);
+            });
+
+            // Get all unique components with stable order:
+            // 1) order from breakdownData (non-zero), then
+            // 2) any remaining from timeline in first-seen order.
+            const componentsFromBreakdown = breakdownData
+                .filter(d => d.value > 0)
+                .map(d => d.component);
+            const componentsFromTimeline = timelineData
+                .flatMap(d => d.segments.map(s => s.name));
+            const allComponents = Array.from(new Set([
+                ...componentsFromBreakdown,
+                ...componentsFromTimeline
+            ]));
+
+            // Color mapping
+            const colorMap = {};
+
+            const getColors = (n) => {
+                if (window.ColorPalettes && window.ColorPalettes.getColors) {
+                    return window.ColorPalettes.getColors('categorical', n);
+                }
+                return ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2', '#59A14F', '#EDC948', '#AF7AA1', '#FF9D9A'];
+            };
+
+            function updateColors() {
+                const colors = getColors(allComponents.length);
+                allComponents.forEach((comp, i) => {
+                    colorMap[comp] = colors[i];
+                });
+            }
+
+            // Initial color setup
+            updateColors();
+
+            // Listen for palette changes
+            if (window.ColorPalettes && window.ColorPalettes.onChange) {
+                window.ColorPalettes.onChange(() => {
+                    updateColors();
+                    render();
+                });
+            }
+
+            // Create container structure
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+        <div class="charts-wrapper">
+          <div class="chart-section" id="breakdown-section">
+            <div class="chart-title">Memory Component Breakdown</div>
+          </div>
+          <div class="chart-section" id="timeline-section">
+            <div class="chart-title">Memory Timeline</div>
+          </div>
+        </div>
+        <div class="common-legend">
+          <div class="legend-title">Legend</div>
+          <div class="items"></div>
+        </div>
+      `;
+            container.appendChild(wrapper);
+
+            const breakdownSection = wrapper.querySelector('#breakdown-section');
+            const timelineSection = wrapper.querySelector('#timeline-section');
+            const commonLegend = wrapper.querySelector('.common-legend .items');
+
+            // Create SVGs
+            const svg1 = d3.select(breakdownSection).append('svg').attr('width', '100%').style('display', 'block');
+            const svg2 = d3.select(timelineSection).append('svg').attr('width', '100%').style('display', 'block');
+
+            const g1 = svg1.append('g');
+            const g2 = svg2.append('g');
+
+            let width1 = 800, height1 = 400;
+            let width2 = 800, height2 = 400;
+
+            function updateSize1() {
+                width1 = breakdownSection.clientWidth || 400;
+                height1 = Math.max(300, Math.round(width1 / 1.5));
+
+                // Calculate dynamic margins based on width
+                const baseMargin = { top: 40, right: 20, left: 80 };
+                // For bottom margin, increase it for smaller widths where labels need more space
+                const bottomMargin = width1 < 600 ? 120 : width1 < 800 ? 100 : 80;
+                const margin = { ...baseMargin, bottom: bottomMargin };
+
+                svg1.attr('width', width1).attr('height', height1);
+                g1.attr('transform', `translate(${margin.left},${margin.top})`);
+                return {
+                    innerWidth: width1 - margin.left - margin.right,
+                    innerHeight: height1 - margin.top - margin.bottom,
+                    margin
+                };
+            }
+
+            function updateSize2() {
+                width2 = timelineSection.clientWidth || 400;
+                height2 = Math.max(300, Math.round(width2 / 1.5));
+
+                // Calculate dynamic margins based on width
+                const baseMargin = { top: 40, right: 20, left: 80 };
+                // For bottom margin, increase it for smaller widths where labels need more space
+                const bottomMargin = width2 < 600 ? 120 : width2 < 800 ? 100 : 80;
+                const margin = { ...baseMargin, bottom: bottomMargin };
+
+                svg2.attr('width', width2).attr('height', height2);
+                g2.attr('transform', `translate(${margin.left},${margin.top})`);
+                return {
+                    innerWidth: width2 - margin.left - margin.right,
+                    innerHeight: height2 - margin.top - margin.bottom,
+                    margin
+                };
+            }
+
+            function makeCommonLegend() {
+                commonLegend.innerHTML = '';
+                allComponents.forEach(comp => {
+                    const el = document.createElement('span');
+                    el.className = 'item';
+                    const sw = document.createElement('span');
+                    sw.className = 'swatch';
+                    sw.style.background = colorMap[comp];
+                    const txt = document.createElement('span');
+                    txt.textContent = comp;
+                    el.appendChild(sw);
+                    el.appendChild(txt);
+                    commonLegend.appendChild(el);
+                });
+            }
+
+            // Helper function to create a rect path with rounded top corners only
+            function roundedTopRect(x, y, width, height, radius) {
+                // Adjust radius to prevent overlap
+                const r = Math.min(radius, width / 2, height);
+                return `M ${x + r},${y}
+                L ${x + width - r},${y}
+                Q ${x + width},${y} ${x + width},${y + r}
+                L ${x + width},${y + height}
+                L ${x},${y + height}
+                L ${x},${y + r}
+                Q ${x},${y} ${x + r},${y}
+                Z`;
+            }
+
+            function renderBreakdown() {
+                const { innerWidth, innerHeight, margin } = updateSize1();
+
+                // Scales
+                const x = d3.scaleBand()
+                    .domain(breakdownData.map(d => d.component))
+                    .range([0, innerWidth])
+                    .padding(0.2);
+
+                const y = d3.scaleLinear()
+                    .domain([0, d3.max(breakdownData, d => d.value)])
+                    .range([innerHeight, 0])
+                    .nice();
+
+                // Grid
+                g1.selectAll('.grid').remove();
+                const grid = g1.append('g').attr('class', 'grid');
+                grid.selectAll('line')
+                    .data(y.ticks(6))
+                    .join('line')
+                    .attr('x1', 0)
+                    .attr('x2', innerWidth)
+                    .attr('y1', d => y(d))
+                    .attr('y2', d => y(d));
+
+                // Bars
+                const bars = g1.selectAll('.bar').data(breakdownData);
+                bars.exit().remove();
+                const barsEnter = bars.enter()
+                    .append('path')
+                    .attr('class', 'bar')
+                    .on('mouseenter', function (event, d) {
+                        const color = colorMap[d.component];
+                        tipInner.innerHTML = `
+                  <div class="tooltip-header">
+                    <div class="tooltip-swatch" style="background: ${color}"></div>
+                    <strong>${d.component}</strong>
+                  </div>
+                  <div>Memory: <strong>${d.value.toLocaleString()} MiB</strong></div>
+                `;
+                        tip.classList.add('visible');
+                    })
+                    .on('mousemove', function (event) {
+                        const [mx, my] = d3.pointer(event, container);
+                        tip.style.transform = `translate(${mx + 10}px, ${my - 10}px)`;
+                    })
+                    .on('mouseleave', function () {
+                        tip.classList.remove('visible');
+                        tip.style.transform = 'translate(-9999px, -9999px)';
+                    });
+
+                barsEnter.merge(bars)
+                    .transition()
+                    .duration(200)
+                    .attr('d', d => {
+                        if (d.value <= 0) return '';
+                        const barX = x(d.component);
+                        const barWidth = x.bandwidth();
+                        const barY = y(d.value);
+                        const barHeight = innerHeight - y(d.value);
+                        const radius = Math.min(barWidth / 8, 3);
+                        return roundedTopRect(barX, barY, barWidth, barHeight, radius);
+                    })
+                    .attr('fill', d => colorMap[d.component]);
+
+                // Labels
+                const labels = g1.selectAll('.bar-label').data(breakdownData);
+                labels.exit().remove();
+                const labelsEnter = labels.enter()
+                    .append('text')
+                    .attr('class', 'bar-label')
+                    .style('visibility', 'hidden');
+                labelsEnter.merge(labels)
+                    .attr('x', d => x(d.component) + x.bandwidth() / 2)
+                    .attr('y', d => d.value > 0 ? y(d.value) - 5 : innerHeight - 5)
+                    .text(d => d.value > 0 ? d.value.toFixed(0) : '')
+                    .style('visibility', d => d.value > 0 ? 'visible' : 'hidden');
+
+                // Axes
+                g1.selectAll('.x-axis').remove();
+                g1.selectAll('.y-axis').remove();
+
+                const xAxis = g1.append('g')
+                    .attr('class', 'x-axis')
+                    .attr('transform', `translate(0,${innerHeight})`)
+                    .call(d3.axisBottom(x).tickSizeOuter(0))
+                    .selectAll('text')
+                    .attr('transform', 'rotate(-45)')
+                    .style('text-anchor', 'end');
+
+                const yAxis = g1.append('g')
+                    .attr('class', 'y-axis')
+                    .call(d3.axisLeft(y).ticks(6).tickSizeOuter(0));
+
+                // Y-axis label
+                g1.selectAll('.y-axis-label').remove();
+                g1.append('text')
+                    .attr('class', 'axis-label y-axis-label')
+                    .attr('transform', 'rotate(-90)')
+                    .attr('x', -innerHeight / 2)
+                    .attr('y', -margin.left + 20)
+                    .style('text-anchor', 'middle')
+                    .text('Memory (MiB)');
+            }
+
+            function renderTimeline() {
+                const { innerWidth, innerHeight, margin } = updateSize2();
+
+                // Scales
+                const x = d3.scaleBand()
+                    .domain(timelineData.map(d => d.stage))
+                    .range([0, innerWidth])
+                    .padding(0.15);
+
+                const maxTotal = d3.max(timelineData, d => d.total);
+                const y = d3.scaleLinear()
+                    .domain([0, maxTotal])
+                    .range([innerHeight, 0])
+                    .nice();
+
+                // Grid
+                g2.selectAll('.grid').remove();
+                const grid = g2.append('g').attr('class', 'grid');
+                grid.selectAll('line')
+                    .data(y.ticks(8))
+                    .join('line')
+                    .attr('x1', 0)
+                    .attr('x2', innerWidth)
+                    .attr('y1', d => y(d))
+                    .attr('y2', d => y(d));
+
+                // Stack generator
+                const stack = d3.stack()
+                    .keys(allComponents)
+                    .order(d3.stackOrderNone)
+                    .offset(d3.stackOffsetNone);
+
+                // Transform data for stacking
+                const stackedData = stack(timelineData.map(d => {
+                    const obj = {};
+                    allComponents.forEach(comp => {
+                        const segment = d.segments.find(s => s.name === comp);
+                        obj[comp] = segment ? segment.value : 0;
+                    });
+                    obj.stage = d.stage;
+                    obj.total = d.total;
+                    return obj;
+                }));
+
+                // Draw stacked bars
+                const groups = g2.selectAll('.bar-group').data(stackedData);
+                groups.exit().remove();
+                const groupsEnter = groups.enter()
+                    .append('g')
+                    .attr('class', 'bar-group');
+                const groupsMerge = groupsEnter.merge(groups);
+
+                groupsMerge.each(function (series) {
+                    const seriesKey = series.key;
+                    const bars = d3.select(this).selectAll('.bar').data(series);
+
+                    bars.exit().remove();
+
+                    const barsEnter = bars.enter()
+                        .append('path')
+                        .attr('class', 'bar')
+                        .on('mouseenter', function (event, d) {
+                            const stage = d.data.stage;
+                            const value = d[1] - d[0];
+                            const color = colorMap[seriesKey];
+                            tipInner.innerHTML = `
+                              <div class="tooltip-header">
+                                <div class="tooltip-swatch" style="background: ${color}"></div>
+                                <strong>${seriesKey}</strong>
+                              </div>
+                              <div>${stage}</div>
+                              <div>Memory: <strong>${value.toLocaleString()} MiB</strong></div>
+                            `;
+                            tip.classList.add('visible');
+                        })
+                        .on('mousemove', function (event) {
+                            const [mx, my] = d3.pointer(event, container);
+                            tip.style.transform = `translate(${mx + 10}px, ${my - 10}px)`;
+                        })
+                        .on('mouseleave', function () {
+                            tip.classList.remove('visible');
+                            tip.style.transform = 'translate(-9999px, -9999px)';
+                        });
+
+                    barsEnter.merge(bars)
+                        .each(function (d) {
+                            const isTopSegment = d[1] === d.data.total;
+                            const barX = x(d.data.stage);
+                            const barWidth = x.bandwidth();
+                            const barY = y(d[1]);
+                            const barHeight = y(d[0]) - y(d[1]);
+
+                            if (barHeight <= 0) {
+                                d3.select(this).attr('d', '');
+                                return;
+                            }
+
+                            let path;
+                            if (isTopSegment) {
+                                // Top segment - rounded top corners
+                                const radius = Math.min(barWidth / 8, 3);
+                                path = roundedTopRect(barX, barY, barWidth, barHeight, radius);
+                            } else {
+                                // Other segments - rectangular
+                                path = `M ${barX},${barY}
+                                        L ${barX + barWidth},${barY}
+                                        L ${barX + barWidth},${barY + barHeight}
+                                        L ${barX},${barY + barHeight}
+                                        Z`;
+                            }
+                            d3.select(this).attr('d', path);
+                        })
+                        .transition()
+                        .duration(200)
+                        .attr('fill', colorMap[seriesKey] || '#000000');
+                });
+
+                // Total labels on top of bars
+                const totalLabels = g2.selectAll('.total-label').data(timelineData);
+                totalLabels.exit().remove();
+                const totalLabelsEnter = totalLabels.enter()
+                    .append('text')
+                    .attr('class', 'total-label bar-label')
+                    .style('visibility', 'hidden');
+                totalLabelsEnter.merge(totalLabels)
+                    .attr('x', d => x(d.stage) + x.bandwidth() / 2)
+                    .attr('y', d => y(d.total) - 5)
+                    .text(d => d.total.toFixed(0))
+                    .style('visibility', 'visible');
+
+                // Axes
+                g2.selectAll('.x-axis').remove();
+                g2.selectAll('.y-axis').remove();
+
+                const xAxis = g2.append('g')
+                    .attr('class', 'x-axis')
+                    .attr('transform', `translate(0,${innerHeight})`)
+                    .call(d3.axisBottom(x).tickSizeOuter(0))
+                    .selectAll('text')
+                    .attr('transform', 'rotate(-45)')
+                    .style('text-anchor', 'end');
+
+                const yAxis = g2.append('g')
+                    .attr('class', 'y-axis')
+                    .call(d3.axisLeft(y).ticks(8).tickSizeOuter(0));
+
+                // Y-axis label
+                g2.selectAll('.y-axis-label').remove();
+                g2.append('text')
+                    .attr('class', 'axis-label y-axis-label')
+                    .attr('transform', 'rotate(-90)')
+                    .attr('x', -innerHeight / 2)
+                    .attr('y', -margin.left + 20)
+                    .style('text-anchor', 'middle')
+                    .text('Memory (MiB)');
+            }
+
+            function render() {
+                makeCommonLegend();
+                renderBreakdown();
+                renderTimeline();
+            }
+
+            // Initial render + resize handling
+            render();
+            const rerender = () => render();
+            if (window.ResizeObserver) {
+                const ro = new ResizeObserver(() => rerender());
+                ro.observe(container);
+            } else {
+                window.addEventListener('resize', rerender);
+            }
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => ensureD3(bootstrap), { once: true });
+        } else {
+            ensureD3(bootstrap);
+        }
+    })();
+</script>
