@@ -215,12 +215,12 @@ const licence =
           'img[data-zoomable="1"]',
         );
 
-        if (window.mediumZoom && zoomableImages.length > 0) {
+        if ((window as any).mediumZoom && zoomableImages.length > 0) {
           zoomableImages.forEach((img, index) => {
             // Check if already initialized
             if (!img.classList.contains("medium-zoom-image")) {
               try {
-                const instance = window.mediumZoom(img, {
+                const instance = (window as any).mediumZoom(img, {
                   background: "rgba(0,0,0,.85)",
                   margin: 24,
                   scrollOffset: 0,
@@ -253,6 +253,64 @@ const licence =
       window.addEventListener("load", () => {
         setTimeout(initializeZoom, 100);
       });
+    </script>
+    <script>
+      // Rafraîchir certaines iframes (Trackio/Spaces) lors d'un changement de thème
+      (function () {
+        try {
+          let reloadTimer: number | null = null;
+          const isTargetIframe = (el) => {
+            if (!el || el.tagName !== "IFRAME") return false;
+            const src = el.getAttribute("src") || "";
+            return (
+              src.includes(".hf.space") || src.toLowerCase().includes("trackio")
+            );
+          };
+          const reloadIframes = () => {
+            const iframes = Array.from(
+              document.querySelectorAll("iframe"),
+            ).filter(isTargetIframe);
+            const theme =
+              document.documentElement.getAttribute("data-theme") || "light";
+            iframes.forEach((iframe) => {
+              try {
+                const currentSrc = iframe.getAttribute("src");
+                if (!currentSrc) return;
+                const url = new URL(currentSrc, window.location.href);
+                // Bump a cache-buster param et communiquer le thème courant si jamais le Space le lit
+                url.searchParams.set("_theme", theme);
+                url.searchParams.set("_ts", Date.now().toString());
+                iframe.setAttribute("src", url.toString());
+              } catch {}
+            });
+          };
+          const scheduleReload = () => {
+            if (reloadTimer) clearTimeout(reloadTimer);
+            reloadTimer = window.setTimeout(reloadIframes, 120);
+          };
+          const observer = new MutationObserver((mutations) => {
+            for (const m of mutations) {
+              if (m.type === "attributes" && m.attributeName === "data-theme") {
+                scheduleReload();
+                break;
+              }
+            }
+          });
+          observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["data-theme"],
+          });
+
+          // Appliquer immédiatement au chargement pour couvrir les iframes lazy
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", reloadIframes, {
+              once: true,
+            });
+          } else {
+            reloadIframes();
+          }
+        } catch {}
+      })();
     </script>
   </head>
   <body>

@@ -34,6 +34,21 @@
 
 /* Iframes avec smoothing=0 : compensation du padding interne */
 iframe[src*="smoothing=0"] {
-  width: calc(100% + 40px) !important;
-  margin-left: -40px;
+  width: calc(100% + 120px) !important;
+  margin-left: -61px;
+  transform: scaleX(0.94);
+  /* Respecte le thème courant au lieu de forcer le blanc */
+  background-color: var(--surface-bg, transparent) !important;
+}
+
+/* Padding mobile pour les iframes */
+@media (max-width: 768px) {
+  iframe[src*="smoothing=0"] {
+    padding: 0 20px;
+  }
+}
+
+/* Fond adaptatif pour le thème sombre */
+[data-theme="dark"] iframe[src*="smoothing=0"] {
+  background-color: var(--surface-bg, #0f1115) !important;
 }
