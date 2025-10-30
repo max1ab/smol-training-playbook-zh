@@ -76,6 +76,21 @@ const getOriginalSrc = (imageSrc: any): string => {
 };
 
 const originalSrc = getOriginalSrc(src);
+
+// Apply safe defaults without requiring callers to specify them
+const MAX_DISPLAY_WIDTH = 1800;
+const resolvedFormat = (imgProps as any).format || "webp";
+
+// If no explicit width is provided and we have metadata, cap to MAX_DISPLAY_WIDTH
+let resolvedWidth = (imgProps as any).width;
+if (
+  !resolvedWidth &&
+  src &&
+  typeof src === "object" &&
+  typeof src.width === "number"
+) {
+  resolvedWidth = Math.min(src.width, MAX_DISPLAY_WIDTH);
+}
 const hasCaptionSlot = Astro.slots.has("caption");
 const hasCaption =
   hasCaptionSlot || (typeof caption === "string" && caption.length > 0);
@@ -115,6 +130,8 @@ const resolvedDownloadSrc = downloadSrc || originalSrc;
               >
                 <AstroImage
                   src={src}
+                  format={resolvedFormat}
+                  width={resolvedWidth}
                   {...imgProps}
                   data-zoomable={dataZoomable}
                   data-downloadable={dataDownloadable}
@@ -125,6 +142,8 @@ const resolvedDownloadSrc = downloadSrc || originalSrc;
             ) : (
               <AstroImage
                 src={src}
+                format={resolvedFormat}
+                width={resolvedWidth}
                 {...imgProps}
                 data-zoomable={dataZoomable}
                 data-downloadable={dataDownloadable}
@@ -152,10 +171,22 @@ const resolvedDownloadSrc = downloadSrc || originalSrc;
             target={resolvedTarget}
             rel={resolvedRel}
           >
-            <AstroImage src={src} {...imgProps} data-zoomable={dataZoomable} />
+            <AstroImage
+              src={src}
+              format={resolvedFormat}
+              width={resolvedWidth}
+              {...imgProps}
+              data-zoomable={dataZoomable}
+            />
           </a>
         ) : (
-          <AstroImage src={src} {...imgProps} data-zoomable={dataZoomable} />
+          <AstroImage
+            src={src}
+            format={resolvedFormat}
+            width={resolvedWidth}
+            {...imgProps}
+            data-zoomable={dataZoomable}
+          />
         )}
         <figcaption>
           {hasCaptionSlot ? (
@@ -176,6 +207,8 @@ const resolvedDownloadSrc = downloadSrc || originalSrc;
           >
             <AstroImage
               src={src}
+              format={resolvedFormat}
+              width={resolvedWidth}
               {...imgProps}
               data-zoomable={dataZoomable}
               data-downloadable={dataDownloadable}
@@ -186,6 +219,8 @@ const resolvedDownloadSrc = downloadSrc || originalSrc;
         ) : (
           <AstroImage
             src={src}
+            format={resolvedFormat}
+            width={resolvedWidth}
             {...imgProps}
             data-zoomable={dataZoomable}
             data-downloadable={dataDownloadable}
@@ -213,6 +248,8 @@ const resolvedDownloadSrc = downloadSrc || originalSrc;
       >
         <AstroImage
           src={src}
+          format={resolvedFormat}
+          width={resolvedWidth}
           {...imgProps}
           data-zoomable={dataZoomable}
           class={fullWidth ? "full" : ""}
@@ -221,6 +258,8 @@ const resolvedDownloadSrc = downloadSrc || originalSrc;
     ) : (
       <AstroImage
         src={src}
+        format={resolvedFormat}
+        width={resolvedWidth}
         {...imgProps}
         data-zoomable={dataZoomable}
         class={fullWidth ? "full" : ""}

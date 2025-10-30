@@ -19,29 +19,52 @@
     }
 
     .train-model-decision-flowchart .node-rect {
-        stroke-width: 2px;
-        rx: 12px;
-        ry: 12px;
+        stroke-width: 2.5px;
+        rx: 14px;
+        ry: 14px;
     }
 
     .train-model-decision-flowchart .node-text {
         font-size: 18px;
-        font-weight: 500;
+        font-weight: 600;
         text-anchor: middle;
         pointer-events: none;
         fill: var(--text-color, #333);
     }
 
     .train-model-decision-flowchart .node-question {
-        fill: color-mix(in srgb, var(--primary-color) 30%, var(--page-bg));
+        fill: oklch(from var(--primary-color) calc(l + 0.4) c h / 0.26);
+        stroke: oklch(from var(--primary-color) calc(l + 0.15) c h / 0.5) !important;
     }
 
     .train-model-decision-flowchart .node-success {
-        fill: color-mix(in srgb, var(--success-color) 30%, var(--page-bg));
+        fill: oklch(from var(--success-color) calc(l + 0.4) c h / 0.26);
+        stroke: oklch(from var(--success-color) calc(l + 0.15) c h / 0.5) !important;
     }
 
     .train-model-decision-flowchart .node-category {
-        fill: color-mix(in srgb, var(--danger-color) 25%, var(--page-bg));
+        fill: oklch(from var(--danger-color) calc(l + 0.4) c h / 0.26);
+        stroke: oklch(from var(--danger-color) calc(l + 0.15) c h / 0.5) !important;
+    }
+
+    .train-model-decision-flowchart .node-decision {
+        stroke: var(--border-color, #ddd) !important;
+    }
+
+    /* Dark mode adjustments */
+    [data-theme="dark"] .train-model-decision-flowchart .node-question {
+        fill: oklch(from var(--primary-color) calc(l + 0.3) c h / 0.2);
+        stroke: oklch(from var(--primary-color) calc(l + 0.1) c h / 0.6) !important;
+    }
+
+    [data-theme="dark"] .train-model-decision-flowchart .node-success {
+        fill: oklch(from var(--success-color) calc(l + 0.3) c h / 0.2);
+        stroke: oklch(from var(--success-color) calc(l + 0.1) c h / 0.6) !important;
+    }
+
+    [data-theme="dark"] .train-model-decision-flowchart .node-category {
+        fill: oklch(from var(--danger-color) calc(l + 0.3) c h / 0.2);
+        stroke: oklch(from var(--danger-color) calc(l + 0.1) c h / 0.6) !important;
     }
 
     .train-model-decision-flowchart .link-path {
@@ -185,8 +208,8 @@
                 const nodeExtent = {
                     minX: d3.min(nodes, d => d.x) - 140,
                     maxX: d3.max(nodes, d => d.x) + 140,
-                    minY: d3.min(nodes, d => d.y) - 20,
-                    maxY: d3.max(nodes, d => d.y) + 20
+                    minY: d3.min(nodes, d => d.y),
+                    maxY: d3.max(nodes, d => d.y)
                 };
 
                 const contentWidth = nodeExtent.maxX - nodeExtent.minX;
@@ -423,15 +446,8 @@
                             case 'category': return 'currentColor';
                             default: return colors.decision;
                         }
-                    })
-                    .each(function (d) {
-                        // Set stroke based on type, using CSS variables
-                        const strokeColor = d.type === 'decision'
-                            ? 'var(--border-color, #ddd)'
-                            : 'var(--border-color, #ccc)';
-                        d3.select(this).attr('stroke', strokeColor);
-                    })
-                    .attr('stroke-width', 2);
+                    });
+                // Stroke is handled by CSS classes
 
                 nodeMerge.select('.node-text')
                     .attr('x', d => d.x)
