@@ -27,7 +27,7 @@
 
   .d3-grpo-reward-curves .grid line {
     stroke: var(--grid-color);
-    stroke-dasharray: 2, 2;
+    stroke-dasharray: 2,2;
   }
 
   .d3-grpo-reward-curves .confidence-band {
@@ -194,9 +194,9 @@
         if (attr && attr.trim()) {
           providedData = attr.trim().startsWith('[') ? JSON.parse(attr) : attr.trim();
         }
-      } catch (_) { }
+      } catch (_) {}
 
-      const DEFAULT_CSV = '/data/rl_reward_curves.csv';
+      const DEFAULT_CSV = '/data/grpo/rl_reward_curves.csv';
       const ensureDataPrefix = (p) => {
         if (typeof p !== 'string' || !p) return p;
         // If it starts with /, it's already absolute
@@ -211,11 +211,11 @@
       const CSV_PATHS = Array.isArray(providedData)
         ? normalizeInput(providedData)
         : (typeof providedData === 'string' ? normalizeInput(providedData) || [DEFAULT_CSV] : [
-          DEFAULT_CSV,
-          './assets/data/rl_reward_curves.csv',
-          '../assets/data/rl_reward_curves.csv',
-          '../../assets/data/rl_reward_curves.csv'
-        ]);
+            DEFAULT_CSV,
+            './assets/data/grpo/rl_reward_curves.csv',
+            '../assets/data/grpo/rl_reward_curves.csv',
+            '../../assets/data/grpo/rl_reward_curves.csv'
+          ]);
 
       const fetchFirstAvailable = async (paths) => {
         const errors = [];
@@ -517,7 +517,7 @@
         // Tooltip interactions
         const bisect = d3.bisector(d => d.step).left;
 
-        svg.on('mousemove', function (event) {
+        svg.on('mousemove', function(event) {
           const [mx] = d3.pointer(event, gRoot.node());
           const step = xScale.invert(mx);
 
@@ -583,10 +583,10 @@
         if (!title) {
           title = document.createElement('div');
           title.className = 'legend-title';
-          title.textContent = 'Overlong Penalty';
+          title.innerHTML = 'Overlong penalty (L<sub>cache</sub> - L<sub>max</sub>)';
           legend.appendChild(title);
         } else {
-          title.textContent = 'Overlong Penalty';
+          title.innerHTML = 'Overlong penalty (L<sub>cache</sub> - L<sub>max</sub>)';
         }
 
         let items = legend.querySelector('.items');
@@ -687,45 +687,21 @@
         metricToggleGroup.appendChild(lengthBtn);
         metricGroup.appendChild(metricToggleGroup);
         controls.appendChild(metricGroup);
-
-        // Display options group
-        const displayGroup = document.createElement('div');
-        displayGroup.className = 'control-group';
-
-        const displayLabel = document.createElement('label');
-        displayLabel.textContent = 'Display';
-        displayGroup.appendChild(displayLabel);
-
-        const displayToggleGroup = document.createElement('div');
-        displayToggleGroup.className = 'toggle-group';
-
-        const runningAvgBtn = document.createElement('button');
-        runningAvgBtn.className = 'toggle-btn' + (showRunningAverage ? ' active' : '');
-        runningAvgBtn.textContent = `Running Avg (${RUNNING_AVG_WINDOW} steps)`;
-        runningAvgBtn.addEventListener('click', () => {
-          showRunningAverage = !showRunningAverage;
-          makeControls();
-          render();
-        });
-
-        displayToggleGroup.appendChild(runningAvgBtn);
-        displayGroup.appendChild(displayToggleGroup);
-        controls.appendChild(displayGroup);
       }
 
       // Load both datasets
       const REWARD_PATHS = [
-        '/data/rl_reward_curves.csv',
-        './assets/data/rl_reward_curves.csv',
-        '../assets/data/rl_reward_curves.csv',
-        '../../assets/data/rl_reward_curves.csv'
+        '/data/grpo/rl_reward_curves.csv',
+        './assets/data/grpo/rl_reward_curves.csv',
+        '../assets/data/grpo/rl_reward_curves.csv',
+        '../../assets/data/grpo/rl_reward_curves.csv'
       ];
 
       const LENGTH_PATHS = [
-        '/data/rl_mean_teminated_lengths.csv',
-        './assets/data/rl_mean_teminated_lengths.csv',
-        '../assets/data/rl_mean_teminated_lengths.csv',
-        '../../assets/data/rl_mean_teminated_lengths.csv'
+        '/data/grpo/rl_mean_teminated_lengths.csv',
+        './assets/data/grpo/rl_mean_teminated_lengths.csv',
+        '../assets/data/grpo/rl_mean_teminated_lengths.csv',
+        '../../assets/data/grpo/rl_mean_teminated_lengths.csv'
       ];
 
       Promise.all([
