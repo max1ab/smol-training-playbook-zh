@@ -192,7 +192,7 @@
         }
       } catch (_) {}
 
-      const DEFAULT_CSV = '/data/grpo/aime25_perf.csv';
+      const DEFAULT_CSV = '/data/aime25_perf.csv';
       const ensureDataPrefix = (p) => {
         if (typeof p !== 'string' || !p) return p;
         if (p.startsWith('/')) return p;
@@ -206,9 +206,9 @@
         ? normalizeInput(providedData)
         : (typeof providedData === 'string' ? normalizeInput(providedData) || [DEFAULT_CSV] : [
             DEFAULT_CSV,
-            './assets/data/grpo/aime25_perf.csv',
-            '../assets/data/grpo/aime25_perf.csv',
-            '../../assets/data/grpo/aime25_perf.csv'
+            './assets/data/aime25_perf.csv',
+            '../assets/data/aime25_perf.csv',
+            '../../assets/data/aime25_perf.csv'
           ]);
 
       const fetchFirstAvailable = async (paths) => {
