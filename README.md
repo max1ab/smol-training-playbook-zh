@@ -13,7 +13,7 @@ tags:
   - research paper
   - scientific paper
   - data visualization
-thumbnail: https://huggingface.co/spaces/tfrere/research-paper-template/thumb.jpg
+thumbnail: https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook/public/thumb.png
 ---
 <div align="center">
 
