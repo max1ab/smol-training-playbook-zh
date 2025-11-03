@@ -297,9 +297,6 @@ const pdfFilename = `${slugify(pdfBase)}.pdf`;
     userPlanChecked = true;
     const isPro = isProUser(plan);
     updatePdfAccess(isPro);
-    
-    // Optional: log for debugging
-    console.log("[PDF Access]", { plan, isPro });
   }
 
   /**

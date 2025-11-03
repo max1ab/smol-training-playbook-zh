@@ -27,20 +27,12 @@ export default function remarkUnwrapCitationLinks() {
                 // Récupérer le contenu textuel du lien
                 const textContent = getTextContent(node);
 
-                // Debug
-                console.log('🔍 Link trouvé:', {
-                    text: textContent,
-                    url: node.url,
-                    matches: /^@\w+/.test(textContent.trim())
-                });
-
                 // Vérifier si c'est une citation (commence par @)
                 if (textContent && /^@\w+/.test(textContent.trim())) {
                     // Trouver l'index du nœud dans son parent
                     const index = parent.children.indexOf(node);
 
                     if (index !== -1) {
-                        console.log('✅ Transformation:', textContent);
                         // Remplacer le nœud link par un nœud text simple
                         parent.children[index] = {
                             type: 'text',
