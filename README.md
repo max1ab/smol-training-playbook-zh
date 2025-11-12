@@ -1,7 +1,7 @@
 ---
-title: 'The Smol Training Playbook: The Secrets to Building World-Class LLMs'
-short_desc: 'A practical journey behind training SOTA LLMs'
-emoji: 📝
+title: The Smol Training Playbook
+short_description: The secrets to building world-class LLMs
+emoji: 📚
 colorFrom: blue
 colorTo: indigo
 sdk: docker
@@ -9,11 +9,12 @@ pinned: false
 header: mini
 app_port: 8080
 tags:
-  - research-article-template
-  - research paper
-  - scientific paper
-  - data visualization
-thumbnail: https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook/public/thumb.png
+- research-article-template
+- research paper
+- scientific paper
+- data visualization
+thumbnail: >-
+  https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook/public/thumb.png
 ---
 <div align="center">
 
