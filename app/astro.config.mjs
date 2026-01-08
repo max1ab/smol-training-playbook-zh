@@ -23,6 +23,8 @@ import rehypeWrapOutput from './plugins/rehype/wrap-outputs.mjs';
 // Plugins moved to app/plugins/*
 
 export default defineConfig({
+  site: 'https://max1ab.github.io',
+  base: '/',
   output: 'static',
   integrations: [
     mermaid({ theme: 'neutral', autoTheme: true }),
@@ -76,5 +78,4 @@ export default defineConfig({
     ]
   }
 });
-
 
