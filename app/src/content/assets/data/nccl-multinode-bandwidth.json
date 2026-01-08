@@ -1,3 +1,5478 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:adee80880fa71ea47c8c8be289a95df90296cf0d7b0e28b78ee8c454a3fd0b5b
-size 101382
+{
+  "alltoall": {
+    "1_nodes": [
+      {
+        "messageSize": 128,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.11
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.22
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.44
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.9
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 1.77
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 3.45
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 6.37
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 12.58
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 21.84
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 38.74
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 58.55
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 82.03
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 101.63
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 170.71
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 203.92
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 239.94
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 282.5
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 302.89
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 314.25
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 323.41
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 333.67
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 342.14
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 342.19
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 344.41
+      }
+    ],
+    "2_nodes": [
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.12
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.47
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.93
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.82
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.36
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 6.12
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 9.71
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 13.92
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 22.8
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 29.27
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 44.3
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 48.99
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 63.11
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 68.86
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 74.61
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 76.34
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 78.43
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 80.2
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 81.03
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 81.39
+      }
+    ],
+    "3_nodes": [
+      {
+        "messageSize": 384,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 768,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1920,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 3840,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 8064,
+        "bandwidth": 0.09
+      },
+      {
+        "messageSize": 16128,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 32640,
+        "bandwidth": 0.34
+      },
+      {
+        "messageSize": 65280,
+        "bandwidth": 0.65
+      },
+      {
+        "messageSize": 130944,
+        "bandwidth": 1.08
+      },
+      {
+        "messageSize": 261888,
+        "bandwidth": 2.53
+      },
+      {
+        "messageSize": 524160,
+        "bandwidth": 5.03
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 8.1
+      },
+      {
+        "messageSize": 2097024,
+        "bandwidth": 13.63
+      },
+      {
+        "messageSize": 4194048,
+        "bandwidth": 18.67
+      },
+      {
+        "messageSize": 8388480,
+        "bandwidth": 23.26
+      },
+      {
+        "messageSize": 16776960,
+        "bandwidth": 33.76
+      },
+      {
+        "messageSize": 33554304,
+        "bandwidth": 41.21
+      },
+      {
+        "messageSize": 67108608,
+        "bandwidth": 43.03
+      },
+      {
+        "messageSize": 134217600,
+        "bandwidth": 57.86
+      },
+      {
+        "messageSize": 268435200,
+        "bandwidth": 57.8
+      },
+      {
+        "messageSize": 536870784,
+        "bandwidth": 57.75
+      },
+      {
+        "messageSize": 1073741568,
+        "bandwidth": 56.62
+      },
+      {
+        "messageSize": 2147483520,
+        "bandwidth": 57.02
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 57.76
+      },
+      {
+        "messageSize": 8589934464,
+        "bandwidth": 58.21
+      }
+    ],
+    "4_nodes": [
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.12
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.25
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.51
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.02
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.79
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.89
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 7.37
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 13.01
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 18.62
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 25.89
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 32.48
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 40.0
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 37.18
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 52.54
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 54.08
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 53.72
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 53.42
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 54.01
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 53.79
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 53.53
+      }
+    ],
+    "5_nodes": [
+      {
+        "messageSize": 640,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1920,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 3840,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 7680,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 16000,
+        "bandwidth": 0.07
+      },
+      {
+        "messageSize": 32640,
+        "bandwidth": 0.2
+      },
+      {
+        "messageSize": 65280,
+        "bandwidth": 0.37
+      },
+      {
+        "messageSize": 130560,
+        "bandwidth": 0.77
+      },
+      {
+        "messageSize": 261760,
+        "bandwidth": 1.59
+      },
+      {
+        "messageSize": 524160,
+        "bandwidth": 3.21
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 5.71
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 10.74
+      },
+      {
+        "messageSize": 4193920,
+        "bandwidth": 15.55
+      },
+      {
+        "messageSize": 8388480,
+        "bandwidth": 23.53
+      },
+      {
+        "messageSize": 16776960,
+        "bandwidth": 24.31
+      },
+      {
+        "messageSize": 33553920,
+        "bandwidth": 32.18
+      },
+      {
+        "messageSize": 67108480,
+        "bandwidth": 35.49
+      },
+      {
+        "messageSize": 134217600,
+        "bandwidth": 37.55
+      },
+      {
+        "messageSize": 268435200,
+        "bandwidth": 51.56
+      },
+      {
+        "messageSize": 536870400,
+        "bandwidth": 53.04
+      },
+      {
+        "messageSize": 1073741440,
+        "bandwidth": 53.74
+      },
+      {
+        "messageSize": 2147483520,
+        "bandwidth": 54.2
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 55.52
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 55.78
+      }
+    ],
+    "6_nodes": [
+      {
+        "messageSize": 768,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1536,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 3840,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 7680,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 16128,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 32256,
+        "bandwidth": 0.14
+      },
+      {
+        "messageSize": 65280,
+        "bandwidth": 0.31
+      },
+      {
+        "messageSize": 130560,
+        "bandwidth": 0.66
+      },
+      {
+        "messageSize": 261888,
+        "bandwidth": 1.3
+      },
+      {
+        "messageSize": 523776,
+        "bandwidth": 2.63
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 5.11
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 9.66
+      },
+      {
+        "messageSize": 4194048,
+        "bandwidth": 16.33
+      },
+      {
+        "messageSize": 8388096,
+        "bandwidth": 20.64
+      },
+      {
+        "messageSize": 16776960,
+        "bandwidth": 23.67
+      },
+      {
+        "messageSize": 33553920,
+        "bandwidth": 33.62
+      },
+      {
+        "messageSize": 67108608,
+        "bandwidth": 35.39
+      },
+      {
+        "messageSize": 134217216,
+        "bandwidth": 36.98
+      },
+      {
+        "messageSize": 268435200,
+        "bandwidth": 49.27
+      },
+      {
+        "messageSize": 536870400,
+        "bandwidth": 50.92
+      },
+      {
+        "messageSize": 1073741568,
+        "bandwidth": 51.67
+      },
+      {
+        "messageSize": 2147483136,
+        "bandwidth": 52.35
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 53.53
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 53.72
+      }
+    ],
+    "7_nodes": [
+      {
+        "messageSize": 896,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1792,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 3584,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 8064,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 16128,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 32256,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 65408,
+        "bandwidth": 0.2
+      },
+      {
+        "messageSize": 130816,
+        "bandwidth": 0.56
+      },
+      {
+        "messageSize": 261632,
+        "bandwidth": 0.8
+      },
+      {
+        "messageSize": 524160,
+        "bandwidth": 2.27
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 4.52
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 8.7
+      },
+      {
+        "messageSize": 4194176,
+        "bandwidth": 15.65
+      },
+      {
+        "messageSize": 8388352,
+        "bandwidth": 18.64
+      },
+      {
+        "messageSize": 16776704,
+        "bandwidth": 20.77
+      },
+      {
+        "messageSize": 33554304,
+        "bandwidth": 29.2
+      },
+      {
+        "messageSize": 67108608,
+        "bandwidth": 33.09
+      },
+      {
+        "messageSize": 134217216,
+        "bandwidth": 36.05
+      },
+      {
+        "messageSize": 268435328,
+        "bandwidth": 46.73
+      },
+      {
+        "messageSize": 536870656,
+        "bandwidth": 48.23
+      },
+      {
+        "messageSize": 1073741312,
+        "bandwidth": 49.75
+      },
+      {
+        "messageSize": 2147483520,
+        "bandwidth": 51.34
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 51.7
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 52.45
+      }
+    ],
+    "8_nodes": [
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.21
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.33
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 0.89
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 1.85
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 3.4
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 6.58
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 12.21
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 21.95
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 26.06
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 32.74
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 35.5
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 35.9
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 45.55
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 46.83
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 48.73
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 50.17
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 51.24
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 51.86
+      }
+    ],
+    "9_nodes": [
+      {
+        "messageSize": 1152,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 3456,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 8064,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 16128,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 32256,
+        "bandwidth": 0.09
+      },
+      {
+        "messageSize": 64512,
+        "bandwidth": 0.19
+      },
+      {
+        "messageSize": 130176,
+        "bandwidth": 0.38
+      },
+      {
+        "messageSize": 261504,
+        "bandwidth": 0.79
+      },
+      {
+        "messageSize": 524160,
+        "bandwidth": 1.44
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 3.1
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 6.27
+      },
+      {
+        "messageSize": 4193280,
+        "bandwidth": 10.52
+      },
+      {
+        "messageSize": 8387712,
+        "bandwidth": 21.31
+      },
+      {
+        "messageSize": 16776576,
+        "bandwidth": 24.66
+      },
+      {
+        "messageSize": 33554304,
+        "bandwidth": 26.66
+      },
+      {
+        "messageSize": 67108608,
+        "bandwidth": 32.44
+      },
+      {
+        "messageSize": 134217216,
+        "bandwidth": 35.44
+      },
+      {
+        "messageSize": 268434432,
+        "bandwidth": 37.18
+      },
+      {
+        "messageSize": 536870016,
+        "bandwidth": 44.94
+      },
+      {
+        "messageSize": 1073741184,
+        "bandwidth": 46.8
+      },
+      {
+        "messageSize": 2147483520,
+        "bandwidth": 49.1
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 50.5
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 50.57
+      }
+    ],
+    "10_nodes": [
+      {
+        "messageSize": 1280,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 3840,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 7680,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 15360,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 32000,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 65280,
+        "bandwidth": 0.15
+      },
+      {
+        "messageSize": 130560,
+        "bandwidth": 0.3
+      },
+      {
+        "messageSize": 261120,
+        "bandwidth": 0.6
+      },
+      {
+        "messageSize": 523520,
+        "bandwidth": 1.02
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 2.3
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 5.04
+      },
+      {
+        "messageSize": 4193280,
+        "bandwidth": 10.83
+      },
+      {
+        "messageSize": 8387840,
+        "bandwidth": 18.63
+      },
+      {
+        "messageSize": 16776960,
+        "bandwidth": 24.4
+      },
+      {
+        "messageSize": 33553920,
+        "bandwidth": 24.2
+      },
+      {
+        "messageSize": 67107840,
+        "bandwidth": 33.09
+      },
+      {
+        "messageSize": 134216960,
+        "bandwidth": 34.94
+      },
+      {
+        "messageSize": 268435200,
+        "bandwidth": 37.5
+      },
+      {
+        "messageSize": 536870400,
+        "bandwidth": 44.03
+      },
+      {
+        "messageSize": 1073740800,
+        "bandwidth": 45.73
+      },
+      {
+        "messageSize": 2147482880,
+        "bandwidth": 46.51
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 47.42
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 47.95
+      }
+    ],
+    "11_nodes": [
+      {
+        "messageSize": 1408,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 2816,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 7040,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 15488,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 32384,
+        "bandwidth": 0.07
+      },
+      {
+        "messageSize": 64768,
+        "bandwidth": 0.14
+      },
+      {
+        "messageSize": 130944,
+        "bandwidth": 0.3
+      },
+      {
+        "messageSize": 261888,
+        "bandwidth": 0.57
+      },
+      {
+        "messageSize": 523776,
+        "bandwidth": 1.15
+      },
+      {
+        "messageSize": 1047552,
+        "bandwidth": 2.57
+      },
+      {
+        "messageSize": 2096512,
+        "bandwidth": 5.31
+      },
+      {
+        "messageSize": 4193024,
+        "bandwidth": 9.65
+      },
+      {
+        "messageSize": 8387456,
+        "bandwidth": 18.19
+      },
+      {
+        "messageSize": 16776320,
+        "bandwidth": 21.31
+      },
+      {
+        "messageSize": 33554048,
+        "bandwidth": 26.26
+      },
+      {
+        "messageSize": 67108096,
+        "bandwidth": 31.19
+      },
+      {
+        "messageSize": 134217600,
+        "bandwidth": 34.07
+      },
+      {
+        "messageSize": 268435200,
+        "bandwidth": 36.1
+      },
+      {
+        "messageSize": 536870400,
+        "bandwidth": 43.93
+      },
+      {
+        "messageSize": 1073740800,
+        "bandwidth": 45.28
+      },
+      {
+        "messageSize": 2147483008,
+        "bandwidth": 46.83
+      },
+      {
+        "messageSize": 4294966016,
+        "bandwidth": 47.67
+      },
+      {
+        "messageSize": 8589933440,
+        "bandwidth": 48.26
+      }
+    ],
+    "12_nodes": [
+      {
+        "messageSize": 1536,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 3072,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 7680,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 15360,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 32256,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 64512,
+        "bandwidth": 0.14
+      },
+      {
+        "messageSize": 130560,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 261120,
+        "bandwidth": 0.52
+      },
+      {
+        "messageSize": 523776,
+        "bandwidth": 0.94
+      },
+      {
+        "messageSize": 1047552,
+        "bandwidth": 1.57
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 4.83
+      },
+      {
+        "messageSize": 4193280,
+        "bandwidth": 8.65
+      },
+      {
+        "messageSize": 8388096,
+        "bandwidth": 15.57
+      },
+      {
+        "messageSize": 16776192,
+        "bandwidth": 20.74
+      },
+      {
+        "messageSize": 33553920,
+        "bandwidth": 21.41
+      },
+      {
+        "messageSize": 67107840,
+        "bandwidth": 28.9
+      },
+      {
+        "messageSize": 134217216,
+        "bandwidth": 31.51
+      },
+      {
+        "messageSize": 268434432,
+        "bandwidth": 35.84
+      },
+      {
+        "messageSize": 536870400,
+        "bandwidth": 42.12
+      },
+      {
+        "messageSize": 1073740800,
+        "bandwidth": 44.68
+      },
+      {
+        "messageSize": 2147483136,
+        "bandwidth": 46.26
+      },
+      {
+        "messageSize": 4294966272,
+        "bandwidth": 47.43
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 47.79
+      }
+    ],
+    "13_nodes": [
+      {
+        "messageSize": 1664,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 3328,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 6656,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 14976,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 31616,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 64896,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 129792,
+        "bandwidth": 0.18
+      },
+      {
+        "messageSize": 261248,
+        "bandwidth": 0.39
+      },
+      {
+        "messageSize": 524160,
+        "bandwidth": 0.87
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 2.14
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 4.28
+      },
+      {
+        "messageSize": 4193280,
+        "bandwidth": 7.28
+      },
+      {
+        "messageSize": 8388224,
+        "bandwidth": 15.13
+      },
+      {
+        "messageSize": 16776448,
+        "bandwidth": 19.66
+      },
+      {
+        "messageSize": 33552896,
+        "bandwidth": 20.09
+      },
+      {
+        "messageSize": 67107456,
+        "bandwidth": 24.76
+      },
+      {
+        "messageSize": 134216576,
+        "bandwidth": 33.82
+      },
+      {
+        "messageSize": 268434816,
+        "bandwidth": 36.19
+      },
+      {
+        "messageSize": 536869632,
+        "bandwidth": 41.96
+      },
+      {
+        "messageSize": 1073740928,
+        "bandwidth": 43.8
+      },
+      {
+        "messageSize": 2147483520,
+        "bandwidth": 45.35
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 46.52
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 46.95
+      }
+    ],
+    "14_nodes": [
+      {
+        "messageSize": 1792,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 3584,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 7168,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 16128,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 32256,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 64512,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 130816,
+        "bandwidth": 0.19
+      },
+      {
+        "messageSize": 261632,
+        "bandwidth": 0.41
+      },
+      {
+        "messageSize": 523264,
+        "bandwidth": 0.73
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 2.04
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 3.94
+      },
+      {
+        "messageSize": 4193280,
+        "bandwidth": 7.69
+      },
+      {
+        "messageSize": 8388352,
+        "bandwidth": 15.08
+      },
+      {
+        "messageSize": 16776704,
+        "bandwidth": 17.53
+      },
+      {
+        "messageSize": 33553408,
+        "bandwidth": 20.37
+      },
+      {
+        "messageSize": 67108608,
+        "bandwidth": 26.39
+      },
+      {
+        "messageSize": 134217216,
+        "bandwidth": 32.11
+      },
+      {
+        "messageSize": 268434432,
+        "bandwidth": 34.44
+      },
+      {
+        "messageSize": 536870656,
+        "bandwidth": 40.05
+      },
+      {
+        "messageSize": 1073741312,
+        "bandwidth": 43.17
+      },
+      {
+        "messageSize": 2147482624,
+        "bandwidth": 44.82
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 45.4
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 46.47
+      }
+    ],
+    "15_nodes": [
+      {
+        "messageSize": 1920,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 3840,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 7680,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 15360,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 32640,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 65280,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 130560,
+        "bandwidth": 0.22
+      },
+      {
+        "messageSize": 261120,
+        "bandwidth": 0.35
+      },
+      {
+        "messageSize": 524160,
+        "bandwidth": 0.67
+      },
+      {
+        "messageSize": 1048320,
+        "bandwidth": 1.76
+      },
+      {
+        "messageSize": 2096640,
+        "bandwidth": 3.67
+      },
+      {
+        "messageSize": 4193280,
+        "bandwidth": 6.0
+      },
+      {
+        "messageSize": 8388480,
+        "bandwidth": 12.99
+      },
+      {
+        "messageSize": 16776960,
+        "bandwidth": 14.19
+      },
+      {
+        "messageSize": 33553920,
+        "bandwidth": 19.26
+      },
+      {
+        "messageSize": 67107840,
+        "bandwidth": 21.91
+      },
+      {
+        "messageSize": 134217600,
+        "bandwidth": 30.95
+      },
+      {
+        "messageSize": 268435200,
+        "bandwidth": 34.44
+      },
+      {
+        "messageSize": 536870400,
+        "bandwidth": 39.85
+      },
+      {
+        "messageSize": 1073740800,
+        "bandwidth": 42.53
+      },
+      {
+        "messageSize": 2147483520,
+        "bandwidth": 44.07
+      },
+      {
+        "messageSize": 4294967040,
+        "bandwidth": 45.04
+      },
+      {
+        "messageSize": 8589934080,
+        "bandwidth": 45.74
+      }
+    ],
+    "16_nodes": [
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.09
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.17
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 0.35
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 0.59
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 1.49
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 3.35
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 6.12
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 12.47
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 18.57
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 25.48
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 26.87
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 32.0
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 34.3
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 39.27
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 41.98
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 43.96
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 44.53
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 45.03
+      }
+    ]
+  },
+  "all_reduce": {
+    "1_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.11
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.22
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.44
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.87
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 1.69
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 3.13
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 6.18
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 12.11
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 22.59
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 43.37
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 63.94
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 83.95
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 129.65
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 174.98
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 235.28
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 293.28
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 357.93
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 400.25
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 422.54
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 437.35
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 445.5
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 448.35
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 475.46
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 480.02
+      }
+    ],
+    "2_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.11
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.21
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.41
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.71
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.4
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 3.01
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 5.81
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 10.43
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 19.14
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 32.77
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 57.42
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 88.57
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 90.57
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 148.64
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 231.6
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 293.57
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 369.72
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 396.64
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 430.52
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 446.46
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 467.53
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 479.48
+      }
+    ],
+    "3_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.11
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.44
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.95
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.41
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.39
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 6.73
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 12.3
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 22.94
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 40.87
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 65.52
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 92.56
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 115.93
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 184.71
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 243.25
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 224.88
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 269.23
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 282.92
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 293.83
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 337.99
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 339.62
+      }
+    ],
+    "4_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.12
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.4
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.86
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.61
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.32
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 6.28
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 12.56
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 21.73
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 27.5
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 49.17
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 81.87
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 103.81
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 152.35
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 220.84
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 273.17
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 277.25
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 278.52
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 344.44
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 352.77
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 354.76
+      }
+    ],
+    "5_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.09
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.15
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.29
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.61
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.08
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 2.44
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 4.62
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 9.17
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 15.75
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 22.84
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 42.82
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 72.3
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 94.3
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 134.71
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 201.09
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 259.89
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 257.31
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 283.17
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 338.17
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 332.78
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 329.48
+      }
+    ],
+    "6_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.17
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.31
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.63
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.24
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 2.25
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 4.64
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 9.31
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 16.87
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 23.02
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 41.38
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 69.86
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 92.27
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 103.98
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 187.67
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 253.6
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 219.12
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 265.19
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 327.55
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 301.32
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 348.31
+      }
+    ],
+    "7_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.17
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.31
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.58
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.19
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 2.22
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 4.63
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.86
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 16.51
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 21.43
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 39.59
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 68.78
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 89.91
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 99.71
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 169.29
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 235.58
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 199.86
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 236.03
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 297.13
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 291.08
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 320.93
+      }
+    ],
+    "8_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.3
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.6
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.14
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.8
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 4.32
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 7.86
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 14.61
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 22.15
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 41.04
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 66.78
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 85.38
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 102.39
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 155.34
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 223.35
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 272.29
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 277.92
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 280.24
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 317.79
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 333.28
+      }
+    ],
+    "9_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.12
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.25
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.48
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.92
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.87
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.43
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 6.24
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.85
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 19.36
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 33.6
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 59.95
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 82.47
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 97.24
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 133.38
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 217.39
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 268.02
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 259.73
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 261.32
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 323.73
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 339.83
+      }
+    ],
+    "10_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.47
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.93
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.85
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.66
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 7.01
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.73
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 19.38
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 34.55
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 55.0
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 79.27
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 92.95
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 133.31
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 201.11
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 250.71
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 253.45
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 279.43
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 336.12
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 336.39
+      }
+    ],
+    "11_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.12
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.22
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.46
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.91
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.85
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.46
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 6.7
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.52
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 18.79
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 34.03
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 52.99
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 80.37
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 97.37
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 126.03
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 189.05
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 259.73
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 237.29
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 280.03
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 334.88
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 323.74
+      }
+    ],
+    "12_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.47
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.95
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.8
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.44
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 6.94
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.9
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 19.34
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 34.72
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 58.58
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 75.5
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 95.1
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 128.01
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 183.08
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 245.51
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 223.14
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 262.95
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 316.04
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 311.57
+      }
+    ],
+    "13_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.13
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.48
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.91
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.88
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 2.69
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 6.9
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 11.41
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 18.82
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 34.33
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 60.09
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 73.22
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 90.7
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 129.75
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 177.96
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 245.81
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 214.63
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 251.54
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 314.28
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 301.04
+      }
+    ],
+    "14_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.13
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.25
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.47
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.88
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.83
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.56
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 6.77
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 13.09
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 19.01
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 35.24
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 58.34
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 75.08
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 96.17
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 130.62
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 166.8
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 239.4
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 203.14
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 241.32
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 315.53
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 298.9
+      }
+    ],
+    "15_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.12
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.25
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.49
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.94
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.87
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.65
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 6.9
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 13.02
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 18.75
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 33.93
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 58.46
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 78.1
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 96.89
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 130.82
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 151.68
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 228.94
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 276.16
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 284.25
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 314.01
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 293.12
+      }
+    ],
+    "16_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.06
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.12
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.24
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.46
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 0.94
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 1.71
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 3.47
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 6.54
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.86
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 18.42
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 33.92
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 58.91
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 70.99
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 89.43
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 125.66
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 149.44
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 223.81
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 274.0
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 279.95
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 313.46
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 328.99
+      }
+    ]
+  },
+  "sendrecv": {
+    "2_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.19
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.33
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.62
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.1
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.96
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.45
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.92
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 10.65
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 16.15
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 23.41
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 28.65
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 35.72
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 39.66
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 41.27
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 42.45
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 42.6
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 42.69
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 42.47
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 42.39
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 42.28
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 42.12
+      }
+    ],
+    "3_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.03
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.33
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.61
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.09
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.95
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.44
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.96
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 10.67
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 15.55
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 22.69
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 29.76
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 36.07
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 39.61
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 41.81
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 42.49
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 42.66
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 42.79
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 42.67
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 42.47
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 42.38
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 42.16
+      }
+    ],
+    "4_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.19
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.32
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.6
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.07
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.93
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.35
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.87
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 10.44
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 15.6
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 23.19
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 29.62
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 36.01
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 39.06
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 41.7
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 42.4
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 42.59
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 42.74
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 42.57
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 42.46
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 42.32
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 42.16
+      }
+    ],
+    "5_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.32
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.6
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.09
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.96
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.37
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.87
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.86
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 11.84
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.96
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.75
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.12
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.34
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.43
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.49
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.49
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.46
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.35
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.39
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.31
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.26
+      }
+    ],
+    "6_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.05
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.28
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.61
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.09
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.95
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.36
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.41
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.89
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.23
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.91
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.75
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.12
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.29
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.41
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.49
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.46
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.39
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.33
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.26
+      }
+    ],
+    "7_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.07
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.19
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.28
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.6
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.08
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.8
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.33
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.89
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.84
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.29
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.84
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.33
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.13
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.33
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.43
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.49
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.45
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.41
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.39
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.32
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.25
+      }
+    ],
+    "8_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.29
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.6
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.99
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.95
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.2
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.73
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.76
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.16
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.57
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.27
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.13
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.3
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.41
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.47
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.46
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.42
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.39
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.35
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.28
+      }
+    ],
+    "9_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.29
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.53
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.05
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.76
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.11
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.93
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.9
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.22
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.94
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.29
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.12
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.31
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.43
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.49
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.46
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.39
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.38
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.33
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.23
+      }
+    ],
+    "10_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.31
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.53
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.02
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.94
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 2.93
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.92
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.94
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 11.4
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.77
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.73
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.13
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.21
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.42
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.49
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.47
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.46
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.41
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.33
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.26
+      }
+    ],
+    "11_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.31
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.52
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.98
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.95
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.29
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.38
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.88
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 11.85
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.99
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.76
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 20.92
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.34
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.37
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.45
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.47
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.44
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.41
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.37
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.29
+      }
+    ],
+    "12_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.07
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.29
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.57
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.01
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.93
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 2.91
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.47
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.88
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.13
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.94
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.44
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.01
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.22
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.42
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.47
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.44
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.39
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.38
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.35
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.28
+      }
+    ],
+    "13_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.07
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.15
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.28
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.53
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.92
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.75
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.2
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.51
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.63
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 12.19
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.87
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.26
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 20.92
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.24
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.43
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.47
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.46
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.44
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.39
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.35
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.28
+      }
+    ],
+    "14_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.07
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.15
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.3
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.53
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 1.01
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.76
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.17
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.51
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.39
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 11.69
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 17.02
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.5
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.13
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.33
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.38
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.47
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.45
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.41
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.38
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.34
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.28
+      }
+    ],
+    "15_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.1
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.27
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.52
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.98
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.71
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 2.63
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.87
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.81
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 11.68
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.72
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.28
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 20.91
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.03
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.42
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.46
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.44
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.33
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.27
+      }
+    ],
+    "16_nodes": [
+      {
+        "messageSize": 8,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 16,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 32,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 64,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 128,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 256,
+        "bandwidth": 0.0
+      },
+      {
+        "messageSize": 512,
+        "bandwidth": 0.01
+      },
+      {
+        "messageSize": 1024,
+        "bandwidth": 0.02
+      },
+      {
+        "messageSize": 2048,
+        "bandwidth": 0.04
+      },
+      {
+        "messageSize": 4096,
+        "bandwidth": 0.08
+      },
+      {
+        "messageSize": 8192,
+        "bandwidth": 0.16
+      },
+      {
+        "messageSize": 16384,
+        "bandwidth": 0.29
+      },
+      {
+        "messageSize": 32768,
+        "bandwidth": 0.5
+      },
+      {
+        "messageSize": 65536,
+        "bandwidth": 0.97
+      },
+      {
+        "messageSize": 131072,
+        "bandwidth": 1.73
+      },
+      {
+        "messageSize": 262144,
+        "bandwidth": 3.1
+      },
+      {
+        "messageSize": 524288,
+        "bandwidth": 5.46
+      },
+      {
+        "messageSize": 1048576,
+        "bandwidth": 8.73
+      },
+      {
+        "messageSize": 2097152,
+        "bandwidth": 11.99
+      },
+      {
+        "messageSize": 4194304,
+        "bandwidth": 16.74
+      },
+      {
+        "messageSize": 8388608,
+        "bandwidth": 20.73
+      },
+      {
+        "messageSize": 16777216,
+        "bandwidth": 21.15
+      },
+      {
+        "messageSize": 33554432,
+        "bandwidth": 21.32
+      },
+      {
+        "messageSize": 67108864,
+        "bandwidth": 21.42
+      },
+      {
+        "messageSize": 134217728,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 268435456,
+        "bandwidth": 21.48
+      },
+      {
+        "messageSize": 536870912,
+        "bandwidth": 21.45
+      },
+      {
+        "messageSize": 1073741824,
+        "bandwidth": 21.4
+      },
+      {
+        "messageSize": 2147483648,
+        "bandwidth": 21.38
+      },
+      {
+        "messageSize": 4294967296,
+        "bandwidth": 21.35
+      },
+      {
+        "messageSize": 8589934592,
+        "bandwidth": 21.25
+      }
+    ]
+  }
+}

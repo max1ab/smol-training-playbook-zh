@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:67ef2ec6578c84b9f9b173025867063ea3575434c736a64d8562122d6396e1b3
-size 259
+Subset,Reasoning mode,AIME25,GPQA-D,LiveCodeBench v4,IFEval,Global MMLU Lite
+Instruct,/no_think,1.87,26.83,8.91,65.42,45.1
+Thinking,/think,12.19,29.1,8.91,40.68,53.55
+Hybrid,/think,12.45,29.55,12.87,47.88,53.35
+Hybrid,/no_think,1.72,28.47,12.87,67.11,39.2

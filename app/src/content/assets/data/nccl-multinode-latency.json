@@ -1,3 +1,5478 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d50d425760f2ac29180507c16388392d8ebe2691e89169a5be7be7b1233bf54f
-size 100199
+{
+  "alltoall": {
+    "nodes_1": [
+      {
+        "messageSize": 128,
+        "latency": 8.11
+      },
+      {
+        "messageSize": 256,
+        "latency": 7.99
+      },
+      {
+        "messageSize": 512,
+        "latency": 8.05
+      },
+      {
+        "messageSize": 1024,
+        "latency": 7.97
+      },
+      {
+        "messageSize": 2048,
+        "latency": 8.09
+      },
+      {
+        "messageSize": 4096,
+        "latency": 8.06
+      },
+      {
+        "messageSize": 8192,
+        "latency": 7.94
+      },
+      {
+        "messageSize": 16384,
+        "latency": 8.08
+      },
+      {
+        "messageSize": 32768,
+        "latency": 8.31
+      },
+      {
+        "messageSize": 65536,
+        "latency": 9.0
+      },
+      {
+        "messageSize": 131072,
+        "latency": 9.12
+      },
+      {
+        "messageSize": 262144,
+        "latency": 10.5
+      },
+      {
+        "messageSize": 524288,
+        "latency": 11.84
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 15.67
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 22.37
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 36.11
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 43.0
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 71.99
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 122.4
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 207.9
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 387.7
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 747.4
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 1452.5
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 2815.7
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 5492.1
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 10983.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 21823.0
+      }
+    ],
+    "nodes_2": [
+      {
+        "messageSize": 256,
+        "latency": 63.38
+      },
+      {
+        "messageSize": 512,
+        "latency": 62.34
+      },
+      {
+        "messageSize": 1024,
+        "latency": 62.72
+      },
+      {
+        "messageSize": 2048,
+        "latency": 76.75
+      },
+      {
+        "messageSize": 4096,
+        "latency": 62.8
+      },
+      {
+        "messageSize": 8192,
+        "latency": 63.13
+      },
+      {
+        "messageSize": 16384,
+        "latency": 62.85
+      },
+      {
+        "messageSize": 32768,
+        "latency": 65.1
+      },
+      {
+        "messageSize": 65536,
+        "latency": 66.18
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.44
+      },
+      {
+        "messageSize": 262144,
+        "latency": 73.13
+      },
+      {
+        "messageSize": 524288,
+        "latency": 80.35
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 101.3
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 141.2
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 172.4
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 268.7
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 355.0
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 642.1
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 996.9
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1827.3
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 3373.1
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 6593.3
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 12835.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 25102.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 49695.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 98944.0
+      }
+    ],
+    "nodes_3": [
+      {
+        "messageSize": 384,
+        "latency": 100.8
+      },
+      {
+        "messageSize": 768,
+        "latency": 99.77
+      },
+      {
+        "messageSize": 1920,
+        "latency": 98.24
+      },
+      {
+        "messageSize": 3840,
+        "latency": 99.69
+      },
+      {
+        "messageSize": 8064,
+        "latency": 90.63
+      },
+      {
+        "messageSize": 16128,
+        "latency": 94.25
+      },
+      {
+        "messageSize": 32640,
+        "latency": 91.2
+      },
+      {
+        "messageSize": 65280,
+        "latency": 95.63
+      },
+      {
+        "messageSize": 130944,
+        "latency": 116.3
+      },
+      {
+        "messageSize": 261888,
+        "latency": 99.24
+      },
+      {
+        "messageSize": 524160,
+        "latency": 99.82
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 124.0
+      },
+      {
+        "messageSize": 2097024,
+        "latency": 147.4
+      },
+      {
+        "messageSize": 4194048,
+        "latency": 215.2
+      },
+      {
+        "messageSize": 8388480,
+        "latency": 345.6
+      },
+      {
+        "messageSize": 16776960,
+        "latency": 476.2
+      },
+      {
+        "messageSize": 33554304,
+        "latency": 780.3
+      },
+      {
+        "messageSize": 67108608,
+        "latency": 1494.6
+      },
+      {
+        "messageSize": 134217600,
+        "latency": 2223.2
+      },
+      {
+        "messageSize": 268435200,
+        "latency": 4450.3
+      },
+      {
+        "messageSize": 536870784,
+        "latency": 8909.6
+      },
+      {
+        "messageSize": 1073741568,
+        "latency": 18175.0
+      },
+      {
+        "messageSize": 2147483520,
+        "latency": 36093.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 71262.0
+      },
+      {
+        "messageSize": 8589934464,
+        "latency": 141413.0
+      }
+    ],
+    "nodes_4": [
+      {
+        "messageSize": 512,
+        "latency": 124.7
+      },
+      {
+        "messageSize": 1024,
+        "latency": 132.0
+      },
+      {
+        "messageSize": 2048,
+        "latency": 122.2
+      },
+      {
+        "messageSize": 4096,
+        "latency": 128.9
+      },
+      {
+        "messageSize": 8192,
+        "latency": 132.8
+      },
+      {
+        "messageSize": 16384,
+        "latency": 127.3
+      },
+      {
+        "messageSize": 32768,
+        "latency": 125.5
+      },
+      {
+        "messageSize": 65536,
+        "latency": 125.0
+      },
+      {
+        "messageSize": 131072,
+        "latency": 124.4
+      },
+      {
+        "messageSize": 262144,
+        "latency": 142.1
+      },
+      {
+        "messageSize": 524288,
+        "latency": 130.5
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 137.8
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 156.2
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 218.2
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 313.9
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 500.3
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 812.6
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1748.5
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 2474.9
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 4808.8
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 9681.8
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 19472.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 38521.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 77348.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 155444.0
+      }
+    ],
+    "nodes_5": [
+      {
+        "messageSize": 640,
+        "latency": 192.6
+      },
+      {
+        "messageSize": 1920,
+        "latency": 219.0
+      },
+      {
+        "messageSize": 3840,
+        "latency": 175.0
+      },
+      {
+        "messageSize": 7680,
+        "latency": 164.7
+      },
+      {
+        "messageSize": 16000,
+        "latency": 236.7
+      },
+      {
+        "messageSize": 32640,
+        "latency": 162.0
+      },
+      {
+        "messageSize": 65280,
+        "latency": 171.2
+      },
+      {
+        "messageSize": 130560,
+        "latency": 166.1
+      },
+      {
+        "messageSize": 261760,
+        "latency": 160.4
+      },
+      {
+        "messageSize": 524160,
+        "latency": 159.3
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 178.9
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 190.3
+      },
+      {
+        "messageSize": 4193920,
+        "latency": 262.9
+      },
+      {
+        "messageSize": 8388480,
+        "latency": 347.6
+      },
+      {
+        "messageSize": 16776960,
+        "latency": 672.8
+      },
+      {
+        "messageSize": 33553920,
+        "latency": 1016.6
+      },
+      {
+        "messageSize": 67108480,
+        "latency": 1843.6
+      },
+      {
+        "messageSize": 134217600,
+        "latency": 3484.8
+      },
+      {
+        "messageSize": 268435200,
+        "latency": 5075.9
+      },
+      {
+        "messageSize": 536870400,
+        "latency": 9869.3
+      },
+      {
+        "messageSize": 1073741440,
+        "latency": 19482.0
+      },
+      {
+        "messageSize": 2147483520,
+        "latency": 38628.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 75419.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 150152.0
+      }
+    ],
+    "nodes_6": [
+      {
+        "messageSize": 768,
+        "latency": 247.1
+      },
+      {
+        "messageSize": 1536,
+        "latency": 234.6
+      },
+      {
+        "messageSize": 3840,
+        "latency": 212.4
+      },
+      {
+        "messageSize": 7680,
+        "latency": 233.4
+      },
+      {
+        "messageSize": 16128,
+        "latency": 202.8
+      },
+      {
+        "messageSize": 32256,
+        "latency": 232.6
+      },
+      {
+        "messageSize": 65280,
+        "latency": 208.6
+      },
+      {
+        "messageSize": 130560,
+        "latency": 194.9
+      },
+      {
+        "messageSize": 261888,
+        "latency": 197.7
+      },
+      {
+        "messageSize": 523776,
+        "latency": 194.9
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 200.8
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 212.6
+      },
+      {
+        "messageSize": 4194048,
+        "latency": 251.5
+      },
+      {
+        "messageSize": 8388096,
+        "latency": 397.9
+      },
+      {
+        "messageSize": 16776960,
+        "latency": 694.0
+      },
+      {
+        "messageSize": 33553920,
+        "latency": 977.2
+      },
+      {
+        "messageSize": 67108608,
+        "latency": 1856.7
+      },
+      {
+        "messageSize": 134217216,
+        "latency": 3553.9
+      },
+      {
+        "messageSize": 268435200,
+        "latency": 5335.2
+      },
+      {
+        "messageSize": 536870400,
+        "latency": 10324.0
+      },
+      {
+        "messageSize": 1073741568,
+        "latency": 20346.0
+      },
+      {
+        "messageSize": 2147483136,
+        "latency": 40165.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 78566.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 156579.0
+      }
+    ],
+    "nodes_7": [
+      {
+        "messageSize": 896,
+        "latency": 280.6
+      },
+      {
+        "messageSize": 1792,
+        "latency": 245.2
+      },
+      {
+        "messageSize": 3584,
+        "latency": 238.1
+      },
+      {
+        "messageSize": 8064,
+        "latency": 232.3
+      },
+      {
+        "messageSize": 16128,
+        "latency": 453.2
+      },
+      {
+        "messageSize": 32256,
+        "latency": 417.4
+      },
+      {
+        "messageSize": 65408,
+        "latency": 319.1
+      },
+      {
+        "messageSize": 130816,
+        "latency": 228.6
+      },
+      {
+        "messageSize": 261632,
+        "latency": 322.0
+      },
+      {
+        "messageSize": 524160,
+        "latency": 226.4
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 227.8
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 236.6
+      },
+      {
+        "messageSize": 4194176,
+        "latency": 263.1
+      },
+      {
+        "messageSize": 8388352,
+        "latency": 441.9
+      },
+      {
+        "messageSize": 16776704,
+        "latency": 793.4
+      },
+      {
+        "messageSize": 33554304,
+        "latency": 1128.6
+      },
+      {
+        "messageSize": 67108608,
+        "latency": 1991.9
+      },
+      {
+        "messageSize": 134217216,
+        "latency": 3656.8
+      },
+      {
+        "messageSize": 268435328,
+        "latency": 5641.7
+      },
+      {
+        "messageSize": 536870656,
+        "latency": 10934.0
+      },
+      {
+        "messageSize": 1073741312,
+        "latency": 21196.0
+      },
+      {
+        "messageSize": 2147483520,
+        "latency": 41084.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 81585.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 160863.0
+      }
+    ],
+    "nodes_8": [
+      {
+        "messageSize": 1024,
+        "latency": 511.0
+      },
+      {
+        "messageSize": 2048,
+        "latency": 390.4
+      },
+      {
+        "messageSize": 4096,
+        "latency": 345.4
+      },
+      {
+        "messageSize": 8192,
+        "latency": 344.9
+      },
+      {
+        "messageSize": 16384,
+        "latency": 330.8
+      },
+      {
+        "messageSize": 32768,
+        "latency": 326.3
+      },
+      {
+        "messageSize": 65536,
+        "latency": 314.4
+      },
+      {
+        "messageSize": 131072,
+        "latency": 393.3
+      },
+      {
+        "messageSize": 262144,
+        "latency": 288.5
+      },
+      {
+        "messageSize": 524288,
+        "latency": 278.7
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 303.5
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 313.8
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 338.3
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 376.1
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 633.8
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1008.9
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1861.0
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 3680.1
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 5800.9
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 11286.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 21690.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 42139.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 82515.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 163054.0
+      }
+    ],
+    "nodes_9": [
+      {
+        "messageSize": 1152,
+        "latency": 371.7
+      },
+      {
+        "messageSize": 3456,
+        "latency": 327.8
+      },
+      {
+        "messageSize": 8064,
+        "latency": 390.9
+      },
+      {
+        "messageSize": 16128,
+        "latency": 391.9
+      },
+      {
+        "messageSize": 32256,
+        "latency": 357.7
+      },
+      {
+        "messageSize": 64512,
+        "latency": 336.7
+      },
+      {
+        "messageSize": 130176,
+        "latency": 338.4
+      },
+      {
+        "messageSize": 261504,
+        "latency": 325.6
+      },
+      {
+        "messageSize": 524160,
+        "latency": 359.3
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 333.5
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 329.6
+      },
+      {
+        "messageSize": 4193280,
+        "latency": 393.0
+      },
+      {
+        "messageSize": 8387712,
+        "latency": 388.1
+      },
+      {
+        "messageSize": 16776576,
+        "latency": 670.9
+      },
+      {
+        "messageSize": 33554304,
+        "latency": 1241.2
+      },
+      {
+        "messageSize": 67108608,
+        "latency": 2039.8
+      },
+      {
+        "messageSize": 134217216,
+        "latency": 3734.4
+      },
+      {
+        "messageSize": 268434432,
+        "latency": 7118.7
+      },
+      {
+        "messageSize": 536870016,
+        "latency": 11780.0
+      },
+      {
+        "messageSize": 1073741184,
+        "latency": 22625.0
+      },
+      {
+        "messageSize": 2147483520,
+        "latency": 43126.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 83873.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 167515.0
+      }
+    ],
+    "nodes_10": [
+      {
+        "messageSize": 1280,
+        "latency": 469.7
+      },
+      {
+        "messageSize": 3840,
+        "latency": 418.6
+      },
+      {
+        "messageSize": 7680,
+        "latency": 379.6
+      },
+      {
+        "messageSize": 15360,
+        "latency": 370.2
+      },
+      {
+        "messageSize": 32000,
+        "latency": 486.6
+      },
+      {
+        "messageSize": 65280,
+        "latency": 436.4
+      },
+      {
+        "messageSize": 130560,
+        "latency": 424.6
+      },
+      {
+        "messageSize": 261120,
+        "latency": 429.6
+      },
+      {
+        "messageSize": 523520,
+        "latency": 509.0
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 450.6
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 410.7
+      },
+      {
+        "messageSize": 4193280,
+        "latency": 382.2
+      },
+      {
+        "messageSize": 8387840,
+        "latency": 444.7
+      },
+      {
+        "messageSize": 16776960,
+        "latency": 679.1
+      },
+      {
+        "messageSize": 33553920,
+        "latency": 1369.2
+      },
+      {
+        "messageSize": 67107840,
+        "latency": 2002.7
+      },
+      {
+        "messageSize": 134216960,
+        "latency": 3793.1
+      },
+      {
+        "messageSize": 268435200,
+        "latency": 7068.4
+      },
+      {
+        "messageSize": 536870400,
+        "latency": 12040.0
+      },
+      {
+        "messageSize": 1073740800,
+        "latency": 23186.0
+      },
+      {
+        "messageSize": 2147482880,
+        "latency": 45592.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 89443.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 176895.0
+      }
+    ],
+    "nodes_11": [
+      {
+        "messageSize": 1408,
+        "latency": 454.3
+      },
+      {
+        "messageSize": 2816,
+        "latency": 433.6
+      },
+      {
+        "messageSize": 7040,
+        "latency": 620.2
+      },
+      {
+        "messageSize": 15488,
+        "latency": 462.1
+      },
+      {
+        "messageSize": 32384,
+        "latency": 440.4
+      },
+      {
+        "messageSize": 64768,
+        "latency": 473.2
+      },
+      {
+        "messageSize": 130944,
+        "latency": 428.3
+      },
+      {
+        "messageSize": 261888,
+        "latency": 452.7
+      },
+      {
+        "messageSize": 523776,
+        "latency": 449.8
+      },
+      {
+        "messageSize": 1047552,
+        "latency": 403.0
+      },
+      {
+        "messageSize": 2096512,
+        "latency": 390.0
+      },
+      {
+        "messageSize": 4193024,
+        "latency": 429.5
+      },
+      {
+        "messageSize": 8387456,
+        "latency": 455.9
+      },
+      {
+        "messageSize": 16776320,
+        "latency": 778.3
+      },
+      {
+        "messageSize": 33554048,
+        "latency": 1263.2
+      },
+      {
+        "messageSize": 67108096,
+        "latency": 2127.0
+      },
+      {
+        "messageSize": 134217600,
+        "latency": 3895.0
+      },
+      {
+        "messageSize": 268435200,
+        "latency": 7351.4
+      },
+      {
+        "messageSize": 536870400,
+        "latency": 12083.0
+      },
+      {
+        "messageSize": 1073740800,
+        "latency": 23442.0
+      },
+      {
+        "messageSize": 2147483008,
+        "latency": 45332.0
+      },
+      {
+        "messageSize": 4294966016,
+        "latency": 89069.0
+      },
+      {
+        "messageSize": 8589933440,
+        "latency": 175965.0
+      }
+    ],
+    "nodes_12": [
+      {
+        "messageSize": 1536,
+        "latency": 478.6
+      },
+      {
+        "messageSize": 3072,
+        "latency": 501.9
+      },
+      {
+        "messageSize": 7680,
+        "latency": 662.0
+      },
+      {
+        "messageSize": 15360,
+        "latency": 566.2
+      },
+      {
+        "messageSize": 32256,
+        "latency": 748.0
+      },
+      {
+        "messageSize": 64512,
+        "latency": 472.5
+      },
+      {
+        "messageSize": 130560,
+        "latency": 540.0
+      },
+      {
+        "messageSize": 261120,
+        "latency": 499.2
+      },
+      {
+        "messageSize": 523776,
+        "latency": 551.9
+      },
+      {
+        "messageSize": 1047552,
+        "latency": 658.8
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 429.5
+      },
+      {
+        "messageSize": 4193280,
+        "latency": 479.7
+      },
+      {
+        "messageSize": 8388096,
+        "latency": 533.2
+      },
+      {
+        "messageSize": 16776192,
+        "latency": 800.3
+      },
+      {
+        "messageSize": 33553920,
+        "latency": 1551.1
+      },
+      {
+        "messageSize": 67107840,
+        "latency": 2298.1
+      },
+      {
+        "messageSize": 134217216,
+        "latency": 4215.5
+      },
+      {
+        "messageSize": 268434432,
+        "latency": 7411.5
+      },
+      {
+        "messageSize": 536870400,
+        "latency": 12613.0
+      },
+      {
+        "messageSize": 1073740800,
+        "latency": 23779.0
+      },
+      {
+        "messageSize": 2147483136,
+        "latency": 45942.0
+      },
+      {
+        "messageSize": 4294966272,
+        "latency": 89613.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 177858.0
+      }
+    ],
+    "nodes_13": [
+      {
+        "messageSize": 1664,
+        "latency": 509.9
+      },
+      {
+        "messageSize": 3328,
+        "latency": 651.4
+      },
+      {
+        "messageSize": 6656,
+        "latency": 567.3
+      },
+      {
+        "messageSize": 14976,
+        "latency": 794.6
+      },
+      {
+        "messageSize": 31616,
+        "latency": 571.1
+      },
+      {
+        "messageSize": 64896,
+        "latency": 625.4
+      },
+      {
+        "messageSize": 129792,
+        "latency": 703.6
+      },
+      {
+        "messageSize": 261248,
+        "latency": 663.6
+      },
+      {
+        "messageSize": 524160,
+        "latency": 597.4
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 485.4
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 485.5
+      },
+      {
+        "messageSize": 4193280,
+        "latency": 570.2
+      },
+      {
+        "messageSize": 8388224,
+        "latency": 549.1
+      },
+      {
+        "messageSize": 16776448,
+        "latency": 845.2
+      },
+      {
+        "messageSize": 33552896,
+        "latency": 1653.8
+      },
+      {
+        "messageSize": 67107456,
+        "latency": 2684.0
+      },
+      {
+        "messageSize": 134216576,
+        "latency": 3930.7
+      },
+      {
+        "messageSize": 268434816,
+        "latency": 7346.7
+      },
+      {
+        "messageSize": 536869632,
+        "latency": 12672.0
+      },
+      {
+        "messageSize": 1073740928,
+        "latency": 24281.0
+      },
+      {
+        "messageSize": 2147483520,
+        "latency": 46893.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 91430.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 181219.0
+      }
+    ],
+    "nodes_14": [
+      {
+        "messageSize": 1792,
+        "latency": 558.9
+      },
+      {
+        "messageSize": 3584,
+        "latency": 670.2
+      },
+      {
+        "messageSize": 7168,
+        "latency": 968.4
+      },
+      {
+        "messageSize": 16128,
+        "latency": 620.1
+      },
+      {
+        "messageSize": 32256,
+        "latency": 593.6
+      },
+      {
+        "messageSize": 64512,
+        "latency": 647.2
+      },
+      {
+        "messageSize": 130816,
+        "latency": 675.4
+      },
+      {
+        "messageSize": 261632,
+        "latency": 624.8
+      },
+      {
+        "messageSize": 523264,
+        "latency": 709.6
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 510.0
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 527.4
+      },
+      {
+        "messageSize": 4193280,
+        "latency": 540.3
+      },
+      {
+        "messageSize": 8388352,
+        "latency": 551.3
+      },
+      {
+        "messageSize": 16776704,
+        "latency": 948.4
+      },
+      {
+        "messageSize": 33553408,
+        "latency": 1632.4
+      },
+      {
+        "messageSize": 67108608,
+        "latency": 2520.6
+      },
+      {
+        "messageSize": 134217216,
+        "latency": 4143.0
+      },
+      {
+        "messageSize": 268434432,
+        "latency": 7725.4
+      },
+      {
+        "messageSize": 536870656,
+        "latency": 13286.0
+      },
+      {
+        "messageSize": 1073741312,
+        "latency": 24651.0
+      },
+      {
+        "messageSize": 2147482624,
+        "latency": 47486.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 93754.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 183207.0
+      }
+    ],
+    "nodes_15": [
+      {
+        "messageSize": 1920,
+        "latency": 741.9
+      },
+      {
+        "messageSize": 3840,
+        "latency": 726.3
+      },
+      {
+        "messageSize": 7680,
+        "latency": 636.0
+      },
+      {
+        "messageSize": 15360,
+        "latency": 694.8
+      },
+      {
+        "messageSize": 32640,
+        "latency": 729.5
+      },
+      {
+        "messageSize": 65280,
+        "latency": 655.1
+      },
+      {
+        "messageSize": 130560,
+        "latency": 580.5
+      },
+      {
+        "messageSize": 261120,
+        "latency": 738.6
+      },
+      {
+        "messageSize": 524160,
+        "latency": 770.3
+      },
+      {
+        "messageSize": 1048320,
+        "latency": 589.4
+      },
+      {
+        "messageSize": 2096640,
+        "latency": 567.1
+      },
+      {
+        "messageSize": 4193280,
+        "latency": 693.3
+      },
+      {
+        "messageSize": 8388480,
+        "latency": 640.4
+      },
+      {
+        "messageSize": 16776960,
+        "latency": 1172.7
+      },
+      {
+        "messageSize": 33553920,
+        "latency": 1727.5
+      },
+      {
+        "messageSize": 67107840,
+        "latency": 3037.9
+      },
+      {
+        "messageSize": 134217600,
+        "latency": 4301.1
+      },
+      {
+        "messageSize": 268435200,
+        "latency": 7730.0
+      },
+      {
+        "messageSize": 536870400,
+        "latency": 13361.0
+      },
+      {
+        "messageSize": 1073740800,
+        "latency": 25036.0
+      },
+      {
+        "messageSize": 2147483520,
+        "latency": 48325.0
+      },
+      {
+        "messageSize": 4294967040,
+        "latency": 94569.0
+      },
+      {
+        "messageSize": 8589934080,
+        "latency": 186241.0
+      }
+    ],
+    "nodes_16": [
+      {
+        "messageSize": 2048,
+        "latency": 822.8
+      },
+      {
+        "messageSize": 4096,
+        "latency": 744.9
+      },
+      {
+        "messageSize": 8192,
+        "latency": 850.6
+      },
+      {
+        "messageSize": 16384,
+        "latency": 747.7
+      },
+      {
+        "messageSize": 32768,
+        "latency": 844.2
+      },
+      {
+        "messageSize": 65536,
+        "latency": 736.6
+      },
+      {
+        "messageSize": 131072,
+        "latency": 752.1
+      },
+      {
+        "messageSize": 262144,
+        "latency": 752.0
+      },
+      {
+        "messageSize": 524288,
+        "latency": 886.9
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 696.7
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 621.5
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 679.5
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 667.2
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 896.4
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1306.7
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 2477.9
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 4161.7
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 7765.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 13564.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 25380.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 48464.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 95694.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 189275.0
+      }
+    ]
+  },
+  "all_reduce": {
+    "nodes_1": [
+      {
+        "messageSize": 8,
+        "latency": 12.91
+      },
+      {
+        "messageSize": 16,
+        "latency": 12.94
+      },
+      {
+        "messageSize": 32,
+        "latency": 13.56
+      },
+      {
+        "messageSize": 64,
+        "latency": 14.84
+      },
+      {
+        "messageSize": 128,
+        "latency": 15.52
+      },
+      {
+        "messageSize": 256,
+        "latency": 15.61
+      },
+      {
+        "messageSize": 512,
+        "latency": 15.76
+      },
+      {
+        "messageSize": 1024,
+        "latency": 15.93
+      },
+      {
+        "messageSize": 2048,
+        "latency": 16.15
+      },
+      {
+        "messageSize": 4096,
+        "latency": 16.32
+      },
+      {
+        "messageSize": 8192,
+        "latency": 16.55
+      },
+      {
+        "messageSize": 16384,
+        "latency": 17.0
+      },
+      {
+        "messageSize": 32768,
+        "latency": 18.31
+      },
+      {
+        "messageSize": 65536,
+        "latency": 18.57
+      },
+      {
+        "messageSize": 131072,
+        "latency": 18.94
+      },
+      {
+        "messageSize": 262144,
+        "latency": 20.31
+      },
+      {
+        "messageSize": 524288,
+        "latency": 21.16
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 28.7
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 43.71
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 56.61
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 83.9
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 124.8
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 200.2
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 328.1
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 586.8
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 1111.7
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 2148.2
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 4217.9
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 8382.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 15808.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 31316.0
+      }
+    ],
+    "nodes_2": [
+      {
+        "messageSize": 8,
+        "latency": 64.32
+      },
+      {
+        "messageSize": 16,
+        "latency": 64.34
+      },
+      {
+        "messageSize": 32,
+        "latency": 65.09
+      },
+      {
+        "messageSize": 64,
+        "latency": 55.45
+      },
+      {
+        "messageSize": 128,
+        "latency": 56.07
+      },
+      {
+        "messageSize": 256,
+        "latency": 56.54
+      },
+      {
+        "messageSize": 512,
+        "latency": 57.6
+      },
+      {
+        "messageSize": 1024,
+        "latency": 57.69
+      },
+      {
+        "messageSize": 2048,
+        "latency": 61.96
+      },
+      {
+        "messageSize": 4096,
+        "latency": 70.45
+      },
+      {
+        "messageSize": 8192,
+        "latency": 72.87
+      },
+      {
+        "messageSize": 16384,
+        "latency": 75.08
+      },
+      {
+        "messageSize": 32768,
+        "latency": 86.96
+      },
+      {
+        "messageSize": 65536,
+        "latency": 88.06
+      },
+      {
+        "messageSize": 131072,
+        "latency": 81.64
+      },
+      {
+        "messageSize": 262144,
+        "latency": 84.55
+      },
+      {
+        "messageSize": 524288,
+        "latency": 94.27
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 102.7
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 120.0
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 137.0
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 177.6
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 347.3
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 423.3
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 543.3
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 857.2
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 1361.4
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 2537.9
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 4676.4
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 9018.8
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 17225.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 33591.0
+      }
+    ],
+    "nodes_3": [
+      {
+        "messageSize": 8,
+        "latency": 133.3
+      },
+      {
+        "messageSize": 16,
+        "latency": 122.0
+      },
+      {
+        "messageSize": 32,
+        "latency": 133.1
+      },
+      {
+        "messageSize": 64,
+        "latency": 115.1
+      },
+      {
+        "messageSize": 128,
+        "latency": 124.6
+      },
+      {
+        "messageSize": 256,
+        "latency": 125.3
+      },
+      {
+        "messageSize": 512,
+        "latency": 134.6
+      },
+      {
+        "messageSize": 1024,
+        "latency": 115.9
+      },
+      {
+        "messageSize": 2048,
+        "latency": 118.3
+      },
+      {
+        "messageSize": 4096,
+        "latency": 121.4
+      },
+      {
+        "messageSize": 8192,
+        "latency": 138.5
+      },
+      {
+        "messageSize": 16384,
+        "latency": 130.1
+      },
+      {
+        "messageSize": 32768,
+        "latency": 142.3
+      },
+      {
+        "messageSize": 65536,
+        "latency": 132.7
+      },
+      {
+        "messageSize": 131072,
+        "latency": 178.4
+      },
+      {
+        "messageSize": 262144,
+        "latency": 148.3
+      },
+      {
+        "messageSize": 524288,
+        "latency": 149.4
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 163.3
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 175.2
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 196.7
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 245.4
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 347.4
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 554.8
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 696.3
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1057.6
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2287.9
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 3822.1
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 7274.3
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 14008.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 24356.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 48478.0
+      }
+    ],
+    "nodes_4": [
+      {
+        "messageSize": 8,
+        "latency": 128.7
+      },
+      {
+        "messageSize": 16,
+        "latency": 161.4
+      },
+      {
+        "messageSize": 32,
+        "latency": 134.9
+      },
+      {
+        "messageSize": 64,
+        "latency": 131.1
+      },
+      {
+        "messageSize": 128,
+        "latency": 120.6
+      },
+      {
+        "messageSize": 256,
+        "latency": 122.3
+      },
+      {
+        "messageSize": 512,
+        "latency": 121.3
+      },
+      {
+        "messageSize": 1024,
+        "latency": 120.9
+      },
+      {
+        "messageSize": 2048,
+        "latency": 123.4
+      },
+      {
+        "messageSize": 4096,
+        "latency": 126.2
+      },
+      {
+        "messageSize": 8192,
+        "latency": 132.8
+      },
+      {
+        "messageSize": 16384,
+        "latency": 134.1
+      },
+      {
+        "messageSize": 32768,
+        "latency": 157.2
+      },
+      {
+        "messageSize": 65536,
+        "latency": 148.0
+      },
+      {
+        "messageSize": 131072,
+        "latency": 158.0
+      },
+      {
+        "messageSize": 262144,
+        "latency": 153.0
+      },
+      {
+        "messageSize": 524288,
+        "latency": 161.7
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 161.8
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 187.0
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 295.5
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 330.6
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 397.0
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 626.3
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 853.4
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1177.5
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 1903.9
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 3751.8
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 7469.3
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 12080.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 23589.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 46913.0
+      }
+    ],
+    "nodes_5": [
+      {
+        "messageSize": 8,
+        "latency": 191.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 211.2
+      },
+      {
+        "messageSize": 32,
+        "latency": 193.2
+      },
+      {
+        "messageSize": 64,
+        "latency": 183.5
+      },
+      {
+        "messageSize": 128,
+        "latency": 186.0
+      },
+      {
+        "messageSize": 256,
+        "latency": 184.8
+      },
+      {
+        "messageSize": 512,
+        "latency": 177.6
+      },
+      {
+        "messageSize": 1024,
+        "latency": 177.8
+      },
+      {
+        "messageSize": 2048,
+        "latency": 182.3
+      },
+      {
+        "messageSize": 4096,
+        "latency": 186.3
+      },
+      {
+        "messageSize": 8192,
+        "latency": 185.5
+      },
+      {
+        "messageSize": 16384,
+        "latency": 208.1
+      },
+      {
+        "messageSize": 32768,
+        "latency": 222.1
+      },
+      {
+        "messageSize": 65536,
+        "latency": 210.3
+      },
+      {
+        "messageSize": 131072,
+        "latency": 236.9
+      },
+      {
+        "messageSize": 262144,
+        "latency": 209.7
+      },
+      {
+        "messageSize": 524288,
+        "latency": 221.3
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 223.0
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 259.7
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 358.1
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 382.0
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 452.5
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 693.8
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 971.4
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1301.5
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2014.1
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4068.6
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 7394.3
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 12383.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 25167.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 50839.0
+      }
+    ],
+    "nodes_6": [
+      {
+        "messageSize": 8,
+        "latency": 188.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 190.3
+      },
+      {
+        "messageSize": 32,
+        "latency": 184.8
+      },
+      {
+        "messageSize": 64,
+        "latency": 188.9
+      },
+      {
+        "messageSize": 128,
+        "latency": 189.9
+      },
+      {
+        "messageSize": 256,
+        "latency": 180.0
+      },
+      {
+        "messageSize": 512,
+        "latency": 180.0
+      },
+      {
+        "messageSize": 1024,
+        "latency": 181.1
+      },
+      {
+        "messageSize": 2048,
+        "latency": 173.6
+      },
+      {
+        "messageSize": 4096,
+        "latency": 189.0
+      },
+      {
+        "messageSize": 8192,
+        "latency": 197.0
+      },
+      {
+        "messageSize": 16384,
+        "latency": 189.5
+      },
+      {
+        "messageSize": 32768,
+        "latency": 207.9
+      },
+      {
+        "messageSize": 65536,
+        "latency": 202.2
+      },
+      {
+        "messageSize": 131072,
+        "latency": 206.5
+      },
+      {
+        "messageSize": 262144,
+        "latency": 227.8
+      },
+      {
+        "messageSize": 524288,
+        "latency": 221.0
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 220.5
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 243.5
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 356.9
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 396.9
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 470.3
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 712.2
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1264.0
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1400.6
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2072.9
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4798.1
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 7929.1
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 12839.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 27914.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 48295.0
+      }
+    ],
+    "nodes_7": [
+      {
+        "messageSize": 8,
+        "latency": 219.6
+      },
+      {
+        "messageSize": 16,
+        "latency": 193.9
+      },
+      {
+        "messageSize": 32,
+        "latency": 190.0
+      },
+      {
+        "messageSize": 64,
+        "latency": 180.8
+      },
+      {
+        "messageSize": 128,
+        "latency": 181.5
+      },
+      {
+        "messageSize": 256,
+        "latency": 190.8
+      },
+      {
+        "messageSize": 512,
+        "latency": 180.5
+      },
+      {
+        "messageSize": 1024,
+        "latency": 181.2
+      },
+      {
+        "messageSize": 2048,
+        "latency": 180.6
+      },
+      {
+        "messageSize": 4096,
+        "latency": 191.1
+      },
+      {
+        "messageSize": 8192,
+        "latency": 191.6
+      },
+      {
+        "messageSize": 16384,
+        "latency": 194.1
+      },
+      {
+        "messageSize": 32768,
+        "latency": 208.7
+      },
+      {
+        "messageSize": 65536,
+        "latency": 221.9
+      },
+      {
+        "messageSize": 131072,
+        "latency": 216.8
+      },
+      {
+        "messageSize": 262144,
+        "latency": 231.4
+      },
+      {
+        "messageSize": 524288,
+        "latency": 222.4
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 232.5
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 249.5
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 384.4
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 416.2
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 479.2
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 733.0
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1322.1
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1557.3
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2238.3
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 5276.6
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 8936.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 14197.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 28983.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 52575.0
+      }
+    ],
+    "nodes_8": [
+      {
+        "messageSize": 8,
+        "latency": 201.6
+      },
+      {
+        "messageSize": 16,
+        "latency": 193.8
+      },
+      {
+        "messageSize": 32,
+        "latency": 189.3
+      },
+      {
+        "messageSize": 64,
+        "latency": 191.2
+      },
+      {
+        "messageSize": 128,
+        "latency": 183.5
+      },
+      {
+        "messageSize": 256,
+        "latency": 187.1
+      },
+      {
+        "messageSize": 512,
+        "latency": 190.2
+      },
+      {
+        "messageSize": 1024,
+        "latency": 179.9
+      },
+      {
+        "messageSize": 2048,
+        "latency": 187.6
+      },
+      {
+        "messageSize": 4096,
+        "latency": 201.0
+      },
+      {
+        "messageSize": 8192,
+        "latency": 200.3
+      },
+      {
+        "messageSize": 16384,
+        "latency": 203.8
+      },
+      {
+        "messageSize": 32768,
+        "latency": 213.7
+      },
+      {
+        "messageSize": 65536,
+        "latency": 214.8
+      },
+      {
+        "messageSize": 131072,
+        "latency": 226.8
+      },
+      {
+        "messageSize": 262144,
+        "latency": 286.4
+      },
+      {
+        "messageSize": 524288,
+        "latency": 239.0
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 262.8
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 282.6
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 372.8
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 402.4
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 494.6
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 773.7
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1290.3
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1701.0
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2366.2
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 3881.8
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 7606.2
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 15087.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 26608.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 50743.0
+      }
+    ],
+    "nodes_9": [
+      {
+        "messageSize": 8,
+        "latency": 250.4
+      },
+      {
+        "messageSize": 16,
+        "latency": 244.7
+      },
+      {
+        "messageSize": 32,
+        "latency": 253.4
+      },
+      {
+        "messageSize": 64,
+        "latency": 235.5
+      },
+      {
+        "messageSize": 128,
+        "latency": 239.5
+      },
+      {
+        "messageSize": 256,
+        "latency": 240.6
+      },
+      {
+        "messageSize": 512,
+        "latency": 234.5
+      },
+      {
+        "messageSize": 1024,
+        "latency": 225.2
+      },
+      {
+        "messageSize": 2048,
+        "latency": 233.1
+      },
+      {
+        "messageSize": 4096,
+        "latency": 237.9
+      },
+      {
+        "messageSize": 8192,
+        "latency": 250.8
+      },
+      {
+        "messageSize": 16384,
+        "latency": 273.9
+      },
+      {
+        "messageSize": 32768,
+        "latency": 256.3
+      },
+      {
+        "messageSize": 65536,
+        "latency": 271.9
+      },
+      {
+        "messageSize": 131072,
+        "latency": 280.1
+      },
+      {
+        "messageSize": 262144,
+        "latency": 277.1
+      },
+      {
+        "messageSize": 524288,
+        "latency": 301.3
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 331.5
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 321.8
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 427.3
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 492.3
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 551.9
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 802.5
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1361.1
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1984.6
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2435.3
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 3950.6
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 8153.3
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 16208.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 26165.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 49852.0
+      }
+    ],
+    "nodes_10": [
+      {
+        "messageSize": 8,
+        "latency": 259.2
+      },
+      {
+        "messageSize": 16,
+        "latency": 235.9
+      },
+      {
+        "messageSize": 32,
+        "latency": 243.0
+      },
+      {
+        "messageSize": 64,
+        "latency": 244.2
+      },
+      {
+        "messageSize": 128,
+        "latency": 252.6
+      },
+      {
+        "messageSize": 256,
+        "latency": 233.3
+      },
+      {
+        "messageSize": 512,
+        "latency": 241.3
+      },
+      {
+        "messageSize": 1024,
+        "latency": 239.0
+      },
+      {
+        "messageSize": 2048,
+        "latency": 243.2
+      },
+      {
+        "messageSize": 4096,
+        "latency": 243.6
+      },
+      {
+        "messageSize": 8192,
+        "latency": 252.9
+      },
+      {
+        "messageSize": 16384,
+        "latency": 329.2
+      },
+      {
+        "messageSize": 32768,
+        "latency": 264.3
+      },
+      {
+        "messageSize": 65536,
+        "latency": 277.1
+      },
+      {
+        "messageSize": 131072,
+        "latency": 277.5
+      },
+      {
+        "messageSize": 262144,
+        "latency": 280.0
+      },
+      {
+        "messageSize": 524288,
+        "latency": 282.8
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 295.5
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 325.3
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 427.4
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 479.5
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 602.5
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 836.0
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1426.0
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 1988.5
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2636.2
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4229.3
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 8367.2
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 15178.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 25237.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 50432.0
+      }
+    ],
+    "nodes_11": [
+      {
+        "messageSize": 8,
+        "latency": 254.3
+      },
+      {
+        "messageSize": 16,
+        "latency": 243.8
+      },
+      {
+        "messageSize": 32,
+        "latency": 238.8
+      },
+      {
+        "messageSize": 64,
+        "latency": 233.2
+      },
+      {
+        "messageSize": 128,
+        "latency": 239.7
+      },
+      {
+        "messageSize": 256,
+        "latency": 230.1
+      },
+      {
+        "messageSize": 512,
+        "latency": 242.1
+      },
+      {
+        "messageSize": 1024,
+        "latency": 233.9
+      },
+      {
+        "messageSize": 2048,
+        "latency": 240.5
+      },
+      {
+        "messageSize": 4096,
+        "latency": 249.8
+      },
+      {
+        "messageSize": 8192,
+        "latency": 262.1
+      },
+      {
+        "messageSize": 16384,
+        "latency": 274.7
+      },
+      {
+        "messageSize": 32768,
+        "latency": 295.7
+      },
+      {
+        "messageSize": 65536,
+        "latency": 279.9
+      },
+      {
+        "messageSize": 131072,
+        "latency": 285.7
+      },
+      {
+        "messageSize": 262144,
+        "latency": 280.3
+      },
+      {
+        "messageSize": 524288,
+        "latency": 299.9
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 309.4
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 331.3
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 441.4
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 487.4
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 626.0
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 825.5
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1362.7
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 2105.7
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2807.6
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4087.1
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 8947.2
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 15163.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 25359.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 52464.0
+      }
+    ],
+    "nodes_12": [
+      {
+        "messageSize": 8,
+        "latency": 247.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 243.5
+      },
+      {
+        "messageSize": 32,
+        "latency": 242.0
+      },
+      {
+        "messageSize": 64,
+        "latency": 303.8
+      },
+      {
+        "messageSize": 128,
+        "latency": 239.7
+      },
+      {
+        "messageSize": 256,
+        "latency": 234.9
+      },
+      {
+        "messageSize": 512,
+        "latency": 232.6
+      },
+      {
+        "messageSize": 1024,
+        "latency": 237.0
+      },
+      {
+        "messageSize": 2048,
+        "latency": 245.7
+      },
+      {
+        "messageSize": 4096,
+        "latency": 239.3
+      },
+      {
+        "messageSize": 8192,
+        "latency": 252.8
+      },
+      {
+        "messageSize": 16384,
+        "latency": 319.9
+      },
+      {
+        "messageSize": 32768,
+        "latency": 266.4
+      },
+      {
+        "messageSize": 65536,
+        "latency": 275.0
+      },
+      {
+        "messageSize": 131072,
+        "latency": 273.8
+      },
+      {
+        "messageSize": 262144,
+        "latency": 289.0
+      },
+      {
+        "messageSize": 524288,
+        "latency": 302.0
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 299.1
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 321.8
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 429.3
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 478.2
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 566.8
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 879.7
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1396.6
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 2075.1
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2901.9
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4328.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 9523.9
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 16164.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 26897.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 54566.0
+      }
+    ],
+    "nodes_13": [
+      {
+        "messageSize": 8,
+        "latency": 250.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 259.7
+      },
+      {
+        "messageSize": 32,
+        "latency": 249.3
+      },
+      {
+        "messageSize": 64,
+        "latency": 237.2
+      },
+      {
+        "messageSize": 128,
+        "latency": 254.2
+      },
+      {
+        "messageSize": 256,
+        "latency": 244.7
+      },
+      {
+        "messageSize": 512,
+        "latency": 242.8
+      },
+      {
+        "messageSize": 1024,
+        "latency": 234.6
+      },
+      {
+        "messageSize": 2048,
+        "latency": 284.8
+      },
+      {
+        "messageSize": 4096,
+        "latency": 267.6
+      },
+      {
+        "messageSize": 8192,
+        "latency": 254.2
+      },
+      {
+        "messageSize": 16384,
+        "latency": 255.1
+      },
+      {
+        "messageSize": 32768,
+        "latency": 266.6
+      },
+      {
+        "messageSize": 65536,
+        "latency": 269.0
+      },
+      {
+        "messageSize": 131072,
+        "latency": 286.8
+      },
+      {
+        "messageSize": 262144,
+        "latency": 275.6
+      },
+      {
+        "messageSize": 524288,
+        "latency": 385.9
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 300.8
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 364.1
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 441.4
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 484.0
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 553.0
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 907.8
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1465.6
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 2048.9
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 2987.7
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4326.2
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 9909.5
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 16911.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 27069.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 56519.0
+      }
+    ],
+    "nodes_14": [
+      {
+        "messageSize": 8,
+        "latency": 263.7
+      },
+      {
+        "messageSize": 16,
+        "latency": 240.7
+      },
+      {
+        "messageSize": 32,
+        "latency": 250.3
+      },
+      {
+        "messageSize": 64,
+        "latency": 253.3
+      },
+      {
+        "messageSize": 128,
+        "latency": 242.3
+      },
+      {
+        "messageSize": 256,
+        "latency": 242.8
+      },
+      {
+        "messageSize": 512,
+        "latency": 233.9
+      },
+      {
+        "messageSize": 1024,
+        "latency": 237.5
+      },
+      {
+        "messageSize": 2048,
+        "latency": 245.7
+      },
+      {
+        "messageSize": 4096,
+        "latency": 259.6
+      },
+      {
+        "messageSize": 8192,
+        "latency": 253.5
+      },
+      {
+        "messageSize": 16384,
+        "latency": 258.7
+      },
+      {
+        "messageSize": 32768,
+        "latency": 260.1
+      },
+      {
+        "messageSize": 65536,
+        "latency": 275.7
+      },
+      {
+        "messageSize": 131072,
+        "latency": 294.5
+      },
+      {
+        "messageSize": 262144,
+        "latency": 283.8
+      },
+      {
+        "messageSize": 524288,
+        "latency": 291.6
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 307.0
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 317.6
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 437.4
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 471.9
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 570.1
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 885.8
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1383.1
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 2036.7
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 3189.8
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4445.1
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 10477.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 17639.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 26981.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 56963.0
+      }
+    ],
+    "nodes_15": [
+      {
+        "messageSize": 8,
+        "latency": 288.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 243.6
+      },
+      {
+        "messageSize": 32,
+        "latency": 247.7
+      },
+      {
+        "messageSize": 64,
+        "latency": 247.9
+      },
+      {
+        "messageSize": 128,
+        "latency": 238.8
+      },
+      {
+        "messageSize": 256,
+        "latency": 244.8
+      },
+      {
+        "messageSize": 512,
+        "latency": 236.6
+      },
+      {
+        "messageSize": 1024,
+        "latency": 235.4
+      },
+      {
+        "messageSize": 2048,
+        "latency": 255.4
+      },
+      {
+        "messageSize": 4096,
+        "latency": 246.6
+      },
+      {
+        "messageSize": 8192,
+        "latency": 263.2
+      },
+      {
+        "messageSize": 16384,
+        "latency": 278.3
+      },
+      {
+        "messageSize": 32768,
+        "latency": 264.6
+      },
+      {
+        "messageSize": 65536,
+        "latency": 266.7
+      },
+      {
+        "messageSize": 131072,
+        "latency": 276.0
+      },
+      {
+        "messageSize": 262144,
+        "latency": 278.2
+      },
+      {
+        "messageSize": 524288,
+        "latency": 285.2
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 301.4
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 319.5
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 443.6
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 490.4
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 569.2
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 852.1
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1373.7
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 2034.9
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 3510.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4651.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 7711.4
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 14984.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 27128.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 58122.0
+      }
+    ],
+    "nodes_16": [
+      {
+        "messageSize": 8,
+        "latency": 265.8
+      },
+      {
+        "messageSize": 16,
+        "latency": 284.5
+      },
+      {
+        "messageSize": 32,
+        "latency": 239.6
+      },
+      {
+        "messageSize": 64,
+        "latency": 240.5
+      },
+      {
+        "messageSize": 128,
+        "latency": 241.4
+      },
+      {
+        "messageSize": 256,
+        "latency": 243.4
+      },
+      {
+        "messageSize": 512,
+        "latency": 236.2
+      },
+      {
+        "messageSize": 1024,
+        "latency": 234.9
+      },
+      {
+        "messageSize": 2048,
+        "latency": 236.0
+      },
+      {
+        "messageSize": 4096,
+        "latency": 251.2
+      },
+      {
+        "messageSize": 8192,
+        "latency": 275.3
+      },
+      {
+        "messageSize": 16384,
+        "latency": 261.6
+      },
+      {
+        "messageSize": 32768,
+        "latency": 265.8
+      },
+      {
+        "messageSize": 65536,
+        "latency": 279.8
+      },
+      {
+        "messageSize": 131072,
+        "latency": 277.5
+      },
+      {
+        "messageSize": 262144,
+        "latency": 303.9
+      },
+      {
+        "messageSize": 524288,
+        "latency": 300.2
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 318.2
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 323.6
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 451.8
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 490.7
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 565.1
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 938.0
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1489.1
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 2119.5
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 3564.4
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 4760.1
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 7776.2
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 15222.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 27189.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 51812.0
+      }
+    ]
+  },
+  "sendrecv": {
+    "nodes_2": [
+      {
+        "messageSize": 8,
+        "latency": 47.16
+      },
+      {
+        "messageSize": 16,
+        "latency": 48.35
+      },
+      {
+        "messageSize": 32,
+        "latency": 40.51
+      },
+      {
+        "messageSize": 64,
+        "latency": 40.82
+      },
+      {
+        "messageSize": 128,
+        "latency": 40.21
+      },
+      {
+        "messageSize": 256,
+        "latency": 40.51
+      },
+      {
+        "messageSize": 512,
+        "latency": 40.59
+      },
+      {
+        "messageSize": 1024,
+        "latency": 40.43
+      },
+      {
+        "messageSize": 2048,
+        "latency": 40.8
+      },
+      {
+        "messageSize": 4096,
+        "latency": 41.23
+      },
+      {
+        "messageSize": 8192,
+        "latency": 42.74
+      },
+      {
+        "messageSize": 16384,
+        "latency": 49.47
+      },
+      {
+        "messageSize": 32768,
+        "latency": 53.09
+      },
+      {
+        "messageSize": 65536,
+        "latency": 59.67
+      },
+      {
+        "messageSize": 131072,
+        "latency": 66.95
+      },
+      {
+        "messageSize": 262144,
+        "latency": 75.88
+      },
+      {
+        "messageSize": 524288,
+        "latency": 88.57
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 98.5
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 129.9
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 179.2
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 292.8
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 469.7
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 846.1
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1625.9
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 3161.8
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 6301.1
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 12575.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 25280.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 50655.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 101591.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 203948.0
+      }
+    ],
+    "nodes_3": [
+      {
+        "messageSize": 8,
+        "latency": 137.1
+      },
+      {
+        "messageSize": 16,
+        "latency": 52.19
+      },
+      {
+        "messageSize": 32,
+        "latency": 49.28
+      },
+      {
+        "messageSize": 64,
+        "latency": 47.19
+      },
+      {
+        "messageSize": 128,
+        "latency": 48.21
+      },
+      {
+        "messageSize": 256,
+        "latency": 51.83
+      },
+      {
+        "messageSize": 512,
+        "latency": 40.75
+      },
+      {
+        "messageSize": 1024,
+        "latency": 40.7
+      },
+      {
+        "messageSize": 2048,
+        "latency": 41.13
+      },
+      {
+        "messageSize": 4096,
+        "latency": 41.77
+      },
+      {
+        "messageSize": 8192,
+        "latency": 51.44
+      },
+      {
+        "messageSize": 16384,
+        "latency": 49.57
+      },
+      {
+        "messageSize": 32768,
+        "latency": 53.66
+      },
+      {
+        "messageSize": 65536,
+        "latency": 59.86
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.25
+      },
+      {
+        "messageSize": 262144,
+        "latency": 76.16
+      },
+      {
+        "messageSize": 524288,
+        "latency": 87.9
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 98.24
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 134.8
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 184.9
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 281.8
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 465.2
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 847.0
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1605.2
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 3159.0
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 6292.6
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 12547.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 25161.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 50563.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 101339.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 203736.0
+      }
+    ],
+    "nodes_4": [
+      {
+        "messageSize": 8,
+        "latency": 184.5
+      },
+      {
+        "messageSize": 16,
+        "latency": 79.76
+      },
+      {
+        "messageSize": 32,
+        "latency": 49.69
+      },
+      {
+        "messageSize": 64,
+        "latency": 50.84
+      },
+      {
+        "messageSize": 128,
+        "latency": 41.89
+      },
+      {
+        "messageSize": 256,
+        "latency": 41.46
+      },
+      {
+        "messageSize": 512,
+        "latency": 41.78
+      },
+      {
+        "messageSize": 1024,
+        "latency": 41.35
+      },
+      {
+        "messageSize": 2048,
+        "latency": 41.64
+      },
+      {
+        "messageSize": 4096,
+        "latency": 50.19
+      },
+      {
+        "messageSize": 8192,
+        "latency": 43.58
+      },
+      {
+        "messageSize": 16384,
+        "latency": 50.7
+      },
+      {
+        "messageSize": 32768,
+        "latency": 54.28
+      },
+      {
+        "messageSize": 65536,
+        "latency": 61.04
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.9
+      },
+      {
+        "messageSize": 262144,
+        "latency": 78.27
+      },
+      {
+        "messageSize": 524288,
+        "latency": 89.37
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 100.4
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 134.4
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 180.9
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 283.2
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 465.9
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 859.1
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 1609.5
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 3165.2
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 6303.2
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 12562.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 25221.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 50580.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 101485.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 203762.0
+      }
+    ],
+    "nodes_5": [
+      {
+        "messageSize": 8,
+        "latency": 109.4
+      },
+      {
+        "messageSize": 16,
+        "latency": 89.47
+      },
+      {
+        "messageSize": 32,
+        "latency": 58.57
+      },
+      {
+        "messageSize": 64,
+        "latency": 50.54
+      },
+      {
+        "messageSize": 128,
+        "latency": 49.94
+      },
+      {
+        "messageSize": 256,
+        "latency": 49.84
+      },
+      {
+        "messageSize": 512,
+        "latency": 50.74
+      },
+      {
+        "messageSize": 1024,
+        "latency": 50.15
+      },
+      {
+        "messageSize": 2048,
+        "latency": 49.76
+      },
+      {
+        "messageSize": 4096,
+        "latency": 50.11
+      },
+      {
+        "messageSize": 8192,
+        "latency": 51.71
+      },
+      {
+        "messageSize": 16384,
+        "latency": 50.7
+      },
+      {
+        "messageSize": 32768,
+        "latency": 54.69
+      },
+      {
+        "messageSize": 65536,
+        "latency": 60.35
+      },
+      {
+        "messageSize": 131072,
+        "latency": 66.96
+      },
+      {
+        "messageSize": 262144,
+        "latency": 77.73
+      },
+      {
+        "messageSize": 524288,
+        "latency": 89.27
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 118.4
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 177.1
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 247.3
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 404.3
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 794.4
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1572.6
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3130.9
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6244.6
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12490.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25018.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50281.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100416.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201590.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 404066.0
+      }
+    ],
+    "nodes_6": [
+      {
+        "messageSize": 8,
+        "latency": 135.6
+      },
+      {
+        "messageSize": 16,
+        "latency": 83.66
+      },
+      {
+        "messageSize": 32,
+        "latency": 65.76
+      },
+      {
+        "messageSize": 64,
+        "latency": 50.33
+      },
+      {
+        "messageSize": 128,
+        "latency": 55.69
+      },
+      {
+        "messageSize": 256,
+        "latency": 48.92
+      },
+      {
+        "messageSize": 512,
+        "latency": 49.97
+      },
+      {
+        "messageSize": 1024,
+        "latency": 50.28
+      },
+      {
+        "messageSize": 2048,
+        "latency": 41.88
+      },
+      {
+        "messageSize": 4096,
+        "latency": 42.44
+      },
+      {
+        "messageSize": 8192,
+        "latency": 50.04
+      },
+      {
+        "messageSize": 16384,
+        "latency": 58.59
+      },
+      {
+        "messageSize": 32768,
+        "latency": 53.98
+      },
+      {
+        "messageSize": 65536,
+        "latency": 60.19
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.28
+      },
+      {
+        "messageSize": 262144,
+        "latency": 78.12
+      },
+      {
+        "messageSize": 524288,
+        "latency": 96.92
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 117.9
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 171.5
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 248.0
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 404.3
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 794.3
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1576.3
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3133.8
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6247.7
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12492.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25017.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50173.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100406.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201373.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 404104.0
+      }
+    ],
+    "nodes_7": [
+      {
+        "messageSize": 8,
+        "latency": 166.1
+      },
+      {
+        "messageSize": 16,
+        "latency": 64.47
+      },
+      {
+        "messageSize": 32,
+        "latency": 62.27
+      },
+      {
+        "messageSize": 64,
+        "latency": 50.13
+      },
+      {
+        "messageSize": 128,
+        "latency": 50.59
+      },
+      {
+        "messageSize": 256,
+        "latency": 49.51
+      },
+      {
+        "messageSize": 512,
+        "latency": 51.24
+      },
+      {
+        "messageSize": 1024,
+        "latency": 50.69
+      },
+      {
+        "messageSize": 2048,
+        "latency": 50.6
+      },
+      {
+        "messageSize": 4096,
+        "latency": 60.44
+      },
+      {
+        "messageSize": 8192,
+        "latency": 43.82
+      },
+      {
+        "messageSize": 16384,
+        "latency": 58.21
+      },
+      {
+        "messageSize": 32768,
+        "latency": 54.48
+      },
+      {
+        "messageSize": 65536,
+        "latency": 60.83
+      },
+      {
+        "messageSize": 131072,
+        "latency": 72.94
+      },
+      {
+        "messageSize": 262144,
+        "latency": 78.64
+      },
+      {
+        "messageSize": 524288,
+        "latency": 88.98
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 118.6
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 170.6
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 249.0
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 412.7
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 794.0
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1573.0
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3131.8
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6246.4
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12498.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25026.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50143.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100376.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201437.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 404230.0
+      }
+    ],
+    "nodes_8": [
+      {
+        "messageSize": 8,
+        "latency": 166.7
+      },
+      {
+        "messageSize": 16,
+        "latency": 109.3
+      },
+      {
+        "messageSize": 32,
+        "latency": 55.86
+      },
+      {
+        "messageSize": 64,
+        "latency": 51.83
+      },
+      {
+        "messageSize": 128,
+        "latency": 52.55
+      },
+      {
+        "messageSize": 256,
+        "latency": 48.45
+      },
+      {
+        "messageSize": 512,
+        "latency": 49.93
+      },
+      {
+        "messageSize": 1024,
+        "latency": 49.56
+      },
+      {
+        "messageSize": 2048,
+        "latency": 51.7
+      },
+      {
+        "messageSize": 4096,
+        "latency": 50.94
+      },
+      {
+        "messageSize": 8192,
+        "latency": 52.17
+      },
+      {
+        "messageSize": 16384,
+        "latency": 57.48
+      },
+      {
+        "messageSize": 32768,
+        "latency": 54.51
+      },
+      {
+        "messageSize": 65536,
+        "latency": 65.9
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.28
+      },
+      {
+        "messageSize": 262144,
+        "latency": 81.98
+      },
+      {
+        "messageSize": 524288,
+        "latency": 91.58
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 119.7
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 172.5
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 253.1
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 413.9
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 794.1
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1575.0
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3134.5
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6252.2
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12509.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25061.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50182.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100386.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201186.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 403707.0
+      }
+    ],
+    "nodes_9": [
+      {
+        "messageSize": 8,
+        "latency": 195.0
+      },
+      {
+        "messageSize": 16,
+        "latency": 96.3
+      },
+      {
+        "messageSize": 32,
+        "latency": 56.13
+      },
+      {
+        "messageSize": 64,
+        "latency": 61.89
+      },
+      {
+        "messageSize": 128,
+        "latency": 56.69
+      },
+      {
+        "messageSize": 256,
+        "latency": 58.82
+      },
+      {
+        "messageSize": 512,
+        "latency": 54.27
+      },
+      {
+        "messageSize": 1024,
+        "latency": 47.68
+      },
+      {
+        "messageSize": 2048,
+        "latency": 55.75
+      },
+      {
+        "messageSize": 4096,
+        "latency": 51.26
+      },
+      {
+        "messageSize": 8192,
+        "latency": 51.9
+      },
+      {
+        "messageSize": 16384,
+        "latency": 56.85
+      },
+      {
+        "messageSize": 32768,
+        "latency": 61.41
+      },
+      {
+        "messageSize": 65536,
+        "latency": 62.69
+      },
+      {
+        "messageSize": 131072,
+        "latency": 74.45
+      },
+      {
+        "messageSize": 262144,
+        "latency": 84.25
+      },
+      {
+        "messageSize": 524288,
+        "latency": 88.45
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 117.8
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 171.6
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 247.5
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 413.5
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 794.4
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1574.4
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3132.1
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6248.3
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12491.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25021.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50206.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100440.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201387.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 404561.0
+      }
+    ],
+    "nodes_10": [
+      {
+        "messageSize": 8,
+        "latency": 139.5
+      },
+      {
+        "messageSize": 16,
+        "latency": 76.66
+      },
+      {
+        "messageSize": 32,
+        "latency": 55.38
+      },
+      {
+        "messageSize": 64,
+        "latency": 57.64
+      },
+      {
+        "messageSize": 128,
+        "latency": 52.04
+      },
+      {
+        "messageSize": 256,
+        "latency": 53.4
+      },
+      {
+        "messageSize": 512,
+        "latency": 57.71
+      },
+      {
+        "messageSize": 1024,
+        "latency": 50.05
+      },
+      {
+        "messageSize": 2048,
+        "latency": 53.87
+      },
+      {
+        "messageSize": 4096,
+        "latency": 51.36
+      },
+      {
+        "messageSize": 8192,
+        "latency": 52.56
+      },
+      {
+        "messageSize": 16384,
+        "latency": 53.0
+      },
+      {
+        "messageSize": 32768,
+        "latency": 62.0
+      },
+      {
+        "messageSize": 65536,
+        "latency": 64.38
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.42
+      },
+      {
+        "messageSize": 262144,
+        "latency": 89.44
+      },
+      {
+        "messageSize": 524288,
+        "latency": 88.54
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 117.2
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 183.9
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 250.1
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 404.6
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 793.8
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1581.8
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3132.6
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6245.2
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12501.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25020.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50168.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100322.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201363.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 403982.0
+      }
+    ],
+    "nodes_11": [
+      {
+        "messageSize": 8,
+        "latency": 157.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 64.55
+      },
+      {
+        "messageSize": 32,
+        "latency": 54.91
+      },
+      {
+        "messageSize": 64,
+        "latency": 51.3
+      },
+      {
+        "messageSize": 128,
+        "latency": 48.63
+      },
+      {
+        "messageSize": 256,
+        "latency": 57.46
+      },
+      {
+        "messageSize": 512,
+        "latency": 50.75
+      },
+      {
+        "messageSize": 1024,
+        "latency": 49.61
+      },
+      {
+        "messageSize": 2048,
+        "latency": 50.33
+      },
+      {
+        "messageSize": 4096,
+        "latency": 50.92
+      },
+      {
+        "messageSize": 8192,
+        "latency": 51.75
+      },
+      {
+        "messageSize": 16384,
+        "latency": 53.24
+      },
+      {
+        "messageSize": 32768,
+        "latency": 63.41
+      },
+      {
+        "messageSize": 65536,
+        "latency": 67.05
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.19
+      },
+      {
+        "messageSize": 262144,
+        "latency": 79.62
+      },
+      {
+        "messageSize": 524288,
+        "latency": 97.41
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 118.1
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 177.0
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 246.8
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 404.2
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 801.9
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1572.5
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3139.6
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6257.8
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12502.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25036.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50142.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100339.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 200978.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 403472.0
+      }
+    ],
+    "nodes_12": [
+      {
+        "messageSize": 8,
+        "latency": 171.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 83.58
+      },
+      {
+        "messageSize": 32,
+        "latency": 58.51
+      },
+      {
+        "messageSize": 64,
+        "latency": 51.9
+      },
+      {
+        "messageSize": 128,
+        "latency": 54.38
+      },
+      {
+        "messageSize": 256,
+        "latency": 53.84
+      },
+      {
+        "messageSize": 512,
+        "latency": 60.76
+      },
+      {
+        "messageSize": 1024,
+        "latency": 55.19
+      },
+      {
+        "messageSize": 2048,
+        "latency": 50.72
+      },
+      {
+        "messageSize": 4096,
+        "latency": 56.56
+      },
+      {
+        "messageSize": 8192,
+        "latency": 52.63
+      },
+      {
+        "messageSize": 16384,
+        "latency": 56.16
+      },
+      {
+        "messageSize": 32768,
+        "latency": 57.12
+      },
+      {
+        "messageSize": 65536,
+        "latency": 65.07
+      },
+      {
+        "messageSize": 131072,
+        "latency": 67.81
+      },
+      {
+        "messageSize": 262144,
+        "latency": 89.97
+      },
+      {
+        "messageSize": 524288,
+        "latency": 95.9
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 118.0
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 172.9
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 247.6
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 410.3
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 798.5
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1581.4
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3133.5
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6250.7
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12495.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25035.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50187.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100435.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201186.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 403644.0
+      }
+    ],
+    "nodes_13": [
+      {
+        "messageSize": 8,
+        "latency": 156.3
+      },
+      {
+        "messageSize": 16,
+        "latency": 94.34
+      },
+      {
+        "messageSize": 32,
+        "latency": 59.33
+      },
+      {
+        "messageSize": 64,
+        "latency": 58.24
+      },
+      {
+        "messageSize": 128,
+        "latency": 54.38
+      },
+      {
+        "messageSize": 256,
+        "latency": 52.49
+      },
+      {
+        "messageSize": 512,
+        "latency": 51.47
+      },
+      {
+        "messageSize": 1024,
+        "latency": 51.81
+      },
+      {
+        "messageSize": 2048,
+        "latency": 49.71
+      },
+      {
+        "messageSize": 4096,
+        "latency": 56.14
+      },
+      {
+        "messageSize": 8192,
+        "latency": 55.46
+      },
+      {
+        "messageSize": 16384,
+        "latency": 59.03
+      },
+      {
+        "messageSize": 32768,
+        "latency": 61.54
+      },
+      {
+        "messageSize": 65536,
+        "latency": 71.27
+      },
+      {
+        "messageSize": 131072,
+        "latency": 74.72
+      },
+      {
+        "messageSize": 262144,
+        "latency": 81.94
+      },
+      {
+        "messageSize": 524288,
+        "latency": 95.22
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 121.5
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 172.0
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 248.6
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 414.0
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 801.8
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1579.5
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3131.1
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6251.8
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12506.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25041.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50180.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100402.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201165.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 403720.0
+      }
+    ],
+    "nodes_14": [
+      {
+        "messageSize": 8,
+        "latency": 173.9
+      },
+      {
+        "messageSize": 16,
+        "latency": 58.19
+      },
+      {
+        "messageSize": 32,
+        "latency": 74.64
+      },
+      {
+        "messageSize": 64,
+        "latency": 55.06
+      },
+      {
+        "messageSize": 128,
+        "latency": 55.19
+      },
+      {
+        "messageSize": 256,
+        "latency": 56.86
+      },
+      {
+        "messageSize": 512,
+        "latency": 55.3
+      },
+      {
+        "messageSize": 1024,
+        "latency": 53.51
+      },
+      {
+        "messageSize": 2048,
+        "latency": 52.84
+      },
+      {
+        "messageSize": 4096,
+        "latency": 56.2
+      },
+      {
+        "messageSize": 8192,
+        "latency": 53.4
+      },
+      {
+        "messageSize": 16384,
+        "latency": 53.79
+      },
+      {
+        "messageSize": 32768,
+        "latency": 61.41
+      },
+      {
+        "messageSize": 65536,
+        "latency": 64.7
+      },
+      {
+        "messageSize": 131072,
+        "latency": 74.33
+      },
+      {
+        "messageSize": 262144,
+        "latency": 82.79
+      },
+      {
+        "messageSize": 524288,
+        "latency": 95.23
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 124.9
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 179.3
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 246.4
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 409.1
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 794.0
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1572.8
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3139.2
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6251.0
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12496.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25032.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50150.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100457.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201272.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 403710.0
+      }
+    ],
+    "nodes_15": [
+      {
+        "messageSize": 8,
+        "latency": 145.7
+      },
+      {
+        "messageSize": 16,
+        "latency": 68.67
+      },
+      {
+        "messageSize": 32,
+        "latency": 59.51
+      },
+      {
+        "messageSize": 64,
+        "latency": 55.56
+      },
+      {
+        "messageSize": 128,
+        "latency": 55.94
+      },
+      {
+        "messageSize": 256,
+        "latency": 53.91
+      },
+      {
+        "messageSize": 512,
+        "latency": 56.79
+      },
+      {
+        "messageSize": 1024,
+        "latency": 59.69
+      },
+      {
+        "messageSize": 2048,
+        "latency": 56.23
+      },
+      {
+        "messageSize": 4096,
+        "latency": 50.39
+      },
+      {
+        "messageSize": 8192,
+        "latency": 80.71
+      },
+      {
+        "messageSize": 16384,
+        "latency": 60.64
+      },
+      {
+        "messageSize": 32768,
+        "latency": 62.67
+      },
+      {
+        "messageSize": 65536,
+        "latency": 66.78
+      },
+      {
+        "messageSize": 131072,
+        "latency": 76.43
+      },
+      {
+        "messageSize": 262144,
+        "latency": 99.82
+      },
+      {
+        "messageSize": 524288,
+        "latency": 89.24
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 119.0
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 179.5
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 250.9
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 413.5
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 802.2
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1595.2
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3132.8
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6252.9
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12499.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25046.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50169.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100367.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201314.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 403793.0
+      }
+    ],
+    "nodes_16": [
+      {
+        "messageSize": 8,
+        "latency": 159.6
+      },
+      {
+        "messageSize": 16,
+        "latency": 58.69
+      },
+      {
+        "messageSize": 32,
+        "latency": 57.37
+      },
+      {
+        "messageSize": 64,
+        "latency": 58.36
+      },
+      {
+        "messageSize": 128,
+        "latency": 55.7
+      },
+      {
+        "messageSize": 256,
+        "latency": 60.35
+      },
+      {
+        "messageSize": 512,
+        "latency": 59.01
+      },
+      {
+        "messageSize": 1024,
+        "latency": 50.61
+      },
+      {
+        "messageSize": 2048,
+        "latency": 51.15
+      },
+      {
+        "messageSize": 4096,
+        "latency": 49.07
+      },
+      {
+        "messageSize": 8192,
+        "latency": 49.89
+      },
+      {
+        "messageSize": 16384,
+        "latency": 56.34
+      },
+      {
+        "messageSize": 32768,
+        "latency": 66.02
+      },
+      {
+        "messageSize": 65536,
+        "latency": 67.29
+      },
+      {
+        "messageSize": 131072,
+        "latency": 75.71
+      },
+      {
+        "messageSize": 262144,
+        "latency": 84.47
+      },
+      {
+        "messageSize": 524288,
+        "latency": 96.04
+      },
+      {
+        "messageSize": 1048576,
+        "latency": 120.2
+      },
+      {
+        "messageSize": 2097152,
+        "latency": 175.0
+      },
+      {
+        "messageSize": 4194304,
+        "latency": 250.5
+      },
+      {
+        "messageSize": 8388608,
+        "latency": 404.7
+      },
+      {
+        "messageSize": 16777216,
+        "latency": 793.4
+      },
+      {
+        "messageSize": 33554432,
+        "latency": 1573.9
+      },
+      {
+        "messageSize": 67108864,
+        "latency": 3132.5
+      },
+      {
+        "messageSize": 134217728,
+        "latency": 6249.5
+      },
+      {
+        "messageSize": 268435456,
+        "latency": 12499.0
+      },
+      {
+        "messageSize": 536870912,
+        "latency": 25034.0
+      },
+      {
+        "messageSize": 1073741824,
+        "latency": 50168.0
+      },
+      {
+        "messageSize": 2147483648,
+        "latency": 100464.0
+      },
+      {
+        "messageSize": 4294967296,
+        "latency": 201160.0
+      },
+      {
+        "messageSize": 8589934592,
+        "latency": 404182.0
+      }
+    ]
+  }
+}

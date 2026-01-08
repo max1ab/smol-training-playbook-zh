@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e589ab63c52152c44af11dc5e78463aab5692dc535331b3d47ef58f968cf410d
-size 246
+run_name,message_size,latency
+Host-to-Device,1024,25
+Host-to-Device,4096,35
+Host-to-Device,16384,50
+Host-to-Device,65536,120
+Host-to-Device,262144,1320
+Host-to-Device,1048576,1430
+Host-to-Device,4194304,1420
+Host-to-Device,16777216,1440

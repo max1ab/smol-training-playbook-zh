@@ -1,3 +1,455 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b13be4fc7daa67bfa1b5078565ee67e1aaf4f0b833a6e702cacd9e2d90361e61
-size 29292
+run,step,metric,value,stderr
+Baseline,1000,ai2d_exact_match,0.2548575129533679,0.007843322436924496
+Baseline,1000,average,0.27120689295763617,
+Baseline,1000,average_rank,1.7,
+Baseline,1000,chartqa_relaxed_overall,0.3308,0.009411906161401973
+Baseline,1000,docvqa_val_anls,0.3528553494243383,0.005852289239342309
+Baseline,1000,infovqa_val_anls,0.17320578642581314,0.006297063452679795
+Baseline,1000,mme_total_score,977.4280712284914,
+Baseline,1000,mmmu_val_mmmu_acc,0.25222,
+Baseline,1000,mmstar_average,0.23215874078908072,
+Baseline,1000,ocrbench_ocrbench_accuracy,0.286,
+Baseline,1000,seedbench_seed_all,0.2563646470261256,
+Baseline,1000,textvqa_val_exact_match,0.3024,0.00628900296642181
+Baseline,2000,ai2d_exact_match,0.26295336787564766,0.007923526907377255
+Baseline,2000,average,0.3202068275596269,
+Baseline,2000,average_rank,1.5,
+Baseline,2000,chartqa_relaxed_overall,0.4688,0.009982508912777261
+Baseline,2000,docvqa_val_anls,0.4452261510942785,0.00614755494712251
+Baseline,2000,infovqa_val_anls,0.1820547866557169,0.006217861455795791
+Baseline,2000,mme_total_score,1049.3036214485794,
+Baseline,2000,mmmu_val_mmmu_acc,0.24556,
+Baseline,2000,mmstar_average,0.21305462434540698,
+Baseline,2000,ocrbench_ocrbench_accuracy,0.395,
+Baseline,2000,seedbench_seed_all,0.258532518065592,
+Baseline,2000,textvqa_val_exact_match,0.41068000000000005,0.006697862330024289
+Baseline,3000,ai2d_exact_match,0.25226683937823835,0.007816909588794397
+Baseline,3000,average,0.3507423834414229,
+Baseline,3000,average_rank,1.6,
+Baseline,3000,chartqa_relaxed_overall,0.5028,0.010001843767601082
+Baseline,3000,docvqa_val_anls,0.502653993831009,0.006267072346683124
+Baseline,3000,infovqa_val_anls,0.21728617578189535,0.006796941784959762
+Baseline,3000,mme_total_score,1170.2383953581434,
+Baseline,3000,mmmu_val_mmmu_acc,0.27556,
+Baseline,3000,mmstar_average,0.25432376938577683,
+Baseline,3000,ocrbench_ocrbench_accuracy,0.436,
+Baseline,3000,seedbench_seed_all,0.2792106725958866,
+Baseline,3000,textvqa_val_exact_match,0.43658,0.006766885462882726
+Baseline,4000,ai2d_exact_match,0.2645725388601036,0.007939149662089447
+Baseline,4000,average,0.36961781722974835,
+Baseline,4000,average_rank,1.6,
+Baseline,4000,chartqa_relaxed_overall,0.5312,0.009982508912777261
+Baseline,4000,docvqa_val_anls,0.5374434618615119,0.0062905728113059655
+Baseline,4000,infovqa_val_anls,0.2287924838861707,0.006994568698639919
+Baseline,4000,mme_total_score,1155.203781512605,
+Baseline,4000,mmmu_val_mmmu_acc,0.25556,
+Baseline,4000,mmstar_average,0.2575590188757354,
+Baseline,4000,ocrbench_ocrbench_accuracy,0.453,
+Baseline,4000,seedbench_seed_all,0.33913285158421347,
+Baseline,4000,textvqa_val_exact_match,0.4593,0.006791695475025738
+Baseline,5000,ai2d_exact_match,0.3125,0.008342439145556371
+Baseline,5000,average,0.3974627910380972,
+Baseline,5000,average_rank,1.6,
+Baseline,5000,chartqa_relaxed_overall,0.5488,0.00995424828018316
+Baseline,5000,docvqa_val_anls,0.552360266782429,0.006300308519952055
+Baseline,5000,infovqa_val_anls,0.23425555286643698,0.007002254622066442
+Baseline,5000,mme_total_score,1181.4653861544618,
+Baseline,5000,mmmu_val_mmmu_acc,0.26667,
+Baseline,5000,mmstar_average,0.29596648146165705,
+Baseline,5000,ocrbench_ocrbench_accuracy,0.462,
+Baseline,5000,seedbench_seed_all,0.43107281823235133,
+Baseline,5000,textvqa_val_exact_match,0.47354000000000007,0.0068172185364497985
+Baseline,6000,ai2d_exact_match,0.358160621761658,0.008629463221867162
+Baseline,6000,average,0.4161227404571003,
+Baseline,6000,average_rank,1.7,
+Baseline,6000,chartqa_relaxed_overall,0.5628,0.00992279440175477
+Baseline,6000,docvqa_val_anls,0.5747451497228876,0.00625495440870239
+Baseline,6000,infovqa_val_anls,0.22152017368968838,0.006604546680525351
+Baseline,6000,mme_total_score,1284.1648659463785,
+Baseline,6000,mmmu_val_mmmu_acc,0.27111,
+Baseline,6000,mmstar_average,0.2978489412854164,
+Baseline,6000,ocrbench_ocrbench_accuracy,0.495,
+Baseline,6000,seedbench_seed_all,0.4795997776542524,
+Baseline,6000,textvqa_val_exact_match,0.48432,0.006800535050670284
+Baseline,7000,ai2d_exact_match,0.3707901554404145,0.00869347755587734
+Baseline,7000,average,0.4291083177345374,
+Baseline,7000,average_rank,1.6,
+Baseline,7000,chartqa_relaxed_overall,0.5656,0.009915542506251351
+Baseline,7000,docvqa_val_anls,0.5940907049431567,0.006224236305767187
+Baseline,7000,infovqa_val_anls,0.2515675215816963,0.007105097396092786
+Baseline,7000,mme_total_score,1185.875650260104,
+Baseline,7000,mmmu_val_mmmu_acc,0.26556,
+Baseline,7000,mmstar_average,0.31372400960777047,
+Baseline,7000,ocrbench_ocrbench_accuracy,0.504,
+Baseline,7000,seedbench_seed_all,0.4964424680377988,
+Baseline,7000,textvqa_val_exact_match,0.5002,0.006794794025220267
+Baseline,8000,ai2d_exact_match,0.37759067357512954,0.008725299846043883
+Baseline,8000,average,0.43846759477995995,
+Baseline,8000,average_rank,1.8,
+Baseline,8000,chartqa_relaxed_overall,0.5832,0.009862556058385773
+Baseline,8000,docvqa_val_anls,0.6017336419437208,0.006231612198089698
+Baseline,8000,infovqa_val_anls,0.2449256624147254,0.006992518502948913
+Baseline,8000,mme_total_score,1199.2409963985594,
+Baseline,8000,mmmu_val_mmmu_acc,0.28111,
+Baseline,8000,mmstar_average,0.33512257186205047,
+Baseline,8000,ocrbench_ocrbench_accuracy,0.51,
+Baseline,8000,seedbench_seed_all,0.5024458032240133,
+Baseline,8000,textvqa_val_exact_match,0.51008,0.006796301690135059
+Baseline,9000,ai2d_exact_match,0.4067357512953368,0.008841214921078996
+Baseline,9000,average,0.4422510732201056,
+Baseline,9000,average_rank,1.8,
+Baseline,9000,chartqa_relaxed_overall,0.5912,0.009834211136815875
+Baseline,9000,docvqa_val_anls,0.6170968481662739,0.00617235763542544
+Baseline,9000,infovqa_val_anls,0.23537031288570615,0.00670318154156447
+Baseline,9000,mme_total_score,1231.5195078031213,
+Baseline,9000,mmmu_val_mmmu_acc,0.25889,
+Baseline,9000,mmstar_average,0.3216444898242951,
+Baseline,9000,ocrbench_ocrbench_accuracy,0.515,
+Baseline,9000,seedbench_seed_all,0.5120622568093385,
+Baseline,9000,textvqa_val_exact_match,0.52226,0.006792711289708482
+Baseline,10000,ai2d_exact_match,0.39993523316062174,0.008817096257082848
+Baseline,10000,average,0.4523875703250908,
+Baseline,10000,average_rank,1.7,
+Baseline,10000,chartqa_relaxed_overall,0.5996,0.00980154906867574
+Baseline,10000,docvqa_val_anls,0.6262613496433054,0.006147756371688175
+Baseline,10000,infovqa_val_anls,0.263290074230132,0.007186788766942786
+Baseline,10000,mme_total_score,1240.8218287314926,
+Baseline,10000,mmmu_val_mmmu_acc,0.28778,
+Baseline,10000,mmstar_average,0.32972717906018517,
+Baseline,10000,ocrbench_ocrbench_accuracy,0.517,
+Baseline,10000,seedbench_seed_all,0.5217342968315731,
+Baseline,10000,textvqa_val_exact_match,0.5261600000000001,0.006785774843600811
+Baseline,11000,ai2d_exact_match,0.422279792746114,0.008889771831066474
+Baseline,11000,average,0.4561398159525099,
+Baseline,11000,average_rank,1.7,
+Baseline,11000,chartqa_relaxed_overall,0.6104,0.009755142291143075
+Baseline,11000,docvqa_val_anls,0.6373130149166712,0.006128022584995044
+Baseline,11000,infovqa_val_anls,0.24419378339723755,0.006897644885887063
+Baseline,11000,mme_total_score,1322.9488795518205,
+Baseline,11000,mmmu_val_mmmu_acc,0.27778,
+Baseline,11000,mmstar_average,0.3298563439522548,
+Baseline,11000,ocrbench_ocrbench_accuracy,0.521,
+Baseline,11000,seedbench_seed_all,0.5237354085603113,
+Baseline,11000,textvqa_val_exact_match,0.5387,0.006770851562852138
+Baseline,12000,ai2d_exact_match,0.42001295336787564,0.008883255931688034
+Baseline,12000,average,0.4582751140055433,
+Baseline,12000,average_rank,1.7,
+Baseline,12000,chartqa_relaxed_overall,0.618,0.009719474639861454
+Baseline,12000,docvqa_val_anls,0.6393961983751871,0.0061228747388476674
+Baseline,12000,infovqa_val_anls,0.24798874058574302,0.006855374548993139
+Baseline,12000,mme_total_score,1225.6453581432572,
+Baseline,12000,mmmu_val_mmmu_acc,0.27889,
+Baseline,12000,mmstar_average,0.34010867846816534,
+Baseline,12000,ocrbench_ocrbench_accuracy,0.512,
+Baseline,12000,seedbench_seed_all,0.5350194552529183,
+Baseline,12000,textvqa_val_exact_match,0.5330600000000001,0.006777713092109446
+Baseline,13000,ai2d_exact_match,0.4375,0.008928571428571428
+Baseline,13000,average,0.4692868662590049,
+Baseline,13000,average_rank,1.4,
+Baseline,13000,chartqa_relaxed_overall,0.6148,0.00973479791861169
+Baseline,13000,docvqa_val_anls,0.6511374872549951,0.006086953065248391
+Baseline,13000,infovqa_val_anls,0.24465055100441893,0.006808432538374664
+Baseline,13000,mme_total_score,1281.7122849139657,
+Baseline,13000,mmmu_val_mmmu_acc,0.28222,
+Baseline,13000,mmstar_average,0.3453069542917521,
+Baseline,13000,ocrbench_ocrbench_accuracy,0.549,
+Baseline,13000,seedbench_seed_all,0.5442468037798777,
+Baseline,13000,textvqa_val_exact_match,0.55472,0.0067416788982325
+Baseline,14000,ai2d_exact_match,0.4572538860103627,0.00896620675297095
+Baseline,14000,average,0.47352486841689195,
+Baseline,14000,average_rank,1.3,
+Baseline,14000,chartqa_relaxed_overall,0.6172,0.009723347231923635
+Baseline,14000,docvqa_val_anls,0.6502269393708169,0.006057950730638126
+Baseline,14000,infovqa_val_anls,0.25805460837190913,0.007037735231659539
+Baseline,14000,mme_total_score,1309.1444577831132,
+Baseline,14000,mmmu_val_mmmu_acc,0.28111,
+Baseline,14000,mmstar_average,0.34575818188776586,
+Baseline,14000,ocrbench_ocrbench_accuracy,0.551,
+Baseline,14000,seedbench_seed_all,0.5483602001111729,
+Baseline,14000,textvqa_val_exact_match,0.55276,0.006751206724612103
+Baseline,15000,ai2d_exact_match,0.45045336787564766,0.008954861634252399
+Baseline,15000,average,0.47878665012878824,
+Baseline,15000,average_rank,1.2,
+Baseline,15000,chartqa_relaxed_overall,0.612,0.009747841205275417
+Baseline,15000,docvqa_val_anls,0.6621413031955148,0.006056838050222495
+Baseline,15000,infovqa_val_anls,0.2706898598157733,0.007200315730154543
+Baseline,15000,mme_total_score,1384.2171868747498,
+Baseline,15000,mmmu_val_mmmu_acc,0.30222,
+Baseline,15000,mmstar_average,0.35408135695920684,
+Baseline,15000,ocrbench_ocrbench_accuracy,0.558,
+Baseline,15000,seedbench_seed_all,0.5411339633129516,
+Baseline,15000,textvqa_val_exact_match,0.5583600000000001,0.0067279027203879065
+Baseline,16000,ai2d_exact_match,0.45077720207253885,0.008955440137395838
+Baseline,16000,average,0.47665128022935843,
+Baseline,16000,average_rank,1.5,
+Baseline,16000,chartqa_relaxed_overall,0.632,0.00964715642305132
+Baseline,16000,docvqa_val_anls,0.6709415729142987,0.005999818105621502
+Baseline,16000,infovqa_val_anls,0.26050032542402035,0.006997451875879188
+Baseline,16000,mme_total_score,1317.8491396558625,
+Baseline,16000,mmmu_val_mmmu_acc,0.27556,
+Baseline,16000,mmstar_average,0.33214333327093315,
+Baseline,16000,ocrbench_ocrbench_accuracy,0.56,
+Baseline,16000,seedbench_seed_all,0.5463590883824346,
+Baseline,16000,textvqa_val_exact_match,0.56158,0.006723854754867398
+Baseline,17000,ai2d_exact_match,0.45919689119170987,0.008969138793675545
+Baseline,17000,average,0.4777141780162423,
+Baseline,17000,average_rank,1.2,
+Baseline,17000,chartqa_relaxed_overall,0.632,0.00964715642305132
+Baseline,17000,docvqa_val_anls,0.6796338519136422,0.005948761388267941
+Baseline,17000,infovqa_val_anls,0.28070956072505215,0.007298333094144192
+Baseline,17000,mme_total_score,1381.9161664665867,
+Baseline,17000,mmmu_val_mmmu_acc,0.27667,
+Baseline,17000,mmstar_average,0.3370289492329521,
+Baseline,17000,ocrbench_ocrbench_accuracy,0.519,
+Baseline,17000,seedbench_seed_all,0.5510283490828238,
+Baseline,17000,textvqa_val_exact_match,0.56416,0.006724830373229479
+Baseline,18000,ai2d_exact_match,0.46567357512953367,0.008977921602780726
+Baseline,18000,average,0.4819834595278701,
+Baseline,18000,average_rank,1.1,
+Baseline,18000,chartqa_relaxed_overall,0.6376,0.009615793331418735
+Baseline,18000,docvqa_val_anls,0.6775884603912571,0.005972234236435759
+Baseline,18000,infovqa_val_anls,0.27154318420389256,0.007164903131667027
+Baseline,18000,mme_total_score,1336.922769107643,
+Baseline,18000,mmmu_val_mmmu_acc,0.28667,
+Baseline,18000,mmstar_average,0.34482796716566916,
+Baseline,18000,ocrbench_ocrbench_accuracy,0.533,
+Baseline,18000,seedbench_seed_all,0.5543079488604781,
+Baseline,18000,textvqa_val_exact_match,0.5666399999999999,0.006713392287599574
+Baseline,19000,ai2d_exact_match,0.4682642487046632,0.008981008686994101
+Baseline,19000,average,0.4899006713916878,
+Baseline,19000,chartqa_relaxed_overall,0.6444,0.009575809858898698
+Baseline,19000,docvqa_val_anls,0.678226526479947,0.005970619221588814
+Baseline,19000,infovqa_val_anls,0.26993847247278,0.0071348470764911525
+Baseline,19000,mme_total_score,1406.6628651460583,
+Baseline,19000,mmmu_val_mmmu_acc,0.28333,
+Baseline,19000,mmstar_average,0.356220913822775,
+Baseline,19000,ocrbench_ocrbench_accuracy,0.577,
+Baseline,19000,seedbench_seed_all,0.554585881045025,
+Baseline,19000,textvqa_val_exact_match,0.57714,0.0066918487914812905
+Baseline,20000,ai2d_exact_match,0.47571243523316065,0.00898853090258662
+Baseline,20000,average,0.4873169067639118,
+Baseline,20000,chartqa_relaxed_overall,0.6336,0.009638338810708618
+Baseline,20000,docvqa_val_anls,0.6895214454380043,0.005896462073053767
+Baseline,20000,infovqa_val_anls,0.2655657550458317,0.007033265532032538
+Baseline,20000,mme_total_score,1324.6738695478193,
+Baseline,20000,mmmu_val_mmmu_acc,0.30111,
+Baseline,20000,mmstar_average,0.33806766134497995,
+Baseline,20000,ocrbench_ocrbench_accuracy,0.555,
+Baseline,20000,seedbench_seed_all,0.5587548638132296,
+Baseline,20000,textvqa_val_exact_match,0.56852,0.006720151338087659
+Remove Multilingual Data,1000,ai2d_exact_match,0.2619818652849741,0.007914086941902855
+Remove Multilingual Data,1000,average,0.29340443385847137,
+Remove Multilingual Data,1000,average_rank,1.3,
+Remove Multilingual Data,1000,chartqa_relaxed_overall,0.3736,0.009677121197436144
+Remove Multilingual Data,1000,docvqa_val_anls,0.403140100303888,0.006111323163666132
+Remove Multilingual Data,1000,infovqa_val_anls,0.1764617576183696,0.006251319736392345
+Remove Multilingual Data,1000,mme_total_score,979.3045218087235,
+Remove Multilingual Data,1000,mmmu_val_mmmu_acc,0.25222,
+Remove Multilingual Data,1000,mmstar_average,0.2073057646207335,
+Remove Multilingual Data,1000,ocrbench_ocrbench_accuracy,0.333,
+Remove Multilingual Data,1000,seedbench_seed_all,0.2507504168982768,
+Remove Multilingual Data,1000,textvqa_val_exact_match,0.38218,0.006631325992355026
+Remove Multilingual Data,2000,ai2d_exact_match,0.25291450777202074,0.007823547213659585
+Remove Multilingual Data,2000,average,0.32254499165624334,
+Remove Multilingual Data,2000,average_rank,1.5,
+Remove Multilingual Data,2000,chartqa_relaxed_overall,0.4692,0.009983005968307607
+Remove Multilingual Data,2000,docvqa_val_anls,0.472590835723597,0.006255090657185791
+Remove Multilingual Data,2000,infovqa_val_anls,0.19402428600531574,0.006415305613638088
+Remove Multilingual Data,2000,mme_total_score,1067.5286114445778,
+Remove Multilingual Data,2000,mmmu_val_mmmu_acc,0.24444,
+Remove Multilingual Data,2000,mmstar_average,0.20544885849586278,
+Remove Multilingual Data,2000,ocrbench_ocrbench_accuracy,0.409,
+Remove Multilingual Data,2000,seedbench_seed_all,0.2555864369093941,
+Remove Multilingual Data,2000,textvqa_val_exact_match,0.3997,0.006677042652231296
+Remove Multilingual Data,3000,ai2d_exact_match,0.2658678756476684,0.00795154886571598
+Remove Multilingual Data,3000,average,0.35383248024337044,
+Remove Multilingual Data,3000,average_rank,1.4,
+Remove Multilingual Data,3000,chartqa_relaxed_overall,0.536,0.009976041728231964
+Remove Multilingual Data,3000,docvqa_val_anls,0.5115050780592246,0.006297134520533815
+Remove Multilingual Data,3000,infovqa_val_anls,0.1959317380528948,0.006353999153527862
+Remove Multilingual Data,3000,mme_total_score,1055.7074829931971,
+Remove Multilingual Data,3000,mmmu_val_mmmu_acc,0.26,
+Remove Multilingual Data,3000,mmstar_average,0.2325690534433309,
+Remove Multilingual Data,3000,ocrbench_ocrbench_accuracy,0.449,
+Remove Multilingual Data,3000,seedbench_seed_all,0.28943857698721515,
+Remove Multilingual Data,3000,textvqa_val_exact_match,0.44418,0.0067730052591185854
+Remove Multilingual Data,4000,ai2d_exact_match,0.2856217616580311,0.008130016747303466
+Remove Multilingual Data,4000,average,0.3775873253769421,
+Remove Multilingual Data,4000,average_rank,1.4,
+Remove Multilingual Data,4000,chartqa_relaxed_overall,0.55,0.009951864943131942
+Remove Multilingual Data,4000,docvqa_val_anls,0.5339851175847934,0.0062957385772197255
+Remove Multilingual Data,4000,infovqa_val_anls,0.20750676546327357,0.006369425500899887
+Remove Multilingual Data,4000,mme_total_score,1228.202280912365,
+Remove Multilingual Data,4000,mmmu_val_mmmu_acc,0.27111,
+Remove Multilingual Data,4000,mmstar_average,0.24655460164079995,
+Remove Multilingual Data,4000,ocrbench_ocrbench_accuracy,0.456,
+Remove Multilingual Data,4000,seedbench_seed_all,0.3898276820455809,
+Remove Multilingual Data,4000,textvqa_val_exact_match,0.45768000000000003,0.006781666588703993
+Remove Multilingual Data,5000,ai2d_exact_match,0.3121761658031088,0.008340079044408505
+Remove Multilingual Data,5000,average,0.3976192139479395,
+Remove Multilingual Data,5000,average_rank,1.4,
+Remove Multilingual Data,5000,chartqa_relaxed_overall,0.5684,0.009907968668564455
+Remove Multilingual Data,5000,docvqa_val_anls,0.5611339219828478,0.006260862186673622
+Remove Multilingual Data,5000,infovqa_val_anls,0.21913407408993218,0.006638320670102091
+Remove Multilingual Data,5000,mme_total_score,1219.2377951180472,
+Remove Multilingual Data,5000,mmmu_val_mmmu_acc,0.29444,
+Remove Multilingual Data,5000,mmstar_average,0.23556637343877926,
+Remove Multilingual Data,5000,ocrbench_ocrbench_accuracy,0.472,
+Remove Multilingual Data,5000,seedbench_seed_all,0.4443023902167871,
+Remove Multilingual Data,5000,textvqa_val_exact_match,0.47142,0.006807048104779351
+Remove Multilingual Data,6000,ai2d_exact_match,0.35200777202072536,0.008595926828224822
+Remove Multilingual Data,6000,average,0.42451996443270734,
+Remove Multilingual Data,6000,average_rank,1.3,
+Remove Multilingual Data,6000,chartqa_relaxed_overall,0.5744,0.009890651444389179
+Remove Multilingual Data,6000,docvqa_val_anls,0.5825552977560686,0.006257174245982806
+Remove Multilingual Data,6000,infovqa_val_anls,0.252828230577843,0.007149939162213116
+Remove Multilingual Data,6000,mme_total_score,1216.607643057223,
+Remove Multilingual Data,6000,mmmu_val_mmmu_acc,0.30222,
+Remove Multilingual Data,6000,mmstar_average,0.2807390632529032,
+Remove Multilingual Data,6000,ocrbench_ocrbench_accuracy,0.497,
+Remove Multilingual Data,6000,seedbench_seed_all,0.484769316286826,
+Remove Multilingual Data,6000,textvqa_val_exact_match,0.49416000000000004,0.006798707477504303
+Remove Multilingual Data,7000,ai2d_exact_match,0.3801813471502591,0.008736941116932581
+Remove Multilingual Data,7000,average,0.428085510128325,
+Remove Multilingual Data,7000,average_rank,1.4,
+Remove Multilingual Data,7000,chartqa_relaxed_overall,0.5796,0.009874438607593145
+Remove Multilingual Data,7000,docvqa_val_anls,0.5966369586509165,0.006224801729990067
+Remove Multilingual Data,7000,infovqa_val_anls,0.23354910759447625,0.006817906701297544
+Remove Multilingual Data,7000,mme_total_score,1188.1020408163265,
+Remove Multilingual Data,7000,mmmu_val_mmmu_acc,0.27556,
+Remove Multilingual Data,7000,mmstar_average,0.292518909276783,
+Remove Multilingual Data,7000,ocrbench_ocrbench_accuracy,0.503,
+Remove Multilingual Data,7000,seedbench_seed_all,0.48988326848249025,
+Remove Multilingual Data,7000,textvqa_val_exact_match,0.5018400000000001,0.006795274684043781
+Remove Multilingual Data,8000,ai2d_exact_match,0.3863341968911917,0.008763532923326706
+Remove Multilingual Data,8000,average,0.4413787447198958,
+Remove Multilingual Data,8000,average_rank,1.2,
+Remove Multilingual Data,8000,chartqa_relaxed_overall,0.5964,0.009814343815957088
+Remove Multilingual Data,8000,docvqa_val_anls,0.603351366738696,0.006235087701254087
+Remove Multilingual Data,8000,infovqa_val_anls,0.25307646024963104,0.007198626238671866
+Remove Multilingual Data,8000,mme_total_score,1261.5517206882753,
+Remove Multilingual Data,8000,mmmu_val_mmmu_acc,0.29556,
+Remove Multilingual Data,8000,mmstar_average,0.30595531673183934,
+Remove Multilingual Data,8000,ocrbench_ocrbench_accuracy,0.505,
+Remove Multilingual Data,8000,seedbench_seed_all,0.5124513618677042,
+Remove Multilingual Data,8000,textvqa_val_exact_match,0.51428,0.006792322389925977
+Remove Multilingual Data,9000,ai2d_exact_match,0.3908678756476684,0.008782181865213609
+Remove Multilingual Data,9000,average,0.4483393474436153,
+Remove Multilingual Data,9000,average_rank,1.2,
+Remove Multilingual Data,9000,chartqa_relaxed_overall,0.6008,0.00979663889573671
+Remove Multilingual Data,9000,docvqa_val_anls,0.6206417157518567,0.006160046717594884
+Remove Multilingual Data,9000,infovqa_val_anls,0.2517144366407357,0.007092352700671051
+Remove Multilingual Data,9000,mme_total_score,1270.4974989995999,
+Remove Multilingual Data,9000,mmmu_val_mmmu_acc,0.29333,
+Remove Multilingual Data,9000,mmstar_average,0.32657768650091523,
+Remove Multilingual Data,9000,ocrbench_ocrbench_accuracy,0.52,
+Remove Multilingual Data,9000,seedbench_seed_all,0.5163424124513619,
+Remove Multilingual Data,9000,textvqa_val_exact_match,0.51478,0.006772730933446224
+Remove Multilingual Data,10000,ai2d_exact_match,0.41450777202072536,0.008866630113019596
+Remove Multilingual Data,10000,average,0.45448389614950035,
+Remove Multilingual Data,10000,average_rank,1.3,
+Remove Multilingual Data,10000,chartqa_relaxed_overall,0.6068,0.009771166474772143
+Remove Multilingual Data,10000,docvqa_val_anls,0.6232449599819007,0.006177718712473361
+Remove Multilingual Data,10000,infovqa_val_anls,0.23737546748097776,0.006778926597473845
+Remove Multilingual Data,10000,mme_total_score,1276.3549419767905,
+Remove Multilingual Data,10000,mmmu_val_mmmu_acc,0.29889,
+Remove Multilingual Data,10000,mmstar_average,0.3130758097195978,
+Remove Multilingual Data,10000,ocrbench_ocrbench_accuracy,0.539,
+Remove Multilingual Data,10000,seedbench_seed_all,0.5219010561423013,
+Remove Multilingual Data,10000,textvqa_val_exact_match,0.53556,0.00676001751827386
+Remove Multilingual Data,11000,ai2d_exact_match,0.41904145077720206,0.008880404559123601
+Remove Multilingual Data,11000,average,0.4609227111862355,
+Remove Multilingual Data,11000,average_rank,1.3,
+Remove Multilingual Data,11000,chartqa_relaxed_overall,0.6108,0.00975332737879659
+Remove Multilingual Data,11000,docvqa_val_anls,0.6387481065492241,0.006094036395159673
+Remove Multilingual Data,11000,infovqa_val_anls,0.25052436731474453,0.006993658213921465
+Remove Multilingual Data,11000,mme_total_score,1258.2553021208482,
+Remove Multilingual Data,11000,mmmu_val_mmmu_acc,0.28,
+Remove Multilingual Data,11000,mmstar_average,0.3213557456291676,
+Remove Multilingual Data,11000,ocrbench_ocrbench_accuracy,0.561,
+Remove Multilingual Data,11000,seedbench_seed_all,0.526514730405781,
+Remove Multilingual Data,11000,textvqa_val_exact_match,0.54032,0.0067608876222200335
+Remove Multilingual Data,12000,ai2d_exact_match,0.41353626943005184,0.00886357792887845
+Remove Multilingual Data,12000,average,0.46149948562642984,
+Remove Multilingual Data,12000,average_rank,1.3,
+Remove Multilingual Data,12000,chartqa_relaxed_overall,0.622,0.009699692449425671
+Remove Multilingual Data,12000,docvqa_val_anls,0.6481870346272672,0.0060803752132680255
+Remove Multilingual Data,12000,infovqa_val_anls,0.25116762340113796,0.006993814336062128
+Remove Multilingual Data,12000,mme_total_score,1256.7357943177271,
+Remove Multilingual Data,12000,mmmu_val_mmmu_acc,0.28222,
+Remove Multilingual Data,12000,mmstar_average,0.311104865636332,
+Remove Multilingual Data,12000,ocrbench_ocrbench_accuracy,0.547,
+Remove Multilingual Data,12000,seedbench_seed_all,0.5312395775430795,
+Remove Multilingual Data,12000,textvqa_val_exact_match,0.54704,0.006750774938661079
+Remove Multilingual Data,13000,ai2d_exact_match,0.42810880829015546,0.008905646879422012
+Remove Multilingual Data,13000,average,0.4658949593838579,
+Remove Multilingual Data,13000,average_rank,1.6,
+Remove Multilingual Data,13000,chartqa_relaxed_overall,0.622,0.009699692449425671
+Remove Multilingual Data,13000,docvqa_val_anls,0.6461697403304425,0.006072036108570188
+Remove Multilingual Data,13000,infovqa_val_anls,0.2635164421127001,0.007102540516236264
+Remove Multilingual Data,13000,mme_total_score,1295.0039015606244,
+Remove Multilingual Data,13000,mmmu_val_mmmu_acc,0.29,
+Remove Multilingual Data,13000,mmstar_average,0.3296444797414335,
+Remove Multilingual Data,13000,ocrbench_ocrbench_accuracy,0.54,
+Remove Multilingual Data,13000,seedbench_seed_all,0.5312951639799889,
+Remove Multilingual Data,13000,textvqa_val_exact_match,0.54232,0.006771571040376891
+Remove Multilingual Data,14000,ai2d_exact_match,0.42487046632124353,0.008896983637113786
+Remove Multilingual Data,14000,average,0.46755416993970794,
+Remove Multilingual Data,14000,average_rank,1.7,
+Remove Multilingual Data,14000,chartqa_relaxed_overall,0.6256,0.009681288495793083
+Remove Multilingual Data,14000,docvqa_val_anls,0.6470833619171145,0.006119244473927763
+Remove Multilingual Data,14000,infovqa_val_anls,0.2541720455309047,0.007006172199083197
+Remove Multilingual Data,14000,mme_total_score,1262.1793717486994,
+Remove Multilingual Data,14000,mmmu_val_mmmu_acc,0.28556,
+Remove Multilingual Data,14000,mmstar_average,0.327544946405174,
+Remove Multilingual Data,14000,ocrbench_ocrbench_accuracy,0.559,
+Remove Multilingual Data,14000,seedbench_seed_all,0.5380767092829349,
+Remove Multilingual Data,14000,textvqa_val_exact_match,0.5460799999999999,0.006754587449305995
+Remove Multilingual Data,15000,ai2d_exact_match,0.42908031088082904,0.00890816984689523
+Remove Multilingual Data,15000,average,0.4720258172705174,
+Remove Multilingual Data,15000,average_rank,1.8,
+Remove Multilingual Data,15000,chartqa_relaxed_overall,0.626,0.009679208378267924
+Remove Multilingual Data,15000,docvqa_val_anls,0.655881547989144,0.006058079036611966
+Remove Multilingual Data,15000,infovqa_val_anls,0.2538472956751567,0.006929926842577286
+Remove Multilingual Data,15000,mme_total_score,1283.2800120048018,
+Remove Multilingual Data,15000,mmmu_val_mmmu_acc,0.29,
+Remove Multilingual Data,15000,mmstar_average,0.3309383426349411,
+Remove Multilingual Data,15000,ocrbench_ocrbench_accuracy,0.572,
+Remove Multilingual Data,15000,seedbench_seed_all,0.5407448582545858,
+Remove Multilingual Data,15000,textvqa_val_exact_match,0.54974,0.006738090742441116
+Remove Multilingual Data,16000,ai2d_exact_match,0.42940414507772023,0.008909003051055714
+Remove Multilingual Data,16000,average,0.476926180401357,
+Remove Multilingual Data,16000,average_rank,1.5,
+Remove Multilingual Data,16000,chartqa_relaxed_overall,0.626,0.009679208378267924
+Remove Multilingual Data,16000,docvqa_val_anls,0.6622394005833824,0.006046858134280091
+Remove Multilingual Data,16000,infovqa_val_anls,0.2633356312454137,0.007137388413784386
+Remove Multilingual Data,16000,mme_total_score,1328.4599839935972,
+Remove Multilingual Data,16000,mmmu_val_mmmu_acc,0.29556,
+Remove Multilingual Data,16000,mmstar_average,0.33932578522709744,
+Remove Multilingual Data,16000,ocrbench_ocrbench_accuracy,0.578,
+Remove Multilingual Data,16000,seedbench_seed_all,0.5431906614785992,
+Remove Multilingual Data,16000,textvqa_val_exact_match,0.55528,0.006733817132847886
+Remove Multilingual Data,17000,ai2d_exact_match,0.42940414507772023,0.008909003051055712
+Remove Multilingual Data,17000,average,0.4732087844936434,
+Remove Multilingual Data,17000,average_rank,1.8,
+Remove Multilingual Data,17000,chartqa_relaxed_overall,0.6264,0.009677121197436144
+Remove Multilingual Data,17000,docvqa_val_anls,0.661817176575324,0.0060368801840957114
+Remove Multilingual Data,17000,infovqa_val_anls,0.25584519300448166,0.007033162778192734
+Remove Multilingual Data,17000,mme_total_score,1270.766606642657,
+Remove Multilingual Data,17000,mmmu_val_mmmu_acc,0.28,
+Remove Multilingual Data,17000,mmstar_average,0.3233592606268431,
+Remove Multilingual Data,17000,ocrbench_ocrbench_accuracy,0.58,
+Remove Multilingual Data,17000,seedbench_seed_all,0.5439132851584213,
+Remove Multilingual Data,17000,textvqa_val_exact_match,0.5581400000000001,0.006731048171116916
+Remove Multilingual Data,18000,ai2d_exact_match,0.4368523316062176,0.008927095061184944
+Remove Multilingual Data,18000,average,0.4769341122300441,
+Remove Multilingual Data,18000,average_rank,1.9,
+Remove Multilingual Data,18000,chartqa_relaxed_overall,0.636,0.009624897685803465
+Remove Multilingual Data,18000,docvqa_val_anls,0.671397164123935,0.006004837667492473
+Remove Multilingual Data,18000,infovqa_val_anls,0.2570865428675732,0.007022334730795061
+Remove Multilingual Data,18000,mme_total_score,1330.2323929571828,
+Remove Multilingual Data,18000,mmmu_val_mmmu_acc,0.28444,
+Remove Multilingual Data,18000,mmstar_average,0.3272633338962395,
+Remove Multilingual Data,18000,ocrbench_ocrbench_accuracy,0.579,
+Remove Multilingual Data,18000,seedbench_seed_all,0.5457476375764313,
+Remove Multilingual Data,18000,textvqa_val_exact_match,0.55462,0.0067429981999808505

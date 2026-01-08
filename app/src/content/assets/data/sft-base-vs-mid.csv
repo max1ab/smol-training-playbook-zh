@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:298e15c55edfb3c6ab75552b05a538003f4d1da9b517dd91512bce31ec11811c
-size 270
+Base model,Reasoning mode,AIME25,GPQA-D,LiveCodeBench v4,IFEval,Global MMLU Lite
+Pre-train,/think,12.6,28.16,9.9,71.64,55.6
+Pre-train,/no_think,2.03,26.89,7.92,69.62,43.55
+Mid-train,/think,32.19,39.77,30.69,72.37,59.2
+Mid-train,/no_think,8.23,31.63,12.87,68.48,50.55

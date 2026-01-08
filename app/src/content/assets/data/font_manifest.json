@@ -1,3 +1,6155 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7a587c5fd3fb85fdd26d485f57ef3e4feb8370593d46f57289b55f873beac4b4
-size 153794
+{
+  "abeezee": {
+    "id": "abeezee",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/abeezee_a.svg",
+      "a": "/content/embeds/typography/font_svgs/abeezee_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/abeezee_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 920,
+      "descender": -262
+    }
+  },
+  "abel": {
+    "id": "abel",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/abel_a.svg",
+      "a": "/content/embeds/typography/font_svgs/abel_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/abel_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2006,
+      "descender": -604
+    }
+  },
+  "abhaya libre": {
+    "id": "abhaya_libre",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/abhaya_libre_a.svg",
+      "a": "/content/embeds/typography/font_svgs/abhaya_libre_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/abhaya_libre_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 860,
+      "descender": -348
+    }
+  },
+  "aboreto": {
+    "id": "aboreto",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aboreto_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aboreto_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aboreto_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 930,
+      "descender": -230
+    }
+  },
+  "abril fatface": {
+    "id": "abril_fatface",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/abril_fatface_a.svg",
+      "a": "/content/embeds/typography/font_svgs/abril_fatface_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/abril_fatface_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1058,
+      "descender": -291
+    }
+  },
+  "abyssinica sil": {
+    "id": "abyssinica_sil",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/abyssinica_sil_a.svg",
+      "a": "/content/embeds/typography/font_svgs/abyssinica_sil_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/abyssinica_sil_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2034,
+      "descender": -682
+    }
+  },
+  "aclonica": {
+    "id": "aclonica",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aclonica_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aclonica_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aclonica_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1687,
+      "descender": -533
+    }
+  },
+  "acme": {
+    "id": "acme",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/acme_a.svg",
+      "a": "/content/embeds/typography/font_svgs/acme_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/acme_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 959,
+      "descender": -307
+    }
+  },
+  "actor": {
+    "id": "actor",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/actor_a.svg",
+      "a": "/content/embeds/typography/font_svgs/actor_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/actor_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 941,
+      "descender": -262
+    }
+  },
+  "adamina": {
+    "id": "adamina",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/adamina_a.svg",
+      "a": "/content/embeds/typography/font_svgs/adamina_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/adamina_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1072,
+      "descender": -290
+    }
+  },
+  "adlam display": {
+    "id": "adlam_display",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/adlam_display_a.svg",
+      "a": "/content/embeds/typography/font_svgs/adlam_display_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/adlam_display_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2140,
+      "descender": -532
+    }
+  },
+  "advent pro": {
+    "id": "advent_pro",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/advent_pro_a.svg",
+      "a": "/content/embeds/typography/font_svgs/advent_pro_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/advent_pro_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 964,
+      "descender": -232
+    }
+  },
+  "afacad": {
+    "id": "afacad",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/afacad_a.svg",
+      "a": "/content/embeds/typography/font_svgs/afacad_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/afacad_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1440,
+      "ascender": 1440,
+      "descender": -480
+    }
+  },
+  "afacad flux": {
+    "id": "afacad_flux",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/afacad_flux_a.svg",
+      "a": "/content/embeds/typography/font_svgs/afacad_flux_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/afacad_flux_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1440,
+      "ascender": 1440,
+      "descender": -480
+    }
+  },
+  "agbalumo": {
+    "id": "agbalumo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/agbalumo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/agbalumo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/agbalumo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1200,
+      "descender": -280
+    }
+  },
+  "agdasima": {
+    "id": "agdasima",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/agdasima_a.svg",
+      "a": "/content/embeds/typography/font_svgs/agdasima_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/agdasima_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2015,
+      "descender": -410
+    }
+  },
+  "agu display": {
+    "id": "agu_display",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/agu_display_a.svg",
+      "a": "/content/embeds/typography/font_svgs/agu_display_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/agu_display_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1190,
+      "descender": -310
+    }
+  },
+  "aguafina script": {
+    "id": "aguafina_script",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aguafina_script_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aguafina_script_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aguafina_script_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 966,
+      "descender": -581
+    }
+  },
+  "akatab": {
+    "id": "akatab",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/akatab_a.svg",
+      "a": "/content/embeds/typography/font_svgs/akatab_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/akatab_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2093,
+      "descender": -713
+    }
+  },
+  "akaya kanadaka": {
+    "id": "akaya_kanadaka",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/akaya_kanadaka_a.svg",
+      "a": "/content/embeds/typography/font_svgs/akaya_kanadaka_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/akaya_kanadaka_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 920,
+      "descender": -276
+    }
+  },
+  "akaya telivigala": {
+    "id": "akaya_telivigala",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/akaya_telivigala_a.svg",
+      "a": "/content/embeds/typography/font_svgs/akaya_telivigala_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/akaya_telivigala_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 920,
+      "descender": -276
+    }
+  },
+  "akronim": {
+    "id": "akronim",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/akronim_a.svg",
+      "a": "/content/embeds/typography/font_svgs/akronim_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/akronim_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 785,
+      "descender": -314
+    }
+  },
+  "akshar": {
+    "id": "akshar",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/akshar_a.svg",
+      "a": "/content/embeds/typography/font_svgs/akshar_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/akshar_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 990,
+      "descender": -390
+    }
+  },
+  "aladin": {
+    "id": "aladin",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aladin_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aladin_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aladin_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 905,
+      "descender": -321
+    }
+  },
+  "alata": {
+    "id": "alata",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alata_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alata_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alata_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1100,
+      "descender": -280
+    }
+  },
+  "alatsi": {
+    "id": "alatsi",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alatsi_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alatsi_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alatsi_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2000,
+      "descender": -560
+    }
+  },
+  "albert sans": {
+    "id": "albert_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/albert_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/albert_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/albert_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 950,
+      "descender": -250
+    }
+  },
+  "aldrich": {
+    "id": "aldrich",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aldrich_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aldrich_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aldrich_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1475,
+      "descender": -430
+    }
+  },
+  "alef": {
+    "id": "alef",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alef_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alef_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alef_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2067,
+      "descender": -722
+    }
+  },
+  "alegreya": {
+    "id": "alegreya",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alegreya_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alegreya_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alegreya_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1016,
+      "descender": -345
+    }
+  },
+  "alegreya sans": {
+    "id": "alegreya_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alegreya_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alegreya_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alegreya_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "alegreya sans sc": {
+    "id": "alegreya_sans_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alegreya_sans_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alegreya_sans_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alegreya_sans_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "alegreya sc": {
+    "id": "alegreya_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alegreya_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alegreya_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alegreya_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1016,
+      "descender": -345
+    }
+  },
+  "aleo": {
+    "id": "aleo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aleo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aleo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aleo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 905,
+      "descender": -295
+    }
+  },
+  "alex brush": {
+    "id": "alex_brush",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alex_brush_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alex_brush_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alex_brush_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 825,
+      "descender": -425
+    }
+  },
+  "alexandria": {
+    "id": "alexandria",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alexandria_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alexandria_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alexandria_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 968,
+      "descender": -251
+    }
+  },
+  "alfa slab one": {
+    "id": "alfa_slab_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alfa_slab_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alfa_slab_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alfa_slab_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1036,
+      "descender": -333
+    }
+  },
+  "alice": {
+    "id": "alice",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alice_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alice_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alice_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 909,
+      "descender": -234
+    }
+  },
+  "alike": {
+    "id": "alike",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alike_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alike_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alike_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 984,
+      "descender": -270
+    }
+  },
+  "alike angular": {
+    "id": "alike_angular",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alike_angular_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alike_angular_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alike_angular_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 984,
+      "descender": -270
+    }
+  },
+  "alkalami": {
+    "id": "alkalami",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alkalami_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alkalami_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alkalami_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1035,
+      "descender": -857
+    }
+  },
+  "alkatra": {
+    "id": "alkatra",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alkatra_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alkatra_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alkatra_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1095,
+      "descender": -589
+    }
+  },
+  "allan": {
+    "id": "allan",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/allan_a.svg",
+      "a": "/content/embeds/typography/font_svgs/allan_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/allan_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1928,
+      "descender": -412
+    }
+  },
+  "allerta": {
+    "id": "allerta",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/allerta_a.svg",
+      "a": "/content/embeds/typography/font_svgs/allerta_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/allerta_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 1057,
+      "descender": -252
+    }
+  },
+  "allerta stencil": {
+    "id": "allerta_stencil",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/allerta_stencil_a.svg",
+      "a": "/content/embeds/typography/font_svgs/allerta_stencil_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/allerta_stencil_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 1057,
+      "descender": -252
+    }
+  },
+  "allison": {
+    "id": "allison",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/allison_a.svg",
+      "a": "/content/embeds/typography/font_svgs/allison_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/allison_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 890,
+      "descender": -380
+    }
+  },
+  "allura": {
+    "id": "allura",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/allura_a.svg",
+      "a": "/content/embeds/typography/font_svgs/allura_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/allura_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 800,
+      "descender": -450
+    }
+  },
+  "almarai": {
+    "id": "almarai",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/almarai_a.svg",
+      "a": "/content/embeds/typography/font_svgs/almarai_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/almarai_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 905,
+      "descender": -211
+    }
+  },
+  "almendra": {
+    "id": "almendra",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/almendra_a.svg",
+      "a": "/content/embeds/typography/font_svgs/almendra_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/almendra_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 951,
+      "descender": -345
+    }
+  },
+  "almendra display": {
+    "id": "almendra_display",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/almendra_display_a.svg",
+      "a": "/content/embeds/typography/font_svgs/almendra_display_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/almendra_display_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 951,
+      "descender": -345
+    }
+  },
+  "almendra sc": {
+    "id": "almendra_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/almendra_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/almendra_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/almendra_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 939,
+      "descender": -251
+    }
+  },
+  "alumni sans": {
+    "id": "alumni_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alumni_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alumni_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alumni_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "alumni sans collegiate one": {
+    "id": "alumni_sans_collegiate_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alumni_sans_collegiate_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alumni_sans_collegiate_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alumni_sans_collegiate_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "alumni sans pinstripe": {
+    "id": "alumni_sans_pinstripe",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alumni_sans_pinstripe_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alumni_sans_pinstripe_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alumni_sans_pinstripe_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "alumni sans sc": {
+    "id": "alumni_sans_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/alumni_sans_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/alumni_sans_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/alumni_sans_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "amarante": {
+    "id": "amarante",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amarante_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amarante_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amarante_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2020,
+      "descender": -540
+    }
+  },
+  "amaranth": {
+    "id": "amaranth",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amaranth_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amaranth_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amaranth_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 976,
+      "descender": -236
+    }
+  },
+  "amatic sc": {
+    "id": "amatic_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amatic_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amatic_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amatic_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1016,
+      "descender": -245
+    }
+  },
+  "amethysta": {
+    "id": "amethysta",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amethysta_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amethysta_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amethysta_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2022,
+      "descender": -563
+    }
+  },
+  "amiko": {
+    "id": "amiko",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amiko_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amiko_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amiko_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 928,
+      "descender": -406
+    }
+  },
+  "amiri": {
+    "id": "amiri",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amiri_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amiri_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amiri_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1124,
+      "descender": -634
+    }
+  },
+  "amiri quran": {
+    "id": "amiri_quran",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amiri_quran_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amiri_quran_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amiri_quran_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1815,
+      "descender": -634
+    }
+  },
+  "amita": {
+    "id": "amita",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/amita_a.svg",
+      "a": "/content/embeds/typography/font_svgs/amita_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/amita_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1292,
+      "descender": -650
+    }
+  },
+  "anaheim": {
+    "id": "anaheim",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anaheim_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anaheim_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anaheim_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1968,
+      "descender": -672
+    }
+  },
+  "ancizar sans": {
+    "id": "ancizar_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/ancizar_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/ancizar_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/ancizar_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "ancizar serif": {
+    "id": "ancizar_serif",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/ancizar_serif_a.svg",
+      "a": "/content/embeds/typography/font_svgs/ancizar_serif_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/ancizar_serif_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "andada pro": {
+    "id": "andada_pro",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/andada_pro_a.svg",
+      "a": "/content/embeds/typography/font_svgs/andada_pro_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/andada_pro_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 942,
+      "descender": -235
+    }
+  },
+  "andika": {
+    "id": "andika",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/andika_a.svg",
+      "a": "/content/embeds/typography/font_svgs/andika_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/andika_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2500,
+      "descender": -800
+    }
+  },
+  "anek bangla": {
+    "id": "anek_bangla",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_bangla_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_bangla_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_bangla_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2500,
+      "descender": -1232
+    }
+  },
+  "anek devanagari": {
+    "id": "anek_devanagari",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_devanagari_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_devanagari_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_devanagari_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2026,
+      "descender": -1385
+    }
+  },
+  "anek gujarati": {
+    "id": "anek_gujarati",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_gujarati_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_gujarati_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_gujarati_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1975,
+      "descender": -1064
+    }
+  },
+  "anek gurmukhi": {
+    "id": "anek_gurmukhi",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_gurmukhi_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_gurmukhi_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_gurmukhi_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1500,
+      "descender": -900
+    }
+  },
+  "anek kannada": {
+    "id": "anek_kannada",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_kannada_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_kannada_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_kannada_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2030,
+      "descender": -1310
+    }
+  },
+  "anek latin": {
+    "id": "anek_latin",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_latin_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_latin_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_latin_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1800,
+      "descender": -400
+    }
+  },
+  "anek malayalam": {
+    "id": "anek_malayalam",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_malayalam_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_malayalam_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_malayalam_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2035,
+      "descender": -830
+    }
+  },
+  "anek odia": {
+    "id": "anek_odia",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_odia_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_odia_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_odia_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1960,
+      "descender": -1400
+    }
+  },
+  "anek tamil": {
+    "id": "anek_tamil",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_tamil_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_tamil_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_tamil_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1963,
+      "descender": -853
+    }
+  },
+  "anek telugu": {
+    "id": "anek_telugu",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anek_telugu_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anek_telugu_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anek_telugu_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1800,
+      "descender": -1200
+    }
+  },
+  "angkor": {
+    "id": "angkor",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/angkor_a.svg",
+      "a": "/content/embeds/typography/font_svgs/angkor_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/angkor_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2500,
+      "descender": -1200
+    }
+  },
+  "annapurna sil": {
+    "id": "annapurna_sil",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/annapurna_sil_a.svg",
+      "a": "/content/embeds/typography/font_svgs/annapurna_sil_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/annapurna_sil_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1939,
+      "descender": -984
+    }
+  },
+  "annie use your telescope": {
+    "id": "annie_use_your_telescope",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/annie_use_your_telescope_a.svg",
+      "a": "/content/embeds/typography/font_svgs/annie_use_your_telescope_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/annie_use_your_telescope_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 1049,
+      "descender": -419
+    }
+  },
+  "anonymous pro": {
+    "id": "anonymous_pro",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anonymous_pro_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anonymous_pro_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anonymous_pro_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1675,
+      "descender": -373
+    }
+  },
+  "anta": {
+    "id": "anta",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anta_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anta_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anta_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1966,
+      "descender": -534
+    }
+  },
+  "antic": {
+    "id": "antic",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/antic_a.svg",
+      "a": "/content/embeds/typography/font_svgs/antic_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/antic_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 940,
+      "descender": -251
+    }
+  },
+  "antic didone": {
+    "id": "antic_didone",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/antic_didone_a.svg",
+      "a": "/content/embeds/typography/font_svgs/antic_didone_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/antic_didone_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 940,
+      "descender": -250
+    }
+  },
+  "antic slab": {
+    "id": "antic_slab",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/antic_slab_a.svg",
+      "a": "/content/embeds/typography/font_svgs/antic_slab_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/antic_slab_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 940,
+      "descender": -250
+    }
+  },
+  "anton": {
+    "id": "anton",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anton_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anton_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anton_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2409,
+      "descender": -674
+    }
+  },
+  "anton sc": {
+    "id": "anton_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anton_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anton_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anton_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2409,
+      "descender": -674
+    }
+  },
+  "antonio": {
+    "id": "antonio",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/antonio_a.svg",
+      "a": "/content/embeds/typography/font_svgs/antonio_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/antonio_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2365,
+      "descender": -285
+    }
+  },
+  "anuphan": {
+    "id": "anuphan",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anuphan_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anuphan_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anuphan_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1025,
+      "descender": -275
+    }
+  },
+  "anybody": {
+    "id": "anybody",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/anybody_a.svg",
+      "a": "/content/embeds/typography/font_svgs/anybody_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/anybody_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1590,
+      "descender": -480
+    }
+  },
+  "ar one sans": {
+    "id": "ar_one_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/ar_one_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/ar_one_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/ar_one_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1060,
+      "descender": -300
+    }
+  },
+  "arapey": {
+    "id": "arapey",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arapey_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arapey_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arapey_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 868,
+      "descender": -228
+    }
+  },
+  "arbutus": {
+    "id": "arbutus",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arbutus_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arbutus_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arbutus_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2010,
+      "descender": -550
+    }
+  },
+  "arbutus slab": {
+    "id": "arbutus_slab",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arbutus_slab_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arbutus_slab_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arbutus_slab_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2010,
+      "descender": -550
+    }
+  },
+  "architects daughter": {
+    "id": "architects_daughter",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/architects_daughter_a.svg",
+      "a": "/content/embeds/typography/font_svgs/architects_daughter_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/architects_daughter_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 1010,
+      "descender": -413
+    }
+  },
+  "archivo": {
+    "id": "archivo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/archivo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/archivo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/archivo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 878,
+      "descender": -210
+    }
+  },
+  "archivo black": {
+    "id": "archivo_black",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/archivo_black_a.svg",
+      "a": "/content/embeds/typography/font_svgs/archivo_black_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/archivo_black_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 878,
+      "descender": -210
+    }
+  },
+  "archivo narrow": {
+    "id": "archivo_narrow",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/archivo_narrow_a.svg",
+      "a": "/content/embeds/typography/font_svgs/archivo_narrow_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/archivo_narrow_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1035,
+      "descender": -312
+    }
+  },
+  "are you serious": {
+    "id": "are_you_serious",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/are_you_serious_a.svg",
+      "a": "/content/embeds/typography/font_svgs/are_you_serious_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/are_you_serious_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 880,
+      "descender": -320
+    }
+  },
+  "aref ruqaa": {
+    "id": "aref_ruqaa",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aref_ruqaa_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aref_ruqaa_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aref_ruqaa_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1221,
+      "descender": -244
+    }
+  },
+  "aref ruqaa ink": {
+    "id": "aref_ruqaa_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aref_ruqaa_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aref_ruqaa_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aref_ruqaa_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1221,
+      "descender": -244
+    }
+  },
+  "arima": {
+    "id": "arima",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arima_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arima_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arima_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1073,
+      "descender": -560
+    }
+  },
+  "arimo": {
+    "id": "arimo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arimo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arimo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arimo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1854,
+      "descender": -434
+    }
+  },
+  "arizonia": {
+    "id": "arizonia",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arizonia_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arizonia_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arizonia_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -350
+    }
+  },
+  "armata": {
+    "id": "armata",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/armata_a.svg",
+      "a": "/content/embeds/typography/font_svgs/armata_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/armata_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2000,
+      "descender": -560
+    }
+  },
+  "arsenal": {
+    "id": "arsenal",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arsenal_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arsenal_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arsenal_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -254
+    }
+  },
+  "arsenal sc": {
+    "id": "arsenal_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arsenal_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arsenal_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arsenal_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -254
+    }
+  },
+  "artifika": {
+    "id": "artifika",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/artifika_a.svg",
+      "a": "/content/embeds/typography/font_svgs/artifika_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/artifika_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1984,
+      "descender": -508
+    }
+  },
+  "arvo": {
+    "id": "arvo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arvo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arvo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arvo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1968,
+      "descender": -506
+    }
+  },
+  "arya": {
+    "id": "arya",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/arya_a.svg",
+      "a": "/content/embeds/typography/font_svgs/arya_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/arya_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1265,
+      "descender": -544
+    }
+  },
+  "asap": {
+    "id": "asap",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/asap_a.svg",
+      "a": "/content/embeds/typography/font_svgs/asap_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/asap_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 934,
+      "descender": -212
+    }
+  },
+  "asap condensed": {
+    "id": "asap_condensed",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/asap_condensed_a.svg",
+      "a": "/content/embeds/typography/font_svgs/asap_condensed_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/asap_condensed_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 934,
+      "descender": -212
+    }
+  },
+  "asar": {
+    "id": "asar",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/asar_a.svg",
+      "a": "/content/embeds/typography/font_svgs/asar_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/asar_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1196,
+      "descender": -557
+    }
+  },
+  "asimovian": {
+    "id": "asimovian",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/asimovian_a.svg",
+      "a": "/content/embeds/typography/font_svgs/asimovian_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/asimovian_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -300
+    }
+  },
+  "asset": {
+    "id": "asset",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/asset_a.svg",
+      "a": "/content/embeds/typography/font_svgs/asset_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/asset_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1971,
+      "descender": -589
+    }
+  },
+  "assistant": {
+    "id": "assistant",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/assistant_a.svg",
+      "a": "/content/embeds/typography/font_svgs/assistant_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/assistant_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1021,
+      "descender": -287
+    }
+  },
+  "asta sans": {
+    "id": "asta_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/asta_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/asta_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/asta_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 952,
+      "descender": -241
+    }
+  },
+  "astloch": {
+    "id": "astloch",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/astloch_a.svg",
+      "a": "/content/embeds/typography/font_svgs/astloch_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/astloch_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1948,
+      "descender": -526
+    }
+  },
+  "asul": {
+    "id": "asul",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/asul_a.svg",
+      "a": "/content/embeds/typography/font_svgs/asul_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/asul_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 949,
+      "descender": -264
+    }
+  },
+  "athiti": {
+    "id": "athiti",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/athiti_a.svg",
+      "a": "/content/embeds/typography/font_svgs/athiti_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/athiti_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1150,
+      "descender": -450
+    }
+  },
+  "atkinson hyperlegible": {
+    "id": "atkinson_hyperlegible",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_a.svg",
+      "a": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 950,
+      "descender": -290
+    }
+  },
+  "atkinson hyperlegible mono": {
+    "id": "atkinson_hyperlegible_mono",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_mono_a.svg",
+      "a": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_mono_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_mono_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 984,
+      "descender": -316
+    }
+  },
+  "atkinson hyperlegible next": {
+    "id": "atkinson_hyperlegible_next",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_next_a.svg",
+      "a": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_next_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/atkinson_hyperlegible_next_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 984,
+      "descender": -316
+    }
+  },
+  "atma": {
+    "id": "atma",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/atma_a.svg",
+      "a": "/content/embeds/typography/font_svgs/atma_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/atma_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1101,
+      "descender": -518
+    }
+  },
+  "atomic age": {
+    "id": "atomic_age",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/atomic_age_a.svg",
+      "a": "/content/embeds/typography/font_svgs/atomic_age_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/atomic_age_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2091,
+      "descender": -656
+    }
+  },
+  "aubrey": {
+    "id": "aubrey",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/aubrey_a.svg",
+      "a": "/content/embeds/typography/font_svgs/aubrey_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/aubrey_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 830,
+      "descender": -212
+    }
+  },
+  "audiowide": {
+    "id": "audiowide",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/audiowide_a.svg",
+      "a": "/content/embeds/typography/font_svgs/audiowide_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/audiowide_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2027,
+      "descender": -584
+    }
+  },
+  "autour one": {
+    "id": "autour_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/autour_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/autour_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/autour_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2010,
+      "descender": -550
+    }
+  },
+  "average": {
+    "id": "average",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/average_a.svg",
+      "a": "/content/embeds/typography/font_svgs/average_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/average_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 953,
+      "descender": -263
+    }
+  },
+  "average sans": {
+    "id": "average_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/average_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/average_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/average_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1027,
+      "descender": -269
+    }
+  },
+  "averia gruesa libre": {
+    "id": "averia_gruesa_libre",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/averia_gruesa_libre_a.svg",
+      "a": "/content/embeds/typography/font_svgs/averia_gruesa_libre_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/averia_gruesa_libre_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1952,
+      "descender": -492
+    }
+  },
+  "averia libre": {
+    "id": "averia_libre",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/averia_libre_a.svg",
+      "a": "/content/embeds/typography/font_svgs/averia_libre_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/averia_libre_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1952,
+      "descender": -492
+    }
+  },
+  "averia sans libre": {
+    "id": "averia_sans_libre",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/averia_sans_libre_a.svg",
+      "a": "/content/embeds/typography/font_svgs/averia_sans_libre_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/averia_sans_libre_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2035,
+      "descender": -499
+    }
+  },
+  "averia serif libre": {
+    "id": "averia_serif_libre",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/averia_serif_libre_a.svg",
+      "a": "/content/embeds/typography/font_svgs/averia_serif_libre_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/averia_serif_libre_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1828,
+      "descender": -465
+    }
+  },
+  "azeret mono": {
+    "id": "azeret_mono",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/azeret_mono_a.svg",
+      "a": "/content/embeds/typography/font_svgs/azeret_mono_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/azeret_mono_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 937,
+      "descender": -230
+    }
+  },
+  "b612": {
+    "id": "b612",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/b612_a.svg",
+      "a": "/content/embeds/typography/font_svgs/b612_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/b612_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1930,
+      "descender": -500
+    }
+  },
+  "b612 mono": {
+    "id": "b612_mono",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/b612_mono_a.svg",
+      "a": "/content/embeds/typography/font_svgs/b612_mono_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/b612_mono_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1930,
+      "descender": -500
+    }
+  },
+  "babylonica": {
+    "id": "babylonica",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/babylonica_a.svg",
+      "a": "/content/embeds/typography/font_svgs/babylonica_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/babylonica_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 875,
+      "descender": -450
+    }
+  },
+  "bacasime antique": {
+    "id": "bacasime_antique",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bacasime_antique_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bacasime_antique_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bacasime_antique_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1536,
+      "descender": -512
+    }
+  },
+  "bad script": {
+    "id": "bad_script",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bad_script_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bad_script_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bad_script_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1324,
+      "descender": -648
+    }
+  },
+  "badeen display": {
+    "id": "badeen_display",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/badeen_display_a.svg",
+      "a": "/content/embeds/typography/font_svgs/badeen_display_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/badeen_display_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1150,
+      "descender": -250
+    }
+  },
+  "bagel fat one": {
+    "id": "bagel_fat_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bagel_fat_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bagel_fat_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bagel_fat_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1160,
+      "descender": -288
+    }
+  },
+  "bahiana": {
+    "id": "bahiana",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bahiana_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bahiana_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bahiana_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -250
+    }
+  },
+  "bahianita": {
+    "id": "bahianita",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bahianita_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bahianita_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bahianita_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 962,
+      "descender": -238
+    }
+  },
+  "bai jamjuree": {
+    "id": "bai_jamjuree",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bai_jamjuree_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bai_jamjuree_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bai_jamjuree_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -250
+    }
+  },
+  "bakbak one": {
+    "id": "bakbak_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bakbak_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bakbak_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bakbak_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1050,
+      "descender": -350
+    }
+  },
+  "ballet": {
+    "id": "ballet",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/ballet_a.svg",
+      "a": "/content/embeds/typography/font_svgs/ballet_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/ballet_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1130,
+      "descender": -770
+    }
+  },
+  "baloo 2": {
+    "id": "baloo_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1078,
+      "descender": -524
+    }
+  },
+  "baloo bhai 2": {
+    "id": "baloo_bhai_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_bhai_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_bhai_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_bhai_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1078,
+      "descender": -544
+    }
+  },
+  "baloo bhaijaan 2": {
+    "id": "baloo_bhaijaan_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_bhaijaan_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_bhaijaan_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_bhaijaan_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1080,
+      "descender": -632
+    }
+  },
+  "baloo bhaina 2": {
+    "id": "baloo_bhaina_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_bhaina_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_bhaina_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_bhaina_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1185,
+      "descender": -827
+    }
+  },
+  "baloo da 2": {
+    "id": "baloo_da_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_da_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_da_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_da_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1095,
+      "descender": -589
+    }
+  },
+  "baloo paaji 2": {
+    "id": "baloo_paaji_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_paaji_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_paaji_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_paaji_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1157,
+      "descender": -614
+    }
+  },
+  "baloo tamma 2": {
+    "id": "baloo_tamma_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_tamma_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_tamma_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_tamma_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1078,
+      "descender": -673
+    }
+  },
+  "baloo tammudu 2": {
+    "id": "baloo_tammudu_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_tammudu_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_tammudu_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_tammudu_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1177,
+      "descender": -1119
+    }
+  },
+  "baloo thambi 2": {
+    "id": "baloo_thambi_2",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baloo_thambi_2_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baloo_thambi_2_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baloo_thambi_2_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1078,
+      "descender": -486
+    }
+  },
+  "balsamiq sans": {
+    "id": "balsamiq_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/balsamiq_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/balsamiq_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/balsamiq_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "bangers": {
+    "id": "bangers",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bangers_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bangers_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bangers_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 883,
+      "descender": -181
+    }
+  },
+  "barlow": {
+    "id": "barlow",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/barlow_a.svg",
+      "a": "/content/embeds/typography/font_svgs/barlow_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/barlow_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -200
+    }
+  },
+  "barlow condensed": {
+    "id": "barlow_condensed",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/barlow_condensed_a.svg",
+      "a": "/content/embeds/typography/font_svgs/barlow_condensed_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/barlow_condensed_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -200
+    }
+  },
+  "barlow semi condensed": {
+    "id": "barlow_semi_condensed",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/barlow_semi_condensed_a.svg",
+      "a": "/content/embeds/typography/font_svgs/barlow_semi_condensed_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/barlow_semi_condensed_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -200
+    }
+  },
+  "barriecito": {
+    "id": "barriecito",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/barriecito_a.svg",
+      "a": "/content/embeds/typography/font_svgs/barriecito_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/barriecito_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 962,
+      "descender": -238
+    }
+  },
+  "barrio": {
+    "id": "barrio",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/barrio_a.svg",
+      "a": "/content/embeds/typography/font_svgs/barrio_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/barrio_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 880,
+      "descender": -247
+    }
+  },
+  "basic": {
+    "id": "basic",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/basic_a.svg",
+      "a": "/content/embeds/typography/font_svgs/basic_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/basic_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2066,
+      "descender": -511
+    }
+  },
+  "baskervville": {
+    "id": "baskervville",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baskervville_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baskervville_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baskervville_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 998,
+      "descender": -295
+    }
+  },
+  "baskervville sc": {
+    "id": "baskervville_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baskervville_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baskervville_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baskervville_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 998,
+      "descender": -295
+    }
+  },
+  "battambang": {
+    "id": "battambang",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/battambang_a.svg",
+      "a": "/content/embeds/typography/font_svgs/battambang_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/battambang_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2500,
+      "descender": -1200
+    }
+  },
+  "baumans": {
+    "id": "baumans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/baumans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/baumans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/baumans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 942,
+      "descender": -240
+    }
+  },
+  "bayon": {
+    "id": "bayon",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bayon_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bayon_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bayon_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2500,
+      "descender": -1200
+    }
+  },
+  "be vietnam pro": {
+    "id": "be_vietnam_pro",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/be_vietnam_pro_a.svg",
+      "a": "/content/embeds/typography/font_svgs/be_vietnam_pro_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/be_vietnam_pro_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -265
+    }
+  },
+  "beau rivage": {
+    "id": "beau_rivage",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/beau_rivage_a.svg",
+      "a": "/content/embeds/typography/font_svgs/beau_rivage_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/beau_rivage_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 940,
+      "descender": -400
+    }
+  },
+  "bebas neue": {
+    "id": "bebas_neue",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bebas_neue_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bebas_neue_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bebas_neue_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "beiruti": {
+    "id": "beiruti",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/beiruti_a.svg",
+      "a": "/content/embeds/typography/font_svgs/beiruti_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/beiruti_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "belanosima": {
+    "id": "belanosima",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/belanosima_a.svg",
+      "a": "/content/embeds/typography/font_svgs/belanosima_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/belanosima_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1835,
+      "descender": -416
+    }
+  },
+  "belgrano": {
+    "id": "belgrano",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/belgrano_a.svg",
+      "a": "/content/embeds/typography/font_svgs/belgrano_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/belgrano_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 990,
+      "descender": -278
+    }
+  },
+  "bellefair": {
+    "id": "bellefair",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bellefair_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bellefair_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bellefair_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 869,
+      "descender": -277
+    }
+  },
+  "belleza": {
+    "id": "belleza",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/belleza_a.svg",
+      "a": "/content/embeds/typography/font_svgs/belleza_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/belleza_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 928,
+      "descender": -224
+    }
+  },
+  "bellota": {
+    "id": "bellota",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bellota_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bellota_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bellota_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 968,
+      "descender": -290
+    }
+  },
+  "bellota text": {
+    "id": "bellota_text",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bellota_text_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bellota_text_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bellota_text_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 968,
+      "descender": -290
+    }
+  },
+  "benchnine": {
+    "id": "benchnine",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/benchnine_a.svg",
+      "a": "/content/embeds/typography/font_svgs/benchnine_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/benchnine_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2020,
+      "descender": -720
+    }
+  },
+  "benne": {
+    "id": "benne",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/benne_a.svg",
+      "a": "/content/embeds/typography/font_svgs/benne_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/benne_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 630,
+      "descender": -370
+    }
+  },
+  "bentham": {
+    "id": "bentham",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bentham_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bentham_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bentham_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 879,
+      "descender": -260
+    }
+  },
+  "berkshire swash": {
+    "id": "berkshire_swash",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/berkshire_swash_a.svg",
+      "a": "/content/embeds/typography/font_svgs/berkshire_swash_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/berkshire_swash_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2007,
+      "descender": -537
+    }
+  },
+  "besley": {
+    "id": "besley",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/besley_a.svg",
+      "a": "/content/embeds/typography/font_svgs/besley_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/besley_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2500,
+      "descender": -850
+    }
+  },
+  "beth ellen": {
+    "id": "beth_ellen",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/beth_ellen_a.svg",
+      "a": "/content/embeds/typography/font_svgs/beth_ellen_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/beth_ellen_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 3250,
+      "descender": -1190
+    }
+  },
+  "bevan": {
+    "id": "bevan",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bevan_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bevan_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bevan_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2366,
+      "descender": -925
+    }
+  },
+  "bhutuka expanded one": {
+    "id": "bhutuka_expanded_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bhutuka_expanded_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bhutuka_expanded_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bhutuka_expanded_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 826,
+      "descender": -182
+    }
+  },
+  "big shoulders": {
+    "id": "big_shoulders",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/big_shoulders_a.svg",
+      "a": "/content/embeds/typography/font_svgs/big_shoulders_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/big_shoulders_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1971,
+      "descender": -429
+    }
+  },
+  "big shoulders inline": {
+    "id": "big_shoulders_inline",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/big_shoulders_inline_a.svg",
+      "a": "/content/embeds/typography/font_svgs/big_shoulders_inline_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/big_shoulders_inline_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 4000,
+      "ascender": 3942,
+      "descender": -858
+    }
+  },
+  "big shoulders stencil": {
+    "id": "big_shoulders_stencil",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/big_shoulders_stencil_a.svg",
+      "a": "/content/embeds/typography/font_svgs/big_shoulders_stencil_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/big_shoulders_stencil_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1971,
+      "descender": -429
+    }
+  },
+  "bigelow rules": {
+    "id": "bigelow_rules",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bigelow_rules_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bigelow_rules_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bigelow_rules_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1857,
+      "descender": -516
+    }
+  },
+  "bigshot one": {
+    "id": "bigshot_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bigshot_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bigshot_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bigshot_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 869,
+      "descender": -179
+    }
+  },
+  "bilbo": {
+    "id": "bilbo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bilbo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bilbo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bilbo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 850,
+      "descender": -400
+    }
+  },
+  "bilbo swash caps": {
+    "id": "bilbo_swash_caps",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bilbo_swash_caps_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bilbo_swash_caps_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bilbo_swash_caps_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 850,
+      "descender": -400
+    }
+  },
+  "biorhyme": {
+    "id": "biorhyme",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/biorhyme_a.svg",
+      "a": "/content/embeds/typography/font_svgs/biorhyme_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/biorhyme_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1127,
+      "descender": -422
+    }
+  },
+  "biorhyme expanded": {
+    "id": "biorhyme_expanded",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/biorhyme_expanded_a.svg",
+      "a": "/content/embeds/typography/font_svgs/biorhyme_expanded_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/biorhyme_expanded_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1127,
+      "descender": -422
+    }
+  },
+  "birthstone": {
+    "id": "birthstone",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/birthstone_a.svg",
+      "a": "/content/embeds/typography/font_svgs/birthstone_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/birthstone_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 950,
+      "descender": -410
+    }
+  },
+  "birthstone bounce": {
+    "id": "birthstone_bounce",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/birthstone_bounce_a.svg",
+      "a": "/content/embeds/typography/font_svgs/birthstone_bounce_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/birthstone_bounce_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 950,
+      "descender": -410
+    }
+  },
+  "biryani": {
+    "id": "biryani",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/biryani_a.svg",
+      "a": "/content/embeds/typography/font_svgs/biryani_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/biryani_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1109,
+      "descender": -656
+    }
+  },
+  "bitcount": {
+    "id": "bitcount",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount grid double": {
+    "id": "bitcount_grid_double",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_grid_double_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_grid_double_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_grid_double_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount grid double ink": {
+    "id": "bitcount_grid_double_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_grid_double_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_grid_double_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_grid_double_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount grid single": {
+    "id": "bitcount_grid_single",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_grid_single_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_grid_single_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_grid_single_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount grid single ink": {
+    "id": "bitcount_grid_single_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_grid_single_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_grid_single_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_grid_single_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount ink": {
+    "id": "bitcount_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount prop double": {
+    "id": "bitcount_prop_double",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_prop_double_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_prop_double_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_prop_double_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount prop double ink": {
+    "id": "bitcount_prop_double_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_prop_double_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_prop_double_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_prop_double_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount prop single": {
+    "id": "bitcount_prop_single",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_prop_single_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_prop_single_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_prop_single_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount prop single ink": {
+    "id": "bitcount_prop_single_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_prop_single_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_prop_single_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_prop_single_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount single": {
+    "id": "bitcount_single",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_single_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_single_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_single_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitcount single ink": {
+    "id": "bitcount_single_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitcount_single_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitcount_single_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitcount_single_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 840,
+      "descender": -360
+    }
+  },
+  "bitter": {
+    "id": "bitter",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bitter_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bitter_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bitter_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 935,
+      "descender": -265
+    }
+  },
+  "biz udgothic": {
+    "id": "biz_udgothic",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/biz_udgothic_a.svg",
+      "a": "/content/embeds/typography/font_svgs/biz_udgothic_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/biz_udgothic_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1802,
+      "descender": -246
+    }
+  },
+  "biz udmincho": {
+    "id": "biz_udmincho",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/biz_udmincho_a.svg",
+      "a": "/content/embeds/typography/font_svgs/biz_udmincho_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/biz_udmincho_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1802,
+      "descender": -246
+    }
+  },
+  "biz udpgothic": {
+    "id": "biz_udpgothic",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/biz_udpgothic_a.svg",
+      "a": "/content/embeds/typography/font_svgs/biz_udpgothic_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/biz_udpgothic_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1802,
+      "descender": -246
+    }
+  },
+  "biz udpmincho": {
+    "id": "biz_udpmincho",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/biz_udpmincho_a.svg",
+      "a": "/content/embeds/typography/font_svgs/biz_udpmincho_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/biz_udpmincho_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1802,
+      "descender": -246
+    }
+  },
+  "black and white picture": {
+    "id": "black_and_white_picture",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/black_and_white_picture_a.svg",
+      "a": "/content/embeds/typography/font_svgs/black_and_white_picture_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/black_and_white_picture_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 800,
+      "descender": -200
+    }
+  },
+  "black han sans": {
+    "id": "black_han_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/black_han_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/black_han_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/black_han_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 790,
+      "descender": -210
+    }
+  },
+  "black ops one": {
+    "id": "black_ops_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/black_ops_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/black_ops_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/black_ops_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1871,
+      "descender": -689
+    }
+  },
+  "blaka": {
+    "id": "blaka",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/blaka_a.svg",
+      "a": "/content/embeds/typography/font_svgs/blaka_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/blaka_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 932,
+      "descender": -235
+    }
+  },
+  "blaka hollow": {
+    "id": "blaka_hollow",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/blaka_hollow_a.svg",
+      "a": "/content/embeds/typography/font_svgs/blaka_hollow_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/blaka_hollow_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 932,
+      "descender": -235
+    }
+  },
+  "blaka ink": {
+    "id": "blaka_ink",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/blaka_ink_a.svg",
+      "a": "/content/embeds/typography/font_svgs/blaka_ink_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/blaka_ink_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 932,
+      "descender": -235
+    }
+  },
+  "blinker": {
+    "id": "blinker",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/blinker_a.svg",
+      "a": "/content/embeds/typography/font_svgs/blinker_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/blinker_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 960,
+      "descender": -240
+    }
+  },
+  "bodoni moda": {
+    "id": "bodoni_moda",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bodoni_moda_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bodoni_moda_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bodoni_moda_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2250,
+      "descender": -800
+    }
+  },
+  "bodoni moda sc": {
+    "id": "bodoni_moda_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bodoni_moda_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bodoni_moda_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bodoni_moda_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 2250,
+      "descender": -800
+    }
+  },
+  "bokor": {
+    "id": "bokor",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bokor_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bokor_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bokor_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2500,
+      "descender": -1200
+    }
+  },
+  "boldonse": {
+    "id": "boldonse",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/boldonse_a.svg",
+      "a": "/content/embeds/typography/font_svgs/boldonse_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/boldonse_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1520,
+      "descender": -400
+    }
+  },
+  "bona nova": {
+    "id": "bona_nova",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bona_nova_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bona_nova_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bona_nova_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 932,
+      "descender": -268
+    }
+  },
+  "bona nova sc": {
+    "id": "bona_nova_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bona_nova_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bona_nova_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bona_nova_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 932,
+      "descender": -268
+    }
+  },
+  "bonbon": {
+    "id": "bonbon",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bonbon_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bonbon_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bonbon_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 845,
+      "descender": -330
+    }
+  },
+  "bonheur royale": {
+    "id": "bonheur_royale",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bonheur_royale_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bonheur_royale_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bonheur_royale_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 780,
+      "descender": -380
+    }
+  },
+  "boogaloo": {
+    "id": "boogaloo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/boogaloo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/boogaloo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/boogaloo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 943,
+      "descender": -246
+    }
+  },
+  "borel": {
+    "id": "borel",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/borel_a.svg",
+      "a": "/content/embeds/typography/font_svgs/borel_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/borel_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 986,
+      "descender": -1014
+    }
+  },
+  "bowlby one": {
+    "id": "bowlby_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bowlby_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bowlby_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bowlby_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2276,
+      "descender": -932
+    }
+  },
+  "bowlby one sc": {
+    "id": "bowlby_one_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bowlby_one_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bowlby_one_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bowlby_one_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2248,
+      "descender": -876
+    }
+  },
+  "braah one": {
+    "id": "braah_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/braah_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/braah_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/braah_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1018,
+      "descender": -382
+    }
+  },
+  "brawler": {
+    "id": "brawler",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/brawler_a.svg",
+      "a": "/content/embeds/typography/font_svgs/brawler_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/brawler_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 971,
+      "descender": -248
+    }
+  },
+  "bree serif": {
+    "id": "bree_serif",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bree_serif_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bree_serif_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bree_serif_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1077,
+      "descender": -281
+    }
+  },
+  "bricolage grotesque": {
+    "id": "bricolage_grotesque",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bricolage_grotesque_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bricolage_grotesque_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bricolage_grotesque_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 930,
+      "descender": -270
+    }
+  },
+  "bruno ace": {
+    "id": "bruno_ace",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bruno_ace_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bruno_ace_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bruno_ace_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 953,
+      "descender": -253
+    }
+  },
+  "bruno ace sc": {
+    "id": "bruno_ace_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bruno_ace_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bruno_ace_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bruno_ace_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 953,
+      "descender": -253
+    }
+  },
+  "brygada 1918": {
+    "id": "brygada_1918",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/brygada_1918_a.svg",
+      "a": "/content/embeds/typography/font_svgs/brygada_1918_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/brygada_1918_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 920,
+      "descender": -250
+    }
+  },
+  "bubblegum sans": {
+    "id": "bubblegum_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bubblegum_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bubblegum_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bubblegum_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 852,
+      "descender": -311
+    }
+  },
+  "bubbler one": {
+    "id": "bubbler_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bubbler_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bubbler_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bubbler_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -263
+    }
+  },
+  "buenard": {
+    "id": "buenard",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/buenard_a.svg",
+      "a": "/content/embeds/typography/font_svgs/buenard_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/buenard_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1031,
+      "descender": -270
+    }
+  },
+  "bungee": {
+    "id": "bungee",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bungee_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bungee_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bungee_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1020,
+      "descender": -300
+    }
+  },
+  "bungee hairline": {
+    "id": "bungee_hairline",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bungee_hairline_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bungee_hairline_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bungee_hairline_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1020,
+      "descender": -300
+    }
+  },
+  "bungee inline": {
+    "id": "bungee_inline",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bungee_inline_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bungee_inline_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bungee_inline_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1020,
+      "descender": -300
+    }
+  },
+  "bungee outline": {
+    "id": "bungee_outline",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bungee_outline_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bungee_outline_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bungee_outline_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1020,
+      "descender": -300
+    }
+  },
+  "bungee shade": {
+    "id": "bungee_shade",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bungee_shade_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bungee_shade_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bungee_shade_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1020,
+      "descender": -300
+    }
+  },
+  "bungee spice": {
+    "id": "bungee_spice",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bungee_spice_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bungee_spice_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bungee_spice_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1020,
+      "descender": -300
+    }
+  },
+  "bungee tint": {
+    "id": "bungee_tint",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bungee_tint_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bungee_tint_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bungee_tint_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1020,
+      "descender": -300
+    }
+  },
+  "butcherman": {
+    "id": "butcherman",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/butcherman_a.svg",
+      "a": "/content/embeds/typography/font_svgs/butcherman_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/butcherman_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2600,
+      "descender": -1363
+    }
+  },
+  "butterfly kids": {
+    "id": "butterfly_kids",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/butterfly_kids_a.svg",
+      "a": "/content/embeds/typography/font_svgs/butterfly_kids_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/butterfly_kids_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 917,
+      "descender": -304
+    }
+  },
+  "bytesized": {
+    "id": "bytesized",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/bytesized_a.svg",
+      "a": "/content/embeds/typography/font_svgs/bytesized_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/bytesized_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 16,
+      "ascender": 12,
+      "descender": -8
+    }
+  },
+  "cabin": {
+    "id": "cabin",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cabin_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cabin_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cabin_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2000,
+      "ascender": 1930,
+      "descender": -500
+    }
+  },
+  "cabin condensed": {
+    "id": "cabin_condensed",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cabin_condensed_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cabin_condensed_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cabin_condensed_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 965,
+      "descender": -250
+    }
+  },
+  "cabin sketch": {
+    "id": "cabin_sketch",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cabin_sketch_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cabin_sketch_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cabin_sketch_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 873,
+      "descender": -298
+    }
+  },
+  "cactus classical serif": {
+    "id": "cactus_classical_serif",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cactus_classical_serif_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cactus_classical_serif_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cactus_classical_serif_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 995,
+      "descender": -229
+    }
+  },
+  "caesar dressing": {
+    "id": "caesar_dressing",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/caesar_dressing_a.svg",
+      "a": "/content/embeds/typography/font_svgs/caesar_dressing_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/caesar_dressing_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 1017,
+      "descender": -226
+    }
+  },
+  "cagliostro": {
+    "id": "cagliostro",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cagliostro_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cagliostro_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cagliostro_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 998,
+      "descender": -355
+    }
+  },
+  "cairo": {
+    "id": "cairo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cairo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cairo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cairo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1303,
+      "descender": -571
+    }
+  },
+  "cairo play": {
+    "id": "cairo_play",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cairo_play_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cairo_play_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cairo_play_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1303,
+      "descender": -571
+    }
+  },
+  "cal sans": {
+    "id": "cal_sans",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cal_sans_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cal_sans_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cal_sans_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -300
+    }
+  },
+  "caladea": {
+    "id": "caladea",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/caladea_a.svg",
+      "a": "/content/embeds/typography/font_svgs/caladea_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/caladea_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -250
+    }
+  },
+  "calligraffitti": {
+    "id": "calligraffitti",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/calligraffitti_a.svg",
+      "a": "/content/embeds/typography/font_svgs/calligraffitti_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/calligraffitti_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 986,
+      "descender": -607
+    }
+  },
+  "cambay": {
+    "id": "cambay",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cambay_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cambay_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cambay_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 800,
+      "ascender": 800,
+      "descender": -503
+    }
+  },
+  "cambo": {
+    "id": "cambo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cambo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cambo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cambo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 879,
+      "descender": -243
+    }
+  },
+  "candal": {
+    "id": "candal",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/candal_a.svg",
+      "a": "/content/embeds/typography/font_svgs/candal_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/candal_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2226,
+      "descender": -432
+    }
+  },
+  "cantarell": {
+    "id": "cantarell",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cantarell_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cantarell_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cantarell_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2240,
+      "descender": -660
+    }
+  },
+  "cantata one": {
+    "id": "cantata_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cantata_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cantata_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cantata_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2040,
+      "descender": -560
+    }
+  },
+  "cantora one": {
+    "id": "cantora_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cantora_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cantora_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cantora_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1000,
+      "descender": -250
+    }
+  },
+  "caprasimo": {
+    "id": "caprasimo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/caprasimo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/caprasimo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/caprasimo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1880,
+      "descender": -469
+    }
+  },
+  "capriola": {
+    "id": "capriola",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/capriola_a.svg",
+      "a": "/content/embeds/typography/font_svgs/capriola_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/capriola_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1992,
+      "descender": -568
+    }
+  },
+  "caramel": {
+    "id": "caramel",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/caramel_a.svg",
+      "a": "/content/embeds/typography/font_svgs/caramel_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/caramel_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 900,
+      "descender": -300
+    }
+  },
+  "carattere": {
+    "id": "carattere",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/carattere_a.svg",
+      "a": "/content/embeds/typography/font_svgs/carattere_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/carattere_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 800,
+      "descender": -350
+    }
+  },
+  "cardo": {
+    "id": "cardo",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cardo_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cardo_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cardo_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2028,
+      "descender": -745
+    }
+  },
+  "carlito": {
+    "id": "carlito",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/carlito_a.svg",
+      "a": "/content/embeds/typography/font_svgs/carlito_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/carlito_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1950,
+      "descender": -550
+    }
+  },
+  "carme": {
+    "id": "carme",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/carme_a.svg",
+      "a": "/content/embeds/typography/font_svgs/carme_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/carme_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1946,
+      "descender": -513
+    }
+  },
+  "carrois gothic": {
+    "id": "carrois_gothic",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/carrois_gothic_a.svg",
+      "a": "/content/embeds/typography/font_svgs/carrois_gothic_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/carrois_gothic_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 922,
+      "descender": -270
+    }
+  },
+  "carrois gothic sc": {
+    "id": "carrois_gothic_sc",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/carrois_gothic_sc_a.svg",
+      "a": "/content/embeds/typography/font_svgs/carrois_gothic_sc_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/carrois_gothic_sc_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 922,
+      "descender": -270
+    }
+  },
+  "carter one": {
+    "id": "carter_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/carter_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/carter_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/carter_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 2264,
+      "descender": -890
+    }
+  },
+  "cascadia code": {
+    "id": "cascadia_code",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cascadia_code_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cascadia_code_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cascadia_code_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1900,
+      "descender": -480
+    }
+  },
+  "cascadia mono": {
+    "id": "cascadia_mono",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cascadia_mono_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cascadia_mono_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cascadia_mono_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 2048,
+      "ascender": 1900,
+      "descender": -480
+    }
+  },
+  "castoro": {
+    "id": "castoro",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/castoro_a.svg",
+      "a": "/content/embeds/typography/font_svgs/castoro_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/castoro_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 755,
+      "descender": -245
+    }
+  },
+  "castoro titling": {
+    "id": "castoro_titling",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/castoro_titling_a.svg",
+      "a": "/content/embeds/typography/font_svgs/castoro_titling_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/castoro_titling_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 755,
+      "descender": -245
+    }
+  },
+  "catamaran": {
+    "id": "catamaran",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/catamaran_a.svg",
+      "a": "/content/embeds/typography/font_svgs/catamaran_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/catamaran_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 1100,
+      "descender": -540
+    }
+  },
+  "caveat": {
+    "id": "caveat",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/caveat_a.svg",
+      "a": "/content/embeds/typography/font_svgs/caveat_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/caveat_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 960,
+      "descender": -300
+    }
+  },
+  "caveat brush": {
+    "id": "caveat_brush",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/caveat_brush_a.svg",
+      "a": "/content/embeds/typography/font_svgs/caveat_brush_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/caveat_brush_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 960,
+      "descender": -300
+    }
+  },
+  "cedarville cursive": {
+    "id": "cedarville_cursive",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/cedarville_cursive_a.svg",
+      "a": "/content/embeds/typography/font_svgs/cedarville_cursive_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/cedarville_cursive_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1024,
+      "ascender": 1279,
+      "descender": -663
+    }
+  },
+  "ceviche one": {
+    "id": "ceviche_one",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/ceviche_one_a.svg",
+      "a": "/content/embeds/typography/font_svgs/ceviche_one_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/ceviche_one_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 806,
+      "descender": -237
+    }
+  },
+  "chakra petch": {
+    "id": "chakra_petch",
+    "family": "sans-serif",
+    "images": {
+      "A": "/content/embeds/typography/font_svgs/chakra_petch_a.svg",
+      "a": "/content/embeds/typography/font_svgs/chakra_petch_a.svg"
+    },
+    "svg": {
+      "A": {
+        "path": "/content/embeds/typography/font_svgs/chakra_petch_a.svg",
+        "width": 80,
+        "height": 80,
+        "viewBox": "0 0 80 80"
+      }
+    },
+    "fontMetrics": {
+      "unitsPerEm": 1000,
+      "ascender": 992,
+      "descender": -308
+    }
+  }
+}

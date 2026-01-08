@@ -1,3 +1,2361 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:403e0095f2bcaa963cdfbb8d00a3695565623764d6f87b890bf58d7a2304acfc
-size 68739
+{
+  "metadata": {
+    "generated_at": "2025-09-22T16:11:54.157445",
+    "method": "umap_from_png_pixels",
+    "total_fonts": 293,
+    "umap_params": {
+      "n_neighbors": 15,
+      "min_dist": 1.0,
+      "n_components": 2,
+      "metric": "euclidean",
+      "random_state": 42
+    },
+    "data_source": "PNG pixel matrices (40x40)"
+  },
+  "fonts": [
+    {
+      "name": "Baumans",
+      "id": "baumans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baumans",
+      "x": 18.494117736816406,
+      "y": -0.46384990215301514
+    },
+    {
+      "name": "Castoro Titling",
+      "id": "castoro_titling",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Castoro+Titling",
+      "x": 19.08490562438965,
+      "y": -8.786286354064941
+    },
+    {
+      "name": "Almendra Sc",
+      "id": "almendra_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Almendra+Sc",
+      "x": 17.94493865966797,
+      "y": -8.496891975402832
+    },
+    {
+      "name": "Akaya Telivigala",
+      "id": "akaya_telivigala",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Akaya+Telivigala",
+      "x": 21.603944778442383,
+      "y": -5.4939398765563965
+    },
+    {
+      "name": "Afacad Flux",
+      "id": "afacad_flux",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Afacad+Flux",
+      "x": 17.90031623840332,
+      "y": -6.820926189422607
+    },
+    {
+      "name": "Carattere",
+      "id": "carattere",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Carattere",
+      "x": 16.19448471069336,
+      "y": -7.016509532928467
+    },
+    {
+      "name": "Abril Fatface",
+      "id": "abril_fatface",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Abril+Fatface",
+      "x": 20.192102432250977,
+      "y": -8.998359680175781
+    },
+    {
+      "name": "Asset",
+      "id": "asset",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Asset",
+      "x": 19.972240447998047,
+      "y": -1.2671222686767578
+    },
+    {
+      "name": "Be Vietnam Pro",
+      "id": "be_vietnam_pro",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Be+Vietnam+Pro",
+      "x": 23.365022659301758,
+      "y": -4.017947673797607
+    },
+    {
+      "name": "Alegreya Sans Sc",
+      "id": "alegreya_sans_sc",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alegreya+Sans+Sc",
+      "x": 20.48445701599121,
+      "y": -6.818283557891846
+    },
+    {
+      "name": "Aladin",
+      "id": "aladin",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aladin",
+      "x": 21.421142578125,
+      "y": -4.155740737915039
+    },
+    {
+      "name": "Big Shoulders Inline",
+      "id": "big_shoulders_inline",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Big+Shoulders+Inline",
+      "x": 16.641128540039062,
+      "y": -4.189671516418457
+    },
+    {
+      "name": "Carter One",
+      "id": "carter_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Carter+One",
+      "x": 21.244213104248047,
+      "y": -2.1734020709991455
+    },
+    {
+      "name": "Alice",
+      "id": "alice",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alice",
+      "x": 18.316776275634766,
+      "y": -9.161249160766602
+    },
+    {
+      "name": "Amiri",
+      "id": "amiri",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amiri",
+      "x": 17.296218872070312,
+      "y": -9.194451332092285
+    },
+    {
+      "name": "Arya",
+      "id": "arya",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arya",
+      "x": 20.68015480041504,
+      "y": -7.799196243286133
+    },
+    {
+      "name": "Andika",
+      "id": "andika",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Andika",
+      "x": 23.530542373657227,
+      "y": -4.775561332702637
+    },
+    {
+      "name": "Akatab",
+      "id": "akatab",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Akatab",
+      "x": 19.34527587890625,
+      "y": -6.275416374206543
+    },
+    {
+      "name": "Cantarell",
+      "id": "cantarell",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cantarell",
+      "x": 22.87999725341797,
+      "y": -6.737560749053955
+    },
+    {
+      "name": "Archivo Black",
+      "id": "archivo_black",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Archivo+Black",
+      "x": 22.111753463745117,
+      "y": -1.174342155456543
+    },
+    {
+      "name": "Barlow Condensed",
+      "id": "barlow_condensed",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Barlow+Condensed",
+      "x": 17.464378356933594,
+      "y": -4.241239547729492
+    },
+    {
+      "name": "Bree Serif",
+      "id": "bree_serif",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bree+Serif",
+      "x": 22.43787956237793,
+      "y": -2.9592504501342773
+    },
+    {
+      "name": "Actor",
+      "id": "actor",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Actor",
+      "x": 22.239173889160156,
+      "y": -5.835178375244141
+    },
+    {
+      "name": "Amiri Quran",
+      "id": "amiri_quran",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amiri+Quran",
+      "x": 17.43636131286621,
+      "y": -9.012243270874023
+    },
+    {
+      "name": "Catamaran",
+      "id": "catamaran",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Catamaran",
+      "x": 22.96765899658203,
+      "y": -7.319466590881348
+    },
+    {
+      "name": "Cantata One",
+      "id": "cantata_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cantata+One",
+      "x": 21.11892318725586,
+      "y": -9.548401832580566
+    },
+    {
+      "name": "Anton",
+      "id": "anton",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anton",
+      "x": 18.142189025878906,
+      "y": -2.554518699645996
+    },
+    {
+      "name": "Bigshot One",
+      "id": "bigshot_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bigshot+One",
+      "x": 19.22067642211914,
+      "y": -8.094287872314453
+    },
+    {
+      "name": "Bitcount",
+      "id": "bitcount",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount",
+      "x": 17.018287658691406,
+      "y": -0.40733659267425537
+    },
+    {
+      "name": "Biorhyme Expanded",
+      "id": "biorhyme_expanded",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Biorhyme+Expanded",
+      "x": 19.0455322265625,
+      "y": -0.8312316536903381
+    },
+    {
+      "name": "Bonbon",
+      "id": "bonbon",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bonbon",
+      "x": 15.121182441711426,
+      "y": -5.263389587402344
+    },
+    {
+      "name": "Amethysta",
+      "id": "amethysta",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amethysta",
+      "x": 21.001907348632812,
+      "y": -9.594971656799316
+    },
+    {
+      "name": "Arbutus",
+      "id": "arbutus",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arbutus",
+      "x": 21.7993221282959,
+      "y": -1.4154260158538818
+    },
+    {
+      "name": "Bowlby One",
+      "id": "bowlby_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bowlby+One",
+      "x": 20.656328201293945,
+      "y": -0.8706757426261902
+    },
+    {
+      "name": "Cambay",
+      "id": "cambay",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cambay",
+      "x": 21.44684410095215,
+      "y": -6.603434085845947
+    },
+    {
+      "name": "Audiowide",
+      "id": "audiowide",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Audiowide",
+      "x": 19.63788414001465,
+      "y": -1.476771354675293
+    },
+    {
+      "name": "Bitcount Prop Single",
+      "id": "bitcount_prop_single",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Prop+Single",
+      "x": 17.749900817871094,
+      "y": 0.07072576135396957
+    },
+    {
+      "name": "Blaka Hollow",
+      "id": "blaka_hollow",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Blaka+Hollow",
+      "x": 19.00209617614746,
+      "y": -3.3146474361419678
+    },
+    {
+      "name": "Anek Odia",
+      "id": "anek_odia",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Odia",
+      "x": 19.981218338012695,
+      "y": -6.394980430603027
+    },
+    {
+      "name": "Anek Latin",
+      "id": "anek_latin",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Latin",
+      "x": 19.357284545898438,
+      "y": -5.552064418792725
+    },
+    {
+      "name": "Baloo Tamma 2",
+      "id": "baloo_tamma_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Tamma+2",
+      "x": 22.396146774291992,
+      "y": -7.621818542480469
+    },
+    {
+      "name": "Butterfly Kids",
+      "id": "butterfly_kids",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Butterfly+Kids",
+      "x": 16.24427604675293,
+      "y": -6.357809543609619
+    },
+    {
+      "name": "Bhutuka Expanded One",
+      "id": "bhutuka_expanded_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bhutuka+Expanded+One",
+      "x": 17.062284469604492,
+      "y": -5.975480079650879
+    },
+    {
+      "name": "Abyssinica Sil",
+      "id": "abyssinica_sil",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Abyssinica+Sil",
+      "x": 20.37006950378418,
+      "y": -9.457380294799805
+    },
+    {
+      "name": "Blacknd White Picture",
+      "id": "blacknd_white_picture",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Blacknd+White+Picture",
+      "x": 17.998069763183594,
+      "y": -5.218323707580566
+    },
+    {
+      "name": "Archivo",
+      "id": "archivo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Archivo",
+      "x": 23.97217559814453,
+      "y": -3.5558722019195557
+    },
+    {
+      "name": "Anek Malayalam",
+      "id": "anek_malayalam",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Malayalam",
+      "x": 18.917207717895508,
+      "y": -6.025264263153076
+    },
+    {
+      "name": "Averia Serif Libre",
+      "id": "averia_serif_libre",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Averia+Serif+Libre",
+      "x": 20.519973754882812,
+      "y": -8.761312484741211
+    },
+    {
+      "name": "Alegreya",
+      "id": "alegreya",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alegreya",
+      "x": 17.29988670349121,
+      "y": -9.604442596435547
+    },
+    {
+      "name": "Cantora One",
+      "id": "cantora_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cantora+One",
+      "x": 22.678606033325195,
+      "y": -3.359496593475342
+    },
+    {
+      "name": "Ancizar Serif",
+      "id": "ancizar_serif",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Ancizar+Serif",
+      "x": 17.800979614257812,
+      "y": -8.884207725524902
+    },
+    {
+      "name": "Anuphan",
+      "id": "anuphan",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anuphan",
+      "x": 23.491052627563477,
+      "y": -6.040447235107422
+    },
+    {
+      "name": "Bungee Inline",
+      "id": "bungee_inline",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bungee+Inline",
+      "x": 20.4497127532959,
+      "y": -0.7007665038108826
+    },
+    {
+      "name": "Akaya Kanadaka",
+      "id": "akaya_kanadaka",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Akaya+Kanadaka",
+      "x": 21.5372257232666,
+      "y": -4.826983451843262
+    },
+    {
+      "name": "Average Sans",
+      "id": "average_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Average+Sans",
+      "x": 23.745559692382812,
+      "y": -6.659167766571045
+    },
+    {
+      "name": "Beau Rivage",
+      "id": "beau_rivage",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Beau+Rivage",
+      "x": 15.267997741699219,
+      "y": -5.466360569000244
+    },
+    {
+      "name": "Balsamiq Sans",
+      "id": "balsamiq_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Balsamiq+Sans",
+      "x": 23.020471572875977,
+      "y": -5.687070846557617
+    },
+    {
+      "name": "Anek Telugu",
+      "id": "anek_telugu",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Telugu",
+      "x": 19.74215316772461,
+      "y": -5.584489345550537
+    },
+    {
+      "name": "Biryani",
+      "id": "biryani",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Biryani",
+      "x": 24.789573669433594,
+      "y": -3.697936773300171
+    },
+    {
+      "name": "Bacasimentique",
+      "id": "bacasimentique",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bacasimentique",
+      "x": 16.60334014892578,
+      "y": -7.335568428039551
+    },
+    {
+      "name": "Black Ops One",
+      "id": "black_ops_one",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Black+Ops+One",
+      "x": 22.536741256713867,
+      "y": -1.6521573066711426
+    },
+    {
+      "name": "Azeret Mono",
+      "id": "azeret_mono",
+      "family": "monospace",
+      "google_fonts_url": "https://fonts.google.com/specimen/Azeret+Mono",
+      "x": 21.71756362915039,
+      "y": -3.8797690868377686
+    },
+    {
+      "name": "Borel",
+      "id": "borel",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Borel",
+      "x": 23.82610511779785,
+      "y": -4.606581687927246
+    },
+    {
+      "name": "Cairo Play",
+      "id": "cairo_play",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cairo+Play",
+      "x": 23.181394577026367,
+      "y": -3.919156551361084
+    },
+    {
+      "name": "Bona Nova",
+      "id": "bona_nova",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bona+Nova",
+      "x": 18.122859954833984,
+      "y": -9.746938705444336
+    },
+    {
+      "name": "Abeezee",
+      "id": "abeezee",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Abeezee",
+      "x": 24.58114242553711,
+      "y": -4.19850492477417
+    },
+    {
+      "name": "Abel",
+      "id": "abel",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Abel",
+      "x": 17.75788116455078,
+      "y": -4.981087684631348
+    },
+    {
+      "name": "Amaranth",
+      "id": "amaranth",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amaranth",
+      "x": 21.90265655517578,
+      "y": -4.487709999084473
+    },
+    {
+      "name": "Caladea",
+      "id": "caladea",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Caladea",
+      "x": 17.88355827331543,
+      "y": -8.630258560180664
+    },
+    {
+      "name": "Allerta Stencil",
+      "id": "allerta_stencil",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Allerta+Stencil",
+      "x": 21.460865020751953,
+      "y": -3.8061254024505615
+    },
+    {
+      "name": "Baloo Bhaina 2",
+      "id": "baloo_bhaina_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Bhaina+2",
+      "x": 22.05411720275879,
+      "y": -7.818444728851318
+    },
+    {
+      "name": "Arima",
+      "id": "arima",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arima",
+      "x": 21.657363891601562,
+      "y": -6.8770222663879395
+    },
+    {
+      "name": "Beth Ellen",
+      "id": "beth_ellen",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Beth+Ellen",
+      "x": 19.031566619873047,
+      "y": -2.441924571990967
+    },
+    {
+      "name": "Assistant",
+      "id": "assistant",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Assistant",
+      "x": 18.766986846923828,
+      "y": -6.921422004699707
+    },
+    {
+      "name": "Bitcount Grid Double Ink",
+      "id": "bitcount_grid_double_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Grid+Double+Ink",
+      "x": 17.511028289794922,
+      "y": 0.4614824950695038
+    },
+    {
+      "name": "Badeen Display",
+      "id": "badeen_display",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Badeen+Display",
+      "x": 20.651723861694336,
+      "y": -0.24613450467586517
+    },
+    {
+      "name": "Asimovian",
+      "id": "asimovian",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Asimovian",
+      "x": 19.239673614501953,
+      "y": -0.40000540018081665
+    },
+    {
+      "name": "Baloo Da 2",
+      "id": "baloo_da_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Da+2",
+      "x": 23.011268615722656,
+      "y": -7.8300604820251465
+    },
+    {
+      "name": "B612 Mono",
+      "id": "b612_mono",
+      "family": "monospace",
+      "google_fonts_url": "https://fonts.google.com/specimen/B612+Mono",
+      "x": 23.035058975219727,
+      "y": -6.1090087890625
+    },
+    {
+      "name": "Aldrich",
+      "id": "aldrich",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aldrich",
+      "x": 23.032630920410156,
+      "y": -3.8021459579467773
+    },
+    {
+      "name": "Aref Ruqaa Ink",
+      "id": "aref_ruqaa_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aref+Ruqaa+Ink",
+      "x": 19.51122283935547,
+      "y": -8.204886436462402
+    },
+    {
+      "name": "Arsenal Sc",
+      "id": "arsenal_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arsenal+Sc",
+      "x": 18.862932205200195,
+      "y": -7.327026844024658
+    },
+    {
+      "name": "Arvo",
+      "id": "arvo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arvo",
+      "x": 25.024641036987305,
+      "y": -4.862721920013428
+    },
+    {
+      "name": "Aguafina Script",
+      "id": "aguafina_script",
+      "family": "handwriting",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aguafina+Script",
+      "x": 16.580936431884766,
+      "y": -5.96278190612793
+    },
+    {
+      "name": "Bowlby One Sc",
+      "id": "bowlby_one_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bowlby+One+Sc",
+      "x": 20.67373275756836,
+      "y": -1.1447933912277222
+    },
+    {
+      "name": "Adlam Display",
+      "id": "adlam_display",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Adlam+Display",
+      "x": 22.354612350463867,
+      "y": -2.03210186958313
+    },
+    {
+      "name": "Caprasimo",
+      "id": "caprasimo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Caprasimo",
+      "x": 21.790800094604492,
+      "y": -0.797644317150116
+    },
+    {
+      "name": "Anek Kannada",
+      "id": "anek_kannada",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Kannada",
+      "x": 19.931285858154297,
+      "y": -6.161142349243164
+    },
+    {
+      "name": "Braah One",
+      "id": "braah_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Braah+One",
+      "x": 21.156309127807617,
+      "y": -2.703040599822998
+    },
+    {
+      "name": "Boldonse",
+      "id": "boldonse",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Boldonse",
+      "x": 20.186166763305664,
+      "y": -1.7771055698394775
+    },
+    {
+      "name": "Bitcount Grid Single",
+      "id": "bitcount_grid_single",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Grid+Single",
+      "x": 17.853626251220703,
+      "y": -0.31046342849731445
+    },
+    {
+      "name": "Beiruti",
+      "id": "beiruti",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Beiruti",
+      "x": 18.61107063293457,
+      "y": -6.329809188842773
+    },
+    {
+      "name": "Caveat Brush",
+      "id": "caveat_brush",
+      "family": "handwriting",
+      "google_fonts_url": "https://fonts.google.com/specimen/Caveat+Brush",
+      "x": 19.236412048339844,
+      "y": -3.9373483657836914
+    },
+    {
+      "name": "Alumni Sans Collegiate One",
+      "id": "alumni_sans_collegiate_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alumni+Sans+Collegiate+One",
+      "x": 18.921306610107422,
+      "y": -3.579806089401245
+    },
+    {
+      "name": "Chakra Petch",
+      "id": "chakra_petch",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Chakra+Petch",
+      "x": 21.94448471069336,
+      "y": -6.1062541007995605
+    },
+    {
+      "name": "Barlow Semi Condensed",
+      "id": "barlow_semi_condensed",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Barlow+Semi+Condensed",
+      "x": 18.30834197998047,
+      "y": -4.696107387542725
+    },
+    {
+      "name": "Carme",
+      "id": "carme",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Carme",
+      "x": 24.873920440673828,
+      "y": -4.715306758880615
+    },
+    {
+      "name": "Arizonia",
+      "id": "arizonia",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arizonia",
+      "x": 15.447344779968262,
+      "y": -6.747471332550049
+    },
+    {
+      "name": "Aubrey",
+      "id": "aubrey",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aubrey",
+      "x": 18.347932815551758,
+      "y": -5.089459419250488
+    },
+    {
+      "name": "Bungee Shade",
+      "id": "bungee_shade",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bungee+Shade",
+      "x": 17.20719337463379,
+      "y": -4.653548717498779
+    },
+    {
+      "name": "Allan",
+      "id": "allan",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Allan",
+      "x": 16.424718856811523,
+      "y": -7.599412441253662
+    },
+    {
+      "name": "Almarai",
+      "id": "almarai",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Almarai",
+      "x": 24.12346076965332,
+      "y": -5.633124351501465
+    },
+    {
+      "name": "Cabin",
+      "id": "cabin",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cabin",
+      "x": 22.44768714904785,
+      "y": -5.188098907470703
+    },
+    {
+      "name": "Castoro",
+      "id": "castoro",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Castoro",
+      "x": 20.40385627746582,
+      "y": -10.087404251098633
+    },
+    {
+      "name": "Belanosima",
+      "id": "belanosima",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Belanosima",
+      "x": 20.7187557220459,
+      "y": -4.848654747009277
+    },
+    {
+      "name": "Bricolage Grotesque",
+      "id": "bricolage_grotesque",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bricolage+Grotesque",
+      "x": 22.61180305480957,
+      "y": -4.70428991317749
+    },
+    {
+      "name": "Are You Serious",
+      "id": "are_you_serious",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Are+You+Serious",
+      "x": 15.627021789550781,
+      "y": -5.892740249633789
+    },
+    {
+      "name": "Afacad",
+      "id": "afacad",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Afacad",
+      "x": 17.835962295532227,
+      "y": -7.096208095550537
+    },
+    {
+      "name": "Anek Gujarati",
+      "id": "anek_gujarati",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Gujarati",
+      "x": 18.848543167114258,
+      "y": -5.986158847808838
+    },
+    {
+      "name": "Aclonica",
+      "id": "aclonica",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aclonica",
+      "x": 19.861370086669922,
+      "y": -0.49223336577415466
+    },
+    {
+      "name": "Andada Pro",
+      "id": "andada_pro",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Andada+Pro",
+      "x": 19.1613712310791,
+      "y": -10.264761924743652
+    },
+    {
+      "name": "B612",
+      "id": "b612",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/B612",
+      "x": 21.332172393798828,
+      "y": -5.605536460876465
+    },
+    {
+      "name": "Albert Sans",
+      "id": "albert_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Albert+Sans",
+      "x": 23.795520782470703,
+      "y": -3.814154624938965
+    },
+    {
+      "name": "Bubbler One",
+      "id": "bubbler_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bubbler+One",
+      "x": 16.138294219970703,
+      "y": -7.374259948730469
+    },
+    {
+      "name": "Alfa Slab One",
+      "id": "alfa_slab_one",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alfa+Slab+One",
+      "x": 21.512500762939453,
+      "y": -0.6457157731056213
+    },
+    {
+      "name": "Baskervville",
+      "id": "baskervville",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baskervville",
+      "x": 21.01013946533203,
+      "y": -9.273618698120117
+    },
+    {
+      "name": "Bebas Neue",
+      "id": "bebas_neue",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bebas+Neue",
+      "x": 17.868955612182617,
+      "y": -3.7222964763641357
+    },
+    {
+      "name": "Benne",
+      "id": "benne",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Benne",
+      "x": 17.892671585083008,
+      "y": -9.818638801574707
+    },
+    {
+      "name": "Alike",
+      "id": "alike",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alike",
+      "x": 20.023128509521484,
+      "y": -10.421673774719238
+    },
+    {
+      "name": "Cardo",
+      "id": "cardo",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cardo",
+      "x": 20.306049346923828,
+      "y": -8.33852767944336
+    },
+    {
+      "name": "Architects Daughter",
+      "id": "architects_daughter",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Architects+Daughter",
+      "x": 21.24519920349121,
+      "y": -8.08905029296875
+    },
+    {
+      "name": "Cabin Sketch",
+      "id": "cabin_sketch",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cabin+Sketch",
+      "x": 17.003170013427734,
+      "y": -6.8975982666015625
+    },
+    {
+      "name": "Alef",
+      "id": "alef",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alef",
+      "x": 24.483924865722656,
+      "y": -5.49644136428833
+    },
+    {
+      "name": "Bangers",
+      "id": "bangers",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bangers",
+      "x": 19.234437942504883,
+      "y": -3.465296745300293
+    },
+    {
+      "name": "Baloo Thambi 2",
+      "id": "baloo_thambi_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Thambi+2",
+      "x": 21.80781364440918,
+      "y": -7.875688552856445
+    },
+    {
+      "name": "Calligraffitti",
+      "id": "calligraffitti",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Calligraffitti",
+      "x": 16.124544143676758,
+      "y": -6.571818828582764
+    },
+    {
+      "name": "Alex Brush",
+      "id": "alex_brush",
+      "family": "handwriting",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alex+Brush",
+      "x": 14.987281799316406,
+      "y": -5.5780863761901855
+    },
+    {
+      "name": "Asta Sans",
+      "id": "asta_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Asta+Sans",
+      "x": 22.94811248779297,
+      "y": -5.976537704467773
+    },
+    {
+      "name": "Basic",
+      "id": "basic",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Basic",
+      "x": 21.044729232788086,
+      "y": -4.437438488006592
+    },
+    {
+      "name": "Atkinson Hyperlegible Next",
+      "id": "atkinson_hyperlegible_next",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next",
+      "x": 22.040233612060547,
+      "y": -4.846309661865234
+    },
+    {
+      "name": "Angkor",
+      "id": "angkor",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Angkor",
+      "x": 20.85524559020996,
+      "y": -0.014288547448813915
+    },
+    {
+      "name": "Boogaloo",
+      "id": "boogaloo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Boogaloo",
+      "x": 19.820871353149414,
+      "y": -3.13828706741333
+    },
+    {
+      "name": "Alumni Sans Sc",
+      "id": "alumni_sans_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alumni+Sans+Sc",
+      "x": 16.54025650024414,
+      "y": -4.281049728393555
+    },
+    {
+      "name": "Averia Sans Libre",
+      "id": "averia_sans_libre",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Averia+Sans+Libre",
+      "x": 21.177377700805664,
+      "y": -5.337528228759766
+    },
+    {
+      "name": "Biz Udgothic",
+      "id": "biz_udgothic",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Biz+Udgothic",
+      "x": 18.47075653076172,
+      "y": -3.9350242614746094
+    },
+    {
+      "name": "Cactus Classical Serif",
+      "id": "cactus_classical_serif",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cactus+Classical+Serif",
+      "x": 18.429519653320312,
+      "y": -9.250237464904785
+    },
+    {
+      "name": "Baskervville Sc",
+      "id": "baskervville_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baskervville+Sc",
+      "x": 21.187152862548828,
+      "y": -9.828973770141602
+    },
+    {
+      "name": "Biz Udpgothic",
+      "id": "biz_udpgothic",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Biz+Udpgothic",
+      "x": 24.917390823364258,
+      "y": -3.4352715015411377
+    },
+    {
+      "name": "Bytesized",
+      "id": "bytesized",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bytesized",
+      "x": 19.65236473083496,
+      "y": -4.436420917510986
+    },
+    {
+      "name": "Cambo",
+      "id": "cambo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cambo",
+      "x": 19.6998348236084,
+      "y": -9.475263595581055
+    },
+    {
+      "name": "Almendra Display",
+      "id": "almendra_display",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Almendra+Display",
+      "x": 16.643239974975586,
+      "y": -6.247558116912842
+    },
+    {
+      "name": "Average",
+      "id": "average",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Average",
+      "x": 19.847530364990234,
+      "y": -9.892707824707031
+    },
+    {
+      "name": "Carrois Gothic",
+      "id": "carrois_gothic",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Carrois+Gothic",
+      "x": 19.901945114135742,
+      "y": -4.897567272186279
+    },
+    {
+      "name": "Biorhyme",
+      "id": "biorhyme",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Biorhyme",
+      "x": 24.187475204467773,
+      "y": -3.3428378105163574
+    },
+    {
+      "name": "Berkshire Swash",
+      "id": "berkshire_swash",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Berkshire+Swash",
+      "x": 21.21091651916504,
+      "y": -3.136693000793457
+    },
+    {
+      "name": "Bad Script",
+      "id": "bad_script",
+      "family": "handwriting",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bad+Script",
+      "x": 16.321144104003906,
+      "y": -5.153273582458496
+    },
+    {
+      "name": "Bitcount Prop Double Ink",
+      "id": "bitcount_prop_double_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Prop+Double+Ink",
+      "x": 17.084135055541992,
+      "y": 0.1654723882675171
+    },
+    {
+      "name": "Agbalumo",
+      "id": "agbalumo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Agbalumo",
+      "x": 21.516958236694336,
+      "y": -1.943345546722412
+    },
+    {
+      "name": "Anta",
+      "id": "anta",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anta",
+      "x": 23.323423385620117,
+      "y": -5.006962299346924
+    },
+    {
+      "name": "Artifika",
+      "id": "artifika",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Artifika",
+      "x": 19.625858306884766,
+      "y": -8.712949752807617
+    },
+    {
+      "name": "Bai Jamjuree",
+      "id": "bai_jamjuree",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bai+Jamjuree",
+      "x": 22.658227920532227,
+      "y": -6.281856060028076
+    },
+    {
+      "name": "Bitcount Single Ink",
+      "id": "bitcount_single_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Single+Ink",
+      "x": 17.931718826293945,
+      "y": -0.6211944818496704
+    },
+    {
+      "name": "Baloo 2",
+      "id": "baloo_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+2",
+      "x": 22.44927406311035,
+      "y": -7.514186859130859
+    },
+    {
+      "name": "Annie Use Your Telescope",
+      "id": "annie_use_your_telescope",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Annie+Use+Your+Telescope",
+      "x": 17.199050903320312,
+      "y": -6.687832832336426
+    },
+    {
+      "name": "Agdasima",
+      "id": "agdasima",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Agdasima",
+      "x": 17.61175537109375,
+      "y": -4.068910121917725
+    },
+    {
+      "name": "Atkinson Hyperlegible",
+      "id": "atkinson_hyperlegible",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Atkinson+Hyperlegible",
+      "x": 22.29834747314453,
+      "y": -4.985901832580566
+    },
+    {
+      "name": "Allerta",
+      "id": "allerta",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Allerta",
+      "x": 21.451335906982422,
+      "y": -3.6136300563812256
+    },
+    {
+      "name": "Asul",
+      "id": "asul",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Asul",
+      "x": 20.711162567138672,
+      "y": -8.710515022277832
+    },
+    {
+      "name": "Baloo Bhaijaan 2",
+      "id": "baloo_bhaijaan_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Bhaijaan+2",
+      "x": 22.06007957458496,
+      "y": -7.522099018096924
+    },
+    {
+      "name": "Amita",
+      "id": "amita",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amita",
+      "x": 17.209745407104492,
+      "y": -1.7015841007232666
+    },
+    {
+      "name": "Astloch",
+      "id": "astloch",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Astloch",
+      "x": 16.062471389770508,
+      "y": -5.617806434631348
+    },
+    {
+      "name": "Bonheur Royale",
+      "id": "bonheur_royale",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bonheur+Royale",
+      "x": 15.584623336791992,
+      "y": -7.091217041015625
+    },
+    {
+      "name": "Bahianita",
+      "id": "bahianita",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bahianita",
+      "x": 16.54690933227539,
+      "y": -3.694916009902954
+    },
+    {
+      "name": "Amarante",
+      "id": "amarante",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amarante",
+      "x": 21.074485778808594,
+      "y": -5.431578636169434
+    },
+    {
+      "name": "Birthstone",
+      "id": "birthstone",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Birthstone",
+      "x": 15.736165046691895,
+      "y": -6.779961109161377
+    },
+    {
+      "name": "Bungee Hairline",
+      "id": "bungee_hairline",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bungee+Hairline",
+      "x": 16.096961975097656,
+      "y": -6.074085235595703
+    },
+    {
+      "name": "Anek Gurmukhi",
+      "id": "anek_gurmukhi",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Gurmukhi",
+      "x": 18.717300415039062,
+      "y": -6.102351188659668
+    },
+    {
+      "name": "Bevan",
+      "id": "bevan",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bevan",
+      "x": 21.574953079223633,
+      "y": -0.31053969264030457
+    },
+    {
+      "name": "Belleza",
+      "id": "belleza",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Belleza",
+      "x": 19.45440673828125,
+      "y": -7.8840131759643555
+    },
+    {
+      "name": "Caesar Dressing",
+      "id": "caesar_dressing",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Caesar+Dressing",
+      "x": 20.18159294128418,
+      "y": -4.050620079040527
+    },
+    {
+      "name": "Cedarville Cursive",
+      "id": "cedarville_cursive",
+      "family": "handwriting",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cedarville+Cursive",
+      "x": 16.8320255279541,
+      "y": -4.985641956329346
+    },
+    {
+      "name": "Cascadia Code",
+      "id": "cascadia_code",
+      "family": "monospace",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cascadia+Code",
+      "x": 20.441112518310547,
+      "y": -4.06734561920166
+    },
+    {
+      "name": "Bungee",
+      "id": "bungee",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bungee",
+      "x": 20.856475830078125,
+      "y": -0.5865234732627869
+    },
+    {
+      "name": "Big Shoulders",
+      "id": "big_shoulders",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Big+Shoulders",
+      "x": 17.095279693603516,
+      "y": -2.92136549949646
+    },
+    {
+      "name": "Buenard",
+      "id": "buenard",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Buenard",
+      "x": 18.869497299194336,
+      "y": -10.033001899719238
+    },
+    {
+      "name": "Alegreya Sans",
+      "id": "alegreya_sans",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alegreya+Sans",
+      "x": 20.300996780395508,
+      "y": -6.641489028930664
+    },
+    {
+      "name": "Antic Slab",
+      "id": "antic_slab",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Antic+Slab",
+      "x": 22.1838436126709,
+      "y": -6.957996845245361
+    },
+    {
+      "name": "Advent Pro",
+      "id": "advent_pro",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Advent+Pro",
+      "x": 18.141855239868164,
+      "y": -7.8316264152526855
+    },
+    {
+      "name": "Capriola",
+      "id": "capriola",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Capriola",
+      "x": 23.789642333984375,
+      "y": -2.830886125564575
+    },
+    {
+      "name": "Bitter",
+      "id": "bitter",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitter",
+      "x": 23.30760383605957,
+      "y": -6.923764705657959
+    },
+    {
+      "name": "Butcherman",
+      "id": "butcherman",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Butcherman",
+      "x": 17.857656478881836,
+      "y": -2.5151383876800537
+    },
+    {
+      "name": "Allura",
+      "id": "allura",
+      "family": "handwriting",
+      "google_fonts_url": "https://fonts.google.com/specimen/Allura",
+      "x": 14.982673645019531,
+      "y": -4.924966335296631
+    },
+    {
+      "name": "Big Shoulders Stencil",
+      "id": "big_shoulders_stencil",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Big+Shoulders+Stencil",
+      "x": 17.181045532226562,
+      "y": -3.0563745498657227
+    },
+    {
+      "name": "Alegreya Sc",
+      "id": "alegreya_sc",
+      "family": "serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alegreya+Sc",
+      "x": 17.37143898010254,
+      "y": -9.784417152404785
+    },
+    {
+      "name": "Averia Libre",
+      "id": "averia_libre",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Averia+Libre",
+      "x": 22.089916229248047,
+      "y": -6.2136921882629395
+    },
+    {
+      "name": "Bilbo",
+      "id": "bilbo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bilbo",
+      "x": 15.704448699951172,
+      "y": -7.2287278175354
+    },
+    {
+      "name": "Battambang",
+      "id": "battambang",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Battambang",
+      "x": 24.13847541809082,
+      "y": -6.134006977081299
+    },
+    {
+      "name": "Atma",
+      "id": "atma",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Atma",
+      "x": 23.992830276489258,
+      "y": -6.292703151702881
+    },
+    {
+      "name": "Antic Didone",
+      "id": "antic_didone",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Antic+Didone",
+      "x": 17.430044174194336,
+      "y": -6.857850551605225
+    },
+    {
+      "name": "Bitcount Prop Double",
+      "id": "bitcount_prop_double",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Prop+Double",
+      "x": 17.106901168823242,
+      "y": -0.6386945247650146
+    },
+    {
+      "name": "Alumni Sans",
+      "id": "alumni_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alumni+Sans",
+      "x": 16.732097625732422,
+      "y": -4.37276554107666
+    },
+    {
+      "name": "Brunoce",
+      "id": "brunoce",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Brunoce",
+      "x": 15.54136848449707,
+      "y": -4.220706462860107
+    },
+    {
+      "name": "Adamina",
+      "id": "adamina",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Adamina",
+      "x": 21.088266372680664,
+      "y": -7.7849650382995605
+    },
+    {
+      "name": "Baloo Tammudu 2",
+      "id": "baloo_tammudu_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Tammudu+2",
+      "x": 22.303668975830078,
+      "y": -8.426968574523926
+    },
+    {
+      "name": "Caramel",
+      "id": "caramel",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Caramel",
+      "x": 15.850841522216797,
+      "y": -6.1333441734313965
+    },
+    {
+      "name": "Atomicge",
+      "id": "atomicge",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Atomicge",
+      "x": 21.877777099609375,
+      "y": -3.5024640560150146
+    },
+    {
+      "name": "Ancizar Sans",
+      "id": "ancizar_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Ancizar+Sans",
+      "x": 19.752065658569336,
+      "y": -7.119527339935303
+    },
+    {
+      "name": "Alata",
+      "id": "alata",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alata",
+      "x": 22.926610946655273,
+      "y": -3.6643505096435547
+    },
+    {
+      "name": "Blaka",
+      "id": "blaka",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Blaka",
+      "x": 19.51890754699707,
+      "y": -3.004938840866089
+    },
+    {
+      "name": "Baloo Paaji 2",
+      "id": "baloo_paaji_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Paaji+2",
+      "x": 22.315481185913086,
+      "y": -8.310994148254395
+    },
+    {
+      "name": "Aboreto",
+      "id": "aboreto",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aboreto",
+      "x": 20.536846160888672,
+      "y": -7.52553129196167
+    },
+    {
+      "name": "Carlito",
+      "id": "carlito",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Carlito",
+      "x": 21.281217575073242,
+      "y": -7.098779201507568
+    },
+    {
+      "name": "Bitcount Grid Single Ink",
+      "id": "bitcount_grid_single_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Grid+Single+Ink",
+      "x": 17.839941024780273,
+      "y": -0.008455192670226097
+    },
+    {
+      "name": "Bahiana",
+      "id": "bahiana",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bahiana",
+      "x": 16.575590133666992,
+      "y": -3.7378668785095215
+    },
+    {
+      "name": "Amiko",
+      "id": "amiko",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amiko",
+      "x": 24.26144027709961,
+      "y": -4.247131824493408
+    },
+    {
+      "name": "Anybody",
+      "id": "anybody",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anybody",
+      "x": 23.013492584228516,
+      "y": -4.421940803527832
+    },
+    {
+      "name": "Carrois Gothic Sc",
+      "id": "carrois_gothic_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Carrois+Gothic+Sc",
+      "x": 19.822664260864258,
+      "y": -4.619467258453369
+    },
+    {
+      "name": "Alatsi",
+      "id": "alatsi",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alatsi",
+      "x": 19.052143096923828,
+      "y": -4.417135238647461
+    },
+    {
+      "name": "Atkinson Hyperlegible Mono",
+      "id": "atkinson_hyperlegible_mono",
+      "family": "monospace",
+      "google_fonts_url": "https://fonts.google.com/specimen/Atkinson+Hyperlegible+Mono",
+      "x": 21.013835906982422,
+      "y": -5.903766632080078
+    },
+    {
+      "name": "Barrio",
+      "id": "barrio",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Barrio",
+      "x": 16.895658493041992,
+      "y": -8.007171630859375
+    },
+    {
+      "name": "Caveat",
+      "id": "caveat",
+      "family": "handwriting",
+      "google_fonts_url": "https://fonts.google.com/specimen/Caveat",
+      "x": 15.944704055786133,
+      "y": -7.713915824890137
+    },
+    {
+      "name": "Bubblegum Sans",
+      "id": "bubblegum_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bubblegum+Sans",
+      "x": 20.563289642333984,
+      "y": -4.343777656555176
+    },
+    {
+      "name": "Allison",
+      "id": "allison",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Allison",
+      "x": 15.022273063659668,
+      "y": -6.174474239349365
+    },
+    {
+      "name": "Anton Sc",
+      "id": "anton_sc",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anton+Sc",
+      "x": 18.491214752197266,
+      "y": -2.559946298599243
+    },
+    {
+      "name": "Alexandria",
+      "id": "alexandria",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alexandria",
+      "x": 23.743505477905273,
+      "y": -2.6539440155029297
+    },
+    {
+      "name": "Ceviche One",
+      "id": "ceviche_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Ceviche+One",
+      "x": 20.516429901123047,
+      "y": -3.8042242527008057
+    },
+    {
+      "name": "Arsenal",
+      "id": "arsenal",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arsenal",
+      "x": 18.58235740661621,
+      "y": -7.172868728637695
+    },
+    {
+      "name": "Bayon",
+      "id": "bayon",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bayon",
+      "x": 18.013530731201172,
+      "y": -3.4357454776763916
+    },
+    {
+      "name": "Alkalami",
+      "id": "alkalami",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alkalami",
+      "x": 18.847293853759766,
+      "y": -9.315666198730469
+    },
+    {
+      "name": "Biz Udpmincho",
+      "id": "biz_udpmincho",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Biz+Udpmincho",
+      "x": 25.27707290649414,
+      "y": -5.603499889373779
+    },
+    {
+      "name": "Bodoni Moda",
+      "id": "bodoni_moda",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bodoni+Moda",
+      "x": 18.617900848388672,
+      "y": -8.028144836425781
+    },
+    {
+      "name": "Besley",
+      "id": "besley",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Besley",
+      "x": 24.415678024291992,
+      "y": -5.008090019226074
+    },
+    {
+      "name": "Barriecito",
+      "id": "barriecito",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Barriecito",
+      "x": 17.228063583374023,
+      "y": -7.839105606079102
+    },
+    {
+      "name": "Bitcount Single",
+      "id": "bitcount_single",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Single",
+      "x": 17.378244400024414,
+      "y": -0.7432816624641418
+    },
+    {
+      "name": "Alumni Sans Pinstripe",
+      "id": "alumni_sans_pinstripe",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alumni+Sans+Pinstripe",
+      "x": 15.780563354492188,
+      "y": -5.802762031555176
+    },
+    {
+      "name": "Biz Udmincho",
+      "id": "biz_udmincho",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Biz+Udmincho",
+      "x": 16.8121337890625,
+      "y": -3.3362252712249756
+    },
+    {
+      "name": "Benchnine",
+      "id": "benchnine",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Benchnine",
+      "x": 17.077804565429688,
+      "y": -3.8785977363586426
+    },
+    {
+      "name": "Anek Tamil",
+      "id": "anek_tamil",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Tamil",
+      "x": 19.905885696411133,
+      "y": -5.835819244384766
+    },
+    {
+      "name": "Blinker",
+      "id": "blinker",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Blinker",
+      "x": 21.772686004638672,
+      "y": -6.7732696533203125
+    },
+    {
+      "name": "Bentham",
+      "id": "bentham",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bentham",
+      "x": 18.146596908569336,
+      "y": -8.387253761291504
+    },
+    {
+      "name": "Autour One",
+      "id": "autour_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Autour+One",
+      "x": 25.084901809692383,
+      "y": -3.8402962684631348
+    },
+    {
+      "name": "Cabin Condensed",
+      "id": "cabin_condensed",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cabin+Condensed",
+      "x": 19.268564224243164,
+      "y": -4.791539669036865
+    },
+    {
+      "name": "Bilbo Swash Caps",
+      "id": "bilbo_swash_caps",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bilbo+Swash+Caps",
+      "x": 16.41958236694336,
+      "y": -7.31458044052124
+    },
+    {
+      "name": "Aref Ruqaa",
+      "id": "aref_ruqaa",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aref+Ruqaa",
+      "x": 19.727100372314453,
+      "y": -8.110301971435547
+    },
+    {
+      "name": "Cairo",
+      "id": "cairo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cairo",
+      "x": 22.79924774169922,
+      "y": -4.124084949493408
+    },
+    {
+      "name": "Alkatra",
+      "id": "alkatra",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alkatra",
+      "x": 22.097200393676758,
+      "y": -4.962743759155273
+    },
+    {
+      "name": "Barlow",
+      "id": "barlow",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Barlow",
+      "x": 20.214824676513672,
+      "y": -5.760263919830322
+    },
+    {
+      "name": "Cagliostro",
+      "id": "cagliostro",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cagliostro",
+      "x": 24.69200897216797,
+      "y": -3.1803441047668457
+    },
+    {
+      "name": "Bitcount Ink",
+      "id": "bitcount_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Ink",
+      "x": 17.3082332611084,
+      "y": 0.40409553050994873
+    },
+    {
+      "name": "Bungee Tint",
+      "id": "bungee_tint",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bungee+Tint",
+      "x": 21.28632164001465,
+      "y": -1.318466305732727
+    },
+    {
+      "name": "Bakbak One",
+      "id": "bakbak_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bakbak+One",
+      "x": 21.92405891418457,
+      "y": -2.854964256286621
+    },
+    {
+      "name": "Anaheim",
+      "id": "anaheim",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anaheim",
+      "x": 18.546825408935547,
+      "y": -5.666948318481445
+    },
+    {
+      "name": "Akshar",
+      "id": "akshar",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Akshar",
+      "x": 18.005294799804688,
+      "y": -3.8710296154022217
+    },
+    {
+      "name": "Cascadia Mono",
+      "id": "cascadia_mono",
+      "family": "monospace",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cascadia+Mono",
+      "x": 20.30777359008789,
+      "y": -3.9027891159057617
+    },
+    {
+      "name": "Akronim",
+      "id": "akronim",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Akronim",
+      "x": 17.307586669921875,
+      "y": -6.330279350280762
+    },
+    {
+      "name": "Agu Display",
+      "id": "agu_display",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Agu+Display",
+      "x": 19.590599060058594,
+      "y": -6.791477203369141
+    },
+    {
+      "name": "Antonio",
+      "id": "antonio",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Antonio",
+      "x": 17.53076171875,
+      "y": -3.3967697620391846
+    },
+    {
+      "name": "Arimo",
+      "id": "arimo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arimo",
+      "x": 24.819883346557617,
+      "y": -4.613128662109375
+    },
+    {
+      "name": "Bagel Fat One",
+      "id": "bagel_fat_one",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bagel+Fat+One",
+      "x": 21.558013916015625,
+      "y": -1.218587040901184
+    },
+    {
+      "name": "Bellota Text",
+      "id": "bellota_text",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bellota+Text",
+      "x": 21.47699737548828,
+      "y": -8.807967185974121
+    },
+    {
+      "name": "Candal",
+      "id": "candal",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Candal",
+      "x": 22.059022903442383,
+      "y": -1.7491744756698608
+    },
+    {
+      "name": "Anek Bangla",
+      "id": "anek_bangla",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Bangla",
+      "x": 19.23285675048828,
+      "y": -5.678542613983154
+    },
+    {
+      "name": "Babylonica",
+      "id": "babylonica",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Babylonica",
+      "x": 15.224921226501465,
+      "y": -4.503042697906494
+    },
+    {
+      "name": "Blaka Ink",
+      "id": "blaka_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Blaka+Ink",
+      "x": 19.087324142456055,
+      "y": -2.785191059112549
+    },
+    {
+      "name": "Athiti",
+      "id": "athiti",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Athiti",
+      "x": 19.118690490722656,
+      "y": -6.860150337219238
+    },
+    {
+      "name": "Antic",
+      "id": "antic",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Antic",
+      "x": 21.03575325012207,
+      "y": -6.856987476348877
+    },
+    {
+      "name": "Averia Gruesa Libre",
+      "id": "averia_gruesa_libre",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Averia+Gruesa+Libre",
+      "x": 20.79208755493164,
+      "y": -5.69139289855957
+    },
+    {
+      "name": "Baloo Bhai 2",
+      "id": "baloo_bhai_2",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Baloo+Bhai+2",
+      "x": 22.186534881591797,
+      "y": -8.231916427612305
+    },
+    {
+      "name": "Asap",
+      "id": "asap",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Asap",
+      "x": 22.905757904052734,
+      "y": -5.3783040046691895
+    },
+    {
+      "name": "Black Han Sans",
+      "id": "black_han_sans",
+      "family": "display",
+      "google_fonts_url": "https://fonts.google.com/specimen/Black+Han+Sans",
+      "x": 21.315765380859375,
+      "y": -0.47961828112602234
+    },
+    {
+      "name": "Bodoni Moda Sc",
+      "id": "bodoni_moda_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bodoni+Moda+Sc",
+      "x": 18.4742431640625,
+      "y": -8.070531845092773
+    },
+    {
+      "name": "Abhaya Libre",
+      "id": "abhaya_libre",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Abhaya+Libre",
+      "x": 16.599609375,
+      "y": -8.718674659729004
+    },
+    {
+      "name": "Bokor",
+      "id": "bokor",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bokor",
+      "x": 18.343984603881836,
+      "y": -2.9644086360931396
+    },
+    {
+      "name": "Cal Sans",
+      "id": "cal_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Cal+Sans",
+      "x": 22.68681526184082,
+      "y": -2.310499429702759
+    },
+    {
+      "name": "Bona Nova Sc",
+      "id": "bona_nova_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bona+Nova+Sc",
+      "x": 18.507049560546875,
+      "y": -9.78375244140625
+    },
+    {
+      "name": "Bellota",
+      "id": "bellota",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bellota",
+      "x": 17.410242080688477,
+      "y": -6.100600719451904
+    },
+    {
+      "name": "Acme",
+      "id": "acme",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Acme",
+      "x": 22.13041877746582,
+      "y": -3.7585763931274414
+    },
+    {
+      "name": "Amatic Sc",
+      "id": "amatic_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Amatic+Sc",
+      "x": 16.485231399536133,
+      "y": -5.398030757904053
+    },
+    {
+      "name": "Brawler",
+      "id": "brawler",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Brawler",
+      "x": 21.43292808532715,
+      "y": -9.185400009155273
+    },
+    {
+      "name": "Birthstone Bounce",
+      "id": "birthstone_bounce",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Birthstone+Bounce",
+      "x": 15.024459838867188,
+      "y": -6.570058822631836
+    },
+    {
+      "name": "Alikengular",
+      "id": "alikengular",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Alikengular",
+      "x": 19.844722747802734,
+      "y": -10.29491138458252
+    },
+    {
+      "name": "Arbutus Slab",
+      "id": "arbutus_slab",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arbutus+Slab",
+      "x": 24.78438949584961,
+      "y": -6.27247953414917
+    },
+    {
+      "name": "Bungee Spice",
+      "id": "bungee_spice",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bungee+Spice",
+      "x": 20.85809326171875,
+      "y": -1.1252802610397339
+    },
+    {
+      "name": "Annapurna Sil",
+      "id": "annapurna_sil",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Annapurna+Sil",
+      "x": 17.107789993286133,
+      "y": -9.338480949401855
+    },
+    {
+      "name": "Ar One Sans",
+      "id": "ar_one_sans",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Ar+One+Sans",
+      "x": 23.89826202392578,
+      "y": -5.390315055847168
+    },
+    {
+      "name": "Brygada 1918",
+      "id": "brygada_1918",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Brygada+1918",
+      "x": 19.928668975830078,
+      "y": -9.552244186401367
+    },
+    {
+      "name": "Asar",
+      "id": "asar",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Asar",
+      "x": 19.002246856689453,
+      "y": -8.500955581665039
+    },
+    {
+      "name": "Arapey",
+      "id": "arapey",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Arapey",
+      "x": 17.51120948791504,
+      "y": -8.063387870788574
+    },
+    {
+      "name": "Brunoce Sc",
+      "id": "brunoce_sc",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Brunoce+Sc",
+      "x": 15.582780838012695,
+      "y": -4.493573188781738
+    },
+    {
+      "name": "Bungee Outline",
+      "id": "bungee_outline",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bungee+Outline",
+      "x": 16.014991760253906,
+      "y": -5.308678150177002
+    },
+    {
+      "name": "Ballet",
+      "id": "ballet",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Ballet",
+      "x": 15.107850074768066,
+      "y": -5.343606948852539
+    },
+    {
+      "name": "Belgrano",
+      "id": "belgrano",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Belgrano",
+      "x": 25.045072555541992,
+      "y": -5.672089576721191
+    },
+    {
+      "name": "Anonymous Pro",
+      "id": "anonymous_pro",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anonymous+Pro",
+      "x": 18.98392105102539,
+      "y": -6.470157623291016
+    },
+    {
+      "name": "Bitcount Prop Single Ink",
+      "id": "bitcount_prop_single_ink",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Prop+Single+Ink",
+      "x": 18.23072052001953,
+      "y": -0.23990213871002197
+    },
+    {
+      "name": "Bigelow Rules",
+      "id": "bigelow_rules",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bigelow+Rules",
+      "x": 16.611814498901367,
+      "y": -4.771378517150879
+    },
+    {
+      "name": "Almendra",
+      "id": "almendra",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Almendra",
+      "x": 16.88104820251465,
+      "y": -8.615220069885254
+    },
+    {
+      "name": "Bitcount Grid Double",
+      "id": "bitcount_grid_double",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bitcount+Grid+Double",
+      "x": 16.82975196838379,
+      "y": -0.046033602207899094
+    },
+    {
+      "name": "Aleo",
+      "id": "aleo",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Aleo",
+      "x": 25.546146392822266,
+      "y": -4.146620273590088
+    },
+    {
+      "name": "Armata",
+      "id": "armata",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Armata",
+      "x": 23.77332878112793,
+      "y": -5.257111072540283
+    },
+    {
+      "name": "Anek Devanagari",
+      "id": "anek_devanagari",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Anek+Devanagari",
+      "x": 19.55430030822754,
+      "y": -5.812459468841553
+    },
+    {
+      "name": "Asap Condensed",
+      "id": "asap_condensed",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Asap+Condensed",
+      "x": 18.80503273010254,
+      "y": -4.8164801597595215
+    },
+    {
+      "name": "Bellefair",
+      "id": "bellefair",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Bellefair",
+      "x": 19.255563735961914,
+      "y": -9.6854887008667
+    },
+    {
+      "name": "Archivo Narrow",
+      "id": "archivo_narrow",
+      "family": "sans-serif",
+      "google_fonts_url": "https://fonts.google.com/specimen/Archivo+Narrow",
+      "x": 20.823579788208008,
+      "y": -5.006474018096924
+    }
+  ]
+}

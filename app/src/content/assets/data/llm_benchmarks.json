@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:55d9bff23e8f076125669cbbb8011d8cfe282b1efc3e8d7f9332cee4e8cf3f29
-size 1513
+[
+  { "benchmark": "MMLU", "model": "GPT-4o", "score": 88.2 },
+  { "benchmark": "MMLU", "model": "Claude-3.5 Sonnet", "score": 86.8 },
+  { "benchmark": "MMLU", "model": "Llama 3.1 405B", "score": 85.2 },
+  
+  { "benchmark": "GSM8K", "model": "GPT-4o", "score": 94.8 },
+  { "benchmark": "GSM8K", "model": "Claude-3.5 Sonnet", "score": 92.3 },
+  { "benchmark": "GSM8K", "model": "Llama 3.1 405B", "score": 89.0 },
+  
+  { "benchmark": "HellaSwag", "model": "GPT-4o", "score": 95.3 },
+  { "benchmark": "HellaSwag", "model": "Claude-3.5 Sonnet", "score": 93.1 },
+  { "benchmark": "HellaSwag", "model": "Llama 3.1 405B", "score": 90.6 },
+  
+  { "benchmark": "TruthfulQA", "model": "GPT-4o", "score": 64.6 },
+  { "benchmark": "TruthfulQA", "model": "Claude-3.5 Sonnet", "score": 68.1 },
+  { "benchmark": "TruthfulQA", "model": "Llama 3.1 405B", "score": 61.9 },
+  
+  { "benchmark": "ARC-Challenge", "model": "GPT-4o", "score": 79.4 },
+  { "benchmark": "ARC-Challenge", "model": "Claude-3.5 Sonnet", "score": 76.2 },
+  { "benchmark": "ARC-Challenge", "model": "Llama 3.1 405B", "score": 74.8 },
+  
+  { "benchmark": "HumanEval", "model": "GPT-4o", "score": 90.2 },
+  { "benchmark": "HumanEval", "model": "Claude-3.5 Sonnet", "score": 92.0 },
+  { "benchmark": "HumanEval", "model": "Llama 3.1 405B", "score": 84.2 },
+  
+  { "benchmark": "DROP", "model": "GPT-4o", "score": 83.4 },
+  { "benchmark": "DROP", "model": "Claude-3.5 Sonnet", "score": 87.1 },
+  { "benchmark": "DROP", "model": "Llama 3.1 405B", "score": 79.7 }
+]

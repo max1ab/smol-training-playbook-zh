@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1460249b3cf0f43611266dfedecb123527fa00a119216c871a7fcf888fa22523
-size 244
+Mask,Reasoning mode,AIME25,GPQA-D,LiveCodeBench v4,IFEval,Global MMLU Lite
+TRUE,/think,12.6,28.16,9.9,71.64,55.6
+TRUE,/no_think,2.03,26.89,7.92,69.62,43.55
+FALSE,/think,12.4,29.48,12.87,67.12,55.1
+FALSE,/no_think,1.67,27.53,7.92,65.41,44.45

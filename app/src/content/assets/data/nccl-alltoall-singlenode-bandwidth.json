@@ -1,3 +1,110 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f3843d4c6f1394d4118a57c10389c5df4943c82e86e5d1e5b49b1eab11f29233
-size 1610
+[
+  {
+    "messageSize": 128,
+    "bandwidth": 0.01
+  },
+  {
+    "messageSize": 256,
+    "bandwidth": 0.03
+  },
+  {
+    "messageSize": 512,
+    "bandwidth": 0.06
+  },
+  {
+    "messageSize": 1024,
+    "bandwidth": 0.11
+  },
+  {
+    "messageSize": 2048,
+    "bandwidth": 0.22
+  },
+  {
+    "messageSize": 4096,
+    "bandwidth": 0.44
+  },
+  {
+    "messageSize": 8192,
+    "bandwidth": 0.9
+  },
+  {
+    "messageSize": 16384,
+    "bandwidth": 1.77
+  },
+  {
+    "messageSize": 32768,
+    "bandwidth": 3.45
+  },
+  {
+    "messageSize": 65536,
+    "bandwidth": 6.37
+  },
+  {
+    "messageSize": 131072,
+    "bandwidth": 12.58
+  },
+  {
+    "messageSize": 262144,
+    "bandwidth": 21.84
+  },
+  {
+    "messageSize": 524288,
+    "bandwidth": 38.74
+  },
+  {
+    "messageSize": 1048576,
+    "bandwidth": 58.55
+  },
+  {
+    "messageSize": 2097152,
+    "bandwidth": 82.03
+  },
+  {
+    "messageSize": 4194304,
+    "bandwidth": 101.63
+  },
+  {
+    "messageSize": 8388608,
+    "bandwidth": 170.71
+  },
+  {
+    "messageSize": 16777216,
+    "bandwidth": 203.92
+  },
+  {
+    "messageSize": 33554432,
+    "bandwidth": 239.94
+  },
+  {
+    "messageSize": 67108864,
+    "bandwidth": 282.5
+  },
+  {
+    "messageSize": 134217728,
+    "bandwidth": 302.89
+  },
+  {
+    "messageSize": 268435456,
+    "bandwidth": 314.25
+  },
+  {
+    "messageSize": 536870912,
+    "bandwidth": 323.41
+  },
+  {
+    "messageSize": 1073741824,
+    "bandwidth": 333.67
+  },
+  {
+    "messageSize": 2147483648,
+    "bandwidth": 342.14
+  },
+  {
+    "messageSize": 4294967296,
+    "bandwidth": 342.19
+  },
+  {
+    "messageSize": 8589934592,
+    "bandwidth": 344.41
+  }
+]

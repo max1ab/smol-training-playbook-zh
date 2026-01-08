@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7037eb768bebb894a1a15ed2de4abcb648b16bdad504c6516aea4da9ded8b1b7
-size 115
+Packing,Batch size,Runtime (min)
+FALSE,128,117.7
+TRUE,8,30.8
+TRUE,16,26
+TRUE,32,23
+TRUE,64,22.1
+TRUE,128,22.1

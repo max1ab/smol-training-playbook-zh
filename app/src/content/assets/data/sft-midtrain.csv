@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4e9e4e3baa861c4da7955c97ccff58c533c137b1254fb38c2c8d1c59bc9bc0ef
-size 138
+Subset,AIME25,GPQA-D,LiveCodeBench v4,IFEval
+Llama-Nemotron,30.6,38.3,31.0,36.5
+OpenThoughts3,29.8,39.7,29.0,43.6
+Mix,35.3,42.4,35.5,42

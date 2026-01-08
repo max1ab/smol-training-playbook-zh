@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2874f2f163bae655a0b7c99a6f04b5e428b8192e03b27a13efd47aa14dd72b58
-size 390
+run_name,message_size,bandwidth
+Device Local,4,5
+Device Local,16,5
+Device Local,64,5
+Device Local,256,5
+Device Local,1024,5
+Device Local,4096,5
+Device Local,16384,20
+Device Local,65536,50
+Device Local,262144,200
+Device Local,1048576,380
+Device Local,4194304,1150
+Device Local,16777216,1975
+Device Local,67108864,1425
+Device Local,268435456,1380
+Device Local,1073741824,1500

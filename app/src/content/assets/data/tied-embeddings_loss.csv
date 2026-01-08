@@ -1,3 +1,1501 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:197c8453b60ab99df46eb201c7b31ffe51d52db9a5f03f9cf325d159d5953ba6
-size 98427
+run_name,tokens,loss
+"Tied embeddings (16 layers, baseline)",58195968.0,9.440255165100098
+"Tied embeddings (16 layers, baseline)",202899456.0,6.981451988220215
+"Tied embeddings (16 layers, baseline)",295698432.0,6.2934770584106445
+"Tied embeddings (16 layers, baseline)",297271296.0,6.2419586181640625
+"Tied embeddings (16 layers, baseline)",341311488.0,6.087305545806885
+"Tied embeddings (16 layers, baseline)",567803904.0,5.217591285705566
+"Tied embeddings (16 layers, baseline)",828899328.0,4.471127510070801
+"Tied embeddings (16 layers, baseline)",1063256064.0,3.8630409240722656
+"Tied embeddings (16 layers, baseline)",1123024896.0,3.763535976409912
+"Tied embeddings (16 layers, baseline)",1185939456.0,3.7077999114990234
+"Tied embeddings (16 layers, baseline)",1255145472.0,3.611525058746338
+"Tied embeddings (16 layers, baseline)",1270874112.0,3.576805591583252
+"Tied embeddings (16 layers, baseline)",1354235904.0,3.5672850608825684
+"Tied embeddings (16 layers, baseline)",1491075072.0,3.4376461505889893
+"Tied embeddings (16 layers, baseline)",1558708224.0,3.472886085510254
+"Tied embeddings (16 layers, baseline)",1706557440.0,3.304523468017578
+"Tied embeddings (16 layers, baseline)",1752170496.0,3.2976441383361816
+"Tied embeddings (16 layers, baseline)",1988100096.0,3.170661687850952
+"Tied embeddings (16 layers, baseline)",2093481984.0,3.2027883529663086
+"Tied embeddings (16 layers, baseline)",2112356352.0,3.1308863162994385
+"Tied embeddings (16 layers, baseline)",2389180416.0,3.0966145992279053
+"Tied embeddings (16 layers, baseline)",2404909056.0,3.164820671081543
+"Tied embeddings (16 layers, baseline)",2411200512.0,3.133058547973633
+"Tied embeddings (16 layers, baseline)",2623537152.0,3.009819746017456
+"Tied embeddings (16 layers, baseline)",2629828608.0,2.9487457275390625
+"Tied embeddings (16 layers, baseline)",2639265792.0,3.007776975631714
+"Tied embeddings (16 layers, baseline)",2677014528.0,3.0396790504455566
+"Tied embeddings (16 layers, baseline)",2730491904.0,3.010589838027954
+"Tied embeddings (16 layers, baseline)",2750939136.0,2.9864635467529297
+"Tied embeddings (16 layers, baseline)",2864185344.0,2.963388442993164
+"Tied embeddings (16 layers, baseline)",2947547136.0,2.9610254764556885
+"Tied embeddings (16 layers, baseline)",2961702912.0,2.9435179233551025
+"Tied embeddings (16 layers, baseline)",2967994368.0,2.9192185401916504
+"Tied embeddings (16 layers, baseline)",3027763200.0,2.9517412185668945
+"Tied embeddings (16 layers, baseline)",3057647616.0,2.9585773944854736
+"Tied embeddings (16 layers, baseline)",3073376256.0,2.951212167739868
+"Tied embeddings (16 layers, baseline)",3107979264.0,2.924609661102295
+"Tied embeddings (16 layers, baseline)",3263692800.0,2.90286922454834
+"Tied embeddings (16 layers, baseline)",3378511872.0,2.8782615661621094
+"Tied embeddings (16 layers, baseline)",3465019392.0,2.8486862182617188
+"Tied embeddings (16 layers, baseline)",3493330944.0,2.864572048187256
+"Tied embeddings (16 layers, baseline)",3527933952.0,2.848179340362549
+"Tied embeddings (16 layers, baseline)",3601858560.0,2.8870654106140137
+"Tied embeddings (16 layers, baseline)",3686793216.0,2.842069625854492
+"Tied embeddings (16 layers, baseline)",3866099712.0,2.83030366897583
+"Tied embeddings (16 layers, baseline)",3936878592.0,2.7682623863220215
+"Tied embeddings (16 layers, baseline)",4065853440.0,2.7881019115448
+"Tied embeddings (16 layers, baseline)",4188536832.0,2.774003505706787
+"Tied embeddings (16 layers, baseline)",4191682560.0,2.7329442501068115
+"Tied embeddings (16 layers, baseline)",4212129792.0,2.8320980072021484
+"Tied embeddings (16 layers, baseline)",4243587072.0,2.7317705154418945
+"Tied embeddings (16 layers, baseline)",4298637312.0,2.7303466796875
+"Tied embeddings (16 layers, baseline)",4481089536.0,2.736124038696289
+"Tied embeddings (16 layers, baseline)",4547149824.0,2.7448506355285645
+"Tied embeddings (16 layers, baseline)",4668260352.0,2.716869354248047
+"Tied embeddings (16 layers, baseline)",4690280448.0,2.6887283325195312
+"Tied embeddings (16 layers, baseline)",4817682432.0,2.6673712730407715
+"Tied embeddings (16 layers, baseline)",4860149760.0,2.704995632171631
+"Tied embeddings (16 layers, baseline)",5103943680.0,2.6875391006469727
+"Tied embeddings (16 layers, baseline)",5168431104.0,2.6634440422058105
+"Tied embeddings (16 layers, baseline)",5272240128.0,2.673863410949707
+"Tied embeddings (16 layers, baseline)",5426380800.0,2.6855051517486572
+"Tied embeddings (16 layers, baseline)",5429526528.0,2.6400394439697266
+"Tied embeddings (16 layers, baseline)",5545918464.0,2.612807273864746
+"Tied embeddings (16 layers, baseline)",5869928448.0,2.6539499759674072
+"Tied embeddings (16 layers, baseline)",6294601728.0,2.616908073425293
+"Tied embeddings (16 layers, baseline)",6297747456.0,2.6128058433532715
+"Tied embeddings (16 layers, baseline)",6439305216.0,2.587801456451416
+"Tied embeddings (16 layers, baseline)",6535249920.0,2.601496934890747
+"Tied embeddings (16 layers, baseline)",6604455936.0,2.6273579597473145
+"Tied embeddings (16 layers, baseline)",6705119232.0,2.619947910308838
+"Tied embeddings (16 layers, baseline)",6925320192.0,2.57071590423584
+"Tied embeddings (16 layers, baseline)",6989807616.0,2.5648465156555176
+"Tied embeddings (16 layers, baseline)",7030702080.0,2.575998067855835
+"Tied embeddings (16 layers, baseline)",7246184448.0,2.538079261779785
+"Tied embeddings (16 layers, baseline)",7335837696.0,2.561680793762207
+"Tied embeddings (16 layers, baseline)",7497842688.0,2.601498603820801
+"Tied embeddings (16 layers, baseline)",7628390400.0,2.5336358547210693
+"Tied embeddings (16 layers, baseline)",7791968256.0,2.549487590789795
+"Tied embeddings (16 layers, baseline)",7842299904.0,2.533903121948242
+"Tied embeddings (16 layers, baseline)",7897350144.0,2.5311615467071533
+"Tied embeddings (16 layers, baseline)",7933526016.0,2.5663599967956543
+"Tied embeddings (16 layers, baseline)",7961837568.0,2.5646791458129883
+"Tied embeddings (16 layers, baseline)",8133279744.0,2.4959843158721924
+"Tied embeddings (16 layers, baseline)",8304721920.0,2.533855438232422
+"Tied embeddings (16 layers, baseline)",8460435456.0,2.5249385833740234
+"Tied embeddings (16 layers, baseline)",8660189184.0,2.4827353954315186
+"Tied embeddings (16 layers, baseline)",8886681600.0,2.501396656036377
+"Tied embeddings (16 layers, baseline)",8949596160.0,2.5184903144836426
+"Tied embeddings (16 layers, baseline)",9037676544.0,2.5153167247772217
+"Tied embeddings (16 layers, baseline)",9412018176.0,2.466740369796753
+"Tied embeddings (16 layers, baseline)",9515827200.0,2.470625400543213
+"Tied embeddings (16 layers, baseline)",9578741760.0,2.493527889251709
+"Tied embeddings (16 layers, baseline)",9618063360.0,2.507216453552246
+"Tied embeddings (16 layers, baseline)",9674686464.0,2.4884848594665527
+"Tied embeddings (16 layers, baseline)",9767485440.0,2.4597582817077637
+"Tied embeddings (16 layers, baseline)",10113515520.0,2.41581130027771
+"Tied embeddings (16 layers, baseline)",10245636096.0,2.4840691089630127
+"Tied embeddings (16 layers, baseline)",10291249152.0,2.4687752723693848
+"Tied embeddings (16 layers, baseline)",10366746624.0,2.4766147136688232
+"Tied embeddings (16 layers, baseline)",10520887296.0,2.4653592109680176
+"Tied embeddings (16 layers, baseline)",10547625984.0,2.457369804382324
+"Tied embeddings (16 layers, baseline)",10619977728.0,2.464761257171631
+"Tied embeddings (16 layers, baseline)",10742661120.0,2.4576964378356934
+"Tied embeddings (16 layers, baseline)",10827595776.0,2.450562000274658
+"Tied embeddings (16 layers, baseline)",10956570624.0,2.424562692642212
+"Tied embeddings (16 layers, baseline)",10972299264.0,2.4610612392425537
+"Tied embeddings (16 layers, baseline)",11013193728.0,2.460233449935913
+"Tied embeddings (16 layers, baseline)",11027349504.0,2.4411768913269043
+"Tied embeddings (16 layers, baseline)",11228676096.0,2.4635603427886963
+"Tied embeddings (16 layers, baseline)",11277434880.0,2.4381415843963623
+"Tied embeddings (16 layers, baseline)",11480334336.0,2.4613771438598633
+"Tied embeddings (16 layers, baseline)",11514937344.0,2.4391627311706543
+"Tied embeddings (16 layers, baseline)",11714691072.0,2.440629720687866
+"Tied embeddings (16 layers, baseline)",11728846848.0,2.4851248264312744
+"Tied embeddings (16 layers, baseline)",11860967424.0,2.477539539337158
+"Tied embeddings (16 layers, baseline)",11930173440.0,2.414754867553711
+"Tied embeddings (16 layers, baseline)",11989942272.0,2.445042610168457
+"Tied embeddings (16 layers, baseline)",12145655808.0,2.4249520301818848
+"Tied embeddings (16 layers, baseline)",12203851776.0,2.4329001903533936
+"Tied embeddings (16 layers, baseline)",12213288960.0,2.431570291519165
+"Tied embeddings (16 layers, baseline)",12383158272.0,2.480710983276367
+"Tied embeddings (16 layers, baseline)",12384731136.0,2.423063278198242
+"Tied embeddings (16 layers, baseline)",12543590400.0,2.4234447479248047
+"Tied embeddings (16 layers, baseline)",12766937088.0,2.3990836143493652
+"Tied embeddings (16 layers, baseline)",12803112960.0,2.412242889404297
+"Tied embeddings (16 layers, baseline)",12891193344.0,2.4317514896392822
+"Tied embeddings (16 layers, baseline)",12921077760.0,2.401386260986328
+"Tied embeddings (16 layers, baseline)",12930514944.0,2.4112846851348877
+"Tied embeddings (16 layers, baseline)",12990283776.0,2.4003090858459473
+"Tied embeddings (16 layers, baseline)",13079937024.0,2.4166460037231445
+"Tied embeddings (16 layers, baseline)",13105102848.0,2.4282519817352295
+"Tied embeddings (16 layers, baseline)",13153861632.0,2.4256186485290527
+"Tied embeddings (16 layers, baseline)",13168017408.0,2.4413394927978516
+"Tied embeddings (16 layers, baseline)",13243514880.0,2.4157462120056152
+"Tied embeddings (16 layers, baseline)",13245087744.0,2.423689365386963
+"Tied embeddings (16 layers, baseline)",13270253568.0,2.3933305740356445
+"Tied embeddings (16 layers, baseline)",13290700800.0,2.4405179023742676
+"Tied embeddings (16 layers, baseline)",13484163072.0,2.4273853302001953
+"Tied embeddings (16 layers, baseline)",13649313792.0,2.392716884613037
+"Tied embeddings (16 layers, baseline)",13702791168.0,2.3917219638824463
+"Tied embeddings (16 layers, baseline)",13889961984.0,2.395641803741455
+"Tied embeddings (16 layers, baseline)",13907263488.0,2.4088425636291504
+"Tied embeddings (16 layers, baseline)",13943439360.0,2.4171671867370605
+"Tied embeddings (16 layers, baseline)",14077132800.0,2.3821051120758057
+"Tied embeddings (16 layers, baseline)",14185660416.0,2.419152021408081
+"Tied embeddings (16 layers, baseline)",14349238272.0,2.354536771774292
+"Tied embeddings (16 layers, baseline)",14503378944.0,2.3800113201141357
+"Tied embeddings (16 layers, baseline)",14649655296.0,2.3820340633392334
+"Tied embeddings (16 layers, baseline)",14929625088.0,2.3588266372680664
+"Tied embeddings (16 layers, baseline)",15156117504.0,2.3682913780212402
+"Tied embeddings (16 layers, baseline)",15170273280.0,2.386152505874634
+"Tied embeddings (16 layers, baseline)",15303966720.0,2.382833242416382
+"Tied embeddings (16 layers, baseline)",15336996864.0,2.352114200592041
+"Tied embeddings (16 layers, baseline)",15714484224.0,2.377697467803955
+"Tied embeddings (16 layers, baseline)",15731785728.0,2.3932600021362305
+"Tied embeddings (16 layers, baseline)",15827730432.0,2.376208543777466
+"Tied embeddings (16 layers, baseline)",15992881152.0,2.3658645153045654
+"Tied embeddings (16 layers, baseline)",16033775616.0,2.369699478149414
+"Tied embeddings (16 layers, baseline)",16096690176.0,2.3844079971313477
+"Tied embeddings (16 layers, baseline)",16331046912.0,2.386653184890747
+"Tied embeddings (16 layers, baseline)",16538664960.0,2.363492965698242
+"Tied embeddings (16 layers, baseline)",16604725248.0,2.399653434753418
+"Tied embeddings (16 layers, baseline)",16813916160.0,2.355891466140747
+"Tied embeddings (16 layers, baseline)",16820207616.0,2.3943777084350586
+"Tied embeddings (16 layers, baseline)",16878403584.0,2.3868918418884277
+"Tied embeddings (16 layers, baseline)",16909860864.0,2.3650963306427
+"Tied embeddings (16 layers, baseline)",16969629696.0,2.3852100372314453
+"Tied embeddings (16 layers, baseline)",17084448768.0,2.3614368438720703
+"Tied embeddings (16 layers, baseline)",17340825600.0,2.338391065597534
+"Tied embeddings (16 layers, baseline)",17391157248.0,2.343137264251709
+"Tied embeddings (16 layers, baseline)",17614503936.0,2.3690006732940674
+"Tied embeddings (16 layers, baseline)",17754488832.0,2.3502755165100098
+"Tied embeddings (16 layers, baseline)",17796956160.0,2.4053831100463867
+"Tied embeddings (16 layers, baseline)",18067488768.0,2.3510031700134277
+"Tied embeddings (16 layers, baseline)",18215337984.0,2.379363536834717
+"Tied embeddings (16 layers, baseline)",18344312832.0,2.362765312194824
+"Tied embeddings (16 layers, baseline)",18380488704.0,2.3380837440490723
+"Tied embeddings (16 layers, baseline)",18408800256.0,2.388906955718994
+"Tied embeddings (16 layers, baseline)",18418237440.0,2.371269702911377
+"Tied embeddings (16 layers, baseline)",18581815296.0,2.3367886543273926
+"Tied embeddings (16 layers, baseline)",18844483584.0,2.3402957916259766
+"Tied embeddings (16 layers, baseline)",19248709632.0,2.316774845123291
+"Tied embeddings (16 layers, baseline)",19283312640.0,2.3681554794311523
+"Tied embeddings (16 layers, baseline)",19450036224.0,2.352463722229004
+"Tied embeddings (16 layers, baseline)",19475202048.0,2.329472780227661
+"Tied embeddings (16 layers, baseline)",19520815104.0,2.340480327606201
+"Tied embeddings (16 layers, baseline)",19527106560.0,2.336228847503662
+"Tied embeddings (16 layers, baseline)",19756744704.0,2.3492465019226074
+"Tied embeddings (16 layers, baseline)",20052443136.0,2.3260228633880615
+"Tied embeddings (16 layers, baseline)",20159397888.0,2.331388235092163
+"Tied embeddings (16 layers, baseline)",20360724480.0,2.311288595199585
+"Tied embeddings (16 layers, baseline)",20536885248.0,2.3223366737365723
+"Tied embeddings (16 layers, baseline)",20812136448.0,2.3374533653259277
+"Tied embeddings (16 layers, baseline)",20835729408.0,2.360875368118286
+"Tied embeddings (16 layers, baseline)",20837302272.0,2.3594095706939697
+"Tied embeddings (16 layers, baseline)",20904935424.0,2.335090160369873
+"Tied embeddings (16 layers, baseline)",20915945472.0,2.3419270515441895
+"Tied embeddings (16 layers, baseline)",20953694208.0,2.324105978012085
+"Tied embeddings (16 layers, baseline)",21129854976.0,2.3048489093780518
+"Tied embeddings (16 layers, baseline)",21320171520.0,2.310800075531006
+"Tied embeddings (16 layers, baseline)",21381513216.0,2.317434787750244
+"Tied embeddings (16 layers, baseline)",21387804672.0,2.291327476501465
+"Tied embeddings (16 layers, baseline)",21516779520.0,2.3166513442993164
+"Tied embeddings (16 layers, baseline)",21677211648.0,2.3108177185058594
+"Tied embeddings (16 layers, baseline)",21804613632.0,2.317729949951172
+"Tied embeddings (16 layers, baseline)",21905276928.0,2.302990674972534
+"Tied embeddings (16 layers, baseline)",21939879936.0,2.3320083618164062
+"Tied embeddings (16 layers, baseline)",22133342208.0,2.30761981010437
+"Tied embeddings (16 layers, baseline)",22134915072.0,2.3299596309661865
+"Tied embeddings (16 layers, baseline)",22268608512.0,2.309107780456543
+"Tied embeddings (16 layers, baseline)",22529703936.0,2.314471483230591
+"Tied embeddings (16 layers, baseline)",22543859712.0,2.326817750930786
+"Tied embeddings (16 layers, baseline)",22718447616.0,2.3330037593841553
+"Tied embeddings (16 layers, baseline)",23146266624.0,2.298905372619629
+"Tied embeddings (16 layers, baseline)",23210754048.0,2.278608798980713
+"Tied embeddings (16 layers, baseline)",23213899776.0,2.3050761222839355
+"Tied embeddings (16 layers, baseline)",23369613312.0,2.3214244842529297
+"Tied embeddings (16 layers, baseline)",23397924864.0,2.314521551132202
+"Tied embeddings (16 layers, baseline)",23506452480.0,2.335691213607788
+"Tied embeddings (16 layers, baseline)",23605542912.0,2.3060641288757324
+"Tied embeddings (16 layers, baseline)",23632281600.0,2.2810282707214355
+"Tied embeddings (16 layers, baseline)",23638573056.0,2.310244560241699
+"Tied embeddings (16 layers, baseline)",23681040384.0,2.2985620498657227
+"Tied embeddings (16 layers, baseline)",23687331840.0,2.3110928535461426
+"Tied embeddings (16 layers, baseline)",23825743872.0,2.313782215118408
+"Tied embeddings (16 layers, baseline)",23855628288.0,2.312321424484253
+"Tied embeddings (16 layers, baseline)",23871356928.0,2.321255683898926
+"Tied embeddings (16 layers, baseline)",23898095616.0,2.2829976081848145
+"Tied embeddings (16 layers, baseline)",23940562944.0,2.2596349716186523
+"Tied embeddings (16 layers, baseline)",23989321728.0,2.2768290042877197
+"Tied embeddings (16 layers, baseline)",24000331776.0,2.3031864166259766
+"Tied embeddings (16 layers, baseline)",24028643328.0,2.2910420894622803
+"Tied embeddings (16 layers, baseline)",24060100608.0,2.302523612976074
+"Tied embeddings (16 layers, baseline)",24063246336.0,2.292734146118164
+"Tied embeddings (16 layers, baseline)",24189075456.0,2.2950572967529297
+"Tied embeddings (16 layers, baseline)",24195366912.0,2.3048055171966553
+"Tied embeddings (16 layers, baseline)",24349507584.0,2.2994384765625
+"Tied embeddings (16 layers, baseline)",24374673408.0,2.2638955116271973
+"Tied embeddings (16 layers, baseline)",24418713600.0,2.3381218910217285
+"Tied embeddings (16 layers, baseline)",24826085376.0,2.3099591732025146
+"Tied embeddings (16 layers, baseline)",24951914496.0,2.2902135848999023
+"Tied embeddings (16 layers, baseline)",24958205952.0,2.297240734100342
+"Tied embeddings (16 layers, baseline)",24969216000.0,2.289320945739746
+"Tied embeddings (16 layers, baseline)",25153241088.0,2.312119245529175
+"Tied embeddings (16 layers, baseline)",25208291328.0,2.318873882293701
+"Tied embeddings (16 layers, baseline)",25431638016.0,2.2957570552825928
+"Tied embeddings (16 layers, baseline)",25486688256.0,2.2945351600646973
+"Tied embeddings (16 layers, baseline)",25675431936.0,2.328812599182129
+"Tied embeddings (16 layers, baseline)",25761939456.0,2.3119325637817383
+"Tied embeddings (16 layers, baseline)",25818562560.0,2.2839293479919434
+"Tied embeddings (16 layers, baseline)",25821708288.0,2.319737672805786
+"Tied embeddings (16 layers, baseline)",25842155520.0,2.302675247192383
+"Tied embeddings (16 layers, baseline)",25980567552.0,2.308879852294922
+"Tied embeddings (16 layers, baseline)",26001014784.0,2.2990283966064453
+"Tied embeddings (16 layers, baseline)",26023034880.0,2.2999463081359863
+"Tied embeddings (16 layers, baseline)",26034044928.0,2.290717124938965
+"Tied embeddings (16 layers, baseline)",26038763520.0,2.3018736839294434
+"Tied embeddings (16 layers, baseline)",26089095168.0,2.2941291332244873
+"Tied embeddings (16 layers, baseline)",26159874048.0,2.2839229106903076
+"Tied embeddings (16 layers, baseline)",26196049920.0,2.3134636878967285
+"Tied embeddings (16 layers, baseline)",26347044864.0,2.2922868728637695
+"Tied embeddings (16 layers, baseline)",26438270976.0,2.280986785888672
+"Tied embeddings (16 layers, baseline)",26449281024.0,2.3003759384155273
+"Tied embeddings (16 layers, baseline)",26504331264.0,2.2693252563476562
+"Tied embeddings (16 layers, baseline)",26581401600.0,2.264857769012451
+"Tied embeddings (16 layers, baseline)",26638024704.0,2.2480309009552
+"Tied embeddings (16 layers, baseline)",26711949312.0,2.2663967609405518
+"Tied embeddings (16 layers, baseline)",26859798528.0,2.2743184566497803
+"Tied embeddings (16 layers, baseline)",26886537216.0,2.2831344604492188
+"Tied embeddings (16 layers, baseline)",26955743232.0,2.299400568008423
+"Tied embeddings (16 layers, baseline)",27007647744.0,2.2966110706329346
+"Tied embeddings (16 layers, baseline)",27015512064.0,2.2680816650390625
+"Tied embeddings (16 layers, baseline)",27046969344.0,2.2843260765075684
+"Tied embeddings (16 layers, baseline)",27083145216.0,2.272693634033203
+"Tied embeddings (16 layers, baseline)",27141341184.0,2.2740750312805176
+"Tied embeddings (16 layers, baseline)",27191672832.0,2.3280138969421387
+"Tied embeddings (16 layers, baseline)",27221557248.0,2.272688627243042
+"Tied embeddings (16 layers, baseline)",27345813504.0,2.2850351333618164
+"Tied embeddings (16 layers, baseline)",27381989376.0,2.2458863258361816
+"Tied embeddings (16 layers, baseline)",27389853696.0,2.286604881286621
+"Tied embeddings (16 layers, baseline)",27410300928.0,2.2696261405944824
+"Tied embeddings (16 layers, baseline)",27515682816.0,2.281515121459961
+"Tied embeddings (16 layers, baseline)",27696562176.0,2.231146812438965
+"Tied embeddings (16 layers, baseline)",27858567168.0,2.2877798080444336
+"Tied embeddings (16 layers, baseline)",27924627456.0,2.289600372314453
+"Tied embeddings (16 layers, baseline)",28022145024.0,2.243680238723755
+"Tied embeddings (16 layers, baseline)",28107079680.0,2.2873950004577637
+"Tied embeddings (16 layers, baseline)",28283240448.0,2.3093948364257812
+"Tied embeddings (16 layers, baseline)",28550627328.0,2.2751989364624023
+"Tied embeddings (16 layers, baseline)",28843180032.0,2.260044574737549
+"Tied embeddings (16 layers, baseline)",28917104640.0,2.277217388153076
+"Tied embeddings (16 layers, baseline)",28937551872.0,2.293107032775879
+"Tied embeddings (16 layers, baseline)",28983164928.0,2.2742743492126465
+"Tied embeddings (16 layers, baseline)",29042933760.0,2.2565009593963623
+"Tied embeddings (16 layers, baseline)",29245833216.0,2.262721300125122
+"Tied embeddings (16 layers, baseline)",29269426176.0,2.257248640060425
+"Tied embeddings (16 layers, baseline)",29415702528.0,2.2732696533203125
+"Tied embeddings (16 layers, baseline)",29528948736.0,2.2332406044006348
+"Tied embeddings (16 layers, baseline)",29539958784.0,2.2508130073547363
+"Tied embeddings (16 layers, baseline)",29700390912.0,2.2802257537841797
+"Tied embeddings (16 layers, baseline)",29706682368.0,2.2333736419677734
+"Tied embeddings (16 layers, baseline)",29852958720.0,2.2887113094329834
+"Tied embeddings (16 layers, baseline)",29882843136.0,2.253847599029541
+"Tied embeddings (16 layers, baseline)",30027546624.0,2.2896409034729004
+"Tied embeddings (16 layers, baseline)",30076305408.0,2.26137375831604
+"Tied embeddings (16 layers, baseline)",30126637056.0,2.2537853717803955
+"Tied embeddings (16 layers, baseline)",30194270208.0,2.2828824520111084
+"Tied embeddings (16 layers, baseline)",30233591808.0,2.2367093563079834
+"Tied embeddings (16 layers, baseline)",30235164672.0,2.266530752182007
+"Tied embeddings (16 layers, baseline)",30376722432.0,2.286771059036255
+"Tied embeddings (16 layers, baseline)",30460084224.0,2.254112720489502
+"Tied embeddings (16 layers, baseline)",30507270144.0,2.301454544067383
+"Tied embeddings (16 layers, baseline)",30590631936.0,2.2702953815460205
+"Tied embeddings (16 layers, baseline)",30752636928.0,2.2836456298828125
+"Tied embeddings (16 layers, baseline)",30886330368.0,2.2656497955322266
+"Tied embeddings (16 layers, baseline)",30895767552.0,2.2371103763580322
+"Tied embeddings (16 layers, baseline)",31389646848.0,2.279749870300293
+"Tied embeddings (16 layers, baseline)",31416385536.0,2.2491455078125
+"Tied embeddings (16 layers, baseline)",31479300096.0,2.2877652645111084
+"Tied embeddings (16 layers, baseline)",31595692032.0,2.2779393196105957
+"Tied embeddings (16 layers, baseline)",31737249792.0,2.215895175933838
+"Tied embeddings (16 layers, baseline)",31776571392.0,2.2326488494873047
+"Tied embeddings (16 layers, baseline)",31867797504.0,2.2471089363098145
+"Tied embeddings (16 layers, baseline)",31944867840.0,2.2443370819091797
+"Tied embeddings (16 layers, baseline)",31959023616.0,2.2772879600524902
+"Tied embeddings (16 layers, baseline)",31963742208.0,2.1976332664489746
+"Tied embeddings (16 layers, baseline)",32080134144.0,2.2849783897399902
+"Tied embeddings (16 layers, baseline)",32143048704.0,2.242882251739502
+"Tied embeddings (16 layers, baseline)",32350666752.0,2.2281408309936523
+"Tied embeddings (16 layers, baseline)",32367968256.0,2.2993087768554688
+"Tied embeddings (16 layers, baseline)",32743882752.0,2.231142044067383
+"Tied embeddings (16 layers, baseline)",32789495808.0,2.2591257095336914
+"Tied embeddings (16 layers, baseline)",32849264640.0,2.220202922821045
+"Tied embeddings (16 layers, baseline)",32915324928.0,2.2691526412963867
+"Tied embeddings (16 layers, baseline)",32920043520.0,2.209921360015869
+"Tied embeddings (16 layers, baseline)",33248772096.0,2.2225093841552734
+"Tied embeddings (16 layers, baseline)",33332133888.0,2.2428464889526367
+"Tied embeddings (16 layers, baseline)",33475264512.0,2.2285666465759277
+"Tied embeddings (16 layers, baseline)",33530314752.0,2.23819637298584
+"Tied embeddings (16 layers, baseline)",33544470528.0,2.235795736312866
+"Tied embeddings (16 layers, baseline)",33623113728.0,2.247178554534912
+"Tied embeddings (16 layers, baseline)",33752088576.0,2.2631707191467285
+"Tied embeddings (16 layers, baseline)",33802420224.0,2.254516124725342
+"Tied embeddings (16 layers, baseline)",33859043328.0,2.2782888412475586
+"Tied embeddings (16 layers, baseline)",33918812160.0,2.290022850036621
+"Tied embeddings (16 layers, baseline)",33972289536.0,2.2553935050964355
+"Tied embeddings (16 layers, baseline)",34046214144.0,2.2390389442443848
+"Tied embeddings (16 layers, baseline)",34065088512.0,2.2191638946533203
+"Tied embeddings (16 layers, baseline)",34079244288.0,2.25390362739563
+"Tied embeddings (16 layers, baseline)",34134294528.0,2.2388360500335693
+"Tied embeddings (16 layers, baseline)",34145304576.0,2.2401652336120605
+"Tied embeddings (16 layers, baseline)",34249113600.0,2.232344627380371
+"Tied embeddings (16 layers, baseline)",34321465344.0,2.2232894897460938
+"Tied embeddings (16 layers, baseline)",34374942720.0,2.2122936248779297
+"Tied embeddings (16 layers, baseline)",34378088448.0,2.2426414489746094
+"Tied embeddings (16 layers, baseline)",34409545728.0,2.2311978340148926
+"Tied embeddings (16 layers, baseline)",34434711552.0,2.2263097763061523
+"Tied embeddings (16 layers, baseline)",34632892416.0,2.2360458374023438
+"Tied embeddings (16 layers, baseline)",34749284352.0,2.210706949234009
+"Tied embeddings (16 layers, baseline)",34782314496.0,2.2303476333618164
+"Tied embeddings (16 layers, baseline)",34966339584.0,2.231456756591797
+"Tied embeddings (16 layers, baseline)",35111043072.0,2.227969169616699
+"Tied embeddings (16 layers, baseline)",35129917440.0,2.207317590713501
+"Tied embeddings (16 layers, baseline)",35167666176.0,2.241819381713867
+"Tied embeddings (16 layers, baseline)",35184967680.0,2.2919461727142334
+"Tied embeddings (16 layers, baseline)",35211706368.0,2.242342472076416
+"Tied embeddings (16 layers, baseline)",35233726464.0,2.2340824604034424
+"Tied embeddings (16 layers, baseline)",35257319424.0,2.2254302501678467
+"Tied embeddings (16 layers, baseline)",35301359616.0,2.2232227325439453
+"Tied embeddings (16 layers, baseline)",35361128448.0,2.259556293487549
+"Tied embeddings (16 layers, baseline)",35642671104.0,2.259779214859009
+"Tied embeddings (16 layers, baseline)",35729178624.0,2.260709285736084
+"Tied embeddings (16 layers, baseline)",35875454976.0,2.2547268867492676
+"Tied embeddings (16 layers, baseline)",36059480064.0,2.196889877319336
+"Tied embeddings (16 layers, baseline)",36090937344.0,2.2420382499694824
+"Tied embeddings (16 layers, baseline)",36095655936.0,2.2370433807373047
+"Tied embeddings (16 layers, baseline)",36112957440.0,2.2112674713134766
+"Tied embeddings (16 layers, baseline)",36185309184.0,2.2590394020080566
+"Tied embeddings (16 layers, baseline)",36300128256.0,2.218724250793457
+"Tied embeddings (16 layers, baseline)",36339449856.0,2.218296527862549
+"Tied embeddings (16 layers, baseline)",36348887040.0,2.2221741676330566
+"Tied embeddings (16 layers, baseline)",36353605632.0,2.2369582653045654
+"Tied embeddings (16 layers, baseline)",36366188544.0,2.2324979305267334
+"Tied embeddings (16 layers, baseline)",36433821696.0,2.247467041015625
+"Tied embeddings (16 layers, baseline)",36512464896.0,2.2587099075317383
+"Tied embeddings (16 layers, baseline)",36521902080.0,2.2418363094329834
+"Tied embeddings (16 layers, baseline)",36591108096.0,2.260018825531006
+"Tied embeddings (16 layers, baseline)",36643012608.0,2.2291207313537598
+"Tied embeddings (16 layers, baseline)",36654022656.0,2.2461891174316406
+"Tied embeddings (16 layers, baseline)",36704354304.0,2.2337372303009033
+"Tied embeddings (16 layers, baseline)",36933992448.0,2.204369068145752
+"Tied embeddings (16 layers, baseline)",36959158272.0,2.240622043609619
+"Tied embeddings (16 layers, baseline)",37073977344.0,2.2325782775878906
+"Tied embeddings (16 layers, baseline)",37110153216.0,2.2341976165771484
+"Tied embeddings (16 layers, baseline)",37173067776.0,2.2201457023620605
+"Tied embeddings (16 layers, baseline)",37289459712.0,2.1877684593200684
+"Tied embeddings (16 layers, baseline)",37402705920.0,2.196897029876709
+"Tied embeddings (16 layers, baseline)",37879283712.0,2.210174798965454
+"Tied embeddings (16 layers, baseline)",38105776128.0,2.231168746948242
+"Tied embeddings (16 layers, baseline)",38113640448.0,2.2117581367492676
+"Tied embeddings (16 layers, baseline)",38313394176.0,2.209277391433716
+"Tied embeddings (16 layers, baseline)",38399901696.0,2.2108497619628906
+"Tied embeddings (16 layers, baseline)",38414057472.0,2.2217752933502197
+"Tied embeddings (16 layers, baseline)",38473826304.0,2.235299587249756
+"Tied embeddings (16 layers, baseline)",38513147904.0,2.230879545211792
+"Tied embeddings (16 layers, baseline)",38896926720.0,2.2111828327178955
+"Tied embeddings (16 layers, baseline)",38929956864.0,2.218919515609741
+"Tied embeddings (16 layers, baseline)",38948831232.0,2.231752872467041
+"Tied embeddings (16 layers, baseline)",39005454336.0,2.2063140869140625
+"Tied embeddings (16 layers, baseline)",39066796032.0,2.1704933643341064
+"Tied embeddings (16 layers, baseline)",39077806080.0,2.2194204330444336
+"Tied embeddings (16 layers, baseline)",39095107584.0,2.2009921073913574
+"Tied embeddings (16 layers, baseline)",39178469376.0,2.184819221496582
+"Tied embeddings (16 layers, baseline)",39205208064.0,2.197422981262207
+"Tied embeddings (16 layers, baseline)",39398670336.0,2.1980717182159424
+"Tied embeddings (16 layers, baseline)",39403388928.0,2.2656569480895996
+"Tied embeddings (16 layers, baseline)",39426981888.0,2.207237958908081
+"Tied embeddings (16 layers, baseline)",39618871296.0,2.1915316581726074
+"Tied embeddings (16 layers, baseline)",39631454208.0,2.18955659866333
+"Tied embeddings (16 layers, baseline)",39711670272.0,2.2239651679992676
+"Tied embeddings (16 layers, baseline)",40002650112.0,2.234402656555176
+"Tied embeddings (16 layers, baseline)",40150499328.0,2.2076597213745117
+"Tied embeddings (16 layers, baseline)",40310931456.0,2.214452028274536
+"Tied embeddings (16 layers, baseline)",40314077184.0,2.254201889038086
+"Tied embeddings (16 layers, baseline)",40394293248.0,2.206589698791504
+"Tied embeddings (16 layers, baseline)",40559443968.0,2.2347044944763184
+"Tied embeddings (16 layers, baseline)",40561016832.0,2.2155652046203613
+"Tied embeddings (16 layers, baseline)",40628649984.0,2.193852663040161
+"Tied embeddings (16 layers, baseline)",40631795712.0,2.2214231491088867
+"Tied embeddings (16 layers, baseline)",40801665024.0,2.2187609672546387
+"Tied embeddings (16 layers, baseline)",40866152448.0,2.2031190395355225
+"Tied embeddings (16 layers, baseline)",40925921280.0,2.1987953186035156
+"Tied embeddings (16 layers, baseline)",41040740352.0,2.1989617347717285
+"Tied embeddings (16 layers, baseline)",41067479040.0,2.200160026550293
+"Tied embeddings (16 layers, baseline)",41278242816.0,2.190535068511963
+"Tied embeddings (16 layers, baseline)",41304981504.0,2.200876474380493
+"Tied embeddings (16 layers, baseline)",41572368384.0,2.1670522689819336
+"Tied embeddings (16 layers, baseline)",41592815616.0,2.228626251220703
+"Tied embeddings (16 layers, baseline)",41885368320.0,2.1997077465057373
+"Tied embeddings (16 layers, baseline)",41901096960.0,2.2084221839904785
+"Tied embeddings (16 layers, baseline)",41941991424.0,2.2373926639556885
+"Tied embeddings (16 layers, baseline)",42030071808.0,2.2249245643615723
+"Tied embeddings (16 layers, baseline)",42223534080.0,2.210693836212158
+"Tied embeddings (16 layers, baseline)",42239262720.0,2.19869065284729
+"Tied embeddings (16 layers, baseline)",42429579264.0,2.2002525329589844
+"Tied embeddings (16 layers, baseline)",42503503872.0,2.1649999618530273
+"Tied embeddings (16 layers, baseline)",42545971200.0,2.2243785858154297
+"Tied embeddings (16 layers, baseline)",42561699840.0,2.2150168418884277
+"Tied embeddings (16 layers, baseline)",42599448576.0,2.2083940505981445
+"Tied embeddings (16 layers, baseline)",42656071680.0,2.195845603942871
+"Tied embeddings (16 layers, baseline)",42769317888.0,2.196025848388672
+"Tied embeddings (16 layers, baseline)",42858971136.0,2.228259563446045
+"Tied embeddings (16 layers, baseline)",43008393216.0,2.1811485290527344
+"Tied embeddings (16 layers, baseline)",43327684608.0,2.1844382286071777
+"Tied embeddings (16 layers, baseline)",43407900672.0,2.1999831199645996
+"Tied embeddings (16 layers, baseline)",43508563968.0,2.2282354831695557
+"Tied embeddings (16 layers, baseline)",43609227264.0,2.2013585567474365
+"Tied embeddings (16 layers, baseline)",43631247360.0,2.1708078384399414
+"Tied embeddings (16 layers, baseline)",43744493568.0,2.1982674598693848
+"Tied embeddings (16 layers, baseline)",43988287488.0,2.1789584159851074
+"Tied embeddings (16 layers, baseline)",44125126656.0,2.2057607173919678
+"Tied embeddings (16 layers, baseline)",44243091456.0,2.21610164642334
+"Tied embeddings (16 layers, baseline)",44290277376.0,2.196316719055176
+"Tied embeddings (16 layers, baseline)",44294995968.0,2.2021093368530273
+"Tied embeddings (16 layers, baseline)",44312297472.0,2.2026100158691406
+"Tied embeddings (16 layers, baseline)",44392513536.0,2.1897783279418945
+"Tied embeddings (16 layers, baseline)",44499468288.0,2.1898064613342285
+"Tied embeddings (16 layers, baseline)",44680347648.0,2.2176475524902344
+"Tied embeddings (16 layers, baseline)",44716523520.0,2.1767826080322266
+"Tied embeddings (16 layers, baseline)",44774719488.0,2.183276414871216
+"Tied embeddings (16 layers, baseline)",44850216960.0,2.200186252593994
+"Tied embeddings (16 layers, baseline)",45045252096.0,2.2104268074035645
+"Tied embeddings (16 layers, baseline)",45049970688.0,2.2227540016174316
+"Tied embeddings (16 layers, baseline)",45105020928.0,2.19403076171875
+"Tied embeddings (16 layers, baseline)",45109739520.0,2.1831278800964355
+"Tied embeddings (16 layers, baseline)",45278035968.0,2.185023784637451
+"Tied embeddings (16 layers, baseline)",45296910336.0,2.2123355865478516
+"Tied embeddings (16 layers, baseline)",45778206720.0,2.218149185180664
+"Tied embeddings (16 layers, baseline)",45787643904.0,2.1997594833374023
+"Tied embeddings (16 layers, baseline)",45951221760.0,2.2041876316070557
+"Tied embeddings (16 layers, baseline)",45993689088.0,2.176635265350342
+"Tied embeddings (16 layers, baseline)",46004699136.0,2.184593677520752
+"Tied embeddings (16 layers, baseline)",46042447872.0,2.1817712783813477
+"Tied embeddings (16 layers, baseline)",46100643840.0,2.220828056335449
+"Tied embeddings (16 layers, baseline)",46163558400.0,2.193012237548828
+"Tied embeddings (16 layers, baseline)",46193442816.0,2.207740306854248
+"Tied embeddings (16 layers, baseline)",46323990528.0,2.1637349128723145
+"Tied embeddings (16 layers, baseline)",46456111104.0,2.1560096740722656
+"Tied embeddings (16 layers, baseline)",46541045760.0,2.227327346801758
+"Tied embeddings (16 layers, baseline)",46566211584.0,2.2065417766571045
+"Tied embeddings (16 layers, baseline)",46681030656.0,2.18324875831604
+"Tied embeddings (16 layers, baseline)",46721925120.0,2.1947388648986816
+"Tied embeddings (16 layers, baseline)",46750236672.0,2.201418161392212
+"Tied embeddings (16 layers, baseline)",46772256768.0,2.234583616256714
+"Tied embeddings (16 layers, baseline)",46934261760.0,2.193354368209839
+"Tied embeddings (16 layers, baseline)",46998749184.0,2.20060133934021
+"Tied embeddings (16 layers, baseline)",47005040640.0,2.193587303161621
+"Tied embeddings (16 layers, baseline)",47009759232.0,2.2093207836151123
+"Tied embeddings (16 layers, baseline)",47138734080.0,2.188753604888916
+Untied embeddings (12 layers),73924608.0,9.105989456176758
+Untied embeddings (12 layers),237502464.0,6.709834575653076
+Untied embeddings (12 layers),350748672.0,5.995312690734863
+Untied embeddings (12 layers),371195904.0,5.95250129699707
+Untied embeddings (12 layers),473432064.0,5.546879768371582
+Untied embeddings (12 layers),475004928.0,5.513541221618652
+Untied embeddings (12 layers),632291328.0,5.049080848693848
+Untied embeddings (12 layers),655884288.0,4.957842826843262
+Untied embeddings (12 layers),695205888.0,4.853011131286621
+Untied embeddings (12 layers),734527488.0,4.705268859863281
+Untied embeddings (12 layers),833617920.0,4.5113348960876465
+Untied embeddings (12 layers),942145536.0,4.208068370819092
+Untied embeddings (12 layers),1237843968.0,3.6552672386169434
+Untied embeddings (12 layers),1426587648.0,3.5951619148254395
+Untied embeddings (12 layers),1503657984.0,3.4659323692321777
+Untied embeddings (12 layers),1522532352.0,3.470020055770874
+Untied embeddings (12 layers),1631059968.0,3.4163765907287598
+Untied embeddings (12 layers),1657798656.0,3.3831300735473633
+Untied embeddings (12 layers),1695547392.0,3.381427049636841
+Untied embeddings (12 layers),1701838848.0,3.4231581687927246
+Untied embeddings (12 layers),1703411712.0,3.3715052604675293
+Untied embeddings (12 layers),1708130304.0,3.378314971923828
+Untied embeddings (12 layers),1926758400.0,3.31585955619812
+Untied embeddings (12 layers),1959788544.0,3.2257134914398193
+Untied embeddings (12 layers),2062024704.0,3.263223171234131
+Untied embeddings (12 layers),2164260864.0,3.2137205600738525
+Untied embeddings (12 layers),2228748288.0,3.285388469696045
+Untied embeddings (12 layers),2280652800.0,3.1999197006225586
+Untied embeddings (12 layers),2463105024.0,3.158374786376953
+Untied embeddings (12 layers),2555904000.0,3.225170135498047
+Untied embeddings (12 layers),2577924096.0,3.191685199737549
+Untied embeddings (12 layers),2722627584.0,3.0897021293640137
+Untied embeddings (12 layers),2934964224.0,3.027329921722412
+Untied embeddings (12 layers),3057647616.0,3.0220370292663574
+Untied embeddings (12 layers),3093823488.0,2.9997401237487793
+Untied embeddings (12 layers),3133145088.0,2.9888358116149902
+Untied embeddings (12 layers),3398959104.0,2.964085102081299
+Untied embeddings (12 layers),3641180160.0,2.8549506664276123
+Untied embeddings (12 layers),3650617344.0,2.8795952796936035
+Untied embeddings (12 layers),3696230400.0,2.905717372894287
+Untied embeddings (12 layers),3834642432.0,2.8741259574890137
+Untied embeddings (12 layers),3954180096.0,2.9186668395996094
+Untied embeddings (12 layers),4089446400.0,2.8808071613311768
+Untied embeddings (12 layers),4117757952.0,2.8743772506713867
+Untied embeddings (12 layers),4120903680.0,2.8551411628723145
+Untied embeddings (12 layers),4315938816.0,2.797111988067627
+Untied embeddings (12 layers),4393009152.0,2.8107452392578125
+Untied embeddings (12 layers),4429185024.0,2.813033103942871
+Untied embeddings (12 layers),4446486528.0,2.810474395751953
+Untied embeddings (12 layers),4452777984.0,2.8014824390411377
+Untied embeddings (12 layers),4611637248.0,2.805457592010498
+Untied embeddings (12 layers),4630511616.0,2.7913239002227783
+Untied embeddings (12 layers),4871159808.0,2.7530903816223145
+Untied embeddings (12 layers),4888461312.0,2.734398365020752
+Untied embeddings (12 layers),5059903488.0,2.7737040519714355
+Untied embeddings (12 layers),5174722560.0,2.7311689853668213
+Untied embeddings (12 layers),5196742656.0,2.7793636322021484
+Untied embeddings (12 layers),5357174784.0,2.70137095451355
+Untied embeddings (12 layers),5402787840.0,2.6796491146087646
+Untied embeddings (12 layers),5429526528.0,2.683931827545166
+Untied embeddings (12 layers),5437390848.0,2.7451491355895996
+Untied embeddings (12 layers),5498732544.0,2.699777126312256
+Untied embeddings (12 layers),5607260160.0,2.749142646789551
+Untied embeddings (12 layers),5755109376.0,2.7079334259033203
+Untied embeddings (12 layers),5789712384.0,2.6930644512176514
+Untied embeddings (12 layers),5929697280.0,2.6804914474487305
+Untied embeddings (12 layers),6083837952.0,2.682292938232422
+Untied embeddings (12 layers),6179782656.0,2.623258590698242
+Untied embeddings (12 layers),6192365568.0,2.6887426376342773
+Untied embeddings (12 layers),6245842944.0,2.6752331256866455
+Untied embeddings (12 layers),6261571584.0,2.6588497161865234
+Untied embeddings (12 layers),6297747456.0,2.667818069458008
+Untied embeddings (12 layers),6371672064.0,2.6558377742767334
+Untied embeddings (12 layers),6390546432.0,2.632261037826538
+Untied embeddings (12 layers),6554124288.0,2.6345276832580566
+Untied embeddings (12 layers),6576144384.0,2.597158908843994
+Untied embeddings (12 layers),6648496128.0,2.6394407749176025
+Untied embeddings (12 layers),6722420736.0,2.6681573390960693
+Untied embeddings (12 layers),6723993600.0,2.634627342224121
+Untied embeddings (12 layers),6749159424.0,2.6325573921203613
+Untied embeddings (12 layers),6769606656.0,2.59430193901062
+Untied embeddings (12 layers),6796345344.0,2.6255979537963867
+Untied embeddings (12 layers),6983516160.0,2.6515049934387207
+Untied embeddings (12 layers),7032274944.0,2.6274948120117188
+Untied embeddings (12 layers),7123501056.0,2.621267795562744
+Untied embeddings (12 layers),7131365376.0,2.6515955924987793
+Untied embeddings (12 layers),7357857792.0,2.5658135414123535
+Untied embeddings (12 layers),7411335168.0,2.6140894889831543
+Untied embeddings (12 layers),7414480896.0,2.6133313179016113
+Untied embeddings (12 layers),7452229632.0,2.552722215652466
+Untied embeddings (12 layers),7491551232.0,2.7135932445526123
+Untied embeddings (12 layers),7659847680.0,2.572176456451416
+Untied embeddings (12 layers),7667712000.0,2.5672035217285156
+Untied embeddings (12 layers),7718043648.0,2.574763774871826
+Untied embeddings (12 layers),7724335104.0,2.5829708576202393
+Untied embeddings (12 layers),7733772288.0,2.5726046562194824
+Untied embeddings (12 layers),7752646656.0,2.5905184745788574
+Untied embeddings (12 layers),7812415488.0,2.559089183807373
+Untied embeddings (12 layers),7884767232.0,2.592987298965454
+Untied embeddings (12 layers),8070365184.0,2.5583505630493164
+Untied embeddings (12 layers),8191475712.0,2.5847866535186768
+Untied embeddings (12 layers),8290566144.0,2.5948848724365234
+Untied embeddings (12 layers),8362917888.0,2.63230037689209
+Untied embeddings (12 layers),8562671616.0,2.530916929244995
+Untied embeddings (12 layers),8565817344.0,2.5474748611450195
+Untied embeddings (12 layers),8617721856.0,2.5721020698547363
+Untied embeddings (12 layers),8696365056.0,2.6028199195861816
+Untied embeddings (12 layers),8808038400.0,2.55342960357666
+Untied embeddings (12 layers),8889827328.0,2.5460615158081055
+Untied embeddings (12 layers),8935440384.0,2.553163528442383
+Untied embeddings (12 layers),8957460480.0,2.5574824810028076
+Untied embeddings (12 layers),8987344896.0,2.53548526763916
+Untied embeddings (12 layers),9058123776.0,2.544975519180298
+Untied embeddings (12 layers),9103736832.0,2.581268787384033
+Untied embeddings (12 layers),9232711680.0,2.5411429405212402
+Untied embeddings (12 layers),9289334784.0,2.5551300048828125
+Untied embeddings (12 layers),9386852352.0,2.530366897583008
+Untied embeddings (12 layers),9404153856.0,2.593428611755371
+Untied embeddings (12 layers),9614917632.0,2.5448966026306152
+Untied embeddings (12 layers),9640083456.0,2.5909361839294434
+Untied embeddings (12 layers),9643229184.0,2.5155858993530273
+Untied embeddings (12 layers),9652666368.0,2.5261404514312744
+Untied embeddings (12 layers),9767485440.0,2.5097475051879883
+Untied embeddings (12 layers),9844555776.0,2.5445804595947266
+Untied embeddings (12 layers),9891741696.0,2.5525975227355957
+Untied embeddings (12 layers),10064756736.0,2.5153450965881348
+Untied embeddings (12 layers),10255073280.0,2.499663829803467
+Untied embeddings (12 layers),10275520512.0,2.5425219535827637
+Untied embeddings (12 layers),10484711424.0,2.5260210037231445
+Untied embeddings (12 layers),10505158656.0,2.51743221282959
+Untied embeddings (12 layers),10585374720.0,2.5031092166900635
+Untied embeddings (12 layers),10599530496.0,2.4987542629241943
+Untied embeddings (12 layers),10717495296.0,2.5308656692504883
+Untied embeddings (12 layers),11074535424.0,2.481566905975342
+Untied embeddings (12 layers),11104419840.0,2.517810583114624
+Untied embeddings (12 layers),11398545408.0,2.4815948009490967
+Untied embeddings (12 layers),11409555456.0,2.4920458793640137
+Untied embeddings (12 layers),11500781568.0,2.4806156158447266
+Untied embeddings (12 layers),11533811712.0,2.482360363006592
+Untied embeddings (12 layers),11582570496.0,2.5102005004882812
+Untied embeddings (12 layers),11766595584.0,2.4693517684936523
+Untied embeddings (12 layers),11824791552.0,2.4804916381835938
+Untied embeddings (12 layers),11859394560.0,2.487942695617676
+Untied embeddings (12 layers),11900289024.0,2.465467691421509
+Untied embeddings (12 layers),11966349312.0,2.458625316619873
+Untied embeddings (12 layers),11999379456.0,2.5093116760253906
+Untied embeddings (12 layers),12287213568.0,2.471750259399414
+Untied embeddings (12 layers),12329680896.0,2.4829654693603516
+Untied embeddings (12 layers),12402032640.0,2.5039820671081543
+Untied embeddings (12 layers),12564037632.0,2.5102052688598633
+Untied embeddings (12 layers),12628525056.0,2.4813413619995117
+Untied embeddings (12 layers),12859736064.0,2.447235584259033
+Untied embeddings (12 layers),12897484800.0,2.4978456497192383
+Untied embeddings (12 layers),12922650624.0,2.4606330394744873
+Untied embeddings (12 layers),12990283776.0,2.4458024501800537
+Untied embeddings (12 layers),13006012416.0,2.4865312576293945
+Untied embeddings (12 layers),13010731008.0,2.46964168548584
+Untied embeddings (12 layers),13023313920.0,2.437558650970459
+Untied embeddings (12 layers),13031178240.0,2.5100717544555664
+Untied embeddings (12 layers),13149143040.0,2.4645793437957764
+Untied embeddings (12 layers),13358333952.0,2.470726490020752
+Untied embeddings (12 layers),13386645504.0,2.4758124351501465
+Untied embeddings (12 layers),13392936960.0,2.469834327697754
+Untied embeddings (12 layers),13473153024.0,2.4393773078918457
+Untied embeddings (12 layers),13517193216.0,2.444871425628662
+Untied embeddings (12 layers),13676052480.0,2.471405029296875
+Untied embeddings (12 layers),13740539904.0,2.4645838737487793
+Untied embeddings (12 layers),14037811200.0,2.45521879196167
+Untied embeddings (12 layers),14105444352.0,2.443523406982422
+Untied embeddings (12 layers),14107017216.0,2.4636216163635254
+Untied embeddings (12 layers),14110162944.0,2.4420340061187744
+Untied embeddings (12 layers),14207680512.0,2.4567015171051025
+Untied embeddings (12 layers),14221836288.0,2.4743661880493164
+Untied embeddings (12 layers),14297333760.0,2.4308528900146484
+Untied embeddings (12 layers),14324072448.0,2.452902317047119
+Untied embeddings (12 layers),14368112640.0,2.4730446338653564
+Untied embeddings (12 layers),14377549824.0,2.4362730979919434
+Untied embeddings (12 layers),14478213120.0,2.4077506065368652
+Untied embeddings (12 layers),14715715584.0,2.4620447158813477
+Untied embeddings (12 layers),14819524608.0,2.4084699153900146
+Untied embeddings (12 layers),14827388928.0,2.4416513442993164
+Untied embeddings (12 layers),15250489344.0,2.4326863288879395
+Untied embeddings (12 layers),15297675264.0,2.462198257446289
+Untied embeddings (12 layers),15431368704.0,2.4230799674987793
+Untied embeddings (12 layers),15642132480.0,2.4039433002471924
+Untied embeddings (12 layers),15777398784.0,2.4179961681365967
+Untied embeddings (12 layers),15912665088.0,2.413290023803711
+Untied embeddings (12 layers),15994454016.0,2.448784351348877
+Untied embeddings (12 layers),16249257984.0,2.4599449634552
+Untied embeddings (12 layers),16326328320.0,2.416774272918701
+Untied embeddings (12 layers),16474177536.0,2.4161376953125
+Untied embeddings (12 layers),16725835776.0,2.383418083190918
+Untied embeddings (12 layers),16743137280.0,2.4380393028259277
+Untied embeddings (12 layers),16787177472.0,2.452392816543579
+Untied embeddings (12 layers),16884695040.0,2.4097204208374023
+Untied embeddings (12 layers),16914579456.0,2.441013813018799
+Untied embeddings (12 layers),16985358336.0,2.40704345703125
+Untied embeddings (12 layers),17098604544.0,2.401672840118408
+Untied embeddings (12 layers),17130061824.0,2.4166808128356934
+Untied embeddings (12 layers),17202413568.0,2.422668695449829
+Untied embeddings (12 layers),17449353216.0,2.4082016944885254
+Untied embeddings (12 layers),17704157184.0,2.3855350017547607
+Untied embeddings (12 layers),17741905920.0,2.4187002182006836
+Untied embeddings (12 layers),17822121984.0,2.4040470123291016
+Untied embeddings (12 layers),18015584256.0,2.4328064918518066
+Untied embeddings (12 layers),18059624448.0,2.4087932109832764
+Untied embeddings (12 layers),18215337984.0,2.4239065647125244
+Untied embeddings (12 layers),18253086720.0,2.413811683654785
+Untied embeddings (12 layers),18267242496.0,2.4040799140930176
+Untied embeddings (12 layers),18542493696.0,2.4319019317626953
+Untied embeddings (12 layers),18701352960.0,2.3863134384155273
+Untied embeddings (12 layers),18913689600.0,2.416684150695801
+Untied embeddings (12 layers),18921553920.0,2.381713390350342
+Untied embeddings (12 layers),19064684544.0,2.368168354034424
+Untied embeddings (12 layers),19203096576.0,2.418369770050049
+Untied embeddings (12 layers),19218825216.0,2.366637945175171
+Untied embeddings (12 layers),19305332736.0,2.413433313369751
+Untied embeddings (12 layers),19319488512.0,2.3893883228302
+Untied embeddings (12 layers),19382403072.0,2.4017982482910156
+Untied embeddings (12 layers),19391840256.0,2.3792333602905273
+Untied embeddings (12 layers),19412287488.0,2.379389762878418
+Untied embeddings (12 layers),19462619136.0,2.3804593086242676
+Untied embeddings (12 layers),19541262336.0,2.4114503860473633
+Untied embeddings (12 layers),19571146752.0,2.3757143020629883
+Untied embeddings (12 layers),19698548736.0,2.3911561965942383
+Untied embeddings (12 layers),19879428096.0,2.4071741104125977
+Untied embeddings (12 layers),19992674304.0,2.3739371299743652
+Untied embeddings (12 layers),19998965760.0,2.396608829498291
+Untied embeddings (12 layers),20098056192.0,2.4336342811584473
+Untied embeddings (12 layers),20126367744.0,2.3853447437286377
+Untied embeddings (12 layers),20154679296.0,2.432766914367676
+Untied embeddings (12 layers),20305674240.0,2.389523506164551
+Untied embeddings (12 layers),20488126464.0,2.386624336242676
+Untied embeddings (12 layers),20494417920.0,2.382765293121338
+Untied embeddings (12 layers),20522729472.0,2.428537368774414
+Untied embeddings (12 layers),20530593792.0,2.3813180923461914
+Untied embeddings (12 layers),20851458048.0,2.388463020324707
+Untied embeddings (12 layers),20996161536.0,2.365051507949829
+Untied embeddings (12 layers),21217935360.0,2.4019675254821777
+Untied embeddings (12 layers),21343764480.0,2.400698184967041
+Untied embeddings (12 layers),21384658944.0,2.32572340965271
+Untied embeddings (12 layers),21394096128.0,2.360565423965454
+Untied embeddings (12 layers),21428699136.0,2.4029455184936523
+Untied embeddings (12 layers),21433417728.0,2.3893625736236572
+Untied embeddings (12 layers),21449146368.0,2.3733911514282227
+Untied embeddings (12 layers),21655191552.0,2.3472652435302734
+Untied embeddings (12 layers),21796749312.0,2.3947486877441406
+Untied embeddings (12 layers),21801467904.0,2.340456247329712
+Untied embeddings (12 layers),21820342272.0,2.3589653968811035
+Untied embeddings (12 layers),21925724160.0,2.3486480712890625
+Untied embeddings (12 layers),22043688960.0,2.354033946990967
+Untied embeddings (12 layers),22070427648.0,2.374868392944336
+Untied embeddings (12 layers),22139633664.0,2.36661958694458
+Untied embeddings (12 layers),22153789440.0,2.3521833419799805
+Untied embeddings (12 layers),22260744192.0,2.365324020385742
+Untied embeddings (12 layers),22471507968.0,2.3494162559509277
+Untied embeddings (12 layers),22580035584.0,2.3128561973571777
+Untied embeddings (12 layers),22613065728.0,2.366575002670288
+Untied embeddings (12 layers),22635085824.0,2.3857758045196533
+Untied embeddings (12 layers),22866296832.0,2.3335323333740234
+Untied embeddings (12 layers),22871015424.0,2.3310251235961914
+Untied embeddings (12 layers),23040884736.0,2.321357250213623
+Untied embeddings (12 layers),23139975168.0,2.357987880706787
+Untied embeddings (12 layers),23168286720.0,2.315347909927368
+Untied embeddings (12 layers),23286251520.0,2.3771910667419434
+Untied embeddings (12 layers),23371186176.0,2.3593430519104004
+Untied embeddings (12 layers),23526899712.0,2.333784580230713
+Untied embeddings (12 layers),23550492672.0,2.3268744945526123
+Untied embeddings (12 layers),23578804224.0,2.3350987434387207
+Untied embeddings (12 layers),23649583104.0,2.343329906463623
+Untied embeddings (12 layers),23872929792.0,2.359130382537842
+Untied embeddings (12 layers),24373100544.0,2.311082124710083
+Untied embeddings (12 layers),24390402048.0,2.369563102722168
+Untied embeddings (12 layers),24594874368.0,2.3630495071411133
+Untied embeddings (12 layers),24635768832.0,2.320013999938965
+Untied embeddings (12 layers),24738004992.0,2.3230953216552734
+Untied embeddings (12 layers),24769462272.0,2.376214027404785
+Untied embeddings (12 layers),24888999936.0,2.312459945678711
+Untied embeddings (12 layers),25054150656.0,2.3322978019714355
+Untied embeddings (12 layers),25184698368.0,2.357311725616455
+Untied embeddings (12 layers),25203572736.0,2.3549275398254395
+Untied embeddings (12 layers),25290080256.0,2.335930585861206
+Untied embeddings (12 layers),25596788736.0,2.334094524383545
+Untied embeddings (12 layers),25629818880.0,2.3514976501464844
+Untied embeddings (12 layers),25895632896.0,2.3132190704345703
+Untied embeddings (12 layers),25969557504.0,2.3169355392456055
+Untied embeddings (12 layers),25974276096.0,2.363149642944336
+Untied embeddings (12 layers),26265255936.0,2.3349061012268066
+Untied embeddings (12 layers),26332889088.0,2.3014039993286133
+Untied embeddings (12 layers),26339180544.0,2.3365492820739746
+Untied embeddings (12 layers),26361200640.0,2.304382085800171
+Untied embeddings (12 layers),26518487040.0,2.3176803588867188
+Untied embeddings (12 layers),26593984512.0,2.3106460571289062
+Untied embeddings (12 layers),26620723200.0,2.352255344390869
+Untied embeddings (12 layers),26757562368.0,2.3314008712768555
+Untied embeddings (12 layers),26765426688.0,2.305414915084839
+Untied embeddings (12 layers),26911703040.0,2.3229007720947266
+Untied embeddings (12 layers),27046969344.0,2.329256772994995
+Untied embeddings (12 layers),27190099968.0,2.315704822540283
+Untied embeddings (12 layers),27397718016.0,2.3135128021240234
+Untied embeddings (12 layers),27520401408.0,2.3162806034088135
+Untied embeddings (12 layers),27589607424.0,2.2893667221069336
+Untied embeddings (12 layers),27644657664.0,2.3040196895599365
+Untied embeddings (12 layers),27856994304.0,2.3271560668945312
+Untied embeddings (12 layers),27943501824.0,2.3474819660186768
+Untied embeddings (12 layers),28025290752.0,2.2869160175323486
+Untied embeddings (12 layers),28247064576.0,2.327314615249634
+Untied embeddings (12 layers),28454682624.0,2.2866759300231934
+Untied embeddings (12 layers),28663873536.0,2.3318521976470947
+Untied embeddings (12 layers),28706340864.0,2.3050875663757324
+Untied embeddings (12 layers),28893511680.0,2.279552936553955
+Untied embeddings (12 layers),29044506624.0,2.25785493850708
+Untied embeddings (12 layers),29132587008.0,2.332298994064331
+Untied embeddings (12 layers),29365370880.0,2.2828474044799805
+Untied embeddings (12 layers),29450305536.0,2.2981066703796387
+Untied embeddings (12 layers),29458169856.0,2.283393621444702
+Untied embeddings (12 layers),29462888448.0,2.326742649078369
+Untied embeddings (12 layers),29481762816.0,2.3128397464752197
+Untied embeddings (12 layers),29506928640.0,2.272022008895874
+Untied embeddings (12 layers),29532094464.0,2.315281867980957
+Untied embeddings (12 layers),29587144704.0,2.279698133468628
+Untied embeddings (12 layers),29700390912.0,2.32625412940979
+Untied embeddings (12 layers),29830938624.0,2.289999485015869
+Untied embeddings (12 layers),29838802944.0,2.312994956970215
+Untied embeddings (12 layers),29997662208.0,2.3040242195129395
+Untied embeddings (12 layers),30327963648.0,2.2952053546905518
+Untied embeddings (12 layers),30349983744.0,2.2792820930480957
+Untied embeddings (12 layers),30362566656.0,2.33021879196167
+Untied embeddings (12 layers),30455365632.0,2.313049793243408
+Untied embeddings (12 layers),30675566592.0,2.296896457672119
+Untied embeddings (12 layers),30818697216.0,2.3531970977783203
+Untied embeddings (12 layers),31009013760.0,2.3174796104431152
+Untied embeddings (12 layers),31160008704.0,2.335771322250366
+Untied embeddings (12 layers),31238651904.0,2.3090662956237793
+Untied embeddings (12 layers),31249661952.0,2.293382167816162
+Untied embeddings (12 layers),31326732288.0,2.2867302894592285
+Untied embeddings (12 layers),31373918208.0,2.326566457748413
+Untied embeddings (12 layers),31444697088.0,2.307725667953491
+Untied embeddings (12 layers),31504465920.0,2.315247058868408
+Untied embeddings (12 layers),31590973440.0,2.2869014739990234
+Untied embeddings (12 layers),31646023680.0,2.288072109222412
+Untied embeddings (12 layers),31660179456.0,2.2727479934692383
+Untied embeddings (12 layers),31756124160.0,2.256471633911133
+Untied embeddings (12 layers),31886671872.0,2.300382614135742
+Untied embeddings (12 layers),31907119104.0,2.2934703826904297
+Untied embeddings (12 layers),32070696960.0,2.276516914367676
+Untied embeddings (12 layers),32091144192.0,2.272233724594116
+Untied embeddings (12 layers),32286179328.0,2.312264919281006
+Untied embeddings (12 layers),32292470784.0,2.2870726585388184
+Untied embeddings (12 layers),32662093824.0,2.3149125576019287
+Untied embeddings (12 layers),32671531008.0,2.249695301055908
+Untied embeddings (12 layers),32676249600.0,2.3201851844787598
+Untied embeddings (12 layers),32780058624.0,2.277622699737549
+Untied embeddings (12 layers),33023852544.0,2.2639944553375244
+Untied embeddings (12 layers),33066319872.0,2.2961559295654297
+Untied embeddings (12 layers),33385611264.0,2.2614312171936035
+Untied embeddings (12 layers),33434370048.0,2.296083450317383
+Untied embeddings (12 layers),33495711744.0,2.3068041801452637
+Untied embeddings (12 layers),33645133824.0,2.294987678527832
+Untied embeddings (12 layers),33777254400.0,2.250319004058838
+Untied embeddings (12 layers),34061942784.0,2.2912611961364746
+Untied embeddings (12 layers),34194063360.0,2.264415740966797
+Untied embeddings (12 layers),34266415104.0,2.265857696533203
+Untied embeddings (12 layers),34269560832.0,2.292914390563965
+Untied embeddings (12 layers),34647048192.0,2.259117603302002
+Untied embeddings (12 layers),34672214016.0,2.25584077835083
+Untied embeddings (12 layers),35013525504.0,2.258674144744873
+Untied embeddings (12 layers),35098460160.0,2.306633949279785
+Untied embeddings (12 layers),35103178752.0,2.2878267765045166
+Untied embeddings (12 layers),35180249088.0,2.284407615661621
+Untied embeddings (12 layers),35191259136.0,2.3275537490844727
+Untied embeddings (12 layers),35229007872.0,2.272632598876953
+Untied embeddings (12 layers),35483811840.0,2.2820053100585938
+Untied embeddings (12 layers),35521560576.0,2.3131027221679688
+Untied embeddings (12 layers),35535716352.0,2.2694027423858643
+Untied embeddings (12 layers),35589193728.0,2.2710442543029785
+Untied embeddings (12 layers),35719741440.0,2.2589786052703857
+Untied embeddings (12 layers),35843997696.0,2.289846420288086
+Untied embeddings (12 layers),35875454976.0,2.3022632598876953
+Untied embeddings (12 layers),36084645888.0,2.254222869873047
+Untied embeddings (12 layers),36105093120.0,2.278993606567383
+Untied embeddings (12 layers),36251369472.0,2.26408052444458
+Untied embeddings (12 layers),36446404608.0,2.2899250984191895
+Untied embeddings (12 layers),36481007616.0,2.266190767288208
+Untied embeddings (12 layers),36591108096.0,2.3064451217651367
+Untied embeddings (12 layers),36683907072.0,2.2752184867858887
+Untied embeddings (12 layers),36737384448.0,2.2564589977264404
+Untied embeddings (12 layers),36850630656.0,2.2836642265319824
+Untied embeddings (12 layers),36871077888.0,2.290668487548828
+Untied embeddings (12 layers),36927700992.0,2.286743640899658
+Untied embeddings (12 layers),37023645696.0,2.310012102127075
+Untied embeddings (12 layers),37103861760.0,2.285491943359375
+Untied embeddings (12 layers),37163630592.0,2.25392484664917
+Untied embeddings (12 layers),37187223552.0,2.2616024017333984
+Untied embeddings (12 layers),37235982336.0,2.250622272491455
+Untied embeddings (12 layers),37258002432.0,2.2811837196350098
+Untied embeddings (12 layers),37435736064.0,2.2343697547912598
+Untied embeddings (12 layers),37517524992.0,2.210862874984741
+Untied embeddings (12 layers),37572575232.0,2.2710728645324707
+Untied embeddings (12 layers),37814796288.0,2.2981033325195312
+Untied embeddings (12 layers),37874565120.0,2.2799746990203857
+Untied embeddings (12 layers),37984665600.0,2.2714171409606934
+Untied embeddings (12 layers),38184419328.0,2.276367425918579
+Untied embeddings (12 layers),38390464512.0,2.250295639038086
+Untied embeddings (12 layers),38406193152.0,2.2755160331726074
+Untied embeddings (12 layers),38607519744.0,2.268730878829956
+Untied embeddings (12 layers),38716047360.0,2.2598628997802734
+Untied embeddings (12 layers),38802554880.0,2.2457244396209717
+Untied embeddings (12 layers),38811992064.0,2.2874107360839844
+Untied embeddings (12 layers),38937821184.0,2.2637946605682373
+Untied embeddings (12 layers),38939394048.0,2.2528505325317383
+Untied embeddings (12 layers),38981861376.0,2.2691102027893066
+Untied embeddings (12 layers),39046348800.0,2.2689085006713867
+Untied embeddings (12 layers),39049494528.0,2.2704694271087646
+Untied embeddings (12 layers),39063650304.0,2.239264488220215
+Untied embeddings (12 layers),39268122624.0,2.2736120223999023
+Untied embeddings (12 layers),39271268352.0,2.251330852508545
+Untied embeddings (12 layers),39310589952.0,2.202045440673828
+Untied embeddings (12 layers),39912996864.0,2.2659599781036377
+Untied embeddings (12 layers),39930298368.0,2.2630181312561035
+Untied embeddings (12 layers),39964901376.0,2.2617688179016113
+Untied embeddings (12 layers),40018378752.0,2.242805242538452
+Untied embeddings (12 layers),40216559616.0,2.2755348682403564
+Untied embeddings (12 layers),40428896256.0,2.270028591156006
+Untied embeddings (12 layers),40567308288.0,2.2507853507995605
+Untied embeddings (12 layers),40656961536.0,2.2494049072265625
+Untied embeddings (12 layers),40826830848.0,2.2410831451416016
+Untied embeddings (12 layers),40874016768.0,2.2650599479675293
+Untied embeddings (12 layers),41012428800.0,2.2385926246643066
+Untied embeddings (12 layers),41032876032.0,2.2617263793945312
+Untied embeddings (12 layers),41053323264.0,2.238527774810791
+Untied embeddings (12 layers),41081634816.0,2.2814722061157227
+Untied embeddings (12 layers),41209036800.0,2.2689623832702637
+Untied embeddings (12 layers),41309700096.0,2.2476513385772705
+Untied embeddings (12 layers),41353740288.0,2.259904384613037
+Untied embeddings (12 layers),41701343232.0,2.276127338409424
+Untied embeddings (12 layers),41753247744.0,2.232858180999756
+Untied embeddings (12 layers),41770549248.0,2.274510383605957
+Untied embeddings (12 layers),41971875840.0,2.2534477710723877
+Untied embeddings (12 layers),42045800448.0,2.292414665222168
+Untied embeddings (12 layers),42083549184.0,2.2374672889709473
+Untied embeddings (12 layers),42102423552.0,2.236506223678589
+Untied embeddings (12 layers),42376101888.0,2.2451276779174805
+Untied embeddings (12 layers),42895147008.0,2.230436325073242
+Untied embeddings (12 layers),42917167104.0,2.2378129959106445
+Untied embeddings (12 layers),42931322880.0,2.248201370239258
+Untied embeddings (12 layers),42947051520.0,2.2632439136505127
+Untied embeddings (12 layers),43006820352.0,2.2587409019470215
+Untied embeddings (12 layers),43338694656.0,2.2375288009643555
+Untied embeddings (12 layers),43409473536.0,2.2466320991516113
+Untied embeddings (12 layers),43522719744.0,2.233731508255005
+Untied embeddings (12 layers),43580915712.0,2.248863697052002
+Untied embeddings (12 layers),43812126720.0,2.2440381050109863
+Untied embeddings (12 layers),43988287488.0,2.226763963699341
+Untied embeddings (12 layers),44065357824.0,2.2293035984039307
+Untied embeddings (12 layers),44183322624.0,2.2627267837524414
+Untied embeddings (12 layers),44283985920.0,2.2892417907714844
+Untied embeddings (12 layers),44326453248.0,2.245805263519287
+Untied embeddings (12 layers),44381503488.0,2.23714280128479
+Untied embeddings (12 layers),44416106496.0,2.2703399658203125
+Untied embeddings (12 layers),44711804928.0,2.234215497970581
+Untied embeddings (12 layers),44724387840.0,2.260781764984131
+Untied embeddings (12 layers),44768428032.0,2.248793125152588
+Untied embeddings (12 layers),44821905408.0,2.224931001663208
+Untied embeddings (12 layers),45016940544.0,2.2583794593811035
+Untied embeddings (12 layers),45087719424.0,2.2279605865478516
+Untied embeddings (12 layers),45160071168.0,2.224278688430786
+Untied embeddings (12 layers),45164789760.0,2.2475764751434326
+Untied embeddings (12 layers),45171081216.0,2.24869704246521
+Untied embeddings (12 layers),45397573632.0,2.263523578643799
+Untied embeddings (12 layers),45419593728.0,2.2210569381713867
+Untied embeddings (12 layers),45430603776.0,2.2471840381622314
+Untied embeddings (12 layers),45441613824.0,2.240445137023926
+Untied embeddings (12 layers),45490372608.0,2.2248036861419678
+Untied embeddings (12 layers),45581598720.0,2.234708309173584
+Untied embeddings (12 layers),45642940416.0,2.2277565002441406
+Untied embeddings (12 layers),45675970560.0,2.2395260334014893
+Untied embeddings (12 layers),45696417792.0,2.2648515701293945
+Untied embeddings (12 layers),45845839872.0,2.260465145111084
+Untied embeddings (12 layers),45888307200.0,2.2388417720794678
+Untied embeddings (12 layers),45963804672.0,2.2539212703704834
+Untied embeddings (12 layers),46009417728.0,2.2421298027038574
+Untied embeddings (12 layers),46117945344.0,2.2532095909118652
+Untied embeddings (12 layers),46147829760.0,2.2667837142944336
+Untied embeddings (12 layers),46168276992.0,2.254850149154663
+Untied embeddings (12 layers),46196588544.0,2.24133038520813
+Untied embeddings (12 layers),46401060864.0,2.2413206100463867
+Untied embeddings (12 layers),46432518144.0,2.23012375831604
+Untied embeddings (12 layers),46523744256.0,2.249058246612549
+Untied embeddings (12 layers),46585085952.0,2.2549068927764893
+Untied embeddings (12 layers),46618116096.0,2.2595887184143066
+Untied embeddings (12 layers),46636990464.0,2.2265844345092773
+Untied embeddings (12 layers),46709342208.0,2.25526762008667
+Untied embeddings (12 layers),46765965312.0,2.216587543487549
+Untied embeddings (12 layers),46838317056.0,2.2291693687438965
+Untied embeddings (12 layers),46898085888.0,2.25239896774292
+Untied embeddings (12 layers),46979874816.0,2.2568447589874268
+Untied embeddings (12 layers),47110422528.0,2.2315847873687744
+Untied embeddings (12 layers),47132442624.0,2.2398600578308105
+Untied embeddings (12 layers),47182774272.0,2.2374978065490723
+Untied embeddings (16 layers),33030144.0,10.266264915466309
+Untied embeddings (16 layers),228065280.0,6.6814374923706055
+Untied embeddings (16 layers),327155712.0,6.105133056640625
+Untied embeddings (16 layers),438829056.0,5.538304805755615
+Untied embeddings (16 layers),465567744.0,5.416450023651123
+Untied embeddings (16 layers),596115456.0,5.064081192016602
+Untied embeddings (16 layers),614989824.0,4.980890274047852
+Untied embeddings (16 layers),625999872.0,4.940674781799316
+Untied embeddings (16 layers),761266176.0,4.6217145919799805
+Untied embeddings (16 layers),1143472128.0,3.7812132835388184
+Untied embeddings (16 layers),1305477120.0,3.6153483390808105
+Untied embeddings (16 layers),1511522304.0,3.4382596015930176
+Untied embeddings (16 layers),1520959488.0,3.3942184448242188
+Untied embeddings (16 layers),1665662976.0,3.3627676963806152
+Untied embeddings (16 layers),1695547392.0,3.34665584564209
+Untied embeddings (16 layers),1838678016.0,3.2942168712615967
+Untied embeddings (16 layers),1906311168.0,3.3134536743164062
+Untied embeddings (16 layers),1918894080.0,3.276336669921875
+Untied embeddings (16 layers),1936195584.0,3.279198169708252
+Untied embeddings (16 layers),2139095040.0,3.2388358116149902
+Untied embeddings (16 layers),2168979456.0,3.2197060585021973
+Untied embeddings (16 layers),2194145280.0,3.1762475967407227
+Untied embeddings (16 layers),2205155328.0,3.220303773880005
+Untied embeddings (16 layers),2535456768.0,3.1129918098449707
+Untied embeddings (16 layers),2554331136.0,3.074643135070801
+Untied embeddings (16 layers),2581069824.0,3.1047215461730957
+Untied embeddings (16 layers),2584215552.0,3.124650001525879
+Untied embeddings (16 layers),2598371328.0,3.048356294631958
+Untied embeddings (16 layers),2614099968.0,3.0703635215759277
+Untied embeddings (16 layers),2744647680.0,3.111886978149414
+Untied embeddings (16 layers),2876768256.0,3.0434577465057373
+Untied embeddings (16 layers),3052929024.0,3.034417152404785
+Untied embeddings (16 layers),3076521984.0,2.9909796714782715
+Untied embeddings (16 layers),3225944064.0,2.943368911743164
+Untied embeddings (16 layers),3417833472.0,2.949514389038086
+Untied embeddings (16 layers),3705667584.0,2.8900346755981445
+Untied embeddings (16 layers),3730833408.0,2.9155030250549316
+Untied embeddings (16 layers),3776446464.0,2.8546605110168457
+Untied embeddings (16 layers),3812622336.0,2.8860068321228027
+Untied embeddings (16 layers),3864526848.0,2.8538084030151367
+Untied embeddings (16 layers),4070572032.0,2.8278441429138184
+Untied embeddings (16 layers),4119330816.0,2.8263750076293945
+Untied embeddings (16 layers),4185391104.0,2.8151073455810547
+Untied embeddings (16 layers),4377280512.0,2.777390241622925
+Untied embeddings (16 layers),4399300608.0,2.790682792663574
+Untied embeddings (16 layers),4433903616.0,2.786510467529297
+Untied embeddings (16 layers),4531421184.0,2.7774786949157715
+Untied embeddings (16 layers),4537712640.0,2.7570056915283203
+Untied embeddings (16 layers),4581752832.0,2.7347471714019775
+Untied embeddings (16 layers),4636803072.0,2.797980308532715
+Untied embeddings (16 layers),4768923648.0,2.739057779312134
+Untied embeddings (16 layers),4801953792.0,2.723219871520996
+Untied embeddings (16 layers),4902617088.0,2.7289681434631348
+Untied embeddings (16 layers),4910481408.0,2.711268424987793
+Untied embeddings (16 layers),4938792960.0,2.7086894512176514
+Untied embeddings (16 layers),5125963776.0,2.7059664726257324
+Untied embeddings (16 layers),5371330560.0,2.747520685195923
+Untied embeddings (16 layers),5398069248.0,2.7005956172943115
+Untied embeddings (16 layers),5415370752.0,2.7525696754455566
+Untied embeddings (16 layers),5416943616.0,2.6901650428771973
+Untied embeddings (16 layers),5506596864.0,2.702693462371826
+Untied embeddings (16 layers),5569511424.0,2.704652786254883
+Untied embeddings (16 layers),5607260160.0,2.708483934402466
+Untied embeddings (16 layers),5792858112.0,2.6619162559509277
+Untied embeddings (16 layers),6009913344.0,2.6416783332824707
+Untied embeddings (16 layers),6060244992.0,2.6192691326141357
+Untied embeddings (16 layers),6175064064.0,2.6292924880981445
+Untied embeddings (16 layers),6209667072.0,2.603799819946289
+Untied embeddings (16 layers),6341787648.0,2.6301822662353516
+Untied embeddings (16 layers),6351224832.0,2.6198081970214844
+Untied embeddings (16 layers),6371672064.0,2.6345105171203613
+Untied embeddings (16 layers),6407847936.0,2.6303935050964355
+Untied embeddings (16 layers),6563561472.0,2.6544406414031982
+Untied embeddings (16 layers),6593445888.0,2.612215757369995
+Untied embeddings (16 layers),6606028800.0,2.6719155311584473
+Untied embeddings (16 layers),7134511104.0,2.59775972366333
+Untied embeddings (16 layers),7255621632.0,2.6225523948669434
+Untied embeddings (16 layers),7301234688.0,2.5925865173339844
+Untied embeddings (16 layers),7390887936.0,2.6088809967041016
+Untied embeddings (16 layers),7491551232.0,2.557054042816162
+Untied embeddings (16 layers),7571767296.0,2.579678535461426
+Untied embeddings (16 layers),7784103936.0,2.582005739212036
+Untied embeddings (16 layers),7796686848.0,2.5521442890167236
+Untied embeddings (16 layers),7799832576.0,2.5499815940856934
+Untied embeddings (16 layers),7815561216.0,2.6064822673797607
+Untied embeddings (16 layers),7878475776.0,2.578301191329956
+Untied embeddings (16 layers),8082948096.0,2.5689566135406494
+Untied embeddings (16 layers),8125415424.0,2.5425989627838135
+Untied embeddings (16 layers),8160018432.0,2.5512537956237793
+Untied embeddings (16 layers),8298430464.0,2.5433859825134277
+Untied embeddings (16 layers),8340897792.0,2.5582308769226074
+Untied embeddings (16 layers),8345616384.0,2.5457582473754883
+Untied embeddings (16 layers),8583118848.0,2.514444351196289
+Untied embeddings (16 layers),8589410304.0,2.5520882606506348
+Untied embeddings (16 layers),8603566080.0,2.5567026138305664
+Untied embeddings (16 layers),8686927872.0,2.5010366439819336
+Untied embeddings (16 layers),8819048448.0,2.5327377319335938
+Untied embeddings (16 layers),8999927808.0,2.5505218505859375
+Untied embeddings (16 layers),9042395136.0,2.521228790283203
+Untied embeddings (16 layers),9111601152.0,2.5219318866729736
+Untied embeddings (16 layers),9113174016.0,2.484809637069702
+Untied embeddings (16 layers),9253158912.0,2.5419464111328125
+Untied embeddings (16 layers),9350676480.0,2.515817642211914
+Untied embeddings (16 layers),9407299584.0,2.5304627418518066
+Untied embeddings (16 layers),9492234240.0,2.5208232402801514
+Untied embeddings (16 layers),9814671360.0,2.5058512687683105
+Untied embeddings (16 layers),9849274368.0,2.4986753463745117
+Untied embeddings (16 layers),10207887360.0,2.473788022994995
+Untied embeddings (16 layers),10237771776.0,2.478480100631714
+Untied embeddings (16 layers),10443816960.0,2.48285174369812
+Untied embeddings (16 layers),10708058112.0,2.4895339012145996
+Untied embeddings (16 layers),10786701312.0,2.501798152923584
+Untied embeddings (16 layers),10967580672.0,2.5082740783691406
+Untied embeddings (16 layers),10988027904.0,2.4849603176116943
+Untied embeddings (16 layers),10992746496.0,2.4955496788024902
+Untied embeddings (16 layers),11105992704.0,2.4593393802642822
+Untied embeddings (16 layers),11117002752.0,2.495018482208252
+Untied embeddings (16 layers),11195645952.0,2.4797568321228027
+Untied embeddings (16 layers),11209801728.0,2.458754539489746
+Untied embeddings (16 layers),11250696192.0,2.4561266899108887
+Untied embeddings (16 layers),11374952448.0,2.464506149291992
+Untied embeddings (16 layers),11389108224.0,2.496609687805176
+Untied embeddings (16 layers),11452022784.0,2.4357376098632812
+Untied embeddings (16 layers),11475615744.0,2.4340288639068604
+Untied embeddings (16 layers),11563696128.0,2.4426050186157227
+Untied embeddings (16 layers),11760304128.0,2.4520130157470703
+Untied embeddings (16 layers),11769741312.0,2.4464569091796875
+Untied embeddings (16 layers),11867258880.0,2.4549357891082764
+Untied embeddings (16 layers),11895570432.0,2.4983439445495605
+Untied embeddings (16 layers),12041846784.0,2.425318956375122
+Untied embeddings (16 layers),12181831680.0,2.4696502685546875
+Untied embeddings (16 layers),12244746240.0,2.431210994720459
+Untied embeddings (16 layers),12340690944.0,2.412508010864258
+Untied embeddings (16 layers),12351700992.0,2.47995662689209
+Untied embeddings (16 layers),12427198464.0,2.427630662918091
+Untied embeddings (16 layers),12497977344.0,2.426969051361084
+Untied embeddings (16 layers),12538871808.0,2.4486160278320312
+Untied embeddings (16 layers),12595494912.0,2.4359095096588135
+Untied embeddings (16 layers),12713459712.0,2.452080249786377
+Untied embeddings (16 layers),12726042624.0,2.4655871391296387
+Untied embeddings (16 layers),12743344128.0,2.42002272605896
+Untied embeddings (16 layers),12766937088.0,2.4193265438079834
+Untied embeddings (16 layers),12806258688.0,2.449803352355957
+Untied embeddings (16 layers),12815695872.0,2.4532666206359863
+Untied embeddings (16 layers),13021741056.0,2.464613914489746
+Untied embeddings (16 layers),13024886784.0,2.4541850090026855
+Untied embeddings (16 layers),13061062656.0,2.449899673461914
+Untied embeddings (16 layers),13065781248.0,2.406477928161621
+Untied embeddings (16 layers),13079937024.0,2.436720848083496
+Untied embeddings (16 layers),13268680704.0,2.427941083908081
+Untied embeddings (16 layers),13292273664.0,2.4676218032836914
+Untied embeddings (16 layers),13336313856.0,2.4311046600341797
+Untied embeddings (16 layers),13342605312.0,2.3793883323669434
+Untied embeddings (16 layers),13495173120.0,2.4523839950561523
+Untied embeddings (16 layers),13512474624.0,2.4480133056640625
+Untied embeddings (16 layers),13587972096.0,2.4517464637756348
+Untied embeddings (16 layers),13632012288.0,2.483553886413574
+Untied embeddings (16 layers),13676052480.0,2.450706720352173
+Untied embeddings (16 layers),13827047424.0,2.4127414226531982
+Untied embeddings (16 layers),13897826304.0,2.3915843963623047
+Untied embeddings (16 layers),13927710720.0,2.465662717819214
+Untied embeddings (16 layers),13930856448.0,2.4167487621307373
+Untied embeddings (16 layers),14015791104.0,2.4349944591522217
+Untied embeddings (16 layers),14026801152.0,2.436577320098877
+Untied embeddings (16 layers),14075559936.0,2.465820550918579
+Untied embeddings (16 layers),14084997120.0,2.432438373565674
+Untied embeddings (16 layers),14155776000.0,2.4189157485961914
+Untied embeddings (16 layers),14188806144.0,2.4196572303771973
+Untied embeddings (16 layers),14659092480.0,2.4403209686279297
+Untied embeddings (16 layers),14707851264.0,2.4311647415161133
+Untied embeddings (16 layers),14737735680.0,2.423633337020874
+Untied embeddings (16 layers),15012986880.0,2.399228572845459
+Untied embeddings (16 layers),15039725568.0,2.4375972747802734
+Untied embeddings (16 layers),15148253184.0,2.379260301589966
+Untied embeddings (16 layers),15154544640.0,2.4086546897888184
+Untied embeddings (16 layers),15222177792.0,2.368759870529175
+Untied embeddings (16 layers),15854469120.0,2.4096312522888184
+Untied embeddings (16 layers),15991308288.0,2.3992114067077637
+Untied embeddings (16 layers),16010182656.0,2.4015769958496094
+Untied embeddings (16 layers),16060514304.0,2.3999147415161133
+Untied embeddings (16 layers),16115564544.0,2.3958144187927246
+Untied embeddings (16 layers),16222519296.0,2.3887429237365723
+Untied embeddings (16 layers),16334192640.0,2.3821091651916504
+Untied embeddings (16 layers),16552820736.0,2.3823599815368652
+Untied embeddings (16 layers),16637755392.0,2.366727352142334
+Untied embeddings (16 layers),16661348352.0,2.3698832988739014
+Untied embeddings (16 layers),16706961408.0,2.3854448795318604
+Untied embeddings (16 layers),16758865920.0,2.3694310188293457
+Untied embeddings (16 layers),16994795520.0,2.379556655883789
+Untied embeddings (16 layers),17170956288.0,2.3825597763061523
+Untied embeddings (16 layers),17229152256.0,2.3836638927459717
+Untied embeddings (16 layers),17359699968.0,2.4137935638427734
+Untied embeddings (16 layers),17378574336.0,2.418422222137451
+Untied embeddings (16 layers),17422614528.0,2.367889165878296
+Untied embeddings (16 layers),17641242624.0,2.408283233642578
+Untied embeddings (16 layers),17663262720.0,2.409529685974121
+Untied embeddings (16 layers),17686855680.0,2.3930420875549316
+Untied embeddings (16 layers),17900765184.0,2.3768794536590576
+Untied embeddings (16 layers),18048614400.0,2.3544816970825195
+Untied embeddings (16 layers),18094227456.0,2.3593363761901855
+Untied embeddings (16 layers),18146131968.0,2.3867945671081543
+Untied embeddings (16 layers),18432393216.0,2.375054121017456
+Untied embeddings (16 layers),18438684672.0,2.3727455139160156
+Untied embeddings (16 layers),18548785152.0,2.357583999633789
+Untied embeddings (16 layers),18622709760.0,2.3436079025268555
+Untied embeddings (16 layers),18710790144.0,2.384721279144287
+Untied embeddings (16 layers),18786287616.0,2.368140697479248
+Untied embeddings (16 layers),19048955904.0,2.3991987705230713
+Untied embeddings (16 layers),19140182016.0,2.342740535736084
+Untied embeddings (16 layers),19225116672.0,2.340189218521118
+Untied embeddings (16 layers),19275448320.0,2.389775276184082
+Untied embeddings (16 layers),19349372928.0,2.362598419189453
+Untied embeddings (16 layers),19468910592.0,2.329648494720459
+Untied embeddings (16 layers),19552272384.0,2.3896822929382324
+Untied embeddings (16 layers),19621478400.0,2.3501193523406982
+Untied embeddings (16 layers),19662372864.0,2.348674774169922
+Untied embeddings (16 layers),19681247232.0,2.374051570892334
+Untied embeddings (16 layers),19763036160.0,2.3626489639282227
+Untied embeddings (16 layers),19892011008.0,2.366715431213379
+Untied embeddings (16 layers),19895156736.0,2.3846588134765625
+Untied embeddings (16 layers),20036714496.0,2.3649983406066895
+Untied embeddings (16 layers),20068171776.0,2.3655972480773926
+Untied embeddings (16 layers),20219166720.0,2.38830828666687
+Untied embeddings (16 layers),20440940544.0,2.3688766956329346
+Untied embeddings (16 layers),20480262144.0,2.347330093383789
+Untied embeddings (16 layers),20714618880.0,2.338744640350342
+Untied embeddings (16 layers),20755513344.0,2.3603978157043457
+Untied embeddings (16 layers),20796407808.0,2.3761274814605713
+Untied embeddings (16 layers),20810563584.0,2.3352417945861816
+Untied embeddings (16 layers),20868759552.0,2.3594589233398438
+Untied embeddings (16 layers),20936392704.0,2.351314067840576
+Untied embeddings (16 layers),21000880128.0,2.3837790489196777
+Untied embeddings (16 layers),21024473088.0,2.355283737182617
+Untied embeddings (16 layers),21313880064.0,2.3206450939178467
+Untied embeddings (16 layers),21582839808.0,2.3206193447113037
+Untied embeddings (16 layers),21663055872.0,2.348789930343628
+Untied embeddings (16 layers),21674065920.0,2.340317726135254
+Untied embeddings (16 layers),21710241792.0,2.378631114959717
+Untied embeddings (16 layers),21785739264.0,2.363152503967285
+Untied embeddings (16 layers),21820342272.0,2.3328499794006348
+Untied embeddings (16 layers),21862809600.0,2.3150229454040527
+Untied embeddings (16 layers),22065709056.0,2.3100666999816895
+Untied embeddings (16 layers),22098739200.0,2.330146312713623
+Untied embeddings (16 layers),22103457792.0,2.3486671447753906
+Untied embeddings (16 layers),22197829632.0,2.3516182899475098
+Untied embeddings (16 layers),22528131072.0,2.365758180618286
+Untied embeddings (16 layers),22611492864.0,2.313769817352295
+Untied embeddings (16 layers),22751477760.0,2.333134412765503
+Untied embeddings (16 layers),22770352128.0,2.3404741287231445
+Untied embeddings (16 layers),22793945088.0,2.33408522605896
+Untied embeddings (16 layers),22837985280.0,2.3128881454467773
+Untied embeddings (16 layers),22872588288.0,2.316208839416504
+Untied embeddings (16 layers),22944940032.0,2.3511791229248047
+Untied embeddings (16 layers),23044030464.0,2.3464033603668213
+Untied embeddings (16 layers),23146266624.0,2.3168599605560303
+Untied embeddings (16 layers),23191879680.0,2.308563232421875
+Untied embeddings (16 layers),23272095744.0,2.3811774253845215
+Untied embeddings (16 layers),23435673600.0,2.3087127208709717
+Untied embeddings (16 layers),23490723840.0,2.3722422122955322
+Untied embeddings (16 layers),23544201216.0,2.354459762573242
+Untied embeddings (16 layers),23552065536.0,2.3301491737365723
+Untied embeddings (16 layers),23608688640.0,2.2958202362060547
+Untied embeddings (16 layers),23657447424.0,2.3251240253448486
+Untied embeddings (16 layers),23695196160.0,2.3205602169036865
+Untied embeddings (16 layers),23696769024.0,2.3405075073242188
+Untied embeddings (16 layers),23776985088.0,2.3354249000549316
+Untied embeddings (16 layers),23819452416.0,2.349750518798828
+Untied embeddings (16 layers),23850909696.0,2.311481475830078
+Untied embeddings (16 layers),23924834304.0,2.278447151184082
+Untied embeddings (16 layers),23927980032.0,2.3278191089630127
+Untied embeddings (16 layers),24115150848.0,2.329026460647583
+Untied embeddings (16 layers),24165482496.0,2.325995683670044
+Untied embeddings (16 layers),24280301568.0,2.3260104656219482
+Untied embeddings (16 layers),24380964864.0,2.312488079071045
+Untied embeddings (16 layers),24454889472.0,2.3044729232788086
+Untied embeddings (16 layers),24569708544.0,2.3050670623779297
+Untied embeddings (16 layers),24782045184.0,2.3151097297668457
+Untied embeddings (16 layers),24786763776.0,2.3341422080993652
+Untied embeddings (16 layers),24873271296.0,2.3463985919952393
+Untied embeddings (16 layers),25036849152.0,2.2897119522094727
+Untied embeddings (16 layers),25060442112.0,2.333707094192505
+Untied embeddings (16 layers),25139085312.0,2.2865681648254395
+Untied embeddings (16 layers),25205145600.0,2.3422088623046875
+Untied embeddings (16 layers),25219301376.0,2.2801146507263184
+Untied embeddings (16 layers),25274351616.0,2.3063650131225586
+Untied embeddings (16 layers),25404899328.0,2.336003303527832
+Untied embeddings (16 layers),25535447040.0,2.328766345977783
+Untied embeddings (16 layers),25634537472.0,2.278399705886841
+Untied embeddings (16 layers),25757220864.0,2.3239054679870605
+Untied embeddings (16 layers),25908215808.0,2.314661979675293
+Untied embeddings (16 layers),25919225856.0,2.2969281673431396
+Untied embeddings (16 layers),26150436864.0,2.2759878635406494
+Untied embeddings (16 layers),26167738368.0,2.2761154174804688
+Untied embeddings (16 layers),26227507200.0,2.3173303604125977
+Untied embeddings (16 layers),26268401664.0,2.2935633659362793
+Untied embeddings (16 layers),26417823744.0,2.304173469543457
+Untied embeddings (16 layers),26436698112.0,2.3060717582702637
+Untied embeddings (16 layers),26460291072.0,2.308729887008667
+Untied embeddings (16 layers),26546798592.0,2.3386874198913574
+Untied embeddings (16 layers),26575110144.0,2.267136573791504
+Untied embeddings (16 layers),26609713152.0,2.3449275493621826
+Untied embeddings (16 layers),26746552320.0,2.303103446960449
+Untied embeddings (16 layers),26924285952.0,2.3019442558288574
+Untied embeddings (16 layers),27006074880.0,2.3120298385620117
+Untied embeddings (16 layers),27072135168.0,2.273787498474121
+Untied embeddings (16 layers),27076853760.0,2.300812244415283
+Untied embeddings (16 layers),27238858752.0,2.2791566848754883
+Untied embeddings (16 layers),27293908992.0,2.3372950553894043
+Untied embeddings (16 layers),27314356224.0,2.3024373054504395
+Untied embeddings (16 layers),27490516992.0,2.287311553955078
+Untied embeddings (16 layers),27515682816.0,2.2989001274108887
+Untied embeddings (16 layers),27731165184.0,2.278364896774292
+Untied embeddings (16 layers),28033155072.0,2.3396520614624023
+Untied embeddings (16 layers),28140109824.0,2.291289806365967
+Untied embeddings (16 layers),28298969088.0,2.295516014099121
+Untied embeddings (16 layers),28416933888.0,2.2794675827026367
+Untied embeddings (16 layers),28541190144.0,2.283381700515747
+Untied embeddings (16 layers),28633989120.0,2.2638111114501953
+Untied embeddings (16 layers),28670164992.0,2.2701668739318848
+Untied embeddings (16 layers),28830597120.0,2.276614189147949
+Untied embeddings (16 layers),28956426240.0,2.253994941711426
+Untied embeddings (16 layers),28983164928.0,2.290271282196045
+Untied embeddings (16 layers),29112139776.0,2.277747631072998
+Untied embeddings (16 layers),29187637248.0,2.3126373291015625
+Untied embeddings (16 layers),29307174912.0,2.292224407196045
+Untied embeddings (16 layers),29321330688.0,2.264841079711914
+Untied embeddings (16 layers),29388963840.0,2.296790599822998
+Untied embeddings (16 layers),29396828160.0,2.29341459274292
+Untied embeddings (16 layers),29442441216.0,2.2637228965759277
+Untied embeddings (16 layers),29708255232.0,2.264707088470459
+Untied embeddings (16 layers),30003953664.0,2.2952847480773926
+Untied embeddings (16 layers),30051139584.0,2.2716431617736816
+Untied embeddings (16 layers),30052712448.0,2.2600369453430176
+Untied embeddings (16 layers),30161240064.0,2.2982192039489746
+Untied embeddings (16 layers),30187978752.0,2.278841018676758
+Untied embeddings (16 layers),30194270208.0,2.3003740310668945
+Untied embeddings (16 layers),30342119424.0,2.2672951221466064
+Untied embeddings (16 layers),30408179712.0,2.274407386779785
+Untied embeddings (16 layers),30466375680.0,2.247107982635498
+Untied embeddings (16 layers),30510415872.0,2.2625885009765625
+Untied embeddings (16 layers),30579621888.0,2.269984245300293
+Untied embeddings (16 layers),30729043968.0,2.265850067138672
+Untied embeddings (16 layers),30812405760.0,2.295334815979004
+Untied embeddings (16 layers),30826561536.0,2.265127658843994
+Untied embeddings (16 layers),31037325312.0,2.239211082458496
+Untied embeddings (16 layers),31056199680.0,2.289710521697998
+Untied embeddings (16 layers),31169445888.0,2.3144948482513428
+Untied embeddings (16 layers),31208767488.0,2.267216205596924
+Untied embeddings (16 layers),31416385536.0,2.267716646194458
+Untied embeddings (16 layers),31460425728.0,2.265899419784546
+Untied embeddings (16 layers),31480872960.0,2.2611265182495117
+Untied embeddings (16 layers),31658606592.0,2.263183832168579
+Untied embeddings (16 layers),31891390464.0,2.2532143592834473
+Untied embeddings (16 layers),31938576384.0,2.2371368408203125
+Untied embeddings (16 layers),31977897984.0,2.2610669136047363
+Untied embeddings (16 layers),32231129088.0,2.263568639755249
+Untied embeddings (16 layers),32465485824.0,2.2862048149108887
+Untied embeddings (16 layers),32622772224.0,2.230799674987793
+Untied embeddings (16 layers),32627490816.0,2.295522689819336
+Untied embeddings (16 layers),32795787264.0,2.278212070465088
+Untied embeddings (16 layers),32835108864.0,2.270763874053955
+Untied embeddings (16 layers),33122942976.0,2.235955238342285
+Untied embeddings (16 layers),33248772096.0,2.238621711730957
+Untied embeddings (16 layers),33347862528.0,2.276845932006836
+Untied embeddings (16 layers),33454817280.0,2.2347984313964844
+Untied embeddings (16 layers),33481555968.0,2.282562017440796
+Untied embeddings (16 layers),33527169024.0,2.277039051055908
+Untied embeddings (16 layers),33697038336.0,2.2687854766845703
+Untied embeddings (16 layers),33857470464.0,2.227156639099121
+Untied embeddings (16 layers),33876344832.0,2.2752785682678223
+Untied embeddings (16 layers),33983299584.0,2.278883457183838
+Untied embeddings (16 layers),34019475456.0,2.265408992767334
+Untied embeddings (16 layers),34046214144.0,2.2558255195617676
+Untied embeddings (16 layers),34146877440.0,2.2214107513427734
+Untied embeddings (16 layers),34170470400.0,2.2941620349884033
+Untied embeddings (16 layers),34256977920.0,2.2997231483459473
+Untied embeddings (16 layers),34340339712.0,2.226696491241455
+Untied embeddings (16 layers),34392244224.0,2.251009941101074
+Untied embeddings (16 layers),34637611008.0,2.212498664855957
+Untied embeddings (16 layers),34765012992.0,2.224745273590088
+Untied embeddings (16 layers),34914435072.0,2.2617857456207275
+Untied embeddings (16 layers),34972631040.0,2.278071403503418
+Untied embeddings (16 layers),34988359680.0,2.229729175567627
+Untied embeddings (16 layers),35027681280.0,2.248401641845703
+Untied embeddings (16 layers),35153510400.0,2.2196712493896484
+Untied embeddings (16 layers),35309223936.0,2.257460832595825
+Untied embeddings (16 layers),35331244032.0,2.235093116760254
+Untied embeddings (16 layers),35342254080.0,2.272737503051758
+Untied embeddings (16 layers),35403595776.0,2.2479946613311768
+Untied embeddings (16 layers),35405168640.0,2.2328548431396484
+Untied embeddings (16 layers),35516841984.0,2.225616931915283
+Untied embeddings (16 layers),35647389696.0,2.2269039154052734
+Untied embeddings (16 layers),36001284096.0,2.2523207664489746
+Untied embeddings (16 layers),36068917248.0,2.261782646179199
+Untied embeddings (16 layers),36193173504.0,2.2342848777770996
+Untied embeddings (16 layers),36484153344.0,2.2546439170837402
+Untied embeddings (16 layers),36501454848.0,2.2066352367401123
+Untied embeddings (16 layers),36567515136.0,2.2285385131835938
+Untied embeddings (16 layers),36650876928.0,2.1876776218414307
+Untied embeddings (16 layers),36765696000.0,2.2463135719299316
+Untied embeddings (16 layers),36768841728.0,2.2352328300476074
+Untied embeddings (16 layers),36833329152.0,2.2631359100341797
+Untied embeddings (16 layers),36962304000.0,2.208408832550049
+Untied embeddings (16 layers),36984324096.0,2.2560081481933594
+Untied embeddings (16 layers),37110153216.0,2.2508256435394287
+Untied embeddings (16 layers),37229690880.0,2.2203993797302246
+Untied embeddings (16 layers),37320916992.0,2.239211320877075
+Untied embeddings (16 layers),37539545088.0,2.2211406230926514
+Untied embeddings (16 layers),37682675712.0,2.21232533454895
+Untied embeddings (16 layers),37712560128.0,2.2115211486816406
+Untied embeddings (16 layers),37762891776.0,2.229496479034424
+Untied embeddings (16 layers),38036570112.0,2.2374320030212402
+Untied embeddings (16 layers),38061735936.0,2.227604866027832
+Untied embeddings (16 layers),38108921856.0,2.2392354011535645
+Untied embeddings (16 layers),38203293696.0,2.2256715297698975
+Untied embeddings (16 layers),38253625344.0,2.2011361122131348
+Untied embeddings (16 layers),38351142912.0,2.2130651473999023
+Untied embeddings (16 layers),38354288640.0,2.238752841949463
+Untied embeddings (16 layers),38436077568.0,2.207289695739746
+Untied embeddings (16 layers),38576062464.0,2.230762004852295
+Untied embeddings (16 layers),38747504640.0,2.238037586212158
+Untied embeddings (16 layers),38835585024.0,2.1933631896972656
+Untied embeddings (16 layers),38845022208.0,2.224973201751709
+Untied embeddings (16 layers),38893780992.0,2.2198445796966553
+Untied embeddings (16 layers),39043203072.0,2.2049529552459717
+Untied embeddings (16 layers),39058931712.0,2.2543866634368896
+Untied embeddings (16 layers),39095107584.0,2.217421531677246
+Untied embeddings (16 layers),39178469376.0,2.201702117919922
+Untied embeddings (16 layers),39351484416.0,2.180739641189575
+Untied embeddings (16 layers),39658192896.0,2.2283170223236084
+Untied embeddings (16 layers),39883112448.0,2.2454349994659424
+Untied embeddings (16 layers),39925579776.0,2.2619996070861816
+Untied embeddings (16 layers),40150499328.0,2.2243704795837402
+Untied embeddings (16 layers),40152072192.0,2.2159430980682373
+Untied embeddings (16 layers),40306212864.0,2.258603096008301
+Untied embeddings (16 layers),40518549504.0,2.2068428993225098
+Untied embeddings (16 layers),40625504256.0,2.204704761505127
+Untied embeddings (16 layers),40746614784.0,2.184842109680176
+Untied embeddings (16 layers),41116237824.0,2.2380900382995605
+Untied embeddings (16 layers),41147695104.0,2.225919008255005
+Untied embeddings (16 layers),41553494016.0,2.219564437866211
+Untied embeddings (16 layers),41613262848.0,2.211714029312134
+Untied embeddings (16 layers),41671458816.0,2.1907973289489746
+Untied embeddings (16 layers),41691906048.0,2.244354248046875
+Untied embeddings (16 layers),41750102016.0,2.2233998775482178
+Untied embeddings (16 layers),41792569344.0,2.21120023727417
+Untied embeddings (16 layers),41907388416.0,2.199510335922241
+Untied embeddings (16 layers),41932554240.0,2.2393593788146973
+Untied embeddings (16 layers),41992323072.0,2.2503299713134766
+Untied embeddings (16 layers),42739433472.0,2.238445281982422
+Untied embeddings (16 layers),43047714816.0,2.238675117492676
+Untied embeddings (16 layers),43058724864.0,2.195587158203125
+Untied embeddings (16 layers),43098046464.0,2.258009433746338
+Untied embeddings (16 layers),43260051456.0,2.239617347717285
+Untied embeddings (16 layers),43429920768.0,2.2262632846832275
+Untied embeddings (16 layers),43563614208.0,2.2313764095306396
+Untied embeddings (16 layers),43565187072.0,2.2586560249328613
+Untied embeddings (16 layers),43621810176.0,2.1970841884613037
+Untied embeddings (16 layers),43779096576.0,2.2121047973632812
+Untied embeddings (16 layers),43790106624.0,2.264101028442383
+Untied embeddings (16 layers),43893915648.0,2.2173027992248535
+Untied embeddings (16 layers),43925372928.0,2.245612382888794
+Untied embeddings (16 layers),43948965888.0,2.2264633178710938
+Untied embeddings (16 layers),44021317632.0,2.2400712966918945
+Untied embeddings (16 layers),44134563840.0,2.214287757873535
+Untied embeddings (16 layers),44306006016.0,2.2259669303894043
+Untied embeddings (16 layers),44499468288.0,2.2063727378845215
+Untied embeddings (16 layers),44578111488.0,2.2080161571502686
+Untied embeddings (16 layers),44784156672.0,2.219951629638672
+Untied embeddings (16 layers),44821905408.0,2.1947288513183594
+Untied embeddings (16 layers),44858081280.0,2.237412452697754
+Untied embeddings (16 layers),44898975744.0,2.196295976638794
+Untied embeddings (16 layers),45098729472.0,2.207672595977783
+Untied embeddings (16 layers),45254443008.0,2.2232766151428223
+Untied embeddings (16 layers),45300056064.0,2.2206242084503174
+Untied embeddings (16 layers),45329940480.0,2.1864800453186035
+Untied embeddings (16 layers),45446332416.0,2.194359302520752
+Untied embeddings (16 layers),45535985664.0,2.2081031799316406
+Untied embeddings (16 layers),45657096192.0,2.1823933124542236
+Untied embeddings (16 layers),45745176576.0,2.231879234313965
+Untied embeddings (16 layers),45904035840.0,2.200193405151367
+Untied embeddings (16 layers),45921337344.0,2.2114155292510986
+Untied embeddings (16 layers),45930774528.0,2.213876724243164
+Untied embeddings (16 layers),45949648896.0,2.2194137573242188
+Untied embeddings (16 layers),46050312192.0,2.239649534225464
+Untied embeddings (16 layers),46091206656.0,2.183737277984619
+Untied embeddings (16 layers),46158839808.0,2.2098941802978516
+Untied embeddings (16 layers),46188724224.0,2.2042922973632812
+Untied embeddings (16 layers),46338146304.0,2.1939940452575684
+Untied embeddings (16 layers),46408925184.0,2.184206247329712
+Untied embeddings (16 layers),46548910080.0,2.210395336151123
+Untied embeddings (16 layers),46575648768.0,2.201143264770508
+Untied embeddings (16 layers),46592950272.0,2.2140865325927734
+Untied embeddings (16 layers),46600814592.0,2.24845552444458
+Untied embeddings (16 layers),46681030656.0,2.1995651721954346
+Untied embeddings (16 layers),46847754240.0,2.2155044078826904
+Untied embeddings (16 layers),46879211520.0,2.232314109802246
+Untied embeddings (16 layers),46904377344.0,2.2070388793945312
+Untied embeddings (16 layers),46986166272.0,2.226095676422119
+Untied embeddings (16 layers),47042789376.0,2.2062883377075195

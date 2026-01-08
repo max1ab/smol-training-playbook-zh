@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:68c9f7f3fb41a970abba8d75d43415c79caee60c23069112fa5bdbb4b27d1cb9
-size 143
+Packing,Batch size,Avg. # tokens per batch
+FALSE,128,171814
+TRUE,8,255657
+TRUE,16,510547
+TRUE,32,1028787
+TRUE,64,2045356
+TRUE,128,4047906

@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2ae9ded49d3069615da969620ddc33dacbd7fca0c440cda33344acd2ce0ef8c2
-size 494
+reasoning mode,Method,aime25,gpqa_d,ifeval,lcb_v4
+think,SFT,32.55,36.36,51.24,36.57
+think,DPO,3.07,27.9,58.54,14.42
+think,IPO,26.35,26.89,35.6,3.84
+think,APO-zero,31.77,29.36,69.38,26.92
+think,APO-down,0.89,28.91,54.59,3.84
+think,DiscoPOP,3.23,26.89,45.39,4.58
+no_think,SFT,1.04,28.6,47.6,9.9
+no_think,DPO,4.79,26.96,59.69,9.9
+no_think,IPO,2.66,29.17,70.73,12.81
+no_think,APO-zero,2.29,26.89,71.57,11.7
+no_think,APO-down,0.78,26.58,53.34,4.39
+no_think,DiscoPOP,2.24,27.15,49.81,3.34

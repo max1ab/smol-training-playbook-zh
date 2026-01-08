@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0096a7cf3cb4050429a725c810fce4940ca7d9158f171f1ca9c8a1bb1aa38ed0
-size 862
+run_name,message_size,bandwidth
+Bus Bandwidth,8,0.0
+Bus Bandwidth,16,0.0
+Bus Bandwidth,32,0.0
+Bus Bandwidth,64,0.01
+Bus Bandwidth,128,0.01
+Bus Bandwidth,256,0.03
+Bus Bandwidth,512,0.06
+Bus Bandwidth,1024,0.11
+Bus Bandwidth,2048,0.22
+Bus Bandwidth,4096,0.44
+Bus Bandwidth,8192,0.87
+Bus Bandwidth,16384,1.69
+Bus Bandwidth,32768,3.13
+Bus Bandwidth,65536,6.18
+Bus Bandwidth,131072,12.11
+Bus Bandwidth,262144,22.59
+Bus Bandwidth,524288,43.37
+Bus Bandwidth,1048576,63.94
+Bus Bandwidth,2097152,83.95
+Bus Bandwidth,4194304,129.65
+Bus Bandwidth,8388608,174.98
+Bus Bandwidth,16777216,235.28
+Bus Bandwidth,33554432,293.28
+Bus Bandwidth,67108864,357.93
+Bus Bandwidth,134217728,400.25
+Bus Bandwidth,268435456,422.54
+Bus Bandwidth,536870912,437.35
+Bus Bandwidth,1073741824,445.5
+Bus Bandwidth,2147483648,448.35
+Bus Bandwidth,4294967296,475.46
+Bus Bandwidth,8589934592,480.02
+

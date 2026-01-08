@@ -1,3 +1,1575 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b3fc2cb6478fa38e66d2eaa8fb55b0aa7c9fd309442ac8f1c6ef4e26d2474ac3
-size 83570
+original_id,category,subset,x_position,y_position
+0,Chart & Table,CoSyn_400k_chart,-5.8737874,15.983195
+1,Chart & Table,CoSyn_400k_chart,-4.945642,16.106464
+2,Chart & Table,CoSyn_400k_chart,-5.5937595,16.452412
+3,Science,CoSyn_400k_chemical,-1.5379021,10.981212
+4,OCR QA,CoSyn_400k_diagram,-5.065811,13.181871
+5,General VQA,CoSyn_400k_graphic,-0.48748758,15.743629
+6,Chart & Table,Unichart,-5.478337,15.044097
+7,General VQA,LLaVA_Instruct_150K,-0.04121901,13.326656
+original_id,category,subset,x_position,y_position
+0,Chart & Table,CoSyn_400k_chart,-5.8737874,15.983195
+1,Chart & Table,CoSyn_400k_chart,-4.945642,16.106464
+2,Chart & Table,CoSyn_400k_chart,-5.5937595,16.452412
+3,Chart & Table,CoSyn_400k_chart,-6.8471727,15.6502905
+4,Chart & Table,CoSyn_400k_chart,-4.593728,15.400246
+5,Chart & Table,CoSyn_400k_chart,-6.5247335,15.286765
+6,Chart & Table,CoSyn_400k_chart,-5.9858575,13.354458
+7,Chart & Table,CoSyn_400k_chart,-5.9055824,15.795122
+8,Chart & Table,CoSyn_400k_chart,-4.824333,15.338556
+9,Chart & Table,CoSyn_400k_chart,-6.677866,14.968742
+10,Chart & Table,CoSyn_400k_chart,-5.6846857,16.26988
+11,Science,CoSyn_400k_chemical,-1.5379021,10.981212
+12,Science,CoSyn_400k_circuit,-5.0486145,14.184427
+13,OCR QA,CoSyn_400k_diagram,-5.065811,13.181871
+14,OCR QA,CoSyn_400k_diagram,-5.261097,14.098007
+15,OCR QA,CoSyn_400k_diagram,-4.6068473,14.401655
+16,OCR QA,CoSyn_400k_document,-3.903585,13.690944
+17,OCR QA,CoSyn_400k_document,-3.875524,17.058977
+18,OCR QA,CoSyn_400k_document,-3.7943916,17.480606
+19,OCR QA,CoSyn_400k_document,-4.4624634,17.283459
+20,OCR QA,CoSyn_400k_document,-1.7727383,18.533064
+21,OCR QA,CoSyn_400k_document,-2.8321483,17.436039
+22,OCR QA,CoSyn_400k_document,-6.461951,14.257359
+23,General VQA,CoSyn_400k_graphic,-5.8664246,16.971214
+24,General VQA,CoSyn_400k_graphic,-0.48748758,15.743629
+25,Mathematics,CoSyn_400k_math,-0.03838683,16.25767
+26,Mathematics,CoSyn_400k_math,-0.4915684,16.225067
+27,Mathematics,CoSyn_400k_math,-1.1946124,16.545416
+28,Mathematics,CoSyn_400k_math,-0.534912,16.165432
+29,Mathematics,CoSyn_400k_math,0.022691553,16.158678
+30,Mathematics,CoSyn_400k_math,0.40876907,16.072973
+31,OCR QA,CoSyn_400k_music,-4.5062866,14.961522
+32,OCR QA,CoSyn_400k_nutrition,-4.331227,16.355286
+33,Chart & Table,CoSyn_400k_table,-5.3820634,16.286442
+34,Chart & Table,CoSyn_400k_table,-4.434908,16.792274
+35,Chart & Table,CoSyn_400k_table,-6.117985,15.993164
+36,Chart & Table,CoSyn_400k_table,-4.9423914,16.244167
+37,OCR QA,DoclingMatix,-2.123511,19.758589
+38,OCR QA,DoclingMatix,-1.2339255,18.348934
+39,OCR QA,DoclingMatix,-2.2721937,17.460812
+40,OCR QA,DoclingMatix,-1.4948343,19.09816
+41,OCR QA,DoclingMatix,-2.001817,18.948124
+42,OCR QA,DoclingMatix,-3.313269,18.66045
+43,OCR QA,DoclingMatix,-3.0790706,16.690575
+44,OCR QA,DoclingMatix,-2.2622058,18.828022
+45,OCR QA,DoclingMatix,-2.583864,18.676437
+46,OCR QA,DoclingMatix,-6.403138,14.5712185
+47,OCR QA,DoclingMatix,-2.0187643,19.280146
+48,OCR QA,DoclingMatix,-1.7590756,18.563002
+49,OCR QA,DoclingMatix,-1.2618425,17.422573
+50,OCR QA,DoclingMatix,-3.6012855,18.275747
+51,OCR QA,DoclingMatix,-2.6068192,17.872808
+52,OCR QA,DoclingMatix,-3.283061,18.019083
+53,OCR QA,DoclingMatix,-3.0331342,18.203625
+54,OCR QA,DoclingMatix,-2.2425787,19.199886
+55,OCR QA,DoclingMatix,-1.941939,19.540573
+56,OCR QA,DoclingMatix,-2.0318031,15.930559
+57,OCR QA,DoclingMatix,-2.3450463,18.587273
+58,OCR QA,DoclingMatix,-1.4967664,18.750023
+59,OCR QA,DoclingMatix,-3.4411478,17.345871
+60,OCR QA,DoclingMatix,-1.6649085,19.57321
+61,OCR QA,DoclingMatix,-2.381297,19.393425
+62,OCR QA,DoclingMatix,-2.3868053,18.25288
+63,OCR QA,DoclingMatix,-3.477942,18.536766
+64,OCR QA,DoclingMatix,-3.3863645,18.042032
+65,OCR QA,DoclingMatix,-3.381429,19.029367
+66,OCR QA,DoclingMatix,-2.0542133,19.27429
+67,OCR QA,DoclingMatix,-2.0553746,17.631887
+68,OCR QA,DoclingMatix,-1.8904015,18.499573
+69,OCR QA,DoclingMatix,-2.3417099,18.13063
+70,OCR QA,DoclingMatix,-2.1454659,18.419767
+71,OCR QA,DoclingMatix,-2.7915456,19.205055
+72,OCR QA,DoclingMatix,-3.7376049,16.510166
+73,OCR QA,DoclingMatix,-2.171803,17.909151
+74,OCR QA,DoclingMatix,-2.4062195,19.129288
+75,OCR QA,DoclingMatix,-3.1809347,18.645334
+76,OCR QA,DoclingMatix,-2.0148678,19.54656
+77,OCR QA,DoclingMatix,-2.2982774,18.211866
+78,OCR QA,DoclingMatix,-1.4421009,16.974617
+79,OCR QA,DoclingMatix,-1.792398,17.167984
+80,OCR QA,DoclingMatix,-2.3227503,18.35669
+81,OCR QA,DoclingMatix,-1.9308434,15.982081
+82,OCR QA,DoclingMatix,-3.4728649,18.326372
+83,OCR QA,DoclingMatix,-1.9811486,19.728716
+84,OCR QA,DoclingMatix,-2.9568808,18.825401
+85,OCR QA,DoclingMatix,-4.254185,13.623234
+86,OCR QA,DoclingMatix,-4.4296207,15.911434
+87,OCR QA,DoclingMatix,-2.482577,17.241879
+88,OCR QA,DoclingMatix,-1.9588791,19.403658
+89,OCR QA,DoclingMatix,-1.292695,17.806475
+90,OCR QA,DoclingMatix,-2.3372555,18.205208
+91,OCR QA,DoclingMatix,-2.8207717,19.285505
+92,OCR QA,DoclingMatix,-1.9746872,19.76563
+93,OCR QA,DoclingMatix,-1.8576025,19.721828
+94,OCR QA,DoclingMatix,-1.5742756,19.052324
+95,OCR QA,DoclingMatix,-1.8536038,19.753435
+96,OCR QA,DoclingMatix,-1.763717,17.355995
+97,OCR QA,DoclingMatix,-2.303972,17.225918
+98,OCR QA,DoclingMatix,-1.8316678,18.82974
+99,OCR QA,DoclingMatix,-1.5295701,19.64252
+100,OCR QA,DoclingMatix,-0.9577445,17.73931
+101,OCR QA,DoclingMatix,-3.5142593,18.210361
+102,OCR QA,DoclingMatix,-1.527282,17.49759
+103,OCR QA,DoclingMatix,-2.3261003,18.39049
+104,OCR QA,DoclingMatix,-2.4651723,19.005152
+105,OCR QA,DoclingMatix,-4.523276,15.443817
+106,OCR QA,DoclingMatix,-1.5367091,18.813587
+107,OCR QA,DoclingMatix,-2.3303423,18.057833
+108,OCR QA,DoclingMatix,-2.1394675,18.376097
+109,OCR QA,DoclingMatix,-2.3630292,19.395987
+110,OCR QA,DoclingMatix,-1.6529044,19.392685
+111,OCR QA,DoclingMatix,-2.4107027,16.50055
+112,OCR QA,DoclingMatix,-5.4095883,16.071615
+113,OCR QA,DoclingMatix,-3.3529801,18.519686
+114,OCR QA,DoclingMatix,-2.9411347,18.826674
+115,OCR QA,DoclingMatix,-2.1890736,18.415182
+116,OCR QA,DoclingMatix,-2.2139513,18.754198
+117,OCR QA,DoclingMatix,-3.2719424,19.08318
+118,OCR QA,DoclingMatix,-2.8656187,16.53646
+119,OCR QA,DoclingMatix,-1.6826456,18.750132
+120,OCR QA,DoclingMatix,-1.482793,18.30256
+121,OCR QA,DoclingMatix,-1.4262551,19.035845
+122,OCR QA,DoclingMatix,-2.6542027,19.080572
+123,OCR QA,DoclingMatix,-1.733341,19.370384
+124,OCR QA,DoclingMatix,-2.5386746,18.128016
+125,OCR QA,DoclingMatix,-1.9642893,18.426172
+126,OCR QA,DoclingMatix,-2.4258876,19.42167
+127,OCR QA,DoclingMatix,-4.8599396,15.642522
+128,OCR QA,DoclingMatix,-1.4616601,18.574923
+129,OCR QA,DoclingMatix,-2.0061698,18.075985
+130,OCR QA,DoclingMatix,-2.2746208,19.78703
+131,OCR QA,DoclingMatix,-2.6560168,17.990816
+132,OCR QA,DoclingMatix,-3.1165454,18.33594
+133,OCR QA,DoclingMatix,-1.6757885,17.211813
+134,OCR QA,DoclingMatix,-1.4582803,18.53178
+135,OCR QA,DoclingMatix,-2.4365861,16.4549
+136,OCR QA,DoclingMatix,-1.9898921,18.799305
+137,OCR QA,DoclingMatix,-2.3840768,19.101894
+138,OCR QA,DoclingMatix,-2.6806266,17.765152
+139,OCR QA,DoclingMatix,-1.2126298,18.865656
+140,OCR QA,DoclingMatix,-3.1112385,18.96933
+141,OCR QA,DoclingMatix,-1.4632803,17.64587
+142,OCR QA,DoclingMatix,-1.893244,18.17506
+143,OCR QA,DoclingMatix,-1.6842548,17.662289
+144,OCR QA,DoclingMatix,-3.3209038,17.676641
+145,OCR QA,DoclingMatix,-3.5430915,18.633417
+146,OCR QA,DoclingMatix,-1.4177037,17.525536
+147,OCR QA,DoclingMatix,-1.7031838,18.482338
+148,OCR QA,DoclingMatix,-2.6439989,18.788374
+149,OCR QA,DoclingMatix,-2.597876,19.185583
+150,OCR QA,DoclingMatix,-0.5687146,17.854235
+151,OCR QA,DoclingMatix,-1.5822437,17.89997
+152,OCR QA,DoclingMatix,-2.5681157,15.862703
+153,OCR QA,DoclingMatix,-3.1931202,18.610592
+154,OCR QA,DoclingMatix,-2.2833252,16.032545
+155,OCR QA,DoclingMatix,-2.7539678,18.959908
+156,OCR QA,DoclingMatix,-3.293064,18.738478
+157,OCR QA,DoclingMatix,-4.458434,13.078367
+158,OCR QA,DoclingMatix,-2.1089303,16.492489
+159,OCR QA,DoclingMatix,-2.9728808,18.275713
+160,OCR QA,DoclingMatix,-1.9504831,17.425997
+161,OCR QA,DoclingMatix,-2.1972477,18.952415
+162,OCR QA,DoclingMatix,-1.9784061,18.167784
+163,OCR QA,DoclingMatix,-2.1374834,18.780544
+164,General VQA,LLaVA_Instruct_150K,-0.04121901,13.326656
+165,General VQA,LLaVA_Instruct_150K,-3.003669,13.9813
+166,General VQA,LLaVA_Instruct_150K,-0.87659425,15.0002365
+167,General VQA,LLaVA_Instruct_150K,-2.4315653,13.461026
+168,General VQA,LLaVA_Instruct_150K,-3.657344,13.454892
+169,General VQA,LLaVA_Instruct_150K,-3.3701751,13.903656
+170,General VQA,LLaVA_Instruct_150K,-1.4356084,12.906051
+171,General VQA,LLaVA_Instruct_150K,-2.0306752,13.837592
+172,General VQA,LLaVA_Instruct_150K,-1.93058,13.64789
+173,General VQA,LLaVA_Instruct_150K,-2.960764,12.389478
+174,General VQA,LLaVA_Instruct_150K,-1.5670083,12.371494
+175,General VQA,LLaVA_Instruct_150K,-1.3098346,15.785713
+176,General VQA,LLaVA_Instruct_150K,-4.1270065,15.013622
+177,General VQA,LLaVA_Instruct_150K,-2.6499448,13.135092
+178,General VQA,LLaVA_Instruct_150K,-1.9295284,16.038881
+179,Chart & Table,SynthChartNet,-5.1461444,17.769293
+180,Chart & Table,SynthChartNet,-6.727832,15.511663
+181,Chart & Table,SynthChartNet,-6.411554,16.44527
+182,Chart & Table,SynthChartNet,-7.151805,14.436375
+183,Chart & Table,SynthChartNet,-6.6720834,16.477493
+184,Chart & Table,SynthChartNet,-6.1793976,15.210242
+185,Chart & Table,SynthChartNet,-5.141068,17.590567
+186,Chart & Table,SynthChartNet,-7.0122495,15.615927
+187,Chart & Table,SynthChartNet,-6.944416,15.583528
+188,Chart & Table,SynthChartNet,-5.294619,18.07463
+189,Chart & Table,SynthChartNet,-5.207549,17.901262
+190,Chart & Table,SynthChartNet,-5.176415,18.117426
+191,Chart & Table,SynthChartNet,-5.208407,18.033777
+192,Chart & Table,SynthChartNet,-5.368511,17.664892
+193,Chart & Table,SynthChartNet,-5.2063956,17.942322
+194,Chart & Table,SynthChartNet,-6.985873,16.031464
+195,Chart & Table,SynthChartNet,-6.5159984,15.32247
+196,Chart & Table,SynthChartNet,-6.9621744,16.361357
+197,Chart & Table,SynthChartNet,-5.2207456,17.69036
+198,Chart & Table,SynthChartNet,-6.8150105,16.328646
+199,Chart & Table,SynthChartNet,-5.163355,18.21635
+200,Chart & Table,SynthChartNet,-6.920904,16.498514
+201,Chart & Table,SynthChartNet,-6.4768267,16.19447
+202,Chart & Table,SynthChartNet,-6.704763,16.307007
+203,Chart & Table,SynthChartNet,-6.8234115,16.408567
+204,Chart & Table,SynthChartNet,-5.481283,17.856428
+205,Chart & Table,SynthChartNet,-6.543561,16.619896
+206,Chart & Table,SynthChartNet,-4.852024,18.189837
+207,Chart & Table,SynthChartNet,-5.215617,17.742992
+208,Chart & Table,SynthChartNet,-6.4959555,16.68928
+209,Chart & Table,SynthChartNet,-5.388788,17.987978
+210,Chart & Table,SynthChartNet,-6.4665,15.409831
+211,Chart & Table,SynthChartNet,-6.5481486,16.35738
+212,Chart & Table,SynthChartNet,-5.4961696,17.997698
+213,Chart & Table,SynthChartNet,-5.5057435,17.749802
+214,Chart & Table,SynthChartNet,-5.2866464,17.925413
+215,Chart & Table,SynthChartNet,-6.575139,15.787562
+216,Chart & Table,SynthChartNet,-5.6337447,17.884447
+217,Chart & Table,SynthChartNet,-5.428942,18.140358
+218,Chart & Table,SynthChartNet,-5.6336236,17.739908
+219,Chart & Table,SynthChartNet,-6.3776565,16.402546
+220,Chart & Table,SynthChartNet,-5.564274,17.744778
+221,Chart & Table,SynthChartNet,-6.9941792,16.175684
+222,Chart & Table,SynthChartNet,-6.6928587,16.116158
+223,Chart & Table,SynthChartNet,-6.7574,15.715918
+224,Chart & Table,SynthChartNet,-6.9718375,16.300568
+225,Chart & Table,SynthChartNet,-6.9625235,16.005453
+226,Chart & Table,SynthChartNet,-7.0678654,15.965807
+227,Chart & Table,SynthChartNet,-5.0787272,18.141487
+228,Chart & Table,SynthChartNet,-5.0736647,18.061468
+229,Naive OCR,SynthCodeNet,0.04656302,17.572514
+230,Naive OCR,SynthCodeNet,-1.1099467,17.690296
+231,Naive OCR,SynthCodeNet,-0.04873978,17.705694
+232,Naive OCR,SynthCodeNet,-0.33281502,16.677038
+233,Naive OCR,SynthCodeNet,1.0885636,15.638341
+234,Naive OCR,SynthCodeNet,-4.2552023,15.99757
+235,Naive OCR,SynthCodeNet,-3.852895,15.5951185
+236,Naive OCR,SynthCodeNet,-0.3341921,17.734613
+237,Naive OCR,SynthCodeNet,0.42134494,16.38415
+238,Naive OCR,SynthCodeNet,-0.42474476,17.735378
+239,Naive OCR,SynthCodeNet,-0.26788715,17.153187
+240,Naive OCR,SynthCodeNet,-0.19620547,18.005255
+241,Naive OCR,SynthCodeNet,-0.058252852,17.238487
+242,Naive OCR,SynthCodeNet,-1.7247115,18.295624
+243,Naive OCR,SynthCodeNet,-0.009917033,17.808311
+244,Naive OCR,SynthCodeNet,-1.387855,17.145159
+245,Naive OCR,SynthCodeNet,-1.701879,17.920927
+246,Naive OCR,SynthCodeNet,-3.6778998,16.088854
+247,Naive OCR,SynthCodeNet,-0.24548063,17.196598
+248,Naive OCR,SynthCodeNet,0.11758641,17.863241
+249,Naive OCR,SynthCodeNet,-1.2178589,18.26013
+250,Naive OCR,SynthCodeNet,0.0003795521,17.943213
+251,Naive OCR,SynthCodeNet,-0.42465442,18.043238
+252,Naive OCR,SynthCodeNet,-0.07526772,18.020924
+253,Naive OCR,SynthCodeNet,-0.14518633,17.87866
+254,Naive OCR,SynthCodeNet,-0.49168557,16.688969
+255,Naive OCR,SynthCodeNet,-0.31747556,18.093529
+256,Naive OCR,SynthCodeNet,0.80161583,15.814559
+257,Naive OCR,SynthCodeNet,-4.310662,16.584866
+258,Naive OCR,SynthCodeNet,-0.00977412,16.915396
+259,Naive OCR,SynthCodeNet,-4.188083,16.494669
+260,Naive OCR,SynthCodeNet,-0.25779262,18.010223
+261,Naive OCR,SynthCodeNet,-3.9593086,15.766136
+262,Naive OCR,SynthCodeNet,-1.3795527,18.213293
+263,Naive OCR,SynthCodeNet,-0.45508116,17.52061
+264,Naive OCR,SynthCodeNet,-0.2640966,17.886843
+265,Naive OCR,SynthCodeNet,-6.582913,14.3813305
+266,Naive OCR,SynthCodeNet,-4.188884,16.041538
+267,Naive OCR,SynthCodeNet,-0.32475826,17.145645
+268,Naive OCR,SynthCodeNet,-3.9861093,15.823854
+269,Naive OCR,SynthCodeNet,-0.9563473,18.1237
+270,Naive OCR,SynthCodeNet,-1.520535,18.000816
+271,Naive OCR,SynthCodeNet,-0.42804614,17.700657
+272,Naive OCR,SynthCodeNet,-1.2626554,18.494741
+273,Naive OCR,SynthCodeNet,-0.11364583,17.126024
+274,Naive OCR,SynthCodeNet,-0.34699938,17.888674
+275,Naive OCR,SynthCodeNet,-0.015610901,17.330435
+276,Naive OCR,SynthCodeNet,-3.8931282,15.892088
+277,Naive OCR,SynthCodeNet,-0.08240982,17.493
+278,Naive OCR,SynthFormulaNet,0.22886933,15.002758
+279,Naive OCR,SynthFormulaNet,1.7862303,14.29242
+280,Naive OCR,SynthFormulaNet,1.4039996,14.474301
+281,Naive OCR,SynthFormulaNet,1.7801038,14.159131
+282,Naive OCR,SynthFormulaNet,2.364047,14.913048
+283,Naive OCR,SynthFormulaNet,2.067444,13.650322
+284,Naive OCR,SynthFormulaNet,-3.9578013,12.279434
+285,Naive OCR,SynthFormulaNet,1.2084179,14.285225
+286,Naive OCR,SynthFormulaNet,1.4971747,13.390962
+287,Naive OCR,SynthFormulaNet,1.684946,14.628642
+288,Naive OCR,SynthFormulaNet,1.3491838,13.396536
+289,Naive OCR,SynthFormulaNet,1.8627237,13.770465
+290,Naive OCR,SynthFormulaNet,1.0238231,14.866128
+291,Naive OCR,SynthFormulaNet,1.364893,14.193316
+292,Naive OCR,SynthFormulaNet,1.4466103,13.644283
+293,Naive OCR,SynthFormulaNet,1.0992525,14.317199
+294,Naive OCR,SynthFormulaNet,1.5460949,15.546643
+295,Naive OCR,SynthFormulaNet,1.2137767,13.969349
+296,Naive OCR,SynthFormulaNet,1.4102746,13.717272
+297,Naive OCR,SynthFormulaNet,0.91062367,13.0298605
+298,Naive OCR,SynthFormulaNet,1.1339371,13.871966
+299,Naive OCR,SynthFormulaNet,1.6997597,15.142788
+300,Naive OCR,SynthFormulaNet,0.96059656,12.709436
+301,Naive OCR,SynthFormulaNet,1.6072994,13.246107
+302,Naive OCR,SynthFormulaNet,1.1215231,13.370174
+303,Naive OCR,SynthFormulaNet,1.492844,13.373532
+304,Naive OCR,SynthFormulaNet,1.7269921,13.755263
+305,Naive OCR,SynthFormulaNet,2.179824,14.5509815
+306,Naive OCR,SynthFormulaNet,1.3578401,14.855309
+307,Naive OCR,SynthFormulaNet,1.2492148,14.366605
+308,Naive OCR,SynthFormulaNet,1.9348897,13.490846
+309,Naive OCR,SynthFormulaNet,1.407853,14.599283
+310,Naive OCR,SynthFormulaNet,1.3527994,14.69017
+311,Naive OCR,SynthFormulaNet,1.0525184,12.86483
+312,Naive OCR,SynthFormulaNet,1.9524969,13.247496
+313,Naive OCR,SynthFormulaNet,1.1278163,14.295946
+314,Naive OCR,SynthFormulaNet,2.24632,13.667028
+315,Naive OCR,SynthFormulaNet,1.5239518,14.299738
+316,Naive OCR,SynthFormulaNet,1.7567451,13.165833
+317,Naive OCR,SynthFormulaNet,1.140315,13.921025
+318,Naive OCR,SynthFormulaNet,1.6855685,15.429556
+319,Naive OCR,SynthFormulaNet,1.1004134,13.143863
+320,Naive OCR,SynthFormulaNet,1.4039396,14.001242
+321,Naive OCR,SynthFormulaNet,1.4621967,14.645452
+322,Naive OCR,SynthFormulaNet,1.2914104,14.500753
+323,Naive OCR,SynthFormulaNet,1.8754648,14.831985
+324,Naive OCR,SynthFormulaNet,1.6577595,15.188357
+325,Naive OCR,SynthFormulaNet,1.6267941,13.784543
+326,Naive OCR,SynthFormulaNet,1.6241556,13.506343
+327,Chart & Table,Unichart,-5.478337,15.044097
+328,Chart & Table,Unichart,-5.5799456,13.085751
+329,Chart & Table,Unichart,-5.949499,14.996578
+330,Chart & Table,Unichart,-5.516415,13.015133
+331,Chart & Table,Unichart,-6.098518,13.201147
+332,Chart & Table,Unichart,-6.9667177,14.026482
+333,Chart & Table,Unichart,-6.322132,13.28759
+334,Chart & Table,Unichart,-6.565431,15.262299
+335,Chart & Table,Unichart,-7.018406,14.05617
+336,Chart & Table,Unichart,-6.7399693,13.898848
+337,Chart & Table,Unichart,-5.7210565,13.72224
+338,Chart & Table,Unichart,-5.632763,14.958898
+339,Chart & Table,Unichart,-6.947203,14.937348
+340,Chart & Table,Unichart,-5.8241777,13.499949
+341,Chart & Table,Unichart,-6.3517947,16.035973
+342,Chart & Table,Unichart,-5.290241,17.525455
+343,Chart & Table,Unichart,-5.9058266,14.941877
+344,Chart & Table,Unichart,-4.604956,17.870945
+345,Chart & Table,Unichart,-5.79115,12.908007
+346,Chart & Table,Unichart,-6.2544575,14.887673
+347,Chart & Table,Unichart,-5.753358,15.010925
+348,Chart & Table,Unichart,-5.786733,13.154917
+349,Chart & Table,Unichart,-5.8034973,12.8242655
+350,Chart & Table,Unichart,-6.31294,16.048944
+351,Chart & Table,Unichart,-7.2014155,15.414163
+352,Chart & Table,Unichart,-6.2808485,16.195747
+353,Chart & Table,Unichart,-5.985574,15.921576
+354,Chart & Table,Unichart,-7.360994,15.127242
+355,Chart & Table,Unichart,-5.8023033,14.888992
+356,Chart & Table,Unichart,-5.602459,14.954068
+357,Chart & Table,Unichart,-6.262162,14.695169
+358,Chart & Table,Unichart,-7.0918374,14.893238
+359,Chart & Table,Unichart,-6.868848,14.455841
+360,Chart & Table,Unichart,-5.7695827,15.218684
+361,Chart & Table,Unichart,-5.7917295,14.848716
+362,Chart & Table,Unichart,-5.606748,15.595446
+363,Chart & Table,Unichart,-7.3670974,14.436186
+364,Chart & Table,Unichart,-6.102013,13.038253
+365,Chart & Table,Unichart,-5.6951466,14.418335
+366,Chart & Table,Unichart,-6.119423,13.288748
+367,Chart & Table,Unichart,-6.938326,13.939838
+368,Chart & Table,Unichart,-6.1431007,16.141819
+369,Chart & Table,Unichart,-5.6071377,15.208249
+370,Chart & Table,Unichart,-5.768991,15.128817
+371,Chart & Table,Unichart,-5.259301,17.546667
+372,Chart & Table,Unichart,-4.77272,17.328728
+373,Chart & Table,Unichart,-5.8661036,13.971627
+374,Chart & Table,Unichart,-6.908078,14.750717
+375,Chart & Table,Unichart,-6.353714,15.989009
+376,Chart & Table,Unichart,-5.8717313,14.890253
+377,Chart & Table,Unichart,-7.229736,15.591386
+378,Chart & Table,Unichart,-6.3437076,13.1844015
+379,Chart & Table,Unichart,-5.798029,14.378434
+380,Chart & Table,Unichart,-5.3162193,14.234495
+381,Chart & Table,Unichart,-6.373933,13.344297
+382,Chart & Table,Unichart,-7.078772,14.764631
+383,Chart & Table,Unichart,-5.9133935,12.824556
+384,Chart & Table,Unichart,-6.828757,14.082631
+385,Chart & Table,Unichart,-6.7189755,14.999983
+386,Chart & Table,Unichart,-6.0642824,16.449152
+387,Chart & Table,Unichart,-6.6790447,13.80666
+388,OCR QA,a_okvqa,-0.5733542,12.801027
+389,OCR QA,a_okvqa,-1.7158192,10.843025
+390,OCR QA,a_okvqa,-3.2833407,12.822911
+391,OCR QA,a_okvqa,-0.80873895,14.536217
+392,OCR QA,a_okvqa,-3.208334,14.578856
+393,Grounding & Counting,aguvis-stage-1,-3.92464,17.013128
+394,Grounding & Counting,aguvis-stage-1,-3.1343591,16.968803
+395,Grounding & Counting,aguvis-stage-1,-3.9606252,16.346624
+396,Grounding & Counting,aguvis-stage-1,-3.0290737,16.770638
+397,Grounding & Counting,aguvis-stage-1,-1.1558208,17.359201
+398,Grounding & Counting,aguvis-stage-1,-6.418879,16.79059
+399,Grounding & Counting,aguvis-stage-1,-2.3867943,15.352943
+400,Grounding & Counting,aguvis-stage-1,-2.6866517,16.432796
+401,Grounding & Counting,aguvis-stage-1,-2.380073,17.779228
+402,Grounding & Counting,aguvis-stage-1,-3.8589,17.059746
+403,Grounding & Counting,aguvis-stage-1,-3.3082666,17.71559
+404,Grounding & Counting,aguvis-stage-1,-2.5477545,16.541817
+405,Grounding & Counting,aguvis-stage-1,-2.3461995,16.683966
+406,Grounding & Counting,aguvis-stage-1,-2.909816,17.15795
+407,Grounding & Counting,aguvis-stage-1,-3.8193007,16.196898
+408,Grounding & Counting,aguvis-stage-1,-1.8479805,18.61108
+409,Grounding & Counting,aguvis-stage-1,-3.0331044,17.226364
+410,Grounding & Counting,aguvis-stage-1,-2.9594963,15.341776
+411,Grounding & Counting,aguvis-stage-1,-2.7642896,17.29218
+412,Grounding & Counting,aguvis-stage-1,-4.397569,16.361464
+413,Grounding & Counting,aguvis-stage-1,-2.588429,15.981421
+414,Grounding & Counting,aguvis-stage-1,-2.4921746,16.337145
+415,Grounding & Counting,aguvis-stage-1,-1.634949,18.328835
+416,Grounding & Counting,aguvis-stage-1,-3.5193944,17.553333
+417,Grounding & Counting,aguvis-stage-1,1.3164409,12.131497
+418,Grounding & Counting,aguvis-stage-1,-3.9198072,16.698154
+419,Grounding & Counting,aguvis-stage-1,-2.6971705,17.27412
+420,Grounding & Counting,aguvis-stage-1,-2.6077929,16.321354
+421,Grounding & Counting,aguvis-stage-1,-3.6373217,16.949177
+422,Grounding & Counting,aguvis-stage-1,-3.1801188,17.075556
+423,Grounding & Counting,aguvis-stage-1,-2.3237062,17.239109
+424,Grounding & Counting,aguvis-stage-1,-3.7926881,16.6358
+425,Grounding & Counting,aguvis-stage-1,-2.97919,15.463035
+426,Grounding & Counting,aguvis-stage-1,-3.2354767,16.985542
+427,Grounding & Counting,aguvis-stage-1,-2.9599688,17.437643
+428,Grounding & Counting,aguvis-stage-1,-2.1633608,17.812645
+429,Grounding & Counting,aguvis-stage-1,-2.6721504,16.597218
+430,Grounding & Counting,aguvis-stage-1,-3.8145788,17.693523
+431,Grounding & Counting,aguvis-stage-1,-3.021984,15.80835
+432,Grounding & Counting,aguvis-stage-1,-2.8769467,16.994005
+433,Grounding & Counting,aguvis-stage-1,-3.156238,17.429504
+434,Grounding & Counting,aguvis-stage-1,-4.332312,17.716543
+435,Grounding & Counting,aguvis-stage-1,-3.4098995,16.634125
+436,Grounding & Counting,aguvis-stage-1,-3.658236,18.488964
+437,Grounding & Counting,aguvis-stage-1,-3.019246,18.18975
+438,Science,ai2d_merged,-5.1963496,16.62253
+439,General VQA,alfworldgpt,-3.1402702,15.006798
+440,General VQA,alfworldgpt,-3.655326,14.881633
+441,General VQA,alfworldgpt,-2.9178991,13.226537
+442,General VQA,alfworldgpt,-3.446364,14.249417
+443,General VQA,allava_laion,-2.8572686,13.270778
+444,General VQA,allava_laion,-1.558349,13.590846
+445,General VQA,allava_laion,-4.4869156,13.266971
+446,General VQA,allava_laion,-0.56136036,14.288783
+447,General VQA,allava_laion,-1.9938369,16.406837
+448,General VQA,allava_laion,-2.9673812,14.970761
+449,General VQA,allava_laion,-2.055943,12.913793
+450,General VQA,allava_laion,-2.1113553,16.12969
+451,General VQA,allava_laion,-4.0677795,14.782865
+452,General VQA,allava_laion,-5.437868,14.414292
+453,General VQA,allava_laion,-1.4492984,16.317406
+454,General VQA,allava_laion,-3.0221918,16.395374
+455,General VQA,allava_laion,-1.9317902,13.783306
+456,General VQA,allava_laion,-2.6455994,16.673138
+457,General VQA,allava_laion,-2.9869754,15.000495
+458,General VQA,allava_laion,-2.3168645,14.673664
+459,General VQA,allava_laion,-1.2214115,13.521346
+460,General VQA,allava_laion,-4.027829,14.150317
+461,General VQA,allava_laion,-4.99002,17.623316
+462,General VQA,allava_laion,-1.7191764,13.515034
+463,General VQA,allava_laion,-2.7818463,15.766099
+464,General VQA,allava_laion,-1.2120026,13.573033
+465,General VQA,allava_laion,-2.9067914,14.31069
+466,General VQA,allava_laion,-1.7481589,15.501534
+467,General VQA,allava_laion,-1.4285904,13.622949
+468,General VQA,allava_laion,-2.508318,14.214216
+469,General VQA,allava_laion,-2.8544402,15.464485
+470,General VQA,allava_laion,-1.517965,12.944219
+471,General VQA,allava_laion,0.66665745,13.841945
+472,General VQA,allava_laion,-3.3896854,15.587829
+473,General VQA,allava_laion,-2.0731955,14.096371
+474,General VQA,allava_laion,-2.163503,13.447432
+475,General VQA,allava_laion,-1.7301064,14.63413
+476,General VQA,allava_laion,-2.063952,13.306315
+477,General VQA,allava_laion,-1.9544251,13.65066
+478,General VQA,allava_laion,-4.666468,14.2345295
+479,General VQA,allava_laion,-3.433153,15.611582
+480,General VQA,allava_laion,-1.3665693,13.968209
+481,General VQA,allava_laion,-2.0089586,12.901301
+482,General VQA,allava_laion,-2.5629804,13.241218
+483,General VQA,allava_laion,-1.879719,14.757591
+484,General VQA,allava_laion,-1.976303,15.084605
+485,General VQA,allava_laion,-2.668102,16.139841
+486,General VQA,allava_laion,-2.8400748,13.738467
+487,General VQA,allava_laion,-1.5293812,16.528149
+488,General VQA,allava_laion,-4.2499733,15.143023
+489,General VQA,allava_vflan,-1.3735987,13.102209
+490,General VQA,allava_vflan,-1.9468843,16.564497
+491,General VQA,allava_vflan,-4.597105,13.285384
+492,General VQA,allava_vflan,-2.4476461,17.51059
+493,General VQA,allava_vflan,-1.7535806,12.742285
+494,General VQA,allava_vflan,-2.0745947,10.439247
+495,General VQA,allava_vflan,0.7946193,12.369304
+496,General VQA,allava_vflan,-3.6089487,14.947047
+497,General VQA,allava_vflan,-2.1644802,15.040754
+498,General VQA,allava_vflan,-0.87625706,15.047502
+499,General VQA,allava_vflan,-2.6130025,14.024593
+500,General VQA,allava_vflan,-0.81916964,13.724776
+501,General VQA,allava_vflan,-3.6751776,12.906602
+502,General VQA,allava_vflan,-4.2783747,14.749102
+503,General VQA,allava_vflan,-1.5372581,17.109665
+504,General VQA,allava_vflan,-2.0776,15.193711
+505,General VQA,allava_vflan,-4.4844775,15.745609
+506,OCR QA,aokvqa,-5.036949,15.471095
+507,Naive OCR,art,-3.7019806,12.882121
+508,OCR QA,arxivqa,-5.619008,12.679088
+509,OCR QA,arxivqa,-5.1907144,12.827566
+510,OCR QA,arxivqa,-4.9649296,12.824779
+511,OCR QA,arxivqa,-5.311354,12.7939825
+512,OCR QA,arxivqa,-5.0563145,17.333036
+513,OCR QA,arxivqa,-4.8749228,13.736463
+514,OCR QA,arxivqa,-5.161104,13.196506
+515,OCR QA,arxivqa,-5.959082,15.139402
+516,OCR QA,arxivqa,-3.6331475,15.512168
+517,OCR QA,arxivqa,-5.052316,12.907017
+518,OCR QA,bentham,2.1422567,11.893601
+519,OCR QA,blockdiagramcomputerized,-5.2001925,14.390779
+520,OCR QA,blockdiagramhandwritten,-5.0984387,13.780292
+521,General VQA,cambrian(filtered)_processed,-1.1905512,15.165925
+522,General VQA,cambrian(filtered)_processed,-1.751029,9.587367
+523,General VQA,cambrian(filtered)_processed,-1.6406345,9.58576
+524,General VQA,cambrian(filtered)_processed,-2.7925062,13.11975
+525,General VQA,cambrian(filtered)_processed,-6.0342836,15.802432
+526,General VQA,cambrian(filtered)_processed,-1.1502693,16.989122
+527,General VQA,cambrian(filtered)_processed,-2.4158435,14.082861
+528,General VQA,cambrian(filtered)_processed,-1.2166952,13.693319
+529,Naive OCR,captcha,0.22763692,12.495235
+530,Naive OCR,captcha,0.9593981,12.363588
+531,Naive OCR,captcha,0.081198886,12.573855
+532,Naive OCR,captcha,0.36387718,12.624115
+533,Naive OCR,captcha,0.6993159,12.38368
+534,Naive OCR,captcha,0.85992694,12.335283
+535,Naive OCR,captcha,0.008458383,12.324167
+536,Naive OCR,captcha,0.85702163,12.322404
+537,Naive OCR,captcha,0.02061756,12.329512
+538,Naive OCR,captcha,0.3036315,12.321469
+539,Naive OCR,captcha,0.2679477,12.438782
+540,Chart & Table,chart2text,-6.5100636,15.171456
+541,Chart & Table,chart2text,-7.1274424,15.56234
+542,Chart & Table,chartqa,-7.0069585,16.346754
+543,General VQA,chinesememe,-2.0163398,12.233347
+544,General VQA,chinesememe,-0.40541923,14.034706
+545,General VQA,chinesememe,-4.276584,17.076757
+546,General VQA,chinesememe,-2.3813174,14.376326
+547,General VQA,chinesememe,-1.7785631,13.145592
+548,Naive OCR,chrome_writting,1.1499455,13.03082
+549,Mathematics,clevr,-1.6076629,9.8073225
+550,Mathematics,clevr,-1.7101148,10.113159
+551,Mathematics,clevr,-2.0265934,9.784586
+552,Mathematics,clevr,-2.1135507,9.829596
+553,Mathematics,clevr,-1.9405135,9.9880085
+554,Mathematics,clevr,-2.196799,10.16171
+555,Mathematics,clevr,-1.452498,9.7752285
+556,Mathematics,clevr_math,-2.1801212,9.801649
+557,Mathematics,clevr_math,-1.9273381,9.612518
+558,Mathematics,clevr_math,-1.5411426,9.655872
+559,Mathematics,clevr_math,-1.7625996,9.580066
+560,Mathematics,clevr_math,-1.9678849,10.023421
+561,Mathematics,clevr_math,-1.7113199,9.879975
+562,Mathematics,clevr_math,-1.484115,9.620203
+563,Mathematics,clevr_math(mathv360k),-1.9961169,9.7263975
+564,Captioning & Knowledge,coco_colors,-1.3454305,15.751123
+565,Captioning & Knowledge,coco_colors,-3.144214,13.285055
+566,Captioning & Knowledge,coco_colors,-2.0505533,15.2906065
+567,Captioning & Knowledge,coco_colors,-2.5754852,13.428278
+568,Captioning & Knowledge,coco_colors,-2.0880659,13.858809
+569,Captioning & Knowledge,coco_colors,-1.2876897,11.391866
+570,Captioning & Knowledge,coco_colors,-2.963714,13.377311
+571,Captioning & Knowledge,coco_colors,-6.594825,14.224752
+572,Captioning & Knowledge,coco_colors,-3.8137763,12.6804085
+573,Captioning & Knowledge,coco_colors,-2.0886075,11.634719
+574,Captioning & Knowledge,coco_colors,-1.3111572,14.943168
+575,General VQA,cocoqa,-3.267713,13.048398
+576,General VQA,cocoqa,-0.013037341,14.5589695
+577,General VQA,cocoqa,-1.7347096,11.373774
+578,General VQA,cocoqa,-2.1878505,15.053922
+579,Naive OCR,cocotext,-1.1052303,13.150914
+580,Naive OCR,ctw,-0.86423486,16.745403
+581,Naive OCR,ctw,-1.4000857,13.775461
+582,General VQA,datik,-6.2355814,14.348469
+583,General VQA,datik,-5.5889235,11.836506
+584,General VQA,datik,-6.0488763,14.155444
+585,General VQA,datik,-5.6327734,16.707447
+586,General VQA,datik,-4.9528985,11.5223055
+587,General VQA,datik,-5.85656,13.457073
+588,General VQA,datik,-5.373902,12.447471
+589,General VQA,datik,-6.1315455,12.849513
+590,General VQA,datik,-4.7576,12.136585
+591,General VQA,datik,-4.7864375,14.507768
+592,General VQA,datik,-4.4987044,13.338192
+593,General VQA,datik,-5.1533957,12.187311
+594,General VQA,datik,-5.552182,12.109758
+595,General VQA,datik,-5.2981977,12.0126
+596,General VQA,datik,-5.423341,12.789884
+597,General VQA,datik,-5.3969746,12.0191555
+598,General VQA,datik,-5.676181,12.3539715
+599,General VQA,datik,-3.8894515,12.648885
+600,General VQA,datik,-4.9521174,11.567204
+601,General VQA,datik,-4.827991,11.952656
+602,General VQA,datik,-5.789037,12.559905
+603,General VQA,datik,-4.80648,14.409976
+604,General VQA,datikz,-5.4925127,12.3455515
+605,General VQA,datikz,-0.48186696,16.16223
+606,General VQA,datikz,-4.5972114,12.744012
+607,General VQA,datikz,-5.7660947,14.133665
+608,Captioning & Knowledge,densefusion_1m,-3.3065581,15.509387
+609,Captioning & Knowledge,densefusion_1m,-3.5640764,14.870224
+610,Captioning & Knowledge,densefusion_1m,-5.4659333,17.194544
+611,Captioning & Knowledge,densefusion_1m,-0.13317387,13.016425
+612,Captioning & Knowledge,densefusion_1m,-3.348509,13.680758
+613,Captioning & Knowledge,densefusion_1m,-3.6600456,13.614563
+614,Captioning & Knowledge,densefusion_1m,-2.5580869,15.025556
+615,Captioning & Knowledge,densefusion_1m,-4.6975946,13.420876
+616,Captioning & Knowledge,densefusion_1m,-5.1021976,15.629852
+617,Captioning & Knowledge,densefusion_1m,-3.3262618,16.307451
+618,Captioning & Knowledge,densefusion_1m,0.5171699,15.874338
+619,Captioning & Knowledge,densefusion_1m,-3.1347923,13.879251
+620,Captioning & Knowledge,densefusion_1m,-3.0242152,14.236134
+621,Captioning & Knowledge,densefusion_1m,-2.8946476,15.891527
+622,Captioning & Knowledge,densefusion_1m,-4.222332,15.951677
+623,Captioning & Knowledge,densefusion_1m,-2.3120508,13.763496
+624,Captioning & Knowledge,densefusion_1m,-3.61744,15.599881
+625,Captioning & Knowledge,densefusion_1m,-2.0494604,17.18496
+626,Captioning & Knowledge,densefusion_1m,-3.942528,13.995651
+627,Captioning & Knowledge,densefusion_1m,-2.0762098,16.159477
+628,Captioning & Knowledge,densefusion_1m,-3.7376199,15.6758
+629,Captioning & Knowledge,densefusion_1m,-3.4259229,14.399123
+630,Captioning & Knowledge,densefusion_1m,-2.5529807,16.250513
+631,Captioning & Knowledge,densefusion_1m,-2.6858516,14.679809
+632,Captioning & Knowledge,densefusion_1m,-2.5089886,15.47572
+633,Captioning & Knowledge,densefusion_1m,-2.120121,16.392109
+634,Captioning & Knowledge,densefusion_1m,-1.3603035,13.391585
+635,Captioning & Knowledge,densefusion_1m,-2.7239373,14.706802
+636,Captioning & Knowledge,densefusion_1m,-0.07262699,14.361336
+637,Captioning & Knowledge,densefusion_1m,-1.8037416,15.877097
+638,Captioning & Knowledge,densefusion_1m,-2.941668,16.743402
+639,Captioning & Knowledge,densefusion_1m,-4.2678475,14.512948
+640,Captioning & Knowledge,densefusion_1m,-4.041674,16.051338
+641,Captioning & Knowledge,densefusion_1m,-2.5236688,14.999438
+642,Captioning & Knowledge,densefusion_1m,-2.026976,15.456689
+643,Captioning & Knowledge,densefusion_1m,-2.0059025,11.478699
+644,Captioning & Knowledge,densefusion_1m,-4.50681,14.990721
+645,Captioning & Knowledge,densefusion_1m,-3.3491118,17.68867
+646,Captioning & Knowledge,densefusion_1m,-4.277411,16.145494
+647,Captioning & Knowledge,densefusion_1m,0.52266985,13.212613
+648,Captioning & Knowledge,densefusion_1m,-3.4547403,16.325184
+649,Captioning & Knowledge,densefusion_1m,-0.90948886,14.223853
+650,Captioning & Knowledge,densefusion_1m,-2.4410052,14.590959
+651,Captioning & Knowledge,densefusion_1m,-3.6672225,16.200733
+652,Captioning & Knowledge,densefusion_1m,-0.13326755,16.51813
+653,Captioning & Knowledge,densefusion_1m,-2.5357149,12.886249
+654,Captioning & Knowledge,densefusion_1m,-4.3852863,17.96995
+655,Captioning & Knowledge,densefusion_1m,-1.0622027,14.245199
+656,Captioning & Knowledge,densefusion_1m,-1.5756062,16.210028
+657,Captioning & Knowledge,densefusion_1m,-2.3257315,16.436813
+658,Captioning & Knowledge,densefusion_1m,-2.310822,17.15486
+659,Captioning & Knowledge,densefusion_1m,-4.7023654,13.6322365
+660,Captioning & Knowledge,densefusion_1m,-2.9235616,13.916572
+661,Captioning & Knowledge,densefusion_1m,-2.130736,13.8982935
+662,Captioning & Knowledge,densefusion_1m,-3.9695623,15.76031
+663,Captioning & Knowledge,densefusion_1m,-3.0472314,15.9308605
+664,Captioning & Knowledge,densefusion_1m,-2.0730689,15.980832
+665,Captioning & Knowledge,densefusion_1m,-3.242564,15.050029
+666,Captioning & Knowledge,densefusion_1m,-1.7463053,15.30607
+667,Captioning & Knowledge,densefusion_1m,-3.2756486,14.984592
+668,Captioning & Knowledge,densefusion_1m,-2.1766455,13.659809
+669,Captioning & Knowledge,densefusion_1m,-3.246647,16.380726
+670,Captioning & Knowledge,densefusion_1m,-0.9537033,11.664696
+671,Captioning & Knowledge,densefusion_1m,0.92756504,11.384646
+672,Captioning & Knowledge,densefusion_1m,-1.2184327,14.4949255
+673,Captioning & Knowledge,densefusion_1m,-2.1183088,14.774638
+674,Captioning & Knowledge,densefusion_1m,1.1054575,11.77428
+675,Captioning & Knowledge,densefusion_1m,-2.2946916,18.594072
+676,Captioning & Knowledge,densefusion_1m,-2.1221104,15.252288
+677,Captioning & Knowledge,densefusion_1m,-2.660571,15.598898
+678,Captioning & Knowledge,densefusion_1m,-2.3529189,14.205819
+679,Captioning & Knowledge,densefusion_1m,-2.0088046,15.155662
+680,Captioning & Knowledge,densefusion_1m,-2.1137953,14.337944
+681,Captioning & Knowledge,densefusion_1m,-2.5796294,15.830268
+682,Captioning & Knowledge,densefusion_1m,-1.0930537,14.505688
+683,Captioning & Knowledge,densefusion_1m,-1.76625,10.75198
+684,Captioning & Knowledge,densefusion_1m,-2.8316212,17.15655
+685,Captioning & Knowledge,densefusion_1m,-2.3657508,14.273163
+686,Captioning & Knowledge,densefusion_1m,-3.210463,15.3637295
+687,Captioning & Knowledge,densefusion_1m,-2.3319025,14.658825
+688,Captioning & Knowledge,densefusion_1m,-4.2783475,18.116081
+689,Captioning & Knowledge,densefusion_1m,-3.0389729,11.39726
+690,Captioning & Knowledge,densefusion_1m,-4.6191506,13.757706
+691,Captioning & Knowledge,densefusion_1m,-3.2199864,15.038432
+692,Captioning & Knowledge,densefusion_1m,-4.806803,16.297205
+693,Captioning & Knowledge,densefusion_1m,-2.5765905,15.238693
+694,Captioning & Knowledge,densefusion_1m,-2.555151,14.315961
+695,Captioning & Knowledge,densefusion_1m,-3.3783765,16.171057
+696,Captioning & Knowledge,densefusion_1m,-2.404972,15.834854
+697,Captioning & Knowledge,densefusion_1m,-1.7184036,16.265429
+698,Captioning & Knowledge,densefusion_1m,-3.0274854,15.919806
+699,Captioning & Knowledge,densefusion_1m,-3.5488534,15.739376
+700,Captioning & Knowledge,densefusion_1m,0.17561264,14.762424
+701,Captioning & Knowledge,densefusion_1m,-2.3952467,14.774095
+702,Captioning & Knowledge,densefusion_1m,-2.4548035,17.044546
+703,Captioning & Knowledge,densefusion_1m,-2.5112517,13.688839
+704,Captioning & Knowledge,densefusion_1m,-4.3332334,15.496156
+705,Captioning & Knowledge,densefusion_1m,-3.8103876,16.509098
+706,Captioning & Knowledge,densefusion_1m,-2.2640226,13.017393
+707,Captioning & Knowledge,densefusion_1m,1.3102521,15.414042
+708,Captioning & Knowledge,densefusion_1m,-3.2106593,14.903614
+709,Captioning & Knowledge,densefusion_1m,-5.1128235,15.946321
+710,Captioning & Knowledge,densefusion_1m,-3.0940828,15.633901
+711,Captioning & Knowledge,densefusion_1m,0.32221013,14.868876
+712,Captioning & Knowledge,densefusion_1m,-3.7157872,14.398144
+713,OCR QA,diagram_image_to_text,-4.866783,13.359544
+714,OCR QA,docvqa,-3.0494528,18.62894
+715,General VQA,drivelm,-1.0703018,12.464253
+716,Chart & Table,dvqa,-6.242144,15.664062
+717,Chart & Table,dvqa,-6.5798836,14.925664
+718,Chart & Table,dvqa,-5.6856976,14.456819
+719,Chart & Table,dvqa,-6.4766316,14.437862
+720,Chart & Table,dvqa,-6.296074,14.4348545
+721,Chart & Table,dvqa,-6.6247945,15.171215
+722,Chart & Table,dvqa,-5.974128,16.190802
+723,Chart & Table,dvqa,-6.1348386,14.469602
+724,Chart & Table,dvqa,-6.1982417,15.850152
+725,Chart & Table,dvqa,-6.021088,14.488718
+726,Chart & Table,dvqa,-6.0421634,15.962641
+727,Chart & Table,dvqa,-6.690761,15.004449
+728,Chart & Table,dvqa,-5.915554,15.966814
+729,Chart & Table,dvqa,-6.7349772,14.572269
+730,Chart & Table,dvqa,-6.297472,16.45757
+731,Chart & Table,dvqa,-5.479183,16.141006
+732,Chart & Table,dvqa,-6.644602,14.768048
+733,Chart & Table,dvqa,-6.237617,14.749125
+734,Chart & Table,dvqa,-6.134201,14.719306
+735,Chart & Table,dvqa,-6.7095127,14.807197
+736,OCR QA,est_vqa,-2.8028898,13.487987
+737,Captioning & Knowledge,face_emotion,-1.7859892,12.350736
+738,Chart & Table,figureqa,-4.7813435,17.928652
+739,Chart & Table,figureqa,-6.784873,15.886794
+740,Chart & Table,figureqa,-5.3147545,18.12775
+741,Chart & Table,figureqa,-5.3968844,12.893658
+742,Chart & Table,figureqa,-6.6792145,15.061978
+743,Chart & Table,figureqa,-5.2459846,13.071614
+744,Chart & Table,figureqa,-6.6299553,14.906391
+745,Chart & Table,figureqa,-6.0355377,13.285192
+746,Chart & Table,figureqa,-5.4043474,12.8902235
+747,Chart & Table,figureqa,-5.23914,12.990279
+748,Chart & Table,figureqa(mathv360k),-5.8802824,13.058701
+749,Chart & Table,finqa,-4.88894,16.396334
+750,Naive OCR,funsd,-1.756222,16.794167
+751,Mathematics,geo170k(align),-3.8987415,12.288033
+752,Mathematics,geo170k(align),-4.8021193,12.065388
+753,Mathematics,geo170k(align),-4.8182483,11.813766
+754,Mathematics,geo170k(qa),-4.8915815,11.612733
+755,Mathematics,geo3k,-4.682466,12.288988
+756,Mathematics,geometry3k(mathv360k),-4.7258954,13.311209
+757,Mathematics,geomverse,-6.0546713,17.217825
+758,Mathematics,geoqa+(mathv360k),-4.881611,12.036243
+759,Mathematics,geos(mathv360k),-4.5555034,11.766478
+760,Captioning & Knowledge,google_landmarks,0.20172866,13.901081
+761,Captioning & Knowledge,google_landmarks,-2.6422932,12.871565
+762,Captioning & Knowledge,google_landmarks,-3.8555532,17.991074
+763,Captioning & Knowledge,google_landmarks,0.040216874,12.912093
+764,Captioning & Knowledge,google_landmarks,-1.0884169,12.750918
+765,Captioning & Knowledge,google_landmarks,-1.1757756,15.603528
+766,Captioning & Knowledge,google_landmarks,-3.2434611,14.709588
+767,Captioning & Knowledge,google_landmarks,-4.3859215,14.216998
+768,Captioning & Knowledge,google_landmarks,-3.8517127,12.949343
+769,Captioning & Knowledge,google_landmarks,-5.0439453,16.073694
+770,Captioning & Knowledge,google_landmarks,-0.98564696,15.400732
+771,Captioning & Knowledge,google_landmarks,-0.69483256,14.727176
+772,Captioning & Knowledge,google_landmarks,-0.72640425,15.866496
+773,Captioning & Knowledge,google_landmarks,-2.2906032,15.273375
+774,Captioning & Knowledge,google_landmarks,-0.72795415,11.727866
+775,Captioning & Knowledge,google_landmarks,1.3738796,12.26725
+776,Captioning & Knowledge,google_landmarks,-3.5594008,14.2105465
+777,Captioning & Knowledge,google_landmarks,-1.289138,15.407301
+778,Captioning & Knowledge,google_landmarks,-0.17793657,12.992344
+779,Captioning & Knowledge,google_landmarks,-2.1144824,13.824165
+780,Captioning & Knowledge,google_landmarks,-3.4853973,13.422749
+781,Captioning & Knowledge,google_landmarks,-4.9478903,17.307014
+782,Captioning & Knowledge,google_landmarks,-2.553987,16.698412
+783,Captioning & Knowledge,google_landmarks,-1.5745763,14.7828
+784,Captioning & Knowledge,google_landmarks,-4.3067718,13.16484
+785,Captioning & Knowledge,google_landmarks,-1.6564403,12.325743
+786,Captioning & Knowledge,google_landmarks,-3.4131317,15.211848
+787,Captioning & Knowledge,google_landmarks,-3.965186,15.60332
+788,Captioning & Knowledge,google_landmarks,-3.1230712,14.69487
+789,Grounding & Counting,groundui,-2.711454,16.711662
+790,OCR QA,handwriting_forms,0.82387245,14.322479
+791,General VQA,hateful_memes,-2.0540226,14.267113
+792,Chart & Table,hitab,-5.0266867,16.74949
+793,Naive OCR,hme100k,1.8126867,12.138864
+794,Naive OCR,hme100k,2.1684346,12.54377
+795,Naive OCR,hme100k,1.6003158,12.643909
+796,Naive OCR,hme100k,-0.46795946,11.392594
+797,Naive OCR,hme100k,1.8394164,12.640122
+798,Naive OCR,hme100k,1.6946428,12.5427475
+799,Naive OCR,hme100k,2.0096955,12.31766
+800,Naive OCR,hw_squad,-3.5496185,13.323637
+801,Naive OCR,hw_squad,-3.3809865,12.351537
+802,Naive OCR,iam,1.6615646,13.043853
+803,General VQA,iconqa,-6.022064,15.315262
+804,General VQA,iconqa,-4.49422,13.14323
+805,General VQA,iconqa(mathv360k),1.9024354,12.974247
+806,General VQA,iconqa(mathv360k),-3.9231687,13.202329
+807,General VQA,idk,-2.6233222,12.832308
+808,Naive OCR,iiit5k,0.3202509,12.139457
+809,Captioning & Knowledge,image_textualization(filtered),-3.3486886,13.058075
+810,Captioning & Knowledge,image_textualization(filtered),-4.822362,14.919619
+811,Captioning & Knowledge,image_textualization(filtered),-2.5731385,16.531271
+812,Captioning & Knowledge,image_textualization(filtered),-1.4716326,13.933705
+813,Captioning & Knowledge,image_textualization(filtered),-2.3679855,15.059535
+814,Captioning & Knowledge,image_textualization(filtered),0.6983169,14.216063
+815,Captioning & Knowledge,image_textualization(filtered),-3.3752155,14.5489
+816,Captioning & Knowledge,image_textualization(filtered),-1.2714372,12.940445
+817,Captioning & Knowledge,image_textualization(filtered),-2.9996772,16.013012
+818,Naive OCR,imgur5k,-0.87933296,11.392932
+819,General VQA,indoor_qa,-3.8503525,14.082553
+820,OCR QA,infographic(gpt4v),-3.1881175,15.614101
+821,OCR QA,infographic_vqa,-2.1972423,17.634672
+822,OCR QA,infographic_vqa_llava_format,-3.4816718,15.361047
+823,Mathematics,intergps,-4.2479253,11.915455
+824,OCR QA,invoices_receipts,-3.0610104,10.959195
+825,Naive OCR,k12_printing,1.1667885,11.798061
+826,Naive OCR,k12_printing,1.2854391,11.182922
+827,Naive OCR,k12_printing,2.1556146,11.567906
+828,Naive OCR,k12_printing,2.0654805,11.784395
+829,Naive OCR,k12_printing,1.7834607,10.793035
+830,Naive OCR,k12_printing,1.0891058,12.097322
+831,Naive OCR,k12_printing,1.8238891,10.8158045
+832,Naive OCR,k12_printing,1.3869863,11.935883
+833,Naive OCR,k12_printing,2.502718,11.500277
+834,Naive OCR,k12_printing,1.9121165,10.788772
+835,Naive OCR,k12_printing,2.2414637,11.012823
+836,Naive OCR,k12_printing,1.7801155,11.367645
+837,Naive OCR,k12_printing,1.6598969,11.890178
+838,Naive OCR,k12_printing,1.0697793,11.743265
+839,Naive OCR,k12_printing,1.895159,13.251504
+840,Naive OCR,k12_printing,1.4264286,10.895116
+841,Naive OCR,k12_printing,1.7905657,10.904459
+842,Naive OCR,k12_printing,1.8476293,11.29355
+843,Naive OCR,k12_printing,1.7207872,10.815492
+844,Naive OCR,k12_printing,1.653414,11.016292
+845,Naive OCR,k12_printing,2.4655066,11.557249
+846,Naive OCR,k12_printing,1.4819993,12.0113535
+847,Naive OCR,k12_printing,1.3671023,10.840212
+848,Naive OCR,k12_printing,2.459251,11.674356
+849,Naive OCR,k12_printing,2.1497476,11.000881
+850,Captioning & Knowledge,laion_gpt4v,-4.1161394,12.105045
+851,Naive OCR,latex_handwritten,-0.8454308,11.3400135
+852,Naive OCR,latex_handwritten,1.4271748,13.32655
+853,Naive OCR,latex_handwritten,-0.41473493,11.451408
+854,Naive OCR,latexformulas,2.516351,13.928785
+855,Naive OCR,latexformulas,2.602297,14.593694
+856,Naive OCR,latexformulas,1.8524942,15.453784
+857,Naive OCR,latexformulas,2.3205998,14.35518
+858,Naive OCR,latexformulas,1.8644116,14.885029
+859,Naive OCR,latexformulas,2.7975779,14.18772
+860,Naive OCR,latexformulas,2.3942838,13.322677
+861,Naive OCR,latexformulas,1.4445506,14.220874
+862,Naive OCR,latexformulas,2.2836862,11.39136
+863,Naive OCR,latexformulas,2.6057982,13.961386
+864,Naive OCR,latexformulas,1.9961302,13.434808
+865,Naive OCR,latexformulas,1.8952883,14.131218
+866,Naive OCR,latexformulas,2.255458,14.974293
+867,Naive OCR,latexformulas,2.6445436,14.058138
+868,Naive OCR,latexformulas,1.6173706,15.434319
+869,Naive OCR,latexformulas,2.3632889,13.453909
+870,Naive OCR,latexformulas,2.2996132,15.094052
+871,Naive OCR,latexformulas,2.5076869,11.733104
+872,Naive OCR,latexformulas,1.5564226,15.268579
+873,Naive OCR,latexformulas,2.4036155,13.5982485
+874,Naive OCR,latexformulas,1.5522492,14.003594
+875,Naive OCR,latexformulas,2.1294045,15.243942
+876,Naive OCR,latexformulas,2.6221385,14.464621
+877,Naive OCR,latexformulas,2.0067592,15.298331
+878,Naive OCR,latexformulas,1.2816901,14.289165
+879,Naive OCR,latexformulas,1.719467,14.07952
+880,Naive OCR,latexformulas,2.5884748,14.228993
+881,Naive OCR,latexformulas,2.8904116,14.023879
+882,Naive OCR,latexformulas,2.2152932,14.760879
+883,Naive OCR,latexformulas,1.5691396,13.88199
+884,Naive OCR,latexformulas,2.801726,14.41394
+885,Naive OCR,latexformulas,2.3628526,14.097104
+886,Naive OCR,latexformulas,2.160742,13.56287
+887,Naive OCR,latexformulas,2.2690992,14.015383
+888,Naive OCR,latexformulas,2.4847662,14.191013
+889,Naive OCR,latexformulas,2.3792138,13.203296
+890,Naive OCR,latexformulas,2.4925876,13.499819
+891,Naive OCR,latexformulas,2.7798162,13.650808
+892,Naive OCR,latexformulas,2.276965,14.88868
+893,Naive OCR,latexformulas,2.6273801,14.053435
+894,Naive OCR,latexformulas,1.6203766,14.501678
+895,Naive OCR,latexformulas,2.1433609,13.745667
+896,Naive OCR,latexformulas,2.608872,14.691044
+897,Naive OCR,latexformulas,2.4453807,13.2606735
+898,Naive OCR,latexformulas,2.5142748,15.041762
+899,Naive OCR,latexformulas,2.227619,13.409311
+900,Naive OCR,latexformulas,1.5289643,14.450167
+901,Naive OCR,latexformulas,2.1774447,14.9880495
+902,Naive OCR,latexformulas,2.1724415,14.356275
+903,Naive OCR,latexformulas,2.920621,14.340328
+904,Naive OCR,latexformulas,2.3055284,14.393307
+905,Naive OCR,latexformulas,2.9679034,13.975026
+906,Naive OCR,latexformulas,2.6873116,13.886729
+907,Naive OCR,latexformulas,2.2397995,14.439811
+908,Naive OCR,latexformulas,2.0753183,13.854256
+909,General VQA,llavar_gpt4_20k,-1.7171866,15.822935
+910,General VQA,lnqa,-1.8064234,15.756924
+911,General VQA,lnqa,-0.7592474,13.04315
+912,General VQA,lnqa,-1.6349295,13.438519
+913,General VQA,lnqa,-5.131853,15.128572
+914,General VQA,lnqa,-0.48803896,15.147016
+915,General VQA,lnqa,-1.0575602,13.713107
+916,General VQA,lnqa,-1.048233,12.52339
+917,General VQA,lnqa,-1.0816207,15.113961
+918,General VQA,lnqa,-0.9096639,14.210454
+919,General VQA,lnqa,-2.9719315,13.746634
+920,General VQA,lnqa,-1.5493317,14.457064
+921,General VQA,lnqa,-2.6358893,12.372189
+922,General VQA,lnqa,-2.4512897,14.645212
+923,General VQA,lnqa,-1.624204,15.008271
+924,General VQA,lnqa,-1.0908378,14.259123
+925,General VQA,lnqa,-1.3196355,16.124268
+926,General VQA,lnqa,-1.3070955,12.0567465
+927,General VQA,lnqa,-2.239633,12.991782
+928,General VQA,lnqa,-2.8251464,12.3505125
+929,General VQA,lnqa,-2.2722502,14.346933
+930,General VQA,lnqa,-0.690192,14.2005005
+931,General VQA,lnqa,-2.6837037,13.142105
+932,General VQA,lnqa,-3.254341,17.457916
+933,General VQA,lnqa,-4.3692985,15.596879
+934,General VQA,lnqa,-2.5166562,13.018639
+935,General VQA,lnqa,-5.846177,16.989979
+936,General VQA,lnqa,-1.4032556,13.183372
+937,General VQA,lnqa,-1.994133,13.825772
+938,General VQA,lnqa,-4.2416644,12.5169325
+939,General VQA,lnqa,-3.1771703,13.739716
+940,Captioning & Knowledge,localized_narratives,-3.644063,12.387532
+941,Captioning & Knowledge,localized_narratives,-1.3647183,15.610713
+942,Captioning & Knowledge,localized_narratives,-1.9175681,12.7565
+943,Captioning & Knowledge,localized_narratives,-2.3589046,13.145044
+944,Captioning & Knowledge,localized_narratives,-3.6379864,13.342935
+945,Captioning & Knowledge,localized_narratives,-0.81609595,17.167885
+946,Captioning & Knowledge,localized_narratives,-2.5721328,13.474737
+947,Captioning & Knowledge,localized_narratives,-5.2345195,13.409462
+948,Captioning & Knowledge,localized_narratives,-0.18872811,13.813309
+949,Captioning & Knowledge,localized_narratives,0.12778817,14.1336355
+950,Captioning & Knowledge,localized_narratives,-3.2016358,11.858263
+951,Captioning & Knowledge,localized_narratives,-0.6901099,12.549499
+952,Captioning & Knowledge,localized_narratives,-1.4131317,13.318709
+953,Captioning & Knowledge,localized_narratives,-3.667536,11.874386
+954,Captioning & Knowledge,localized_narratives,-1.0671754,13.6831
+955,Captioning & Knowledge,localized_narratives,-0.7765497,15.164078
+956,Captioning & Knowledge,localized_narratives,-2.1577964,13.48058
+957,Captioning & Knowledge,localized_narratives,-1.4175575,14.640538
+958,Captioning & Knowledge,localized_narratives,-2.1317937,12.812771
+959,Chart & Table,lrv_chart,-6.273305,13.3217535
+960,General VQA,lrv_normal(filtered),-0.76939243,12.967264
+961,General VQA,lvis_instruct4v,-4.73657,14.83389
+962,General VQA,lvis_instruct4v,-2.4940844,12.145509
+963,General VQA,lvis_instruct4v,-0.9268688,12.656746
+964,General VQA,lvis_instruct4v,-4.7394056,17.78486
+965,General VQA,lvis_instruct4v,-0.3814387,14.323441
+966,General VQA,lvis_instruct4v,-0.53778,15.835095
+967,General VQA,lvis_instruct4v,-2.3239827,16.329975
+968,General VQA,lvis_instruct4v,-2.2501986,15.653687
+969,General VQA,lvis_instruct4v,-2.7152863,14.495052
+970,General VQA,lvis_instruct4v,-4.2499375,15.668114
+971,General VQA,lvis_instruct4v,-0.5543433,12.862728
+972,General VQA,lvis_instruct4v,-2.4506278,13.771455
+973,General VQA,lvis_instruct4v,-1.1804779,14.664362
+974,General VQA,lvis_instruct4v,-2.7578933,13.63672
+975,General VQA,lvis_instruct4v,-4.091878,14.817504
+976,General VQA,lvis_instruct4v,-3.3705537,16.399845
+977,General VQA,lvis_instruct4v,-2.8542416,13.804453
+978,General VQA,lvis_instruct4v,-2.0456831,14.836426
+979,General VQA,lvis_instruct4v,-0.72630984,13.661054
+980,General VQA,lvis_instruct4v,-0.3347137,14.390195
+981,General VQA,lvis_instruct4v,-2.4582636,12.975029
+982,General VQA,lvis_instruct4v,-0.99313223,15.641524
+983,OCR QA,mapqa,-5.043743,15.640015
+984,OCR QA,mapqa,-4.9534144,15.529422
+985,OCR QA,mapqa,-5.221481,15.934826
+986,OCR QA,mapqa(mathv360k),-4.907941,15.241494
+987,Naive OCR,maptext,-2.5046973,13.238817
+988,Naive OCR,mathwriting-google,0.54370576,11.116353
+989,Naive OCR,mathwriting-google,-0.6979461,10.774328
+990,Naive OCR,mathwriting-google,-0.5098082,10.840544
+991,Naive OCR,mathwriting-google,-1.0690495,11.180002
+992,Naive OCR,mathwriting-google,-0.22856215,11.109361
+993,Naive OCR,mathwriting-google,-0.8797214,10.695546
+994,Naive OCR,mathwriting-google,-0.33506313,11.12741
+995,Naive OCR,mathwriting-google,-0.96779305,10.750852
+996,Naive OCR,mathwriting-google,-0.6270284,10.77479
+997,Naive OCR,mathwriting-google,1.405327,12.681331
+998,Naive OCR,mathwriting-google,-0.70240825,10.842642
+999,Naive OCR,mathwriting-google,0.07038674,11.0433035
+1000,Naive OCR,mathwriting-google,0.0018071033,10.844643
+1001,Naive OCR,mathwriting-google,-1.5012355,11.031652
+1002,Naive OCR,mathwriting-google,-1.2133697,10.769429
+1003,Naive OCR,mathwriting-google,-0.1749257,10.799909
+1004,Naive OCR,mathwriting-google,-1.3969884,11.000927
+1005,Naive OCR,mathwriting-google,-0.74503976,10.906645
+1006,Naive OCR,mathwriting-google,0.51168174,12.002008
+1007,Naive OCR,mathwriting-google,-1.1593268,11.070854
+1008,Naive OCR,mathwriting-google,-1.0289783,10.887972
+1009,Naive OCR,mathwriting-google,-0.6220506,10.946476
+1010,Naive OCR,mathwriting-google,-0.07094961,10.657791
+1011,Naive OCR,mathwriting-google,-0.5101048,11.075313
+1012,Naive OCR,mathwriting-google,-0.8554856,11.088044
+1013,Naive OCR,mathwriting-google,-0.24182698,10.703694
+1014,Naive OCR,mathwriting-google,-0.07323343,10.776095
+1015,Naive OCR,mathwriting-google,1.0851828,13.895364
+1016,Naive OCR,mathwriting-google,-1.0423876,10.914542
+1017,Naive OCR,mathwriting-google,-0.3726632,10.710663
+1018,Mathematics,mavis_math_metagen,1.0100632,15.34724
+1019,Mathematics,mavis_math_metagen,-4.910757,12.873553
+1020,Mathematics,mavis_math_metagen,-5.5636463,15.337041
+1021,Mathematics,mavis_math_metagen,-4.3060884,12.206949
+1022,Mathematics,mavis_math_metagen,-6.2341475,12.973666
+1023,Mathematics,mavis_math_metagen,-4.9193754,12.852338
+1024,Mathematics,mavis_math_metagen,-6.082518,12.738337
+1025,Mathematics,mavis_math_metagen,-4.770181,11.88174
+1026,Mathematics,mavis_math_rule_geo,-5.0410986,11.44003
+1027,Mathematics,mavis_math_rule_geo,-5.2008615,11.959395
+1028,Mathematics,mavis_math_rule_geo,-5.2958803,11.4623575
+1029,Mathematics,mavis_math_rule_geo,-5.199357,11.469481
+1030,Mathematics,mavis_math_rule_geo,-5.304515,11.725547
+1031,Mathematics,mavis_math_rule_geo,-5.411612,11.518962
+1032,Mathematics,mavis_math_rule_geo,-5.5468063,12.109462
+1033,Mathematics,mavis_math_rule_geo,-5.3459396,11.493222
+1034,Mathematics,mavis_math_rule_geo,-5.138787,11.569318
+1035,Naive OCR,memotion,-2.7186327,14.725555
+1036,General VQA,mimic_cgd,-2.8202019,14.28582
+1037,General VQA,mimic_cgd,-1.5461861,12.22294
+1038,General VQA,mimic_cgd,0.12196187,12.688118
+1039,General VQA,mimic_cgd,-0.08615107,14.6829195
+1040,General VQA,mimic_cgd,-2.621902,12.118658
+1041,General VQA,mimic_cgd,-0.49144223,13.316888
+1042,General VQA,mimic_cgd,-1.8795115,12.5145
+1043,Chart & Table,mmc_instruct,-4.60311,14.285842
+1044,Chart & Table,mmc_instruct,-5.03259,14.211798
+1045,Chart & Table,mmc_instruct,-5.129204,14.193633
+1046,Chart & Table,mmc_instruct,-5.249871,13.62388
+1047,Chart & Table,mmc_instruct,-5.07639,13.964945
+1048,Chart & Table,mmc_instruct,-4.959758,14.094965
+1049,Chart & Table,mmc_instruct,-5.2076383,15.217213
+1050,Chart & Table,mmc_instruct,-5.094092,14.4442625
+1051,Chart & Table,mmc_instruct,-5.0246067,14.048986
+1052,Chart & Table,mmc_instruct,-4.935757,14.302881
+1053,Chart & Table,mmc_instruct,-4.887438,14.252479
+1054,Chart & Table,mmc_instruct,-4.9374943,14.805857
+1055,Chart & Table,mmc_instruct,-5.093808,14.461699
+1056,Chart & Table,mmc_instruct,-5.088552,13.918857
+1057,Chart & Table,mmc_instruct,-5.2426095,13.930322
+1058,Chart & Table,mmc_instruct,-4.677662,15.052288
+1059,General VQA,mmevol,-0.55660343,13.834291
+1060,General VQA,mmevol,-3.7441423,14.768758
+1061,General VQA,mmevol,-6.062779,13.975012
+1062,General VQA,mmevol,-0.42439243,12.57549
+1063,General VQA,mmevol,-6.9340534,15.120116
+1064,General VQA,mmevol,-1.6160824,13.259088
+1065,General VQA,mmevol,-6.0852633,16.039688
+1066,General VQA,mmevol,-0.6690507,13.844877
+1067,General VQA,mmevol,-1.821449,13.970612
+1068,General VQA,mmevol,-4.6309824,14.807651
+1069,General VQA,mmevol,-0.08206473,13.277907
+1070,General VQA,mmevol,-1.8077364,9.824532
+1071,General VQA,mmevol,-4.016271,13.153515
+1072,General VQA,mmevol,-3.7768297,13.251549
+1073,General VQA,mmevol,-6.6345544,15.174003
+1074,General VQA,mmevol,-2.886789,17.481289
+1075,General VQA,mmra,-1.6938553,13.186094
+1076,OCR QA,mmsoc_memotion,-1.6869607,15.576091
+1077,Chart & Table,multihiertt,-4.9029856,16.678263
+1078,General VQA,nlvr2,-0.8234755,15.323158
+1079,General VQA,nlvr2,-2.4119058,16.114187
+1080,General VQA,nlvr2,-3.0032072,13.519479
+1081,General VQA,nlvr2,-1.6724621,12.600614
+1082,General VQA,nlvr2,-3.44456,17.09188
+1083,Grounding & Counting,objects365_qa,-2.7175019,15.437818
+1084,Grounding & Counting,objects365_qa,-2.9432955,13.854029
+1085,Grounding & Counting,objects365_qa,-2.246823,12.408831
+1086,Grounding & Counting,objects365_qa,-1.8299878,14.313221
+1087,Grounding & Counting,objects365_qa,-1.1903279,13.655024
+1088,Grounding & Counting,objects365_qa,-1.8415388,16.28468
+1089,Grounding & Counting,objects365_qa,-2.4823506,12.347847
+1090,Grounding & Counting,objects365_qa,-1.7189224,13.059086
+1091,Grounding & Counting,objects365_qa,-2.0790694,13.356193
+1092,Grounding & Counting,objects365_qa,-1.1196587,14.833971
+1093,Grounding & Counting,objects365_qa,-1.4470162,13.001493
+1094,Grounding & Counting,objects365_qa,-1.028878,14.654299
+1095,Grounding & Counting,objects365_qa,-3.057437,13.19594
+1096,Grounding & Counting,objects365_qa,-0.89064616,14.040172
+1097,Grounding & Counting,objects365_qa,-3.4078298,14.674618
+1098,Grounding & Counting,objects365_qa,-2.314725,13.954356
+1099,Grounding & Counting,objects365_qa,-2.4728005,14.086107
+1100,Grounding & Counting,objects365_qa,-1.9457196,13.709636
+1101,Grounding & Counting,objects365_qa,0.7787471,13.544907
+1102,Grounding & Counting,objects365_qa,-2.9857464,14.147222
+1103,Grounding & Counting,objects365_qa,-0.37216175,13.651664
+1104,Grounding & Counting,objects365_qa,-1.4796355,11.993102
+1105,Grounding & Counting,objects365_qa,-1.0935085,15.093072
+1106,Grounding & Counting,objects365_qa,-2.2964675,17.525566
+1107,Grounding & Counting,objects365_qa,-3.1879425,13.193877
+1108,Grounding & Counting,objects365_qa,-2.6760135,13.829597
+1109,Grounding & Counting,objects365_qa,-2.1775434,12.870947
+1110,Grounding & Counting,objects365_qa,-1.1855267,11.783676
+1111,Grounding & Counting,objects365_qa,-1.1836683,16.344896
+1112,Grounding & Counting,objects365_qa,-1.608556,15.090458
+1113,Grounding & Counting,objects365_qa,-2.1136355,14.16562
+1114,Grounding & Counting,objects365_qa,-2.3335948,12.978815
+1115,Grounding & Counting,objects365_qa,-1.3887163,15.111507
+1116,Grounding & Counting,objects365_qa,0.94732374,13.842146
+1117,Grounding & Counting,objects365_qa,0.13381222,13.773756
+1118,Grounding & Counting,objects365_qa,-2.2739022,13.624816
+1119,Grounding & Counting,objects365_qa,-1.2355436,13.498342
+1120,Grounding & Counting,objects365_qa,-0.15974414,13.139577
+1121,Grounding & Counting,objects365_qa,-1.6127833,13.940305
+1122,Grounding & Counting,objects365_qa,-2.1489656,14.200482
+1123,Grounding & Counting,objects365_qa,-1.1124212,12.666072
+1124,Grounding & Counting,objects365_qa,-1.7189448,14.657562
+1125,Grounding & Counting,objects365_qa,-1.7964478,13.765957
+1126,Grounding & Counting,objects365_qa,-1.3854018,15.779286
+1127,Grounding & Counting,objects365_qa,-4.5416627,12.6137295
+1128,Grounding & Counting,objects365_qa,-0.5833148,12.687802
+1129,Grounding & Counting,objects365_qa,0.7002456,12.076195
+1130,Grounding & Counting,objects365_qa,-1.6218314,12.6297
+1131,Grounding & Counting,objects365_qa,-2.0090866,13.144378
+1132,Grounding & Counting,objects365_qa,-3.8905873,14.09144
+1133,Grounding & Counting,objects365_qa,-1.4862162,14.300795
+1134,Grounding & Counting,objects365_qa,-1.6721734,14.265931
+1135,Grounding & Counting,objects365_qa,-2.7549798,13.837875
+1136,Grounding & Counting,objects365_qa,-2.3494482,12.790322
+1137,Grounding & Counting,objects365_qa,-2.4970534,12.657688
+1138,Grounding & Counting,objects365_qa,-1.9969007,14.254142
+1139,Grounding & Counting,objects365_qa,-3.7182245,13.415132
+1140,Grounding & Counting,objects365_qa,-3.9991708,15.441768
+1141,Grounding & Counting,objects365_qa,-1.4131571,13.237267
+1142,Grounding & Counting,objects365_qa,-3.8476307,15.02824
+1143,Grounding & Counting,objects365_qa,-1.8533676,12.557681
+1144,Grounding & Counting,objects365_qa,-3.377942,14.089275
+1145,Grounding & Counting,objects365_qa,-2.9351132,14.839039
+1146,Grounding & Counting,objects365_qa,-3.2833838,14.310061
+1147,Grounding & Counting,objects365_qa,-3.7774377,14.291058
+1148,Grounding & Counting,objects365_qa,-0.9627761,13.561008
+1149,Grounding & Counting,objects365_qa,-1.8591784,14.181303
+1150,Grounding & Counting,objects365_qa,-4.2086587,13.715888
+1151,Grounding & Counting,objects365_qa,-2.688182,12.901205
+1152,Grounding & Counting,objects365_qa,-2.0203125,13.218085
+1153,Grounding & Counting,objects365_qa,-1.58034,14.475472
+1154,Grounding & Counting,objects365_qa,-1.2474319,14.134541
+1155,Grounding & Counting,objects365_qa,-1.8897669,13.623711
+1156,Grounding & Counting,objects365_qa,-2.1642325,13.257188
+1157,Grounding & Counting,objects365_qa,-1.4644091,15.231116
+1158,Grounding & Counting,objects365_qa,-5.7716146,14.677381
+1159,Grounding & Counting,objects365_qa,-2.2072744,13.503938
+1160,Grounding & Counting,objects365_qa,-2.851674,13.674607
+1161,Grounding & Counting,objects365_qa,-1.383384,13.076091
+1162,Grounding & Counting,objects365_qa,-1.9409691,15.656591
+1163,Grounding & Counting,objects365_qa,-3.976342,13.823318
+1164,Grounding & Counting,objects365_qa,-2.605507,15.237582
+1165,Grounding & Counting,objects365_qa,-1.4417936,13.25855
+1166,Grounding & Counting,objects365_qa,-5.226243,14.119703
+1167,Grounding & Counting,objects365_qa,-1.7077293,15.207848
+1168,Grounding & Counting,objects365_qa,-3.0913677,12.239021
+1169,Grounding & Counting,objects365_qa,-3.1178901,14.280295
+1170,Grounding & Counting,objects365_qa,-2.7813773,13.500068
+1171,Grounding & Counting,objects365_qa,-4.622278,12.665656
+1172,Grounding & Counting,objects365_qa,-1.9245214,15.175358
+1173,Grounding & Counting,objects365_qa,-1.8205452,13.3765
+1174,Grounding & Counting,objects365_qa,-1.1137084,14.370906
+1175,Grounding & Counting,objects365_qa,-4.2888174,13.73843
+1176,Grounding & Counting,objects365_qa,-1.0974977,16.10287
+1177,Grounding & Counting,objects365_qa,-0.9506335,13.492886
+1178,Grounding & Counting,objects365_qa,-1.8501304,14.297126
+1179,Grounding & Counting,objects365_qa,-4.523889,12.863494
+1180,Grounding & Counting,objects365_qa,-2.994191,13.264973
+1181,Grounding & Counting,objects365_qa,-0.74796754,13.956447
+1182,Grounding & Counting,objects365_qa,-0.47062624,14.041759
+1183,Grounding & Counting,objects365_qa,0.7174802,14.292761
+1184,Grounding & Counting,objects365_qa,-3.6827552,13.194036
+1185,Grounding & Counting,objects365_qa,-1.881917,14.973077
+1186,Grounding & Counting,objects365_qa,-4.3784404,14.532248
+1187,Grounding & Counting,objects365_qa,-4.0851846,13.943004
+1188,Grounding & Counting,objects365_qa,-1.9045763,13.20688
+1189,Grounding & Counting,objects365_qa,-0.9075715,13.416754
+1190,Grounding & Counting,objects365_qa,-0.93220145,12.436049
+1191,Grounding & Counting,objects365_qa,-2.6171033,15.490022
+1192,Grounding & Counting,objects365_qa,-0.4547748,14.817937
+1193,Grounding & Counting,objects365_qa,-1.1441321,10.734967
+1194,Grounding & Counting,objects365_qa,-1.7447535,14.138128
+1195,Grounding & Counting,objects365_qa,-2.3643475,13.932758
+1196,Grounding & Counting,objects365_qa,-2.0140176,13.519719
+1197,Grounding & Counting,objects365_qa,-1.2852308,14.746016
+1198,Grounding & Counting,objects365_qa,-2.0809596,12.535131
+1199,Grounding & Counting,objects365_qa,0.05504959,13.4964
+1200,Grounding & Counting,objects365_qa,-0.39000073,13.771782
+1201,Grounding & Counting,objects365_qa,-2.5437257,14.1807575
+1202,Grounding & Counting,objects365_qa,-0.6929019,14.870517
+1203,Grounding & Counting,objects365_qa,-3.8306763,14.742004
+1204,Grounding & Counting,objects365_qa,-3.7409532,14.8793335
+1205,Grounding & Counting,objects365_qa,-3.6435275,13.726134
+1206,Grounding & Counting,objects365_qa,-1.8782372,12.95533
+1207,Grounding & Counting,objects365_qa,-0.8780063,14.181423
+1208,Grounding & Counting,objects365_qa,-2.0596395,15.234883
+1209,Grounding & Counting,objects365_qa,-1.8798076,14.405055
+1210,Grounding & Counting,objects365_qa,-2.9574623,12.611294
+1211,Grounding & Counting,objects365_qa,-2.1968482,12.466001
+1212,Grounding & Counting,objects365_qa,-2.0306077,14.367065
+1213,Grounding & Counting,objects365_qa,-2.0694554,10.285254
+1214,Grounding & Counting,objects365_qa,-3.7937763,13.594311
+1215,Grounding & Counting,objects365_qa,-3.4082723,14.569007
+1216,Grounding & Counting,objects365_qa,-2.364398,14.279581
+1217,Grounding & Counting,objects365_qa,-1.0310595,13.788844
+1218,Grounding & Counting,objects365_qa,-6.052819,13.944904
+1219,Grounding & Counting,objects365_qa,-2.8022115,15.750512
+1220,Grounding & Counting,objects365_qa,-1.6662054,12.892409
+1221,Grounding & Counting,objects365_qa,-2.0090146,13.627944
+1222,Grounding & Counting,objects365_qa,-3.5679624,14.304952
+1223,Grounding & Counting,objects365_qa,-3.110716,13.4378195
+1224,Grounding & Counting,objects365_qa,-3.1788144,15.573506
+1225,Grounding & Counting,objects365_qa,-2.603618,13.105826
+1226,Grounding & Counting,objects365_qa,-1.6349196,12.953077
+1227,Grounding & Counting,objects365_qa,-1.485103,13.0733595
+1228,Grounding & Counting,objects365_qa,-1.7310972,14.280263
+1229,Grounding & Counting,objects365_qa,-3.0715816,12.784659
+1230,Grounding & Counting,objects365_qa,-2.9485266,14.75535
+1231,Grounding & Counting,objects365_qa,-3.751486,15.063919
+1232,Grounding & Counting,objects365_qa,-3.4424183,13.815565
+1233,Grounding & Counting,objects365_qa,-1.9569427,13.593262
+1234,Grounding & Counting,objects365_qa,-2.4116402,14.1085825
+1235,Grounding & Counting,objects365_qa,0.12328538,13.031088
+1236,Grounding & Counting,objects365_qa,-1.8039991,12.859735
+1237,Grounding & Counting,objects365_qa,-1.0692085,14.436484
+1238,Grounding & Counting,objects365_qa,-1.1507427,14.4154825
+1239,Grounding & Counting,objects365_qa,-2.1137578,11.6871
+1240,Grounding & Counting,objects365_qa,-2.55026,12.235803
+1241,Grounding & Counting,objects365_qa,-2.284663,13.745578
+1242,Grounding & Counting,objects365_qa,-3.65729,13.914726
+1243,Grounding & Counting,objects365_qa,-1.3133111,12.592305
+1244,Grounding & Counting,objects365_qa,-2.03134,12.572514
+1245,Grounding & Counting,objects365_qa,-1.2027699,14.195614
+1246,Grounding & Counting,objects365_qa,-1.4905783,14.204572
+1247,Grounding & Counting,objects365_qa,-1.4291193,14.005105
+1248,Grounding & Counting,objects365_qa,-0.18903129,14.6363125
+1249,OCR QA,ocrvqa,-3.007456,15.424597
+1250,OCR QA,ocrvqa,-1.9252207,15.831923
+1251,OCR QA,ocrvqa,-2.7130177,14.887906
+1252,OCR QA,ocrvqa,-3.404401,16.228456
+1253,OCR QA,ocrvqa,-1.4823917,15.27851
+1254,OCR QA,ocrvqa,-3.2153766,15.188947
+1255,OCR QA,ocrvqa,-3.1798456,15.848485
+1256,OCR QA,ocrvqa,-4.0313406,14.592979
+1257,OCR QA,ocrvqa,-4.8766723,17.622332
+1258,OCR QA,ocrvqa,-2.6125069,14.824715
+1259,OCR QA,ocrvqa,-2.342191,15.426579
+1260,OCR QA,ocrvqa,-2.290442,14.894173
+1261,OCR QA,ocrvqa,-2.9414363,15.028527
+1262,OCR QA,ocrvqa,-1.4030048,15.192581
+1263,OCR QA,ocrvqa,-1.8940259,15.5841055
+1264,OCR QA,ocrvqa,-2.1474206,14.668903
+1265,Naive OCR,olmOCR-mix-0225-books,-0.049820628,18.168592
+1266,Naive OCR,olmOCR-mix-0225-documents,-1.3186306,18.931374
+1267,Naive OCR,olmOCR-mix-0225-documents,-1.5079118,19.591742
+1268,Naive OCR,olmOCR-mix-0225-documents,-1.9480561,17.993065
+1269,Naive OCR,olmOCR-mix-0225-documents,-1.5744836,19.130222
+1270,Naive OCR,olmOCR-mix-0225-documents,-1.8590188,19.165867
+1271,Naive OCR,olmOCR-mix-0225-documents,-0.2036161,17.015211
+1272,Naive OCR,olmOCR-mix-0225-documents,-1.8654215,19.72361
+1273,Naive OCR,olmOCR-mix-0225-documents,-3.48016,17.774706
+1274,Naive OCR,olmOCR-mix-0225-documents,-1.4446557,17.443485
+1275,Naive OCR,olmOCR-mix-0225-documents,-1.3327416,17.503735
+1276,Naive OCR,olmOCR-mix-0225-documents,-0.9926907,18.439743
+1277,Naive OCR,olmOCR-mix-0225-documents,-1.7444654,17.647224
+1278,Naive OCR,olmOCR-mix-0225-documents,-3.6816046,18.750822
+1279,Naive OCR,olmOCR-mix-0225-documents,-3.4683683,18.11246
+1280,Naive OCR,olmOCR-mix-0225-documents,-2.4299297,19.77487
+1281,Naive OCR,olmOCR-mix-0225-documents,-1.5804191,19.438263
+1282,Naive OCR,olmOCR-mix-0225-documents,-2.2610602,17.83327
+1283,Naive OCR,olmOCR-mix-0225-documents,-3.0591917,19.259407
+1284,Naive OCR,olmOCR-mix-0225-documents,-1.7917006,17.772846
+1285,Naive OCR,olmOCR-mix-0225-documents,-1.7828513,18.87353
+1286,Naive OCR,olmOCR-mix-0225-documents,-1.2982534,19.311142
+1287,Naive OCR,olmOCR-mix-0225-documents,-1.481188,18.249447
+1288,Grounding & Counting,oodvqa,-0.6815327,13.228337
+1289,Naive OCR,orand_car_a,0.8555107,12.444546
+1290,Science,pathvqa,-2.7144184,13.87168
+1291,Science,pathvqa,0.960431,12.806884
+1292,Science,pathvqa,-3.0353422,15.271672
+1293,OCR QA,pdfvqa,-1.656308,19.853363
+1294,Chart & Table,plotqa,-7.0799775,14.756452
+1295,Chart & Table,plotqa,-5.5909977,12.975237
+1296,Chart & Table,plotqa,-5.918642,13.3526325
+1297,Chart & Table,plotqa,-6.8707027,14.74776
+1298,Chart & Table,plotqa,-6.968584,13.844693
+1299,Chart & Table,plotqa,-7.1763444,14.717227
+1300,Chart & Table,plotqa,-7.027178,14.43275
+1301,Chart & Table,plotqa,-5.5268917,13.130444
+1302,Chart & Table,plotqa,-7.063167,14.424732
+1303,Chart & Table,plotqa,-6.9672456,14.123852
+1304,Chart & Table,plotqa,-7.039555,14.098095
+1305,Chart & Table,plotqa,-7.0466204,14.118572
+1306,Chart & Table,plotqa,-7.199804,14.048889
+1307,Chart & Table,plotqa,-7.206863,13.914144
+1308,Chart & Table,plotqa,-7.2543044,14.671591
+1309,Science,pmc_vqa(mathv360k),-1.5792531,15.700976
+1310,Science,pmc_vqa(mathv360k),-3.2694328,14.33561
+1311,Science,pmc_vqa(mathv360k),-1.3354739,15.164038
+1312,Mathematics,raven,-4.67516,13.810964
+1313,Mathematics,raven,-4.82738,14.449474
+1314,Mathematics,raven,-4.6267257,13.246527
+1315,Mathematics,raven,-5.0504494,14.91181
+1316,Naive OCR,rendered_text,-3.238513,10.913463
+1317,Chart & Table,robut_sqa,-4.80446,16.619642
+1318,Chart & Table,robut_wikisql,-4.9652443,16.691702
+1319,Chart & Table,robut_wikisql,-4.864325,16.472876
+1320,Chart & Table,robut_wikisql,-4.7404175,16.573008
+1321,Chart & Table,robut_wikisql,-5.0994334,16.797874
+1322,Chart & Table,robut_wikisql,-4.9155374,16.536234
+1323,Chart & Table,robut_wikisql,-4.634686,16.658693
+1324,Chart & Table,robut_wikisql,-4.7533784,16.742083
+1325,Chart & Table,robut_wtq,-4.98517,16.481878
+1326,Chart & Table,robut_wtq,-4.6912847,16.624222
+1327,Chart & Table,robut_wtq,-4.755297,16.722153
+1328,Science,scienceqa,-5.0773787,15.692775
+1329,Science,scienceqa(nona_context),-4.7690954,15.214425
+1330,OCR QA,screen2words,-3.631612,16.746061
+1331,OCR QA,screenqa,-3.4821894,17.005753
+1332,OCR QA,screenqa,-3.8667197,17.089247
+1333,OCR QA,screenqa,-3.9886274,16.325684
+1334,OCR QA,screenqa,-3.6292388,16.64084
+1335,OCR QA,screenqa,-3.867926,16.939747
+1336,OCR QA,screenqa,-4.2676463,16.212013
+1337,OCR QA,screenqa,-2.2830477,16.461208
+1338,OCR QA,screenqa,-2.7972887,16.759937
+1339,Captioning & Knowledge,sharegpt4o,-1.028643,14.316716
+1340,Captioning & Knowledge,sharegpt4o,-0.63227594,18.262432
+1341,Captioning & Knowledge,sharegpt4o,-5.5509615,13.385918
+1342,Captioning & Knowledge,sharegpt4o,-2.9258623,12.430899
+1343,Captioning & Knowledge,sharegpt4o,-1.752485,9.818922
+1344,Captioning & Knowledge,sharegpt4v(coco),-4.396255,15.497202
+1345,Captioning & Knowledge,sharegpt4v(coco),-6.7254567,13.543941
+1346,Captioning & Knowledge,sharegpt4v(coco),-3.4319088,13.363286
+1347,Captioning & Knowledge,sharegpt4v(coco),-0.94431686,17.7518
+1348,Captioning & Knowledge,sharegpt4v(coco),-3.9650493,14.540166
+1349,Captioning & Knowledge,sharegpt4v(knowledge),-2.752691,12.089081
+1350,Captioning & Knowledge,sharegpt4v(llava),-2.5029697,12.902743
+1351,Captioning & Knowledge,sharegpt4v(llava),1.3518825,13.444673
+1352,Captioning & Knowledge,sharegpt4v(sam),-3.3568525,12.670897
+1353,General VQA,sketchyvqa,-4.8872657,11.832038
+1354,OCR QA,slidevqa,-3.9107704,15.906221
+1355,General VQA,spark,-4.3768535,14.491207
+1356,General VQA,spatialsense,-3.263734,14.976058
+1357,General VQA,spot_the_diff,-1.5317576,16.37698
+1358,Naive OCR,sroie,1.3219887,11.1940775
+1359,Naive OCR,sroie,1.5913999,11.914926
+1360,Naive OCR,sroie,1.9426727,11.218723
+1361,OCR QA,st_vqa,-2.9044545,15.1445875
+1362,OCR QA,sujet_finance,-1.5862796,17.535973
+1363,Mathematics,super_clevr(mathv360k),-1.9466949,10.134516
+1364,Naive OCR,svrd,-0.71856314,17.167393
+1365,Naive OCR,synthdog,-3.502172,10.745516
+1366,Naive OCR,synthdog,-3.0102074,10.791281
+1367,Naive OCR,synthdog,-3.6376667,10.726992
+1368,Naive OCR,synthdog,-2.9797876,11.0659275
+1369,Naive OCR,synthdog,-3.2355602,11.539314
+1370,Naive OCR,synthdog,-2.9555662,11.265699
+1371,Naive OCR,synthdog,-2.96735,10.951926
+1372,Naive OCR,synthdog,-2.6145597,11.390062
+1373,Naive OCR,synthdog,-2.5206306,11.208609
+1374,Naive OCR,synthdog,-3.2974412,10.964338
+1375,Naive OCR,synthdog,-3.0609767,10.871874
+1376,Naive OCR,synthdog,-3.7733376,10.823489
+1377,Naive OCR,synthdog,-3.5317874,10.925116
+1378,Naive OCR,synthdog,-3.5101364,10.958425
+1379,Naive OCR,synthdog,-3.8239758,10.659712
+1380,Naive OCR,synthdog,-3.0691514,11.058068
+1381,Naive OCR,synthdog,-2.753329,11.22186
+1382,Naive OCR,synthdog,-2.6324878,11.007256
+1383,Naive OCR,synthdog,-2.6753669,10.980343
+1384,Naive OCR,synthdog,-3.1924512,11.233193
+1385,Naive OCR,synthdog,-2.7523263,11.363193
+1386,Naive OCR,synthdog,-3.5240006,10.827522
+1387,Naive OCR,synthdog,-2.8060973,10.9742775
+1388,Naive OCR,synthdog,-3.7526023,10.584175
+1389,Naive OCR,synthdog,-2.8121305,10.815339
+1390,Naive OCR,synthdog,-3.439075,10.882955
+1391,Naive OCR,synthdog,-3.2205725,10.566704
+1392,Naive OCR,synthdog,-3.7893758,11.147975
+1393,Naive OCR,synthdog,-3.536549,11.21009
+1394,Naive OCR,synthdog,-3.1966834,11.723928
+1395,Naive OCR,synthdog,-2.6977828,11.074001
+1396,Naive OCR,synthdog,-3.2249844,11.257024
+1397,Naive OCR,synthdog,-2.8481858,11.527405
+1398,Naive OCR,synthdog,-3.1936653,11.021578
+1399,Naive OCR,synthdog,-3.1159499,10.622795
+1400,Naive OCR,synthdog,-3.3986914,11.110819
+1401,Naive OCR,synthdog,-3.3330255,10.823691
+1402,Naive OCR,synthdog,-3.4130352,10.685922
+1403,Naive OCR,synthdog,-3.448721,11.279447
+1404,Naive OCR,synthdog,-3.3531446,10.8329
+1405,Naive OCR,synthdog,-2.4609246,11.361593
+1406,Naive OCR,synthdog,-3.1755846,10.649888
+1407,Naive OCR,synthdog,-3.0586236,11.307644
+1408,Naive OCR,synthdog,-3.1265254,10.875503
+1409,Naive OCR,synthdog,-3.6899135,10.746278
+1410,Naive OCR,synthdog,-3.3908458,11.223358
+1411,Naive OCR,synthdog,-3.3751297,10.516364
+1412,Naive OCR,synthdog,-3.488507,10.531199
+1413,Naive OCR,synthdog,-2.8473232,11.15339
+1414,Naive OCR,synthdog,-3.20954,11.064686
+1415,Chart & Table,tabmwp,-0.58479166,15.880317
+1416,Chart & Table,tabmwp,-0.2904701,15.783937
+1417,Chart & Table,tabmwp(mathv360k),-0.7231676,15.953247
+1418,Chart & Table,tabmwp(mathv360k),-0.2565399,15.977477
+1419,Naive OCR,tal_ocr_eng,1.5386844,10.62674
+1420,Naive OCR,tal_ocr_eng,1.6549606,11.601942
+1421,Naive OCR,tal_ocr_eng,1.4002947,11.764387
+1422,Naive OCR,tal_ocr_eng,1.2745994,11.2013035
+1423,Naive OCR,tal_ocr_eng,1.5937434,10.996404
+1424,Naive OCR,tal_ocr_eng,2.2340503,11.136835
+1425,Naive OCR,tal_ocr_eng,2.127229,11.4193945
+1426,Naive OCR,tal_ocr_eng,2.2122283,11.736268
+1427,Naive OCR,tal_ocr_eng,1.9461217,11.907448
+1428,Naive OCR,tal_ocr_eng,1.309156,12.007619
+1429,Naive OCR,tal_ocr_eng,2.2799487,11.581288
+1430,Naive OCR,tal_ocr_eng,2.1628947,10.770825
+1431,Naive OCR,tal_ocr_eng,2.1115048,11.302841
+1432,Naive OCR,tal_ocr_eng,1.8126061,11.708756
+1433,Naive OCR,tal_ocr_eng,2.1145957,10.837662
+1434,Naive OCR,tal_ocr_eng,1.3191409,11.1685295
+1435,Naive OCR,tal_ocr_eng,1.9186009,10.96969
+1436,Naive OCR,tal_ocr_eng,1.1728864,11.00445
+1437,Naive OCR,tal_ocr_eng,1.2456665,11.044403
+1438,Naive OCR,tal_ocr_eng,2.0839403,10.841493
+1439,Naive OCR,tal_ocr_eng,1.932624,11.314103
+1440,Naive OCR,tal_ocr_eng,2.029552,10.737507
+1441,Naive OCR,tal_ocr_eng,2.1489453,11.5904
+1442,Naive OCR,tal_ocr_eng,2.1690724,12.882016
+1443,Naive OCR,tal_ocr_eng,1.3835964,12.141184
+1444,Grounding & Counting,tallyqa,-2.6993341,14.153768
+1445,Grounding & Counting,tallyqa,-2.9867494,13.562643
+1446,Grounding & Counting,tallyqa,-1.7105672,13.957441
+1447,Grounding & Counting,tallyqa,-2.2648647,13.452209
+1448,Grounding & Counting,tallyqa,-0.5068742,12.945275
+1449,Grounding & Counting,tallyqa,-1.4287742,15.124818
+1450,Grounding & Counting,tallyqa,-1.191937,12.840298
+1451,Grounding & Counting,tallyqa,-0.7951459,13.128243
+1452,Grounding & Counting,tallyqa,-2.041517,14.90799
+1453,Chart & Table,tat_dqa,-2.8914964,18.513271
+1454,Chart & Table,tat_qa,-4.983957,16.240915
+1455,Captioning & Knowledge,textcaps,-0.7445523,15.09082
+1456,Captioning & Knowledge,textcaps,-1.1821718,13.070472
+1457,OCR QA,textocr(gpt4v),-1.6652915,13.593408
+1458,OCR QA,textocr(gpt4v),-1.2120732,14.200418
+1459,OCR QA,textvqa,-3.954238,15.533072
+1460,OCR QA,textvqa,-3.5793169,12.164482
+1461,Science,tqa,-3.1680925,12.166714
+1462,Mathematics,unigeo(mathv360k),-4.861552,11.670065
+1463,OCR QA,ureader_cap,-3.1146836,16.865677
+1464,OCR QA,ureader_cap,-1.4596508,14.073721
+1465,OCR QA,ureader_cap,-1.066469,12.193185
+1466,OCR QA,ureader_cap,-2.4253721,16.439564
+1467,OCR QA,ureader_cap,-1.4031659,13.693128
+1468,OCR QA,ureader_cap,-2.7545621,15.230273
+1469,OCR QA,ureader_cap,-3.8215294,16.937256
+1470,OCR QA,ureader_cap,-3.0048773,12.195416
+1471,OCR QA,ureader_cap,-2.9467802,14.161315
+1472,OCR QA,ureader_ie,-3.3650353,18.916605
+1473,OCR QA,ureader_kg_processed,-2.6326602,17.692429
+1474,OCR QA,ureader_kg_processed,-3.7576883,16.363173
+1475,OCR QA,ureader_kg_processed,-7.405658,15.387937
+1476,OCR QA,ureader_qa_processed,-0.38821623,16.618586
+1477,OCR QA,ureader_qa_processed,0.34040427,16.536598
+1478,OCR QA,ureader_qa_processed,-1.2258626,15.028207
+1479,OCR QA,ureader_qa_processed,0.12460345,16.11192
+1480,OCR QA,ureader_qa_processed,0.42298225,16.552795
+1481,OCR QA,ureader_qa_processed,-2.852388,16.006634
+1482,OCR QA,ureader_qa_processed,-0.6593659,13.979379
+1483,OCR QA,ureader_qa_processed,-2.9657156,18.554277
+1484,OCR QA,ureader_qa_processed,0.15679286,16.374321
+1485,OCR QA,ureader_qa_processed,0.0874012,16.609613
+1486,OCR QA,ureader_qa_processed,-7.2615995,14.888373
+1487,OCR QA,ureader_qa_processed,-0.548176,18.47858
+1488,OCR QA,ureader_qa_processed,-7.314555,15.370032
+1489,OCR QA,ureader_qa_processed,0.042276993,16.33529
+1490,OCR QA,ureader_qa_processed,0.458077,16.473448
+1491,OCR QA,ureader_qa_processed,0.20129277,16.408411
+1492,OCR QA,ureader_qa_processed,-1.3313242,16.77525
+1493,OCR QA,ureader_qa_processed,-1.3548806,17.374992
+1494,OCR QA,ureader_qa_processed,0.28216,16.484983
+1495,OCR QA,ureader_qa_processed,0.31041244,16.489374
+1496,OCR QA,ureader_qa_processed,0.40330794,16.222654
+1497,OCR QA,ureader_qa_processed,-1.5861939,13.4266615
+1498,OCR QA,ureader_qa_processed,-1.4182721,18.93737
+1499,OCR QA,ureader_qa_processed,-2.6782496,18.193298
+1500,OCR QA,ureader_qa_processed,-0.87527555,16.933899
+1501,General VQA,vision_flan(filtered),-0.56303865,13.4160385
+1502,General VQA,vision_flan(filtered),-5.3517127,17.694803
+1503,General VQA,vision_flan(filtered),-3.2433019,15.603335
+1504,General VQA,vision_flan(filtered),-1.8283677,9.439475
+1505,General VQA,vision_flan(filtered),-3.5837595,11.817849
+1506,General VQA,vision_flan(filtered),-1.9949989,9.659579
+1507,General VQA,vision_flan(filtered),-3.9365442,15.855789
+1508,General VQA,vision_flan(filtered),-3.4549484,17.179455
+1509,General VQA,vision_flan(filtered),-4.505904,15.089286
+1510,General VQA,vision_flan(filtered),-2.2987983,12.389837
+1511,General VQA,vision_flan(filtered),-1.1805819,15.897051
+1512,General VQA,vision_flan(filtered),-0.7427064,12.143822
+1513,General VQA,vision_flan(filtered),-1.5613407,14.766336
+1514,General VQA,vision_flan(filtered),-5.431604,16.530396
+1515,General VQA,vision_flan(filtered),-2.1079543,9.795982
+1516,General VQA,vision_flan(filtered),-4.0272603,12.842213
+1517,General VQA,vision_flan(filtered),-0.7639318,14.016364
+1518,Chart & Table,vistext,-4.615444,15.827518
+1519,General VQA,visual7w,-4.9198766,12.580895
+1520,OCR QA,visualmrc,-3.1618717,17.868393
+1521,Science,visualwebinstruct(filtered),0.19766942,16.277098
+1522,Science,visualwebinstruct(filtered),-5.207955,12.296344
+1523,Science,visualwebinstruct(filtered),-2.478752,15.9534235
+1524,Science,visualwebinstruct(filtered),-5.3273616,13.613769
+1525,Science,visualwebinstruct(filtered),-5.063052,12.780937
+1526,Science,visualwebinstruct(filtered),-4.5611515,11.5869
+1527,Science,visualwebinstruct(filtered),-6.2776504,12.762167
+1528,Science,visualwebinstruct(filtered),-5.0601234,15.37361
+1529,Science,visualwebinstruct(filtered),-4.8031926,13.887086
+1530,Science,visualwebinstruct(filtered),-2.041472,15.937402
+1531,Science,visualwebinstruct(filtered),-5.0025134,12.591787
+1532,Science,visualwebinstruct(filtered),-4.588724,11.807936
+1533,Science,visualwebinstruct(filtered),-3.2328036,15.801565
+1534,Science,visualwebinstruct(filtered),-4.493823,12.591351
+1535,Science,visualwebinstruct(filtered),-4.500083,11.668415
+1536,Science,visualwebinstruct(filtered),-5.212913,13.715419
+1537,Science,visualwebinstruct(filtered),-4.4452915,12.369002
+1538,Science,visualwebinstruct(filtered),-5.3771167,12.082145
+1539,Science,visualwebinstruct(filtered),-3.0751553,15.810075
+1540,Science,visualwebinstruct(filtered),-5.6383653,11.890171
+1541,Science,visualwebinstruct(filtered),0.16722926,16.123463
+1542,Science,visualwebinstruct(filtered),-5.635973,11.784142
+1543,Science,visualwebinstruct(filtered),-4.7131815,11.859157
+1544,Science,visualwebinstruct(filtered),-6.674552,16.054293
+1545,Science,visualwebinstruct(filtered),0.31570235,16.438677
+1546,Science,visualwebinstruct(filtered),-4.5665827,12.13578
+1547,General VQA,vizwiz(mathv360k),-1.414545,13.934932
+1548,Chart & Table,vqaonbd,-0.8374918,16.678001
+1549,Chart & Table,vqaonbd,-0.76935184,16.891268
+1550,Chart & Table,vqaonbd,-0.7749725,16.949081
+1551,Science,vqarad,-3.3113384,15.209322
+1552,General VQA,vqav2,-0.81680644,13.298286
+1553,General VQA,vqav2,-3.7252114,14.326692
+1554,General VQA,vqav2,-3.561089,13.907111
+1555,General VQA,vqav2,-3.2257302,12.510049
+1556,General VQA,vqav2,-2.9566333,12.515226
+1557,General VQA,vqav2,-1.6344411,13.967026
+1558,General VQA,vqav2,-1.4874606,13.836463
+1559,General VQA,vqav2,-4.3959174,12.975297
+1560,General VQA,vsr,-1.7102809,14.585667
+1561,General VQA,websight,-3.1001532,18.220957
+1562,General VQA,wildvision,-1.8356924,14.7251425
+1563,Naive OCR,wordart,-6.515975,13.7404175
+1564,General VQA,yesbut,1.4558206,10.848951

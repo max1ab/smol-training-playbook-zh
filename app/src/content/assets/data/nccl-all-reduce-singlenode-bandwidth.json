@@ -1,3 +1,126 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:435f51b8e1e60c629f5296417f3840df192a2d7ecbd1131dfb724c1fdaa94e0e
-size 1823
+[
+  {
+    "messageSize": 8,
+    "bandwidth": 0.0
+  },
+  {
+    "messageSize": 16,
+    "bandwidth": 0.0
+  },
+  {
+    "messageSize": 32,
+    "bandwidth": 0.0
+  },
+  {
+    "messageSize": 64,
+    "bandwidth": 0.01
+  },
+  {
+    "messageSize": 128,
+    "bandwidth": 0.01
+  },
+  {
+    "messageSize": 256,
+    "bandwidth": 0.03
+  },
+  {
+    "messageSize": 512,
+    "bandwidth": 0.06
+  },
+  {
+    "messageSize": 1024,
+    "bandwidth": 0.11
+  },
+  {
+    "messageSize": 2048,
+    "bandwidth": 0.22
+  },
+  {
+    "messageSize": 4096,
+    "bandwidth": 0.44
+  },
+  {
+    "messageSize": 8192,
+    "bandwidth": 0.87
+  },
+  {
+    "messageSize": 16384,
+    "bandwidth": 1.69
+  },
+  {
+    "messageSize": 32768,
+    "bandwidth": 3.13
+  },
+  {
+    "messageSize": 65536,
+    "bandwidth": 6.18
+  },
+  {
+    "messageSize": 131072,
+    "bandwidth": 12.11
+  },
+  {
+    "messageSize": 262144,
+    "bandwidth": 22.59
+  },
+  {
+    "messageSize": 524288,
+    "bandwidth": 43.37
+  },
+  {
+    "messageSize": 1048576,
+    "bandwidth": 63.94
+  },
+  {
+    "messageSize": 2097152,
+    "bandwidth": 83.95
+  },
+  {
+    "messageSize": 4194304,
+    "bandwidth": 129.65
+  },
+  {
+    "messageSize": 8388608,
+    "bandwidth": 174.98
+  },
+  {
+    "messageSize": 16777216,
+    "bandwidth": 235.28
+  },
+  {
+    "messageSize": 33554432,
+    "bandwidth": 293.28
+  },
+  {
+    "messageSize": 67108864,
+    "bandwidth": 357.93
+  },
+  {
+    "messageSize": 134217728,
+    "bandwidth": 400.25
+  },
+  {
+    "messageSize": 268435456,
+    "bandwidth": 422.54
+  },
+  {
+    "messageSize": 536870912,
+    "bandwidth": 437.35
+  },
+  {
+    "messageSize": 1073741824,
+    "bandwidth": 445.5
+  },
+  {
+    "messageSize": 2147483648,
+    "bandwidth": 448.35
+  },
+  {
+    "messageSize": 4294967296,
+    "bandwidth": 475.46
+  },
+  {
+    "messageSize": 8589934592,
+    "bandwidth": 480.02
+  }
+]
