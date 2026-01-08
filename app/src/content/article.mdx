@@ -306,48 +306,46 @@ Bloom 的继任者是 2022 年的 StarCoder [[@starcoder](https://huggingface.co
 
 因此，从一个规模虽小但装备精良的团队开始，每 2-3 个月构建一个新模型，在很短的时间内你就能攀上顶峰。现在，本博客的其余部分将专注于这支团队的技术日常！
 
-## Every big model starts with a small ablation
+## 伟大的模型都始于微小的消融实验
 
-Before we can start training an LLM, we need to make many decisions that will shape the model's performance and training efficiency. Which architecture will best serve our use case? What optimiser and learning rate schedule to use and which data sources to mix in?
+在开始训练 LLM 之前，我们需要做出许多决定，这些决定将塑造模型的性能和训练效率。哪种架构最适合我们的用例？该使用哪种优化器和学习率调度？又该如何混合不同的数据源？
 
-How these decisions are made is a frequently asked question. People sometimes expect that they are made by thinking deeply about them. And while strategic thinking is essential—as we covered in the [previous section](#training-compass-why--what--how) where we discussed identifying which architecture changes are worth testing—reasoning alone isn't enough. Things are not always intuitive with LLMs, and hypotheses about what should work sometimes don't pan out in practice.
+如何做出这些决定是一个经常被问到的问题。人们有时期望这些决定是通过深思熟虑得出的。虽然战略性思考至关重要——正如我们在 [上一节](#training-compass-why--what--how) 中讨论如何识别值得测试的架构更改时所提到的——但仅靠推理是不够的。在 LLM 领域，事情并不总是符合直觉，关于“什么应该起作用”的假设在实践中有时并不能奏效。
 
-For example, using what seems like "the highest quality data" doesn't always yield stronger models. Take [arXiv](https://arxiv.org/) for example, which is a vast collection of humanity's scientific knowledge. Intuitively, training on such rich STEM data should produce superior models, right? In practice, it doesn't and especially for smaller models, where it can even hurt performance [@grpo]. Why? The reason is that while arXiv papers are full of knowledge, they're highly specialized and written in a narrow academic style that's quite different from the diverse, general text that models learn best from.
+例如，使用看起来“质量最高的数据”并不总能产生更强大的模型。以 [arXiv](https://arxiv.org/) 为例，它是人类科学知识的巨大宝库。直觉上，在如此丰富的 STEM 数据上进行训练应该能产生更优越的模型，对吧？但在实践中并非如此，尤其是对于较小的模型，这甚至可能损害性能 [@grpo]。为什么呢？原因在于，虽然 arXiv 论文充满了各种知识，但它们高度专业化，并且是以一种狭隘的学术风格编写的，这与能让模型学习效果最好的多样化、通用的文本截然不同。
 
-So, how can we know what works if staring at the problem long and hard doesn't help? We run a lot of experiments, like good empiricists! Machine learning is not pure math, but actually very much an experimental science.
+那么，如果苦思冥想没有帮助，我们该如何知道什么有效呢？当然是像优秀的经验主义者一样运行大量实验！机器学习不是纯数学，而非常像一门实验科学。
 
 <Sidenote>
 
-In many ways, machine learning resembles thermodynamics before the discovery of statistical mechanics: we have reliable empirical laws and design principles that work remarkably well, even if deeper theoretical explanations are still emerging.
+在许多方面，机器学习类似于统计力学发现之前的热力学：我们拥有可靠的经验法则和设计原则，它们运行得异常出色，即使更深层次的理论解释仍在探索中。
 </Sidenote>
 
-Since those experiments will guide many of our crucial decisions, it is really important to set them up well. There are essentially two main attributes we want from them:
+由于这些实验将引导我们做出许多关键决策，因此设置好这些实验非常重要。我们主要希望它们具备两个属性：
 
-1.  **Speed:** they should run as fast as possible so we can iterate often. The more ablations we can run, the more  hypotheses we can test. 
-1.  **Reliability:** they should provide strong discriminative power. If the metrics we look at can't meaningfully distinguish between different setups early on, our ablations may reveal little (and if they're noisy, we risk chasing noise!). For more details, check out the [FineTaks blog post](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fine-tasks).
+1.  **速度：** 要运行得尽可能快，以便我们能够频繁迭代。运行的消融实验越多，能测试的假设就越多。 
+1.  **可靠性：** 实验应该有很强的辨别力。如果我们关注的指标无法在早期就显著区分不同配置，那么我们的消融实验可能收获甚微（而且如果指标存在较大的噪声，我们可能陷入不停追逐噪声的困境！）。更多细节可以查看 [FineTaks 博客文章](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fine-tasks)。
 
+在设置消融实验之前，需要对架构类型和模型大小做出一些基础选择。这些决策（在我们的“指南”指引下）会影响训练框架的选择、如何分配算力以及从哪个基准（baseline）开始。
 
+对于 SmolLM3，因为我们的目标是小型端侧模型，所以选择了 3B 参数的稠密 Llama 式架构。但正如你在 [设计模型架构章节](#designing-the-model-architecture) 中将看到的，MoE 或混合架构或许会更适合你的用例，不同的模型大小也伴随着不同的权衡。稍后我们将深入探讨这些选择。现在，让我们从第一步开始：选择你的 baseline。
 
-But before we can set up our ablations, we need to make some foundational choices about architecture type and model size. These decisions—guided by our compass—impact which training framework to use, how to allocate our compute budget, and which baseline to start from.
+###  **选择 baseline** 
 
-For SmolLM3, we went with a dense Llama-style architecture at 3B parameters because we were targeting small on-device models. But as you'll see in the [Designing the model architecture chapter](#designing-the-model-architecture), a MoE or hybrid model might be better suited for your use case, and different model sizes come with different tradeoffs. We'll explore these choices in depth later, and show you how to make these decisions. For now, let's start with the most practical first step: choosing your baseline.
+每个成功的模型都建立在一个经过充分验证的基准模型上，并根据自身需求进行修改。 Qwen 从 Llama 架构开始训练他们的第一个模型系列 [@qwen1] 。Meta 从Llama 2 开始训练 Llama 3。Kimi K2 从 DeepSeek-V3 的 MoE 架构开始。这种方法适用于架构，也适用于训练超参数和优化器。
 
-###  **Choosing your baseline** 
+因为优秀的架构和训练设置设计需要跨组织多年的迭代。标准的 Transformer 和 Adam 等优化器通过成千上万次实验得到了完善。人们发现了它的失效，调试了不稳定性，并优化了实现方式。从经过验证的基础开始意味着继承了所有积累的知识。从零开始则意味着你需要自己重新发现每一个问题。
 
-Every successful model builds on a proven foundation and modifies it for their needs. When Qwen trained their first model family [@qwen1], they started from Llama's architecture. When Meta trained Llama 3, they started from Llama 2. Kimi K2, started from DeepSeek-V3's MoE architecture. This applies to architectures, but also training hyperparameters and optimisers.
+以下是优秀参考架构应具备的特点：
 
-Why? Good architectures and training setups design take years of iteration across many organisations. The standard transformer and optimisers like Adam have been refined through thousands of experiments. People have found their failure modes, debugged instabilities, optimised implementations. Starting from a proven foundation means inheriting all that accumulated knowledge. Starting fresh means rediscovering every problem yourself.
+- 符合你的需求：与你的部署目标和用例相匹配。
+- 经过大规模验证：在相似或更大规模下完成过数万亿 tokens 的运行。
+- 文档齐全：已在开源模型中证明有效的已知超参数。
+- 框架支持：理想情况下，它应该在你考虑的训练框架以及计划使用的推理框架中都得到支持。
 
-Here's what makes a good starting point for an architecture:
+下面是一份不完全的针对 2025 年各种架构和模型大小的 baseline 选项列表：
 
-- Matches your constraints: aligns with your deployment target and use case.
-- Proven at scale: multi-trillion token runs at similar or larger sizes.
-- Well-documented: known hyperparameters which have been proven to work in open models.
-- Framework support: It should ideally be supported in the training frameworks you are considering and the inference frameworks you are planning to use.
-
-Below is a non-exhaustive list of strong 2025 baseline options for various architectures and model sizes:
-
-| Architecture Type | Model Family | Sizes |
+| 架构类型 | 模型系列 | 大小 |
 | --- | --- | --- |
 | **Dense** | [Llama 3.1](https://huggingface.co/collections/meta-llama/llama-31-669fc079a0c406a149a5738f) | 8B, 70B |
 | **Dense** | [Llama 3.2](https://huggingface.co/collections/meta-llama/llama-32-66f448ffc8c32f949b04c8cf) | 1B, 3B |
@@ -364,109 +362,107 @@ Below is a non-exhaustive list of strong 2025 baseline options for various archi
 | **MoE + Hybrid** | [Qwen3-Next](https://huggingface.co/Qwen/Qwen3-Next-80B-A3B-Instruct) | 80B-A3B |
 | **MoE + Hybrid** | [MiniMax-01](https://huggingface.co/MiniMaxAI/MiniMax-Text-01) | 456B-A46B |
 
-So go to your architecture type and pick a baseline close to the number of parameters you'd like your model to have. Don't overthink it too much as the architecture you start from is not set in stone. In the next section, we will see how to go from a baseline to a  final architecture that is optimal for you.
+根据你的架构类型选择一个参数量接近你预想目标的 baseline。也不用过度纠结，因为你开始选择的架构并非一成不变。在下一节中，我们将看到如何从 baseline 演进出最适合你的最终架构。
 
-####  **Modifying your baseline: the discipline of derisking** 
+####  **改进 baseline：不要冒险** 
 
-Now you have a baseline that works and fits your use case. You could stop here, train it on your data mixture (assuming it's good) and likely get a decent model. Many successful projects do exactly that. But baselines aren't optimised for your specific constraints, they're designed for the use cases and deployment targets of whoever built them. So there are likely modifications worth making to better align with your goals. However, every architectural change carries risk: it might boost performance, tank it, or do nothing while wasting your ablation compute.
+现在你已经有了一个行之有效且符合用例的 baseline。你可以就此止步，用你的混合数据集训练（假设数据质量还不错），也能得到一个不错的模型。这正是许多成功项目的做法。但 baseline 并非针对你的特定场景而优化，它是根据构建者的用例和部署目标而设计的。因此，进行一些修改以更好地对齐你的目标是更有价值的。然而，每一次架构更改都带有风险：它可能提升性能，也可能导致性能暴跌，或者在白白浪费消融实验算力的同时毫无作为。
 
-The discipline that keeps you on track is  **derisking** : never change anything unless you've tested that it helps.
+让你保持在正确道路上的准则是 **不要冒险（derisking）**：不要改任何内容，除非你的测试证明它确实有用。
 
-<Note title="What counts as derisked?" emoji="📍" variant="info">
+<Note title="怎样才算 derisking？" emoji="📍" variant="info">
 
-A change is derisked when testing shows it either improves performance 
-on your target capabilities, or provides a meaningful benefit 
-(e.g. faster inference, lower memory, better stability) without hurting 
-performance beyond your acceptable tradeoffs.
+当测试表明某项更改要么提升了某些性能，要么在不损害性能的情况下提供了实质性好处
+（如更快的推理、更低的内存占用、更好的稳定性），且性能损失没有超出你可接受范围时，才算没有冒险（derisking）。
 </Note>
 
-The tricky part is that your baseline and training setup have many components you could modify: attention mechanisms, positional encodings, activation functions, optimisers, training hyperparameters, normalisation schemes, model layout, and more. Each represents a potential experiment, and these components often interact in non-linear ways. You have neither the time nor compute to test everything or explore every interaction.
+最棘手的地方在于，baseline 和训练设置中有太多可以修改的组件：注意力机制、位置编码、激活函数、优化器、训练超参数、归一化方案、模型布局等等。每一个都意味着一个潜在的实验，而且这些组件往往以非线性方式相互作用。你既没有时间也没有算力去测试所有的东西或探索每一种组件之间的影响。
 
-Start by testing promising changes against your current baseline. When something works, integrate it to create a new baseline, then test the next change against that. If your compute budget allows it you could test changes individually and run a leave-one-out analysis.
+首先针对当前的 baseline 测试那些看起来最有希望的更改。当某项更改奏效时，将其集成以创建一个新的 baseline，然后再针对新的 baseline 测试下一项更改。如果算力预算允许，你可以单独测试各项更改并用“留一法”（leave-one-out）分析。
 
 <Sidenote>
 
-Check out the ScaleRL paper [@scalerl] for an example of this methodology in practice.
+参考 ScaleRL 论文 [@scalerl] 了解这种方法论在实践中的应用。
 </Sidenote>
 
-Don't fall into the trap of exhaustive grid searches over every hyperparameter or testing every architectural variant that comes out.
+不要想着对每一个超参数进行详尽网格搜索，或测试每一个新出的架构变体。
 
-<Note title="Strategic experimentation" emoji="🎯" variant="success">
+<Note title="战略性实验" emoji="🎯" variant="success">
 
-Knowing how to run experiments isn't enough if you don't know which experiments are worth running. 
-Ask yourself two questions before testing any modification:
-- Will this help my specific use case?
-- Will this optimise my training?
+如果你不知道哪些实验值得做，那么知道怎么运行实验也无济于事。
+在测试任何修改之前，问自己两个问题：
+- 这对特定用例有帮助吗？
+- 这能优化训练吗？
 
-If a modification doesn't clearly address either question, skip it.
+如果某项修改无法明确回答这两个问题，请放弃它。
 </Note>
 
-Now that you know how to identify what's promising through strategic planning, it's time to move to the  **empirical validation.**  In the next sections, we'll show you  *how*  to actually test these changes in practice. We'll cover how to set up reliable experiments, interpret results, and avoid common pitfalls. Then in the following chapters, we'll walk through concrete examples of testing popular architectural, data, infra and training decisions.
+现在你已经知道如何通过战略规划识别有潜力的更改，是时候进入 **经验验证** 阶段了。在接下来的章节中，我们将向你展示在实践中*如何*真正测试这些更改。我们将介绍如何建立可靠的实验、解读结果以及避免常见坑点。在随后的章节中，我们将通过具体案例，带你测试流行的架构、数据、基础设施和训练决策。
 
-So let's build a simple ablation setup we can use for our experiments. First, we need to decide which training framework to pick.
+让我们建立一个简单的、可用于实验的消融实验设置。第一步，决定选择哪个训练框架。
 
-### Picking a training framework
+### 选择训练框架
 
-The first decision we need to make is which framework to use for training our model, and by extension, for running all our ablations. This choice involves balancing three key considerations:
+我们需要做的第一个决定是使用哪个框架来训练模型，进而运行我们所有的消融实验。这个选择需要平衡三个关键考虑因素：
 
 <Sidenote>
 
-Don't be a hero and switch the training framework between ablations and your final run. That is the road to suffering.
+不要逞能，在消融实验和最终正式运行之间切换训练框架。那是死路一条。
 </Sidenote>
 
-1. The framework must support our target architecture or let us easily extend it. 
-1. It needs to be stable and production-ready, and not prone to mysteriously breaking midway through training.
-1. It should deliver strong throughput so we can iterate quickly and make the most of our compute budget.
+1. 框架必须支持我们的目标架构，或者能让我们轻松扩展。 
+1. 要稳定且具备生产能力，不容易在训练中途莫名其妙地崩溃。
+1. 能提供强大的吞吐量，以便我们能够快速迭代并充分利用算力。
 
-In practice, these requirements might pull against each other, creating trade-offs. Let's look at the available options.
+在实践中，这些要求可能会相互冲突，需要权衡。让我们来看看现有的选项。
 
 <Wide>
 
-| Framework | Features | Battle-tested | Optimised | Lines of Code (core / total) | Extensibility & Debugging |
+| 框架 | 特性 | 经受过实战检验 | 经过优化 | 代码行数 (核心 / 总计) | 扩展性与调试 |
 | --- | --- | --- | --- | --- | --- |
-| **Megatron-LM** | ✅ Extensive | ✅ Kimi-K2, Nemotron | ✅ Pioneers of 3D parallelism | 93k / 269k | ⚠️ Hard for beginners |
-| **DeepSpeed** | ✅ Extensive | ✅ BLOOM, GLM | ✅ Pioneers of ZeRO & 3D parallelism | 94k / 194k | ⚠️ Hard for beginners |
-| **TorchTitan** | ⚡ Growing feature set | ⚠️ Newer but tested by PyTorch team | ⚡Optimised for dense models, MoE improvements underway. | 7k / 9k | ⚡ Moderate: requires parallelism know-how |
-| **Nanotron** | 🎯 Minimal, tailored for HF pretraining | ✅ Yes (StarCoder, SmolLM) | ✅ Optimised (UltraScale Playbook) | 15k / 66k | ⚡ Moderate: requires parallelism know-how |
+| **Megatron-LM** | ✅ 极其丰富 | ✅ Kimi-K2, Nemotron | ✅ 3D 并行化的先驱 | 93k / 269k | ⚠️ 对初学者较难 |
+| **DeepSpeed** | ✅ 极其丰富 | ✅ BLOOM, GLM | ✅ ZeRO 与 3D 并行化的先驱 | 94k / 194k | ⚠️ 对初学者较难 |
+| **TorchTitan** | ⚡ 特性不断增加 | ⚠️ 较新，但由 PyTorch 团队测试 | ⚡ 针对稠密模型优化，MoE 改进正在进行中 | 7k / 9k | ⚡ 中等：需要并行化知识 |
+| **Nanotron** | 🎯 极简，为 HF 预训练量身定制 | ✅ 是 (StarCoder, SmolLM) | ✅ 经过深度优化 (UltraScale Playbook) | 15k / 66k | ⚡ 中等：需要并行化知识 |
+
 </Wide>
 
-The table above summarises the key trade-offs between popular frameworks. Lines of code for the first three frameworks are from the TorchTitan technical report [@torchtitan]. Let's discuss each in more detail:
+上表总结了流行框架之间的关键权衡。前三个框架的代码行数引用自 TorchTitan 技术报告 [@torchtitan]。让我们更详细地讨论一下：
 
-[Megatron-LM](https://github.com/NVIDIA/Megatron-LM) from Nvidia has been around for years and is battle-tested. It's what powers models like Kimi's K2 [@kimik2], it delivers solid throughput and has most of the production features we'd want. But that maturity comes with complexity: the codebase can be hard to navigate and modify when you're new to it.
+Nvidia 的 [Megatron-LM](https://github.com/NVIDIA/Megatron-LM) 已存在多年且久经沙场。它为 Kimi K2 [@kimik2] 等模型提供动力，拥有稳定的吞吐量和我们想要的大多数特性。但成熟也伴随着复杂性：当你刚开始接触时，代码库可能很难定位和修改。
 
-[DeepSpeed](https://github.com/deepspeedai/DeepSpeed) falls into a similar category. It's the pioneer of ZeRO optimisation and powered models like BLOOM and GLM. Like Megatron-LM, it's extensively battle-tested and optimised, but shares the same complexity challenges. The large codebase (194k total lines) can be intimidating when you're getting started, particularly for implementing custom features or debugging unexpected behavior.
+[DeepSpeed](https://github.com/deepspeedai/DeepSpeed) 属于类似类别。它是 ZeRO 优化的先驱，曾助力 BLOOM 和 GLM 等模型。与 Megatron-LM 一样，它经过了广泛的实战检验和优化，但也面临同样的复杂性挑战。庞大的代码库（总计 19.4 万行）对于新手来说可能令人生畏，特别是在实现自定义特性或调试意外行为时。
 
-On the other side, PyTorch's recent [TorchTitan](https://github.com/pytorch/torchtitan) library is much lighter and simpler to navigate, thanks to its compact and modular codebase. It has the core features needed for pretraining and is great for rapid experimentation. However, being newer, it isn't as battle-tested and can still be a bit unstable as it's actively developed.
+另一方面，PyTorch 最近推出的 [TorchTitan](https://github.com/pytorch/torchtitan) 库要轻量得多，得益于其精简且模块化的代码库，它更容易定位代码。它具备预训练所需的核心特性，非常适合快速实验。然而，由于它比较新，还没有经过太多的实战检验，且随着活跃开发，可能仍然存在一些不稳定性。
 
-We took a different path and built our own framework, nanotron, from scratch. This gave us full flexibility and a deep understanding of large-scale pretraining; insights that later evolved into the [Ultra Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook). Since we open-sourced the library, we also got valuable feedback from the community, though for most cases we had to battle-test features ourselves first. The framework now supports all the production features we need for training, but we're still building out areas like MoE support.
+我们走了一条不同的路，从头开始构建了自己的框架 nanotron。这赋予了我们完全的灵活性和对大规模预训练的深刻理解；这些见解后来演变成了 [Ultra Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)。自从我们开源了这个库，我们也从社区获得了宝贵的反馈，尽管在大多数情况下我们必须先自己对特性进行实战测试。该框架现在支持训练所需的所有生产特性，但我们仍在完善 MoE 支持等领域。
 
-Building from scratch made sense then, but it demands major investment in team expertise and time to debug issues and add missing features. A strong alternative is forking an existing framework and enhancing it for your needs. For example, Thinking Machines Lab built their internal pretraining library as a fork of TorchTitan ([source](https://x.com/cHHillee/status/1949470943291805832)).
+从零开始构建是有意义的，但它需要团队在专业知识上投入巨大，并花费大量时间来调试问题和添加缺失特性。一个强有力的替代方案是 fork 一个现有框架并根据你的需求进行增强。例如，Thinking Machines Lab 将他们的内部预训练库构建为 TorchTitan 的 fork（[来源](https://x.com/cHHillee/status/1949470943291805832)）。
 
-Ultimately, your choice depends on your team's expertise, target features, and how much time you're willing to invest in development versus using the most production-ready option. 
+最终，你的选择取决于团队的专业知识、目标特性，以及相对于直接使用最成熟产品来讲，你愿意在框架开发上投入多少时间。
 
-If multiple frameworks support your needs, compare their throughput on your specific hardware. For quick experiments and speed runs, simpler codebases often win.
+如果多个框架都能满足你的需求，请在你的特定硬件上对比它们的吞吐量。对于快速实验和快速运行，更简洁的代码库通常更胜一筹。
 
-### Ablation setup
+### 消融实验配置
 
-With our framework chosen, we now need to design our ablation setup. We need experiments that are fast enough to iterate on quickly, but large enough that the results give us signal and transfer to the final model. Let's see how to set this up.
+选定框架后，我们现在需要设计消融实验配置。我们需要既能快速迭代，又具有足够规模、能提供有效信号并迁移到最终模型的实验。让我们看看如何配置。
 
-#### Setting up our ablation framework
+#### 配置消融实验框架
 
-The goal of ablations is to run experiments at a small scale and get results we can confidently extrapolate to our final production run.
+消融实验的目标是进行小规模实验，并获得我们能够自信地外推到最终生产运行的结果。
 
-There are two main approaches. First, we can take our target model size and train it on fewer tokens. For the SmolLM3 ablations, we trained the full 3B model on 100B tokens instead of the final 11T. Second, if our target model is too large, we can train a smaller proxy model for ablations. For example, when Kimi was developing their 1T parameter Kimi K2 model with 32B active parameters, using the full size for all ablations would have been prohibitively expensive, so they ran some ablations on a 3B MoE with 0.5B active parameters [@kimik2].
+主要有两种方法。我们可以采用目标模型的大小，但使用较少的 tokens 进行训练。在 SmolLM3 的消融实验中，我们用 100B tokens 训练了完整的 3B 模型，而不是最终的 11T tokens。如果目标模型太大，也可以训练一个小型的代理模型（proxy model）进行消融。例如，当 Kimi 在开发拥有 1T 参数、32B 激活参数的 Kimi K2 模型时，在消融实验中使用完整规模会非常昂贵，因此他们在 3B MoE（0.5B 激活参数）上运行了一些消融实验 [@kimik2]。
 
-One key question is whether these small-scale findings actually transfer. In our experience, if something hurts performance at small scale, you can confidently rule it out for large scale. But if something works at small scale, you should still make sure you've trained on a reasonable number of tokens to conclude with high probability that these findings will extrapolate to larger scales. The longer you train and the closer the ablation models are to the final model, the better.
+关键问题是这些小规模发现是否真的能外推。根据我们的经验，如果某项改动在小规模下就损害了性能，那基本就可以很自信的放弃它了。但如果某项改动在小规模下奏效，你仍需确保已经训练了足够数量的 tokens，才能以高概率断定这些发现会外推到更大规模。训练时间越长、消融模型与最终模型越接近，效果就越好。
 
-In this blog post, we'll use a baseline vanilla transformer for all ablations. Our main setup is a 1B transformer following [Llama3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B) architecture trained on 45B tokens. This takes about 1.5 days to train on a node of 8xH100s using this nanotron [config](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs/blob/main/baseline_config_1B.yaml) (42k tokens per second per GPU). During SmolLM3 training, we ran these ablations on a 3B model trained on 100B tokens
-(config [here](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs).). We'll share those results at the end of each chapter (you'll see that the conclusions align).
+在本博客中，我们将使用 baseline Vanilla Transformer 进行所有消融。我们的主要设置是 1B Transformer，遵循 [Llama3.2 1B](https://huggingface.co/meta-llama/Llama-3.2-1B) 架构，并在 45B tokens 上进行训练。使用 8 张 H100 显卡的单节点运行此 nanotron [配置](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs/blob/main/baseline_config_1B.yaml) 大约需要 1.5 天（每张 GPU 每秒处理 4.2 万 tokens）。在 SmolLM3 训练期间，我们在 3B 模型上运行了这些消融实验，训练了 100B tokens（配置见[此处](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs)）。我们将在每章末尾分享这些结果（你会发现结论是一致的）。
 
 <Sidenote>
 
-We train for 45B tokens to ensure we get stable signal, though ~35B is <a href="https://arxiv.org/abs/2203.15556" target="_blank">Chinchilla-optimal</a> for this model size.
+我们训练 45B tokens 是为了确保获得稳定的信号，尽管对于这种模型大小，~35B tokens 就已经符合 <a href="https://arxiv.org/abs/2203.15556" target="_blank">Chinchilla 最优</a> 比例了。
 </Sidenote>
 
-Our baseline 1B config captures all the essential training details in a structured YAML format. Here are the key sections:
+我们的 1B baseline 配置以 YAML 格式记录了所有必须的训练细节。以下是关键部分：
 
 ```yaml
 ## Datasets and mixing weights
@@ -533,16 +529,16 @@ tokens:
  
  ...(truncated)
 ```
-For our ablations, we'll modify different sections depending on what we're testing while keeping everything else constant: the  `model`  section for [architecture choices](#architecture-choices), the  `optimizer`  section for [optimizer and training hyperparameters](#optimiser-and-training-hyperparameters), and the  `data_stages`  section for [data curation](#the-art-of-data-curation).
+对于我们的消融实验，我们将根据测试内容修改不同的部分，同时保持其他所有内容不变：`model` 部分用于[架构选择](#architecture-choices)，`optimizer` 部分用于[优化器和训练超参数](#optimiser-and-training-hyperparameters)，`data_stages` 部分用于[数据整理](#the-art-of-data-curation)。
 
-<Note title="Modify one thing at a time" emoji="☝️" variant="danger">
+<Note title="一次只修改一个变量" emoji="☝️" variant="danger">
 
-Change only one variable per ablation while keeping everything else constant. 
-If you change multiple things and performance improves, you won't know what 
-caused it. Test modifications individually, then combine successful ones and reassess.
+在每次消融实验中只改变一个变量，同时保持其他所有内容不变。
+如果你改变了多项内容且性能有所提升，你将无法确定是哪项改动
+起到了作用。应单独测试各项修改，然后将成功的修改组合起来并重新评估。
 </Note>
 
-When running ablations, some architectural changes can significantly alter parameter count. For instance, switching from tied to untied embeddings doubles our embedding parameters, while going from MHA to GQA or MQA decreases our attention parameters substantially. To ensure fair comparisons, we need to track parameter counts and occasionally adjust other hyperparameters (like hidden size or layer count) to keep model sizes roughly the same. Here is a simple function that we use to estimate parameter counts for different configurations:
+在运行消融实验时，某些架构更改可能会显著改变参数数量。例如，从绑定嵌入（tied embeddings）切换到非绑定嵌入会使嵌入参数翻倍，而从 MHA 切换到 GQA 或 MQA 则会大幅减少注意力参数。为了确保公平比较，我们需要跟踪参数数量，并偶尔调整其他超参数（如隐藏层大小或层数），以使模型规模大致相同。以下是我们用于估算不同配置参数数量的一个简单函数：
 
 ```python
 from transformers import LlamaConfig, LlamaForCausalLM
