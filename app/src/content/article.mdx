@@ -1,9 +1,8 @@
 ---
-title: 'The Smol Training Playbook:<br/> The Secrets to Building World-Class LLMs'
+title: 'Smol 训练手册：<br/> 构建世界级大语言模型的秘诀'
 subtitle: >-
-  A practical journey through the challenges, decisions, and messy reality
-  behind training state-of-the-art language models
-description: 'The Smol Training Playbook: The Secrets to Building World-Class LLMs'
+  一段贯穿挑战、决策以及训练最先进语言模型背后杂乱现实的实战旅程
+description: 'Smol 训练手册：构建世界级大语言模型的秘诀'
 authors:
   - name: Loubna Ben Allal
 
@@ -112,82 +111,82 @@ import lstopo_29c1384e_bcac_80c9_9715_cbfe9e73d86b from './assets/image/lstopo_2
 import image_2891384e_bcac_80e2_9cc5_c2c46c7ab39b from './assets/image/image_2891384e-bcac-80e2-9cc5-c2c46c7ab39b.png';
 import image_27d1384e_bcac_80b1_9ffb_ec29d0021ccc from './assets/image/image_27d1384e-bcac-80b1-9ffb-ec29d0021ccc.png';
 
-## Introduction
+## 前言
 
-What does it actually take to train a high-performance LLM today?
-
-<Sidenote>
-
-Reading time: 2-4 days.
-</Sidenote>
-
-Published research makes it look straightforward: strategic architecture choices, carefully curated datasets, and sufficient compute. The results are polished, the ablations are structured and clean. Every decision seems obvious in hindsight. But those reports only show what worked and apply a bit of rosy retrospection – they don't capture the 2am dataloader debugging sessions, the loss spikes, or the subtle tensor parallelism bug (see later!) that quietly sabotages your training. The reality is messier, more iterative, and full of decisions that don't make it into the final paper.
-
-Join us as we look behind the scenes of training [SmolLM3](https://huggingface.co/HuggingFaceTB/SmolLM3-3B), a 3B multilingual reasoning model trained on 11T tokens. This is not an ordinary blog post, but rather the untangling of a spiderweb of decisions, discoveries, and dead ends that led to deep insights into what it takes to build world-class language models.
-
-It is also the final opus in our model-training long-form series: we've worked through building datasets at scale ([FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1)), orchestrating thousands of GPUs to sing in unison ([Ultra Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)), and selecting the best evaluations at each step of the process ([Evaluation Guidebook](https://github.com/huggingface/evaluation-guidebook)). Now we shape it all together to build a strong AI model. We'll walk you through the complete journey – not just the final recipe that worked, but the failures, infrastructure breakdowns, and debugging processes that shaped every decision.
-
-The story reads like a drama: you'll see how promising small-scale ablations sometimes don't translate at scale, why we restarted a training after 1T tokens, how we balanced the competing objectives of multilinguality, math, and code while maintaining strong English performance, and finally how we post-trained a hybrid reasoning model.
-
-We also tried to avoid a cold list of all we did in favour of an organized story through our adventure. Think of this as a guide for anyone trying to go from "we have a great dataset and GPUs" to "we built a really strong model". We hope being this open will help close the gap between research and production, and make your next training run a little less chaotic. 
-
-### How to read this blog post
-
-You don't need to read this blog post from top to bottom, and at this point it's too long to realistically read end-to-end in one sitting anyway. The blog post is structured in several distinct pieces that can be skipped or read individually:
-
--  **Training compass:**  A high-level discussion about whether or not you should pretrain your own model. We walk you through fundamental questions to ask yourself before burning through all your VC money, and how to think systematically through the decision process. This is a high-level section, if you want to skip straight to the technical content, scroll quickly past this part.
--  **Pretraining:** The sections following the training compass cover everything you need to know to build a solid recipe for your own pretraining run: how to run ablations, select evaluations, mix data sources, make architecture choices, tune hyperparameters, and finally endure the training marathon. This section also applies if you're not planning to pretrain from scratch but are interested in continued pretraining (aka mid-training).
--  **Post-training:** In this part of the blog you'll learn all the tricks needed to get most out of your pretrained models. Learn the whole post-training alphabet starting with SFT, DPO and GRPO as well as the dark arts and alchemy of model merging. Most of the knowledge about making these algorithms work well is learned through painful lessons, and we'll share our experience here to hopefully spare you some of them.
--  **Infrastructure:** If pretraining is the cake and post-training is the icing and cherry on top, then infrastructure is the industrial-grade oven. Without it, nothing happens, and if it's broken, your happy Sunday baking session turns into a fire hazard. Knowledge about how to understand, analyse, and debug GPU clusters is scattered across the internet in various libraries, docs, and forums. This section walks through GPU layout, communication patterns between CPU/GPU/nodes/storage, and how to identify and overcome bottlenecks. 
-
-So where do we even start? Pick the section that you find most exciting and let's go!
+在今天，训练一个高性能的大语言模型（LLM）究竟需要什么？
 
 <Sidenote>
 
-If you have questions or remarks, open a discussion on the <a href="https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook/discussions">Community tab</a>!
+阅读时长：2-4 天。
 </Sidenote>
 
-## Training compass: why → what → how
+已有的研究论文让这一切看起来很简单：战略性的架构选择、精心策划的数据集以及充足的算力。得到的结果光鲜亮丽，消融实验结构清晰。事后看来，每一个决策都显而易见。但这些报告只展示了成功的经验，它们没有捕捉到凌晨两点调试数据加载器（dataloader）的漫长时刻、损失函数（loss）的异常峰值，或是那个悄悄破坏训练的细微张量并行（tensor parallelism）Bug（详见后文！）。现实往往更加杂乱、更加繁琐，大量的决策都没能写进最终的论文
+
+跟随我们一起揭开 [SmolLM3](https://huggingface.co/HuggingFaceTB/SmolLM3-3B) 训练的幕后故事。这是一个用了 11T tokens 训练的 3B 多语言推理模型。这不仅仅是一篇普通的博客文章，更像是在解开由决策、发现和死胡同交织而成的乱麻，这些经历为“如何构建世界级语言模型”提供了深刻的洞察。
+
+这也是我们模型训练长篇系列的终章：我们已经探讨了大规模构建数据集（[FineWeb](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1)）、编排数千个 GPU 协同工作（[Ultra Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)），以及在流程的每一步选择最佳评估方案（[Evaluation Guidebook](https://github.com/huggingface/evaluation-guidebook)）。现在，我们将这一切揉合在一起，构建一个强大的 AI 模型。我们将带你走过完整的旅程——不仅是最终成功的秘诀，还有那些塑造了每一个决策的失败经历、基础设施故障和调试过程。
+
+这个故事读起来像一部戏剧：你会看到极具前景的小规模消融实验有时无法推广到大规模训练；看到我们为什么在训练 1T Token 后选择重启；看到我们如何在保持强大英语性能的同时，平衡多语言、数学和代码这些相互竞争的目标；以及最后，我们如何后期训练（post-train）一个混合推理模型。
+
+我们也尽量避免枯燥地罗列工作内容，而是倾向于将我们的冒险经历组织成一个故事。你可以把这看作是一份指南，旨在帮助任何试图从“我们拥有优秀的数据集和 GPUs”过渡到“我们构建了一个非常强大的模型”的人。我们希望这种开放性能够缩小研究与生产之间的差距，并让你下一次的训练运行少一些混乱。 
+
+### 如何阅读这篇博客
+
+你不需要从头到尾阅读这篇博客，而且事实上它现在太长了，很难一次性读完。博客被划分为几个不同的部分，可以跳着看，也可以单独阅读：
+
+-  **训练指南（Training compass）：** 首先必须要讨论的是你是否应该预训练自己的模型。为避免盲目开始耗尽你的VC资金，我们会带你思考一些基本问题，并教你如何系统地思考决策过程。这是一个偏向战略的章节，如果你想直接看技术内容，可以快速跳过这一部分。
+-  **预训练（Pretraining）：** 紧随训练指南之后的部分涵盖了构建稳定预训练方案所需的一切知识：如何运行消融实验、选择评估指标、混合数据源、选择架构、调整超参数，以及最终如何熬过漫长的训练马拉松。即使你不打算从头开始预训练，而是对持续预训练（continued pretraining，又称 mid-training）感兴趣，这一部分同样适用。
+-  **后训练（Post-training）：** 在这部分内容中，你将学习如何最大限度地发挥预训练模型的性能。我们将介绍从 SFT、DPO 到 GRPO 的全套后训练流程，以及模型合并（model merging）的“黑魔法”与炼金术。让这些算法发挥作用的大部分知识都源于痛苦的教训，我们将分享这些经验，希望能让你少走弯路。
+-  **基础设施（Infrastructure）：** 如果说预训练是蛋糕，后训练是奶油和顶部的樱桃，那么基础设施就是那台工业级的烤箱。没有它，一切都无从谈起；如果它坏了，你愉快的周末烘焙就会变成火灾隐患。关于理解、分析和调试 GPU 集群的知识散布在互联网的各种库、文档和论坛中。本节将详细讲解 GPU 布局、CPU/GPU/节点/存储之间的通信模式，以及如何识别并克服瓶颈。 
+
+那么，我们该从哪里开始呢？选择你觉得最激动人心的部分，让我们出发吧！
+
+<Sidenote>
+
+如果你有任何问题或建议，欢迎在 <a href="https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook/discussions">社区标签页</a> 发起讨论！
+</Sidenote>
+
+## 训练指南：why → what → how
 
 
 
 <HtmlEmbed frameless src="/embeds/training-compass.html" />
 
-The field of machine learning has an obsessive relationship with optimisation. We fixate on loss curves, model architectures, and throughput; after all, machine learning is fundamentally about optimising the loss function of a model. Yet before diving into these technical details, there's a more fundamental question that often goes unasked:  *should we even be training this model?* 
+机器学习领域对“优化”有着近乎执着的关系。我们沉迷于损失曲线、模型结构以及训练吞吐量——毕竟，机器学习的根本目标正是在于优化模型的损失函数。但在深入这些技术细节之前，更根本的一个问题往往被忽视了： *我们真的需要训练这个模型吗？*
 
-As shown in the heatmap below, the open-source AI ecosystem releases world-class models on a nearly daily basis: Qwen, Gemma, DeepSeek, Kimi, Llama 🪦, Olmo, and the list grows longer every month. These aren't just research prototypes or toy examples: they're production-grade models covering an astonishing breadth of use cases from multilingual understanding to code generation and reasoning. Most of them come with permissive licenses and active communities ready to help you use them.
+如下方的热力图所示，开源 AI 生态系统几乎每天都在发布世界级的模型：Qwen、Gemma、DeepSeek、Kimi、Llama 🪦、Olmo，这个名单每个月都在变长。这些不仅仅是研究原型或玩具示例：它们是生产级的模型，涵盖了从多语言理解到代码生成和推理的惊人广度。其中大多数都带有宽松的许可证，并有活跃的社区随时准备帮助你使用它们。
 
-<iframe class="card card--p0" frameborder="0" width="100%" height="600px" src="https://cfahlgren1-model-release-heatmap.hf.space/"/>
+[热力图](https://cfahlgren1-model-release-heatmap.hf.space/)
 
 
-Which raises an uncomfortable truth: maybe you *don't need to train your own model*  *.* 
+这就引出了一个令人不安的事实：也许你*并不需要训练自己的模型*。
 
-This might seem like an odd way to start an "LLM training guide". But many failed training projects didn't fail because of bad hyperparameters or buggy code, they failed because someone decided to train a model they didn't need. So before you commit to training, and dive into  *how*  to execute it, you need to answer two questions:  *why*  are you training this model? And  *what*  model should you train? Without clear answers, you'll waste months of compute and engineering time building something the world already has, or worse, something nobody needs.
+这作为一份“LLM 训练指南”的开头似乎有些奇怪。但许多失败的训练项目并非败在糟糕的超参数或 Bug 频出的代码上，而是败在有人决定训练一个他们根本不需要的模型。因此，在你致力于训练并钻研*how*如何执行之前，你需要回答两个问题：*why*你为什么要训练这个模型？以及*what*你要训练什么样的模型？如果没有明确的答案，你将浪费数月的算力和工程时间去构建一个世界上已经存在的东西，甚至更糟——一个没人需要的东西。
 
-Let's start with the  *why* , because without understanding your purpose, you can't make coherent decisions about anything that follows.
+让我们从“why”开始，因为如果不理解训练模型的目的，你就无法在后续的所有事情上做出连贯的决策。
 
-<Note title="About this section" emoji="📍" variant="info">
+<Note title="关于本节" emoji="📍" variant="info">
 
-This section is different from the rest of the blog: it's less about experiments and technical details,
-more about strategic planning. We'll guide you through deciding <b>whether you need to train from scratch and what model to build.</b>
-If you've already thought deeply about your why and what, 
-feel free to jump to the [Every big model starts with a small ablation](#every-big-model-starts-with-a-small-ablation) chapter for the technical deep-dive.
-But if you're uncertain, investing time here will save you a lot of effort later.
+本节与博客的其余部分不同：它较少涉及实验和技术细节，
+更多关于战略规划。我们将引导你决定<b>是否需要从头开始训练，以及要构建什么样的模型。</b>
+如果你已经深入思考过“why”和“what”， 
+可以随意跳到 [伟大的模型都始于微小的消融实验](#every-big-model-starts-with-a-small-ablation) 章节进行技术深挖。
+但如果你还心存疑虑，在这里投入时间将为你以后节省大量的精力。
 </Note>
 
-###  **Why: the question nobody wants to answer** 
+###  **why：那个没人想回答的问题** 
 
-Let's be blunt about what happens in practice. Someone (if they're lucky) gets access to a GPU cluster, maybe through a research grant, maybe through a company's spare capacity, and the thought process goes roughly like this: "We have 100 H100s for three months. Let's train a model!" The model size gets picked arbitrarily, the dataset gets assembled from whatever's available. Training starts. And six months later, after burning through compute budget and team morale, the resulting model sits unused because nobody ever asked  *why.* 
+让我们坦率地谈谈实际发生的情况。某人（如果运气好的话）获得了 GPU 集群的使用权，也许是通过研究资助，也许是通过公司的闲置容量，其思考过程大致如下：“我们有 100 张 H100，可以用三个月。让我们训练一个模型吧！”模型大小是随意选定的，数据集是从现有的任何资料中凑齐的。训练开始了。六个月后，在耗尽了算力预算和团队士气之后，得到的模型却被束之高阁，因为从来没有人问过*why*。
 
-Here are some reasons why you shouldn't train a model:
+以下是一些你不应该训练模型的理由：
 
 <HtmlEmbed frameless src="/embeds/wrong-reasons.html" />
 
 
 
-The allure of "we trained our own model" is powerful, but before investing a lot of time and resources, it makes sense to ask:  **why do you need to train this model?** 
+“我们训练了自己的模型”这种诱惑是巨大的，但在投入大量时间和资源之前，问一句“**你为什么需要训练这个模型？**”是有意义的。
 
-The flowchart below guides the thought process one should go through before starting a big pretraining project. From a technical perspective, you should essentially first find out if there isn't an existing model that you can either prompt of fine-tune to do the job.
+下面的流程图引导了在启动大型预训练项目之前应该经历的思考过程。从技术角度来看，你基本上应该首先确认是否已经存在一个可以通过提示词（prompt）或微调（fine-tune）来完成工作的现有模型。
 
 <HtmlEmbed frameless src="/embeds/train-model-decision-flowchart.html" />
 
@@ -195,118 +194,117 @@ The flowchart below guides the thought process one should go through before star
 
 <Sidenote>
 
-The "why" we discuss is about training from scratch. We don't cover distillation or pruning in this blog. These are valid paths to efficient models but represent different workflows than training from scratch. We recommend NVIDIA's <a href="https://arxiv.org/abs/2408.11796" target="_blank">Minitron paper</a> for an overview of these topics.
+我们讨论的“为什么”是关于从头开始训练。本博客不涉及蒸馏（distillation）或剪枝（pruning）。这些是实现高效模型的有效路径，但代表了与从头训练不同的工作流。我们推荐阅读 NVIDIA 的 <a href="https://arxiv.org/abs/2408.11796" target="_blank">Minitron 论文</a> 以了解这些话题的概况。
 </Sidenote>
 
-There are essentially three common areas where custom pretraining can make sense: you want to do novel research, you have very specific needs for production use-case, or you want to fill a gap in the open model ecosystem. Let's have a quick look at each: 
+自定义预训练通常在以下三个领域具有意义：你想进行前沿研究、你有非常具体的生产用例需求，或者你想填补开源模型生态系统的空白。让我们快速浏览一下： 
 
-####  **Research: what do you want to understand?** 
+####  **研究：你想了解什么？** 
 
-There is plenty of research one can do in the LLM space. What LLM research projects have in common is that you normally start with a clearly defined question:
+在 LLM 领域有很多研究可以做。LLM 研究项目的共同点是，你通常从一个清晰定义的问题开始：
 
-- Can we scale training on this new optimiser to a 10B+ model?  From [Muon is Scalable for LLM Training ](https://huggingface.co/papers/2502.16982)
-- Can reinforcement learning alone, without SFT, produce reasoning capabilities? From [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://huggingface.co/papers/2501.12948)
-- Can we train good small models on purely synthetic textbooks data? From [Textbooks Are All You Need ](https://huggingface.co/papers/2306.11644)
-- Can we achieve competitive performance by training on only openly licensed data? From[ The Common Pile v0.1: An 8TB Dataset of Public Domain and Openly Licensed Text ](https://huggingface.co/papers/2506.05209)
+- 我们能否将这种新优化器的训练规模扩展到 10B+ 模型？来自 [Muon is Scalable for LLM Training ](https://huggingface.co/papers/2502.16982)
+- 仅靠强化学习（不带 SFT）能否产生推理能力？来自 [DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://huggingface.co/papers/2501.12948)
+- 我们能否仅在合成教科书数据上训练出优秀的小模型？来自 [Textbooks Are All You Need ](https://huggingface.co/papers/2306.11644)
+- 我们能否仅通过训练公开许可的数据来达到具有竞争力的性能？来自[ The Common Pile v0.1: An 8TB Dataset of Public Domain and Openly Licensed Text ](https://huggingface.co/papers/2506.05209)
 
-Making the hypothesis as concrete as possible and thinking about the necessary experiment scale increases the chance of success.
+让假设尽可能具体，并思考必要的实验规模，可以增加成功的机会。
 
-####  **Production: why can't you use an existing model?** 
+####  **产出：为什么不能用现有的模型？** 
 
-There are mainly three reasons why companies can't use off the shelf models for their use-case. Two of them are technical and the other is due to governance.
+公司无法在其实际用例中使用现成模型的原因主要有三个。其中两个是技术性的，另一个是由于治理（governance）原因。
 
-The first reason to train your own model is  **domain specificity:**  when your data or tasks involve highly specialized vocabulary or structure that existing models can't handle well. For example:
+训练自己模型的第一个原因是**领域专业性（domain specificity）：** 当你的数据或任务涉及现有模型无法很好处理的高度专业化的词汇或结构时。例如：
 
-* A DNA model with a unique vocabulary and long-range dependencies.
+* 具有独特词汇量和长程依赖关系的 DNA 模型。
 
-* A legal or financial model requiring deep familiarity with domain-specific jargon and logic.
+* 需要深入熟悉领域特定术语和逻辑的法律或金融模型。
 
-A second, related reason is deployment constraints: when you need a model tailored to your hardware, latency, or privacy requirements. For instance, an LLM running on a drone or on-prem system with custom hardware like FPGAs.
+第二个相关原因是部署限制：当你需要一个根据你的硬件、延迟或隐私要求量身定制的模型时。例如，运行在无人机或使用 FPGA 等定制硬件的本地系统上的 LLM。
 
-Here's a simple test: spend a few days building on top of Qwen3, Gemma3, or another current SOTA model. Can you reach your performance goals through prompting, tool-use, or post-training? If not, it's probably time to train your own.
+这里有一个简单的测试：花几天时间基于 Qwen3, Gemma3 或其他当前的 SOTA 模型进行构建。你能通过提示词、工具调用（tool-use）或后训练达到你的性能目标吗？如果不能，那可能就是时候训练你自己的模型了。
 
-Even if the post-training budget needed to meet your requirements is immense, it might still be cheaper than starting from scratch. Fine-tuning your model for 1T tokens is still more economic than starting from scratch to train for 10T+ tokens.
+即使满足你要求所需的后训练预算巨大，它可能仍然比从头开始便宜。对模型进行 1T tokens 的微调仍然比从头开始训练 10T+ tokens 更经济。
 
 <Sidenote>
 
-At this point LLM trainers start to miraculously call it mid-training 
-instead of post-training
+在这一阶段，LLM 训练者们开始神奇地称之为“mid-training”
+而不是“post-training”
 </Sidenote>
 
-The third reason to build you own in-house language model is  **safety and governance:**  You need complete control over training data, model behaviour, and update cycles because you're in a regulated industry or high-stakes application. You need to know  *exactly*  what went into the model and be able to prove it to regulators. In some cases you might have no other option than building your own model.
+构建自有内部语言模型的第三个原因是**安全与治理（safety and governance）：** 因为你处于受监管的行业或高风险应用中，你需要对训练数据、模型行为和更新周期拥有完全的控制权。你需要*确切地*知道模型中包含了什么，并能够向监管机构证明这一点。在某些情况下，除了构建自己的模型，你可能别无选择。
 
-These are the main reasons companies train in-house models, but what about companies or organisations that release open models?
+这些是公司训练内部模型的主要原因，那么那些发布开源模型的公司或组织呢？
 
-####  **Strategic open-source: do you see a gap you can fill?** 
+####  **战略性开源：你是否看到了可以填补的空白？** 
 
-One of the most common reasons experienced AI labs release new open models is that they've identified a specific gap or new AI use-case in the open-source ecosystem.
+经验丰富的 AI 实验室发布新开源模型的最常见原因之一是：他们在开源生态系统中发现了一个特定的空白或新的 AI 用例。
 
-The pattern typically looks like this; you notice an under explored area, maybe there are no strong on-device models with very long context, or multilingual models exist but they're weak on low resource languages, or the field is moving towards interactive world-models like [Genie3](https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/) and no good open-weight model exists. 
+这种模式通常如下：你注意到一个未被充分探索的领域，也许还没有具备超长上下文的强大端侧模型，或者虽然存在多语言模型但在低资源语言上表现很弱，又或者领域正朝着 [Genie3](https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/) 等交互式世界模型发展，而目前还没有优秀的开源权重模型。 
 
-You have reasons to believe you can do better; perhaps you've curated better training data, developed better training recipes, or have the compute to overtrain where others couldn't. Your goal is concrete: not "the best model ever," but "the best 3B model for on-device use" or "the first small model with 1M context".
+你有理由相信自己可以做得更好；也许你策划了更好的训练数据，开发了更好的训练方案，或者有算力在别人无法做到的地方进行过度训练（overtrain）。你的目标是具体的：不是“有史以来最好的模型”，而是“最适合端侧使用的 3B 模型”或“第一个具备 1M 上下文的小模型”。
 
-This is a real goal and success creates value: developers adopt your model, it becomes infrastructure for others, or it establishes technical credibility. But success requires experience. You need to know what's actually feasible and how to execute reliably in a competitive space. To make this concrete, let's look at how we think about this question at Hugging Face.
+这是一个真实的目标，如果成功会创造价值：开发者采用你的模型，它成为他人的基础设施，或者它建立了技术公信力。但成功需要经验。你需要知道什么是实际可行的，以及如何在竞争激烈的空间中可靠地执行。为了让这一点更具体，让我们看看 Hugging Face 是如何思考这个问题的。
 
-####  **Hugging Face's journey** 
+####  **Hugging Face 的旅程** 
 
-So why does Hugging Face train open models? The answer is simple: we build things that are useful to the open-source ecosystem and fill gaps that few others are filling.
+那么，为什么 Hugging Face 要训练开源模型呢？答案很简单：我们构建对开源生态系统有用的东西，并填补那些很少人会去填补的空白。
 
 <Sidenote>
 
-Although there are millions of open-weight models, there are very few organisations that train fully open models. In addition to Hugging Face, there's [Ai2](https://allenai.org/) and [Stanford's Marin community](https://marin.community/).
+虽然有数百万个开源权重模型，但训练完全开放模型的组织却很少。除了 Hugging Face，还有 [Ai2](https://allenai.org/) 和 [斯坦福大学的 Marin 社区](https://marin.community/)。
 </Sidenote>
 
- This includes datasets, tooling and training models. Every LLM training project we've started began with noticing a gap and believing we could contribute something meaningful.
+ 这包括数据集、工具和训练模型。我们启动的每一个 LLM 训练项目都始于发现一个空白，并相信我们可以做出有意义的贡献。
 
-We started our first LLM project after GPT-3 [[@gpt3](https://huggingface.co/papers/2005.14165)] was released. At the time, it felt like no one else was building an open alternative, and we were worried that the knowledge would end up locked away in just a few industry labs. So we launched the [BigScience workshop](https://bigscience.huggingface.co/) to train an open version of GPT-3. The resulting model was [Bloom](https://huggingface.co/bigscience/bloom), and came from dozens of contributors working for a year to build the training stack, tokenizer, and pretraining corpus to pre-train a 175B parameter model.
+我们在 GPT-3 [[@gpt3](https://huggingface.co/papers/2005.14165)] 发布后启动了第一个 LLM 项目。当时感觉似乎没有人在构建开源替代方案，我们担心这些知识最终会被锁在少数几个工业实验室里。因此，我们启动了 [BigScience workshop](https://bigscience.huggingface.co/) 来训练 GPT-3 的开源版本。最终诞生的模型是 [Bloom](https://huggingface.co/bigscience/bloom)，它是由数十名贡献者历时一年构建训练栈、分词器（tokenizer）和预训练语料库，并预训练出一个 175B 模型。
 
-The successor of Bloom was StarCoder in 2022 [[@starcoder](https://huggingface.co/papers/2305.06161)]. OpenAI had developed Codex for GitHub Copilot [[@codex](https://huggingface.co/papers/2107.03374)], but it was closed-source. Building an open-source alternative clearly would provide value to the ecosystem. So in collaboration with ServiceNow, under the [BigCode](https://huggingface.co/bigcode) umbrella, we built [The Stack](https://huggingface.co/datasets/bigcode/the-stack) dataset, and we trained [StarCoder 15B](https://huggingface.co/bigcode/starcoder) to reproduce Codex. [StarCoder2](https://huggingface.co/collections/bigcode/starcoder2-65de6da6e87db3383572be1a) [[@starcoder2](https://huggingface.co/papers/2402.19173)] came from learning we could have trained longer, and recognising that smaller models trained longer might be more valuable than one large model. We trained a family (3B/7B/15B) on multiple trillions of tokens, far beyond what anyone had done for open code models at the time.
+Bloom 的继任者是 2022 年的 StarCoder [[@starcoder](https://huggingface.co/papers/2305.06161)]。OpenAI 为 GitHub Copilot 开发了 Codex [[@codex](https://huggingface.co/papers/2107.03374)]，但它是闭源的。构建一个开源替代方案显然会为生态系统提供价值。因此，我们与 ServiceNow 合作，在 [BigCode](https://huggingface.co/bigcode) 的框架下构建了 [The Stack](https://huggingface.co/datasets/bigcode/the-stack) 数据集，并训练了 [StarCoder 15B](https://huggingface.co/bigcode/starcoder) 来复现 Codex。[StarCoder2](https://huggingface.co/collections/bigcode/starcoder2-65de6da6e87db3383572be1a) [[@starcoder2](https://huggingface.co/papers/2402.19173)] 源于我们意识到可以训练更长时间，并认识到训练时间更长的较小模型可能比一个大模型更有价值。我们训练了一个系列（3B/7B/15B），使用了数万亿个 Token，远超当时任何人对开源代码模型所做的工作。
 
-The [SmolLM family](https://huggingface.co/HuggingFaceTB) followed a similar pattern. We noticed there were very few strong small models and we had just built [FineWeb-Edu](https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu) [@fineweb], which was a strong pre-training dataset. [SmolLM](https://huggingface.co/collections/HuggingFaceTB/smollm-6695016cad7167254ce15966) (135M/360M/1.7B) was our first version. [SmolLM2](https://huggingface.co/collections/HuggingFaceTB/smollm2-6723884218bcda64b34d7db9) [@smollm2] focused on better data and training longer, reaching SOTA performance on multiple fronts. [SmolLM3](https://huggingface.co/HuggingFaceTB/SmolLM3-3B) scaled to 3B while adding hybrid reasoning, multilinguality and long context, features that the community values in 2025.
+[SmolLM 系列](https://huggingface.co/HuggingFaceTB) 遵循了类似的模式。我们注意到当时非常缺乏强大的小模型，而我们刚刚构建了 [FineWeb-Edu](https://huggingface.co/datasets/HuggingFaceFW/fineweb-edu) [@fineweb]，这是一个强大的预训练数据集。[SmolLM](https://huggingface.co/collections/HuggingFaceTB/smollm-6695016cad7167254ce15966) (135M/360M/1.7B) 是我们的第一个版本。[SmolLM2](https://huggingface.co/collections/HuggingFaceTB/smollm2-6723884218bcda64b34d7db9) [@smollm2] 专注于更好的数据和更长的训练时间，在多个方面达到了 SOTA（最先进）性能。[SmolLM3](https://huggingface.co/HuggingFaceTB/SmolLM3-3B) 扩展到了 3B，同时增加了混合推理、多语言和长上下文，这些都是社区在 2025 年所看重的特性。
 
-This pattern extends beyond pretraining: we trained [Zephyr](https://huggingface.co/HuggingFaceH4/zephyr-7b-alpha) [@zephyr] to show DPO works at scale, started [Open-R1](https://github.com/huggingface/open-r1) to reproduce DeepSeek R1's distillation pipeline and released [OlympicCoder](https://huggingface.co/open-r1/OlympicCoder-7B) for competitive programming, with SOTA performance in the International Olympiad in Informatics. We've also explored other modalities with [SmolVLM](https://huggingface.co/collections/HuggingFaceTB/smolvlm-6740bd584b2dcbf51ecb1f39) [@smolvlm] for vision and [SmolVLA](https://huggingface.co/lerobot/smolvla_base) [@smolvla] for robotics.
+这种模式延伸到了预训练之外：我们训练了 [Zephyr](https://huggingface.co/HuggingFaceH4/zephyr-7b-alpha) [@zephyr] 以展示 DPO 在大规模下的有效性；启动了 [Open-R1](https://github.com/huggingface/open-r1) 以复现 DeepSeek R1 的蒸馏流水线，并发布了用于竞赛编程的 [OlympicCoder](https://huggingface.co/open-r1/OlympicCoder-7B)，在国际信息学奥林匹克竞赛（IOI）中表现达到了 SOTA。我们还探索了其他模态，包括用于视觉的 [SmolVLM](https://huggingface.co/collections/HuggingFaceTB/smolvlm-6740bd584b2dcbf51ecb1f39) [@smolvlm] 和用于机器人的 [SmolVLA](https://huggingface.co/lerobot/smolvla_base) [@smolvla]。
 
 <Sidenote>
 
-If you're curious about the HF science projects,
-you can find an overview here <a href="https://huggingface.co/science" target="_blank">https://huggingface.co/science</a>
+如果你对此感兴趣，你可以在这里找到概览：<a href="https://huggingface.co/science" target="_blank">https://huggingface.co/science</a>
 </Sidenote>
 
-Hopefully, this section has convinced you that there is value in thinking deeply about why you want to train a model.
+希望本节内容已经让你确信，深入思考为什么要训练一个模型是有价值的。
 
-For the rest of this blog post, we'll assume you've done this soul-searching and have a legitimate reason to train.
+在博客接下来的部分中，我们将假设你已经做好了这种“灵魂拷问”，并拥有正当的训练理由。
 
-### What: translating goals into decisions
+### what：将目标转化为决策
 
-Now that you know  *why*  you're training, what should you train? By "what", we mean: model type (dense, MoE, hybrid, something new), model size, architecture details and data mixture. Once you've settled on the why, you can derive the what, for example:
+现在你知道了*为什么*要训练，那么该训练*什么*呢？所谓“what”，我们指的是：模型类型（稠密模型、MoE 混合专家模型、混合架构或某种新架构）、模型大小、架构细节以及数据混合比例。一旦确定了“why”，你就可以推导出“what”，例如：
 
-- fast model for on device → small efficient model
-- multilingual model → large tokenizer vocab
-- super long context → hybrid architecture
+- 端侧快速模型 → 小型高效模型
+- 多语言模型 → 大容量分词器词表
+- 超长上下文 → 混合架构
 
-Besides decisions driven by the use-case, there are also some choices that optimise the training itself, either by being more stable, more sample efficient, or faster. These decisions are not always so clear cut, but you can divide the decision process roughly into two phases:
+除了由用例驱动的决策外，还有一些选择是为了优化训练本身，使其更稳定、采样效率更高或速度更快。这些决策并不总是那么明确，但你可以将决策过程大致分为两个阶段：
 
- **Planning:**  Before running experiments, map your use case to the components you need to decide on. Your deployment environment determines model size constraints. Your timeline determines which architectural risks you can take. Your target capabilities determine dataset requirements. This phase is about connecting each constraint from your "why" to concrete specifications in your "what."
+ **规划：** 在运行实验之前，将你的用例映射到你需要决定的组件上。你的部署环境决定了模型大小的约束。你的时间线决定了你可以承担哪些架构风险。你的目标能力决定了数据集的需求。这个阶段的核心是将你“why”中的每个约束条件连接到“what”中的具体规格。
 
- **Validation:**  Once you have a starting point and a list of potential modifications, test systematically. Since testing is expensive, focus on changes that could meaningfully improve performance for your use case or optimise your training. This is where ablations come in, covered in the [ablations section](#every-big-model-starts-with-a-small-ablation).
+ **验证：** 一旦有了起点和潜在修改列表，就要进行系统性测试。由于测试成本高昂，请专注于那些能够显著提高你的用例性能或优化训练的更改。这就是消融实验的用武之地，我们将在 [消融实验章节](#every-big-model-starts-with-a-small-ablation) 中详细介绍。
 
-<Note title="Learn to identify what's worth testing, not just how to run tests." emoji="📍" variant="info">
+<Note title="学习辨识什么值得测试，而不只是学习如何测试。" emoji="📍" variant="info">
 
-Perfect ablations on irrelevant choices waste as much compute as sloppy ablations on important ones.
+在无关紧要的选择上进行完美的消融实验，与在重要的选择上进行马虎的消融实验一样浪费算力。
 </Note>
 
-In the following chapters you will learn about all the options you have to define your model and how to narrow down the choices with systematic experiments. Before going there we want to share a few learnings on how to setup teams and projects from training our own models as well as observing amazing other teams building great LLMs. 
+在接下来的章节中，你将了解到定义模型的所有选项，以及如何通过系统性实验缩小选择范围。在深入讨论之前，我们想分享一些关于如何组建团队和项目的经验，这些经验源于我们自己的模型训练，以及对其他构建出色 LLM 的优秀团队的观察。 
 
-### Super power: speed and data
+### 超能力：速度与数据
 
-Of course there are many ways to get to Rome, but we've found that what consistently sets successful LLM training teams apart is  **iteration speed.**  Training LLMs is really a learning by training discipline, the more often you train, the better your team will become. 
-So between the teams that train a model a year and the ones that train one per quarter, the latter will improve so much faster. You can look at the teams from Qwen and DeepSeek for example. Now household names, they have a long track record of consistently releasing new models on a fast cadence.
+条条大路通罗马，但我们发现，让成功的 LLM 训练团队始终脱颖而出的是**迭代速度**。训练 LLM 实际上是一种“在训练中学习”的学科，你训练得越频繁，你的团队就会变得越优秀。 
+因此，在每年训练一个模型的团队和每季度训练一个模型的团队之间，后者进步的速度要快得多。你可以看看 Qwen 和 DeepSeek 的团队。他们现在已是家喻户晓，在以快速节奏持续发布新模型方面有着悠久的记录。
 
-Besides iteration speed, by far the most influential aspect of LLM training is  **data curation.** There's a natural tendency to dive into architecture choices to improve the model, but the teams that excel in LLM training are the ones that are obsessed with high quality data more than anything else. 
+除了迭代速度，到目前为止，LLM 训练中影响最大的方面是**数据策划（data curation）**。人们往往倾向于钻研架构选择以改进模型，但在 LLM 训练中表现出色的团队，通常是那些比任何人都更痴迷于高质量数据的团队。 
 
-Another aspect that is tied to iteration speed is the team size: for the main pretraining tasks you only need a handful of people equipped with enough compute to execute. To pre-train a model like Llama 3 today you probably only need 2-3 people. Only once you start to venture into more diverse trainings and downstream tasks (multimodal, multilingual, post-training etc) will you slowly need to add a few more people to excel at each domain. 
+另一个与迭代速度相关的方面是团队规模：对于主要的预训练任务，你只需要少数几个拥有足够算力的人员即可。训练像今天 Llama 3 这样的模型，你可能只需要 2-3 个人。只有当你开始涉足更多元化的训练和下游任务（多模态、多语言、后训练等）时，你才会慢慢需要增加更多人手，以便在每个领域都表现卓越。 
 
-So start with a small, well equipped team, and build a new model every 2-3 months and within short amount of time you'll climb to the top. Now the rest of the blog will focus on the technical day-to-day of this team!
+因此，从一个规模虽小但装备精良的团队开始，每 2-3 个月构建一个新模型，在很短的时间内你就能攀上顶峰。现在，本博客的其余部分将专注于这支团队的技术日常！
 
 ## Every big model starts with a small ablation
 
