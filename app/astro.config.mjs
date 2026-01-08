@@ -24,7 +24,7 @@ import rehypeWrapOutput from './plugins/rehype/wrap-outputs.mjs';
 
 export default defineConfig({
   site: 'https://max1ab.github.io',
-  base: '/',
+  base: '/smol-training-playbook-zh/',
   output: 'static',
   integrations: [
     mermaid({ theme: 'neutral', autoTheme: true }),
