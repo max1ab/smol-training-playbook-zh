@@ -24,8 +24,11 @@ const subtitle = articleFM?.subtitle ?? "";
 const description = articleFM?.description ?? "";
 // Accept authors as string[] or array of objects { name, url, affiliations? }
 const rawAuthors = (articleFM as any)?.authors ?? [];
+const rawTranslators =
+  (articleFM as any)?.translator ?? (articleFM as any)?.translators ?? [];
 type Affiliation = { id: number; name: string; url?: string };
 type Author = { name: string; url?: string; affiliationIndices?: number[] };
+type Translator = { name: string; url?: string };
 
 // Normalize affiliations from frontmatter: supports strings or objects { id?, name, url? }
 const rawAffils =
@@ -111,6 +114,18 @@ const normalizedAuthors: Author[] = (
     return { name, url, affiliationIndices: indices } as Author;
   })
   .filter((a: Author) => a.name && a.name.trim().length > 0);
+const normalizedTranslators: Translator[] = (
+  Array.isArray(rawTranslators) ? rawTranslators : [rawTranslators]
+)
+  .map((t: any) => {
+    if (typeof t === "string") {
+      return { name: t } as Translator;
+    }
+    const name = String(t?.name || "").trim();
+    const url = t?.url || t?.link;
+    return { name, url } as Translator;
+  })
+  .filter((t: Translator) => t.name && t.name.trim().length > 0);
 const authorNames: string[] = normalizedAuthors.map((a) => a.name);
 const published = articleFM?.published ?? undefined;
 const tags = articleFM?.tags ?? [];
@@ -320,6 +335,7 @@ const licence =
       titleRaw={docTitle}
       description={subtitle}
       authors={normalizedAuthors as any}
+      translators={normalizedTranslators as any}
       affiliations={normalizedAffiliations as any}
       affiliation={articleFM?.affiliation}
       published={articleFM?.published}

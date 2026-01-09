@@ -8,6 +8,7 @@ interface Props {
   authors?: Array<
     string | { name: string; url?: string; affiliationIndices?: number[] }
   >;
+  translators?: Array<string | { name: string; url?: string }>;
   affiliations?: Array<{ id: number; name: string; url?: string }>;
   affiliation?: string; // legacy single affiliation
   published?: string;
@@ -20,6 +21,7 @@ const {
   titleRaw,
   description,
   authors = [],
+  translators = [],
   affiliations = [],
   affiliation,
   published,
@@ -56,6 +58,9 @@ function normalizeAuthors(
 }
 
 const normalizedAuthors: Author[] = normalizeAuthors(authors as any);
+const normalizedTranslators = normalizeAuthors(translators as any).map(
+  ({ name, url }) => ({ name, url }),
+);
 
 // Determine if affiliation superscripts should be shown (only when there are multiple distinct affiliations referenced by authors)
 const authorAffiliationIndexSet = new Set<number>();
@@ -166,6 +171,20 @@ const pdfFilename = `${slugify(pdfBase)}.pdf`;
         <div class="meta-container-cell meta-container-cell--affiliations">
           <h3>Affiliation</h3>
           <p>{affiliation}</p>
+        </div>
+      )
+    }
+    {
+      normalizedTranslators.length > 0 && (
+        <div class="meta-container-cell">
+          <h3>Translator{normalizedTranslators.length > 1 ? "s" : ""}</h3>
+          <ul class="authors">
+            {normalizedTranslators.map((t, i) => (
+              <li>
+                {t.url ? <a href={t.url}>{t.name}</a> : t.name}{i < normalizedTranslators.length - 1 && <span set:html=",&nbsp;" />}
+              </li>
+            ))}
+          </ul>
         </div>
       )
     }
