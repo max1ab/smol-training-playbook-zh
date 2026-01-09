@@ -56,12 +56,22 @@ const configAttr =
     : config != null
       ? JSON.stringify(config)
       : undefined;
+const baseUrl = import.meta.env.BASE_URL || "/";
+const basePrefix = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+
+function rewriteRootPaths(fragment: string): string {
+  return fragment.replace(
+    /([`"'])\/(data|scripts)\//g,
+    `$1${basePrefix}$2/`,
+  );
+}
 
 // Apply the ID to the HTML content if provided
 const htmlWithId =
   id && html
     ? html.replace(/<div class="([^"]*)"[^>]*>/, `<div class="$1" id="${id}">`)
     : html;
+const htmlWithBase = htmlWithId ? rewriteRootPaths(htmlWithId) : htmlWithId;
 ---
 
 {
@@ -77,7 +87,7 @@ const htmlWithId =
           id={mountId}
           data-datafiles={dataAttr}
           data-config={configAttr}
-          set:html={htmlWithId}
+          set:html={htmlWithBase}
         />
       </div>
       {(desc || caption) && (
