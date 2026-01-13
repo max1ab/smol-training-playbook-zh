@@ -694,38 +694,38 @@ TL;DR: 保持偏执。
 在某些情况下，升级到最新版本可以解决 bug。关于这一点，Elana Simon 的[博文](https://elanapearl.github.io/blog/2025/the-bug-that-taught-me-pytorch/?t=1)提供了一个极佳的案例，其中包含了精彩的侦探式调试。
 </Sidenote>
 
- **Change one thing at a time.**  Keep everything else identical between experiments. Some changes can interact with each other in unexpected ways, so we first want to assess the individual contribution of each change, then try combining them to see their overall impact.
+**一次只改变一个变量。** 在实验之间保持其他条件完全一致。不同的更改有时会以意想不到的方式相互作用，所以我们首先要评估每个更改的单独贡献，再尝试将它们组合，观察整体影响。
 
- **Train on enough tokens and use sufficient evaluations.**  As we mentioned earlier, we need to make sure we have good coverage in our evaluation suite and train long enough to get reliable signal. Cutting corners here will lead to noisy results and bad decisions.
+**用足够的 tokens 进行训练，并保证充分的评测。**  正如前文所述，我们需要确保评测集有良好的覆盖范围，并且训练足够长时间，才能获得可靠的信号。如果在这里偷工减料，会导致结果噪声很大，决策也会因此变差。
 
-Following these rules might feel overly cautious, but the alternative is spending days debugging mysterious performance drops that turn out to be caused by an unrelated dependency update from days earlier. The golden principle: once you have a good setup,  *no change should go untested!*
+遵循这些规则可能显得过于谨慎，但如果不这样做，你可能会花上数天时间调试那些奇怪的性能下降，最终却发现是由几天前一次无关的依赖更新导致的。黄金原则是：一旦你有了确定好了配置，*没有经过更改的情况下不要做任何更改！*
 
-## Designing the model architecture
+## 设计模型架构
 
-Now that we have our experimental framework in place, it's time to make the big decisions that will define our model. Every choice we make, from model size to attention mechanisms to tokenizer choice, creates constraints and opportunities that will affect model training and usage. 
+实验框架已经搭建完成，现在是时候做出那些将定义我们模型的重大决策了。我们做出的每一个选择——从模型大小到注意力机制再到分词器——都会产生约束和机遇，影响模型的训练和使用。
 
-Remember the [training compass](#training-compass-why--what--how): before making any technical choices, we need clarity on the  *why*  and  *what* . Why are we training this model, and what should it look like?
+回想一下[训练指南](#training-compass-why--what--how)：在做任何技术决策之前，我们需要明确 *为什么* 和 *做什么*。我们为什么要训练这个模型？它应该是什么样子？
 
-It sounds obvious, but as we explained in the training compass, being deliberate here shapes our decisions and keeps us from getting lost in the endless space of possible experiments. Are we aiming for a SOTA model in English? Is long context a priority? Or a we trying to validate a new architecture?  The training loop may look similar in all these cases, but the experiments we run and the trade-offs we accept will be different. Answering this question early helps us decide how to balance our time between data and architecture work, and how much to innovate in each before starting the run. 
+这听起来很显而易见，但正如我们在训练指南中解释的那样，在这里深思熟虑会塑造我们的决策，避免我们在无穷无尽的实验空间中迷失方向。我们的目标是做一个英语领域的 SOTA 模型吗？长上下文是优先事项吗？还是我们在尝试验证一种新架构？在这些情况下，训练循环可能看起来相似，但我们运行的实验和接受的权衡取舍会有所不同。尽早回答这个问题有助于我们决定如何在数据和架构工作之间分配时间，以及在开始正式训练之前在每个方面应该做多少创新。
 
-So, let's lead by example and walk through the goals that guided SmolLM3's design. We wanted a strong model for on-device applications with competitive multilingual performance, solid math and coding capabilities, and robust long context handling. As we mentioned earlier, this led us to a dense model with 3B parameters: large enough for strong capabilities but small enough to fit comfortably on phones. We went with a dense transformer rather than MoE or Hybrid given the memory constraints of edge devices and our project timeline (roughly 3 months).
+让我们以身作则，逐步讲解指导 SmolLM3 设计的目标。我们想要一个强大的端侧应用模型，具有出色的多语言性能、可靠的数学和编程能力，以及鲁棒的长上下文处理能力。正如我们之前提到的，这使我们选择了一个 3B 参数的稠密模型：足够大以拥有强大的能力，但又足够小可以在手机上流畅运行。考虑到边缘设备的内存限制和我们的项目时间线（大约 3 个月），我们选择了稠密 Transformer 而不是 MoE 或混合架构。
 
-We had a working recipe from SmolLM2 for English at a smaller scale (1.7B parameters), but scaling up meant re-validating everything and tackling new challenges like multilinguality and extended context length. One clear example of how having defined goals shaped our approach. For example, in SmolLM2, we struggled to extend the context length at the end of pretraining, so for SmolLM3 we made architectural choices from the start — like using NoPE and intra-document masking (see later) — to maximise our chances of getting it right, and it worked.
+我们之前有一个在较小规模（1.7B 参数）上用于英语的 SmolLM2 工作方案，但扩展规模意味着需要重新验证一切，并应对新的挑战，如多语言支持和扩展上下文长度。这是一个明确的例子，说明既定目标如何决定了我们的方向。例如，在 SmolLM2 中，我们在预训练最后，扩展上下文长度时遇到了困难，所以对于 SmolLM3，我们从一开始就做出了架构选择——比如使用 NoPE 和文档内掩码（稍后会介绍）——以最大化成功的可能性，事实证明这是非常有效的。
 
 <Sidenote>
 
-SmolLM2 was our previous generation of small language models, with three variants at 135M, 360M, and 1.7B parameters designed for on-device deployment. They were English only with 8k context length.
+SmolLM2 是我们上一代的小型语言模型，有三个变体：135M、360M 和 1.7B 参数，专为端侧部署设计。它们仅支持英语，上下文长度为 8k。
 </Sidenote>
 
-Once our goals are clear, we can start making the technical decisions that will bring them to life. In this chapter, we'll go through our systematic approach to these core decisions:  architecture, data, and hyperparameters. Think of this as our strategic planning phase, getting these fundamentals right will save us from costly mistakes during the actual training marathon.
+一旦我们的目标明确，就可以开始做出将其变为现实的技术决策。在本章中，我们将逐步介绍我们对这些核心决策的系统化方法：架构、数据和超参数。把这看作是我们的战略规划阶段，把这些基础工作做好将帮我们避免在实际训练马拉松中犯下代价高昂的错误。
 
-### Architecture choices
+### 架构选择
 
-If you look at recent models like Qwen3, Gemma3, or DeepSeek v3, you'll see that despite their differences, they all share the same foundation — the transformer architecture introduced in 2017 [@transformer]. What's changed over the years isn't the fundamental structure, but the refinements to its core components. Whether you're building a dense model, a Mixture of Experts, or a hybrid architecture, you're working with these same building blocks.
+如果你研究一下最近的模型，比如 Qwen3、Gemma3 或 DeepSeek v3，你会发现尽管它们各有不同，但都共享同一个基础——2017 年提出的 Transformer 架构 [@transformer]。这些年来变化的不是基本结构，而是对其核心组件的改进。无论你是在构建稠密模型、混合专家模型还是混合架构，你都在使用这些相同的构建模块。
 
-These refinements emerged from teams pushing for better performance and tackling specific challenges: memory constraints during inference, training instability at scale, or the need to handle longer contexts. Some modifications, like shifting from Multi-Head Attention (MHA) to more compute efficient attention variants like Grouped Query Attention (GQA) [@gqa], are now widely adopted. Others, like different positional encoding schemes, are still being debated. Eventually, today's experiments will crystalize into tomorrow's baselines.
+这些改进来自于各个团队为追求更好的性能而应对特定挑战：推理时的内存限制、大规模训练的不稳定性，或者处理更长上下文的需求。一些修改，比如从多头注意力（MHA）转向计算效率更高的注意力变体如分组查询注意力（GQA）[@gqa]，现在已经被广泛采用。其他的，比如不同的位置编码方案，仍在争论中。最终，今天的实验将凝结成明天的基准。
 
-So what do modern LLMs actually use today? Let's look at what leading models have converged on. Unfortunately, not all models disclose their training details, but we have enough transparency from families like DeepSeek, OLMo, Kimi, and SmolLM to see the current landscape:
+那么现代 LLM 今天实际上使用什么呢？让我们来看看领先模型的共同选择。遗憾的是，并非所有模型都公开其训练细节，但我们从 DeepSeek、OLMo、Kimi 和 SmolLM 等家族获得了足够的信息来了解当前的格局：
 
 <Wide>
 
@@ -745,33 +745,33 @@ So what do modern LLMs actually use today? Let's look at what leading models hav
 
 </Wide>
 
-If you don't understand some of these terms yet, such as MLA or NoPE or WSD, don't worry. We'll explain each one in this section. For now, just notice the variety: different attention mechanisms (MHA, GQA, MLA), position encodings (RoPE, NoPE, partial RoPE), and learning rate schedules (Cosine, Multi-Step, WSD). 
+如果你还不理解其中一些术语，比如 MLA、NoPE 或 WSD，不用担心。我们将在本节中逐一解释。现在，只需注意其多样性：不同的注意力机制（MHA、GQA、MLA），位置编码（RoPE、NoPE、partial RoPE），以及学习率调度（Cosine、Multi-Step、WSD）。
 
-Looking at this long list of architecture choices it's a bit overwhelming to figure out where to even start. As in most such situations, we'll take it step by step and gradually build up all the necessary know-how. We'll focus on the simplest base architecture first (a dense model) and investigate each architectural aspect in detail. Later, we'll dive deep into MoE and Hybrid models and discuss when using them is a good choice. Finally we explore the tokenizer, an often overlooked and underrated component. Should we use an existing one or train our own? How do we even evaluate if our tokenizer is good?
+面对这一长串架构选择，要弄清楚从哪里开始确实让人有些不知所措。和大多数类似情况一样，我们将一步一步来，逐渐积累所有必要的知识。我们将首先关注最简单的基础架构（稠密模型），详细研究每个架构方面。之后，我们将深入探讨 MoE 和混合模型，并讨论何时使用它们是一个好的选择。最后我们将探索分词器，这是一个经常被忽视和低估的组件。我们应该使用现有的分词器还是训练自己的？我们如何评估我们的分词器是否足够好？
 
-<Note title="Ablation setup" emoji="📍" variant="info">
+<Note title="消融实验设置" emoji="📍" variant="info">
 
-Throughout the rest of this chapter, we validate most of the architectural choices through ablations using the setup described in the chapter above: our 1B baseline model (following the Llama3.2 1B architecture) trained on 45B tokens from a mix of FineWeb-Edu, FineMath, and Python-Edu. For each experiment, we show both training loss curves and downstream evaluation scores to assess the impact of each modification. You can find the configs for all the runs in [HuggingFaceTB/training-guide-nanotron-configs](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs/tree/main).
+在本章的其余部分，我们通过使用上一章描述的设置进行消融实验来验证大多数架构选择：我们的 1B 基线模型（遵循 Llama3.2 1B 架构），在来自 FineWeb-Edu、FineMath 和 Python-Edu 混合的 45B tokens 上进行训练。对于每个实验，我们展示训练损失曲线和下游评估分数，以评估每个修改的影响。你可以在 [HuggingFaceTB/training-guide-nanotron-configs](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs/tree/main) 找到所有运行的配置。
 </Note>
 
 <Sidenote>
 
-This [blog post](https://sebastianraschka.com/blog/2025/the-big-llm-architecture-comparison.html) by Sebastian Raschka gives a good overview of modern LLM architectures in 2025.
+Sebastian Raschka 的这篇[博客文章](https://sebastianraschka.com/blog/2025/the-big-llm-architecture-comparison.html)很好地概述了 2025 年现代 LLM 架构。
 </Sidenote>
 
-But now let's start with the core of every LLM: the attention mechanism.    
+现在让我们从每个 LLM 的核心开始：注意力机制。    
 
-####  **Attention** 
+####  **注意力机制** 
 
-One of the most active areas of research around transformer architectures is the attention mechanism. While feedforward layers dominate compute during pretraining, attention becomes the main bottleneck at inference (especially with long contexts), where it drives up compute cost and the KV cache quickly consumes GPU memory, reducing throughput. Let's take a quick tour around the main attention mechanisms and how they trade-off capacity and speed.
+Transformer 架构研究中最活跃的领域之一就是注意力机制。虽然前馈层在预训练期间占主导计算量，但注意力在推理时成为主要瓶颈（尤其是在长上下文场景下），它会拉高计算成本，而 KV 缓存会快速消耗 GPU 内存，降低吞吐量。让我们快速浏览一下主要的注意力机制，以及它们如何在容量和速度之间进行权衡。
 
- **How many heads for my attention?** 
+ **我的注意力需要多少头？** 
 
- *Multi-head attention (MHA)* is the standard attention introduced with the original transformer [@transformer]. The main idea is that you have N attention heads each independently doing the same retrieval task: transform the hidden state into queries, keys, and values, then use the current query to retrieve the most relevant token by match on the keys and finally forward the value associated with the matched tokens. At inference time we don't need to recompute the KV values for past tokens and can reuse them. The memory for past KV values is called the  *KV-Cache* .  As context windows grow, this cache can quickly become an inference bottleneck and consume a large share of GPU memory. Here's a simple calculation to estimate the KV-Cache memory $s_{KV}$ for the Llama 3 architecture with MHA and a sequence length of 8192:
+ *多头注意力（Multi-head attention，MHA）* 是与原始 Transformer 一起引入的标准注意力 [@transformer]。主要思想是你有 N 个注意力头，每个头独立执行相同的检索任务：将隐藏状态转换为查询（queries）、键（keys）和值（values），然后使用当前查询通过匹配键来检索最相关的 token，最后转发与匹配 token 关联的值。在推理时，我们不需要为过去的 token 重新计算 KV 值，而是可以重用它们。存储过去 KV 值的内存称为 *KV-Cache*。随着上下文窗口的增长，这个缓存很快就会成为推理瓶颈并消耗大量 GPU 内存。以下是一个简单的计算，用于估算使用 MHA 和序列长度为 8192 的 Llama 3 架构的 KV 缓存内存 $s_{KV}$：
 
 <Sidenote>
 
-Checkout [Jay Alamar's famous blog](https://jalammar.github.io/illustrated-transformer/) post for a quick refresher!
+查看 [Jay Alamar 的著名博客](https://jalammar.github.io/illustrated-transformer/) 快速回顾一下！
 </Sidenote>
 
 $$
@@ -784,18 +784,18 @@ s_{KV} &= 2 \times n_{bytes} \times seq \times n_{layers} \times n_{heads} \time
 \end{equation}
 $$
 
-Note that the leading factor of 2 comes from storing both key and value caches. As you can see, the cache increases linearly with sequence length, but context windows have grown exponentially, now reaching millions of tokens. So improving the efficiency of the cache would make scaling context at inference time much easier. 
+第一个 2 是因为需要同时存储键缓存和值缓存。正如你所见，缓存随序列长度线性增加，但上下文窗口呈指数级增长，现在已达到数百万 tokens。因此，提高缓存的效率将使推理时的上下文扩展变得更加容易。
 
-The natural question to ask is: do we really need new KV values for each head? Probably not and both Multi-Query Attention (MQA) [@mqa] and Grouped Query Attention (GQA) [@gqa] address this. The simplest case is to share the KV values across all heads, thus dividing the size of the KV cache by  $n_{heads}$ , which is e.g. a 64 decrease for Llama 3 70B! This is the idea of MQA and was used in some models like StarCoder as an alternative to MHA. However, we might give away a bit more attention capacity than we are willing to, so we could consider the middle ground and share the KV values across groups of heads e.g. 4 heads sharing the same KV values. This is the GQA approach and strikes a middle ground between MQA and MHA. 
+一个自然的问题是：我们真的需要为每个头都生成新的 KV 值吗？可能不需要，多查询注意力（Multi-Query Attention，MQA）[@mqa] 和分组查询注意力（Grouped Query Attention，GQA）[@gqa] 都解决了这个问题。最简单的情况是在所有头之间共享 KV 值，从而将 KV 缓存的大小除以 $n_{heads}$，例如对于 Llama 3 70B 来说这是 64 倍的减少！这就是 MQA 的思想，被用在一些模型中如 StarCoder，作为 MHA 的替代方案。然而，我们可能会放弃比预期更多的注意力容量，所以可以考虑折中方案，在头的组之间共享 KV 值，例如 4 个头共享相同的 KV 值。这就是 GQA 的方法，在 MQA 和 MHA 之间取得了平衡。
 
-More recently, DeepSeek-v2 (and also used in v3) introduced  *Multi-Latent Attention (MLA)* [@deepseekv2], which uses a different strategy to compress the cache: rather than reducing the number KV-values it reduces their size and simply stores a latent variable which can be decompressed into KV values at runtime. With this approach they managed to reduce the cache to an equivalent of GQA with 2.25 groups while giving stronger performance than MHA! In order to make this work with RoPE, a small tweak with an extra small latent vector is needed. In DeepSeek-v2 they chose  $4*dim_{head}$  for the main latent variable and  $1/2*dim_{head}$  for the RoPE part so a total fo  $4.5*dim_{head}$  which is used for both K and V simultaneously thus dropping the leading factor of 2.
+最近，DeepSeek-v2（也用于 v3）引入了 *多潜变量注意力（Multi-Latent Attention，MLA）* [@deepseekv2]，它使用不同的策略来压缩缓存：不是减少 KV 值的数量，而是减小它们的大小，只存储一个潜变量，在运行时解压缩成 KV 值。通过这种方法，他们成功地将缓存减少到相当于 2.25 组的 GQA，同时性能比 MHA 更强！为了使这与 RoPE 兼容，需要一个额外的小潜变量向量的小调整。在 DeepSeek-v2 中，他们选择 $4*dim_{head}$ 作为主潜变量，$1/2*dim_{head}$ 用于 RoPE 部分，所以总共是 $4.5*dim_{head}$，同时用于 K 和 V，因此去掉了前面的因子 2。
 
 <Sidenote>
 
-RoPE (Rotary Position Embeddings) is a method for encoding positional information by rotating query and key vectors based on their positions in the sequence. It's commonly used in today's LLMs.
+RoPE（旋转位置嵌入）是一种通过根据序列中的位置旋转查询和键向量来编码位置信息的方法。它在当今的 LLM 中被广泛使用。
 </Sidenote>
 
-You can see a visual explanation of each attention mechanism in the following graphic:
+你可以在下图中看到每种注意力机制的可视化解释：
 
 <Wide>
 
@@ -808,7 +808,7 @@ You can see a visual explanation of each attention mechanism in the following gr
 
 
 
-The following table compares the attention mechanisms we just discussed in this section. For simplicity we compare the parameters used per token, if you want to compute total memory simply multiply by bytes per parameter (typically 2) and sequence length:
+下表比较了我们刚才在本节讨论的注意力机制。为简单起见，我们比较每个 token 使用的参数大小，如果你想计算总内存，只需乘以每个参数的字节数（通常为 2）和序列长度：
 
 | Attention Mechanism | KV-Cache parameters per token |
 | --- | --- |
@@ -817,18 +817,19 @@ The following table compares the attention mechanisms we just discussed in this 
 | GQA | $= 2 \times g \times n_{layers} \times dim_{head} \text { (typically g=2,4,8 )}$ |
 | MLA | $= 4.5 \times n_{layers} \times dim_{head}$ |
 
-Now let's see how these attention mechanisms fare in real experiments!
+现在让我们看看这些注意力机制在实际实验中表现如何！
 
- **Ablation - GQA beats MHA** 
+ **消融实验 - GQA 优于 MHA** 
 
-Here we compare different attention mechanisms. Our [baseline](https://huggingface.co/datasets/HuggingFaceTB/ablations-training-configs/blob/main/baseline_config_1B.yaml) model uses 32 heads and 8 KV heads which corresponds to GQA with ratio 32/8=4. How would performance change if we used MHA, or if we went for even less KV heads and a higher GQA ratio?
+在这里我们比较不同的注意力机制。我们的[baseline](https://huggingface.co/datasets/HuggingFaceTB/ablations-training-configs/blob/main/baseline_config_1B.yaml)模型使用 32 个头和 8 个 KV 头，对应于比率为 32/8=4 的 GQA。如果我们使用 MHA，或者使用更少的 KV 头和更高的 GQA 比率，性能会如何变化？
 
 <Sidenote>
 
-Some libraries call the GQA ratio: Query groups = Query heads / KV heads
+一些库将 GQA 比率称为：Query groups = Query heads / 
+KV heads
 </Sidenote>
 
-Changing the number of KV heads affects parameter count especially for the MHA case. For consistency, we adjust the number of layers for the MHA run since it would otherwise have a 100M+ parameter discrepancy; for the rest we keep the default 16 layers.
+改变 KV 头的数量会影响参数数量，特别是在 MHA 的情况下。为了保持一致性，我们调整了 MHA 运行的层数，否则会有超过 100M 的参数差异；对于其余的，我们保持默认的 16 层。
 
 | Attention Type | Query Heads | KV Heads | Layers | Parameter Count | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -841,9 +842,9 @@ Changing the number of KV heads affects parameter count especially for the MHA c
 | GQA (ratio 2) | 32 | 16 | 16 | 1.27B | Too large - not ablated |
 | MHA | 32 | 32 | 16 | 1.34B | Too large - not ablated |
 
-So we compare MHA, MQA and 4 setups for GQA (ratios 2, 4, 8, 16). You can find the nanotron configs [here](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs/tree/main/attention).
+所以我们比较了 MHA、MQA 和 4 种 GQA 设置（比率 2、4、8、16）。你可以在[这里](https://huggingface.co/datasets/HuggingFaceTB/training-guide-nanotron-configs/tree/main/attention)找到 nanotron 配置。
 
-Looking at the ablation results, we find that MQA and GQA with 16 groups (leaving only 1 and 2 KV heads respectively) underperform MHA significantly. On the other hand, GQA configurations with 2, 4, and 8 groups roughly match MHA performance.
+观察消融结果，我们发现 MQA 和 16 组的 GQA（分别只留下 1 和 2 个 KV 头）明显不如 MHA。另一方面，2、4 和 8 组的 GQA 配置与 MHA 性能大致相当。
 
 <HtmlEmbed
 src="embeds/d3-line-chart.html"
@@ -878,24 +879,24 @@ smoothingWindow: 15
 
 
 
-The results are consistent across both loss curves and downstream evaluations. We observe this clearly in benchmarks like HellaSwag, MMLU, and ARC, while benchmarks like OpenBookQA and WinoGrande show a bit of noise.
+结果在损失曲线和下游评估中都是一致的。我们在 HellaSwag、MMLU 和 ARC 等基准测试中清楚地观察到这一点，而 OpenBookQA 和 WinoGrande 等基准测试则显示出一些噪声。
 
-Based on these ablations, GQA is a solid alternative to MHA. It preserves performance while being more efficient at inference. Some recent models have adopted MLA for even greater KV cache compression, though it hasn't been as widely adopted yet. We didn't ablate MLA since it wasn't implemented in nanotron at the time of the ablations. For SmolLM3, we used GQA with 4 groups.
+基于这些消融实验，GQA 是 MHA 的可靠替代方案。它在保持性能的同时，在推理时更加高效。一些最近的模型已经采用了 MLA 以实现更大的 KV 缓存压缩，尽管它尚未被广泛采用。我们没有对 MLA 进行消融实验，因为在进行消融实验时它还没有在 nanotron 中实现。对于 SmolLM3，我们使用了 4 组的 GQA。
 
-Beyond the attention architecture itself, the attention pattern we use during training also matters. Let's have a look at attention masking.
+除了注意力架构本身，我们在训练期间使用的注意力模式也很重要。让我们来看看注意力掩码。
 
- **Document masking** 
+ **文档掩码** 
 
-How we apply attention across our training sequences impacts both computational efficiency and model performance. This brings us to  *document masking*  and the broader question of how we structure our training samples in the dataloader.
+我们如何在训练序列中应用注意力会影响计算效率和模型性能。这就引出了 *文档掩码* 以及我们如何在数据加载器中组织训练样本这个更广泛的问题。
 
-During pretraining, we train with fixed sequence lengths but our documents have variable lengths. A research paper might be 10k tokens while a short code snippet might only have few hundred tokens. How do we fit variable-length documents into fixed-length training sequences? Padding shorter documents to reach our target length wastes compute on meaningless padding tokens. Instead, we use  **packing** : shuffle and concatenate documents with end-of-sequence (EOS) tokens, then split the result into fixed-length chunks matching the sequence size.
+在预训练期间，我们使用固定的序列长度进行训练，但我们的文档长度是不一样的。一篇研究论文可能有 10k tokens，而一个短代码片段可能只有几百 tokens。我们如何将不同长度的文档放入固定长度的训练序列中？直接对较短的文档进行 padding（填充）以达到目标长度，会浪费计算资源，因为这些填充 token 没有实际意义。为此，我们使用 **打包（packing）** 方法：先将文档打乱并用 EOS（序列结束）token 连接起来，然后将得到的长序列按固定长度切分，得到与训练序列长度匹配的块。
 
 <Sidenote>
 
-We could also add BOS tokens at the beginning of documents. In this case you'll notice a different `bos_token_id` present in the model/tokenizer configs.
+我们也可以在文档开头添加 BOS token。在这种情况下，你会注意到模型/分词器配置中存在不同的 `bos_token_id`。
 </Sidenote>
 
-Here's what this looks like in practice:
+实践中看起来像这样：
 
 ```markdown
 File 1: "Recipe for granola bars..." (400 tokens) <EOS>
@@ -908,7 +909,7 @@ After concatenation and chunking into 4k sequences:
 Sequence 1: [File 1] + [File 2] + [File 3] + [partial File 4]
 Sequence 2: [rest of File 4] + [File 5] + [File 6] + ...
 ```
-A training sequence might contain one complete file if it's long enough to fill our 4k context, but in most cases files are short, so sequences contain concatenations of multiple random files.
+如果一个训练序列足够长可以填满我们的 4k 上下文，它可能包含一个完整的文件，但在大多数情况下文件很短，所以序列包含多个随机文件的连接。
 
 With standard causal masking, tokens can attend to all previous tokens in the packed sequence. In the examples above, a token in that Python function of file 4 can attend to the granola bars recipe, the climate change article, and any other content that happened to be packed together. Let's quickly take a look at what a typical 4k pre-training context would contain. A quick[ analysis](https://www.harmdevries.com/post/context-length/) reveals that a substantial portion (about 80-90%) of files in CommonCrawl and GitHub are shorter than 2k tokens.
 
