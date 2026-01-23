@@ -1288,15 +1288,15 @@ $$
 
 但正确的架构只是胜利的一半。即使设计良好的模型，在规模化训练时也可能出现不稳定。下面我们看看帮助训练保持稳定的技术。
 
-#### Improving stability
+#### 提升稳定性
 
-Let's now turn to one of the biggest challenges in LLM pretraining: instabilities. Often manifesting as loss spikes or sudden jumps in training loss, these issues become especially common at scale.
+现在来看看 LLM 预训练中最大的挑战之一：不稳定性。它常表现为 loss 峰值或训练 loss 的突然跳变，在大规模训练中尤其常见。
 
-While we'll dive deeper into the different types of spikes and how to handle them in the [Training Marathon](#the-training-marathon) section (diving in floating point precision, optimizers and learning rate), certain architectural and training techniques can also help us reduce instability so let's take a moment to study them here. We'll cover a few simple techniques used in recent large-scale training runs (e.g., Olmo2 [@olmo2] and Qwen3 [@qwen3]) to improve stability: Z-loss, removing weight decay from embeddings, and QK-norm.
+我们会在 [Training Marathon](#the-training-marathon) 章节更深入地讨论不同类型的峰值以及如何处理（涉及浮点精度、优化器与学习率），但一些架构与训练技巧也能降低不稳定性，我们在这里先快速过一遍。以下是近期大规模训练（如 Olmo2 [@olmo2] 与 Qwen3 [@qwen3]）中常用的几种简单稳定化手段：Z-loss、对嵌入层移除权重衰减，以及 QK-norm。
 
  **Z-loss** 
 
-Z-loss [@palm] is a regularisation technique that prevents the final output logits from growing too large by adding a penalty term to the loss function. The regularisation encourages the denominator of the softmax over the logits to stay within a reasonable range, which helps maintain numerical stability during training.
+Z-loss [@palm] 是一种正则化方法，通过在损失函数中加入惩罚项，防止最终输出 logits 过大。该正则项鼓励 logits 的 softmax 分母保持在合理范围内，有助于训练过程的数值稳定性。
 
 $$
 \mathcal{L}_{\text{z-loss}} = \lambda \cdot \log^2(Z)
@@ -1340,13 +1340,13 @@ smoothingWindow: 15
 
 
 
-The ablation results below on our 1B model show that adding Z-loss doesn't impact the training loss or downstream performance. For SmolLM3, we ended up not using it because our Z-loss implementation introduced some training overhead that we didn't optimize by the time we started training.
+我们在 1B 模型上的消融结果显示，加入 Z-loss 不会影响训练 loss 或下游性能。对于 SmolLM3，我们最终没有采用它，因为实现上的 Z-loss 带来了一定训练开销，而在开始训练前我们还没来得及优化。
 
- **Removing weight decay from embeddings** 
+ **移除嵌入层的权重衰减** 
 
-Weight decay is commonly applied to all model parameters as a regularization technique, but @olmo2[ ](https://arxiv.org/abs/2501.00656)found that excluding embeddings from weight decay improves training stability. The reasoning is that weight decay causes embedding norms to gradually decrease during training, which can lead to larger gradients in early layers since the Jacobian of layer normalization is inversely proportional to the input norm [@takase2025spikemorestabilizingpretraining].
+权重衰减通常作为正则化手段应用于所有参数，但 @olmo2 [ ](https://arxiv.org/abs/2501.00656) 发现，将嵌入层排除在权重衰减之外可以提升训练稳定性。原因在于权重衰减会让嵌入向量的范数在训练中逐步减小，而层归一化的雅可比与输入范数成反比，这会导致早期层的梯度变大 [@takase2025spikemorestabilizingpretraining]。
 
-We tested this approach by training three configurations: our baseline with standard weight decay, a variant with no weight decay on embeddings, and a third configuration combining all our adopted changes (no weight decay on embeddings + NoPE + document masking) to ensure no negative interactions between techniques. The loss curves and evaluation results were nearly identical across all three configurations. So we adopted all 3 changes in SmolLM3 training.
+我们测试了三种配置：标准权重衰减的基线、嵌入层不施加权重衰减的变体，以及把我们最终采用的改动组合在一起的配置（嵌入层无权重衰减 + NoPE + 文档级遮盖），以确保这些技术之间没有负面相互作用。三者的 loss 曲线与评测结果几乎一致，因此我们在 SmolLM3 训练中采用了这三项改动。
 
 <HtmlEmbed 
   src="embeds/d3-line-chart.html" 
@@ -1388,62 +1388,62 @@ smoothingWindow: 15
 
  **QKnorm** 
 
-QK-norm [@dehghani2023scalingvisiontransformers22] applies layer normalization to both the query and key vectors before computing attention. This technique helps prevent attention logits from becoming too large and was used in many recent models to improve stability.
+QK-norm [@dehghani2023scalingvisiontransformers22] 在计算注意力前对 query 与 key 向量施加层归一化。该方法可防止注意力 logits 过大，并在许多近期模型中用于提升稳定性。
 
-However, @rnope found that QK-norm hurts long-context tasks. Their analysis revealed that QK-norm results in lower attention mass on relevant tokens (needles) and higher attention mass on irrelevant context. They argue this occurs because the normalization operation removes magnitude information from the query-key dot product, which makes the attention logits closer in terms of magnitude. Due to this reason, we didn't use QK-norm in SmolLM3. Additionally, as a small 3B parameter model, it faces less risk of training instability compared to the larger models where QK-norm has proven most beneficial.
+不过，@rnope 发现 QK-norm 会削弱长上下文任务表现。他们的分析表明，QK-norm 会降低对相关 token（needle）的注意力权重，同时提高对无关上下文的注意力权重。他们认为这是因为归一化移除了 query-key 点积中的幅度信息，使注意力 logits 的量级更接近。基于这一原因，我们没有在 SmolLM3 中使用 QK-norm。另外，SmolLM3 作为 3B 参数的小模型，相比那些从 QK-norm 中获益更多的大模型，面临的训练不稳定风险也更低。
 
-#### Other core components
+#### 其他核心组件
 
-Beyond the components we've covered, there are a couple other architectural decisions worth noting for completeness.
+在我们已经覆盖的组件之外，还有几个架构层面的选择值得补充说明。
 
-To initialize parameters, modern models typically use truncated normal initialization (mean=0, std=0.02 or std=0.006) or initialization scheme like muP [@mup], for instance Cohere's Command A [@commandacohere]. This could be another topic of ablations.
+参数初始化方面，现代模型通常采用截断正态初始化（mean=0，std=0.02 或 std=0.006），或使用如 muP [@mup] 这样的初始化方案，例如 Cohere 的 Command A [@commandacohere]。这也是一个值得做消融实验的方向。
 
-In terms of activation functions, SwiGLU has become a de facto standard in modern LLMs (except Gemma2 using GeGLU and nvidia using relu^2 [@nvidia2025nvidianemotronnano2; @nvidia2024nemotron4340btechnicalreport]), replacing older choices like ReLU or GELU.
+激活函数方面，SwiGLU 已成为现代 LLM 的事实标准（例外是 Gemma2 使用 GeGLU，以及 NVIDIA 使用 relu^2 [@nvidia2025nvidianemotronnano2; @nvidia2024nemotron4340btechnicalreport]），取代了较早的 ReLU 或 GELU。
 
-At a broader scale, architectural layout choices also play a role in shaping model behavior. Although the total parameter count largely determines a language model's capacity, how those parameters are distributed across depth and width also matters. @petty2024impactdepthcompositionalgeneralization found that deeper models outperform equally sized wider ones on language-modeling and compositional tasks until the benefit saturates. This "deep-and-thin" strategy works well for sub-billion-parameter LLMs in MobileLLM ablations [@mobilellm], whereas wider models tend to offer faster inference thanks to greater parallelism. Modern architectures reflect this trade-off differently as noted in this[ blog post](https://sebastianraschka.com/blog/2025/the-big-llm-architecture-comparison.html). 
+在更宏观的层面，架构布局也会影响模型行为。虽然总参数量在很大程度上决定了语言模型的容量，但这些参数在深度与宽度上的分配同样重要。@petty2024impactdepthcompositionalgeneralization 发现，在语言建模与组合性任务上，深度更深的模型会优于同规模的更宽模型，直到收益趋于饱和。这种“深而窄”的策略在 MobileLLM 的消融中对十亿级以下的 LLM 尤其有效 [@mobilellm]，而更宽的模型往往由于更高的并行性而带来更快的推理速度。现代架构对这一权衡的取舍各不相同，详见这篇[博客文章](https://sebastianraschka.com/blog/2025/the-big-llm-architecture-comparison.html)。
 
-We now covered the most important aspects of the dense transformer architecture worth optimizing for you training run. However, recently other architecture interventions that concern the model as a whole have emerged, namely MoE and hybrid models. Let's have a look what they have to offer, starting with the MoEs.
+到这里，我们已经覆盖了密集 Transformer 架构中最值得优化的核心部分。不过近来还出现了更针对整体模型的架构改动，主要是 MoE 与混合模型。下面我们从 MoE 开始看看它们能带来什么。
 
-#### Going Sparse: MoE 
+#### 走向稀疏：MoE 
 
-The intuition of  *Mixture-of-Experts (MoEs)* is that we don't need the full model for every token prediction, similarly to how our brain activates different areas depending on the task at hand (e.g. the visual or motor cortex). For an LLM this could mean that the parts that learned about coding syntax don't need to be used when the model performs a translation task. If we can do this well, it means we can save a lot of compute as we only need to run parts of the full model at inference time.
+*Mixture-of-Experts（MoE）* 的直觉很简单：并不是每个 token 的预测都需要整套模型，就像大脑会根据任务激活不同区域（例如视觉或运动皮层）。对于 LLM，这意味着学会了代码语法的部分，在进行翻译任务时未必需要被调用。如果路由做得好，就能在推理时只运行模型的一部分，从而节省大量计算。
 
-On a technical level MoEs have a simple goal: grow total parameters without increasing the number of "active" parameters for each token. Somewhat simplified the total parameters impact the total learning capacity of the model while the active parameters determine the training cost and inference speed. That's why you see many frontier systems (e.g., DeepSeek V3, K2, and in closed-source models like Gemini, Grok...) using MoE architectures these days. This plot from Ling 1.5 paper [@ling15] compares the scaling laws of MoE and dense models:
+从技术角度看，MoE 的目标也很清晰：在不增加每个 token “激活参数”数量的前提下，提升总参数量。简单来说，总参数量决定模型的总体学习容量，而激活参数决定训练成本与推理速度。这也是为什么如今许多前沿系统（如 DeepSeek V3、K2，以及闭源模型 Gemini、Grok 等）都在使用 MoE 架构。下面这张来自 Ling 1.5 论文 [@ling15] 的图对比了 MoE 与稠密模型的缩放规律：
 
 <Image src={image_2931384e_bcac_80c4_ab02_f22c53e6fdee} alt="Image" />
 
- If this is your first time encountering MoE, don't worry, the mechanics are not complicated. Let's start with the standard dense architecture and have a look at the necessary changes for the MoE (figure by [Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch04/07_moe)):
+如果你第一次接触 MoE，不用担心，它的机制并不复杂。我们从标准的稠密架构开始，看看 MoE 需要做哪些改动（图来自 [Sebastian Raschka](https://github.com/rasbt/LLMs-from-scratch/tree/main/ch04/07_moe)）：
 
 <Wide>
 
 <Image src={image_2931384e_bcac_8062_bc11_d1ee3706d996} alt="Image" />
 </Wide>
 
-With MoEs, we replace that single MLP with multiple MLPs ("experts") and add a learnable router before the MLPs. For each token, the router selects a small subset of experts to execute. This is where the distinction between total parameters and active parameters comes from: the model has many experts, but any given token only uses a few.
+在 MoE 中，我们把单个 MLP 替换为多个 MLP（“专家”），并在它们之前加入一个可学习的路由器。对于每个 token，路由器只选择一小部分专家执行。这就是总参数与激活参数的区别来源：模型有很多专家，但任何一个 token 实际只会使用其中几个。
 
-Designing an MoE layer raises a few core questions:
+设计 MoE 层会引出几个核心问题：
 
-- Expert shape & sparsity: Should you use many small experts or fewer large ones? How many experts should be active per token, how many do you need in total experts (i.e., the sparsity or "top-k")? Should some experts be universal and thus always active?
-- Utilization & specialization: How do you select the routed experts and keep them well-used (avoid idle capacity) while still encouraging them to specialize? In practice this is a load-balancing problem and has a significant impact on training and inference efficiency.
+- 专家形状与稀疏度：是使用大量小专家，还是少量大专家？每个 token 应激活多少专家、总共需要多少专家（即稀疏度或 “top-k”）？是否需要一些通用专家始终保持激活？
+- 利用率与专门化：如何选择被路由的专家，让它们被充分使用（避免闲置容量）同时又能形成专门化？在实践中这就是负载均衡问题，对训练与推理效率影响很大。
 
-Here we focus on one objective: given a fixed compute budget, how do we choose an MoE configuration that minimizes loss? That's a different question from pure systems efficiency (throughput/latency), and we'll come back to that later. Much of this section follows the analysis in Ant Group's MoE scaling laws paper [@antgroup].
+这里我们聚焦一个目标：在固定算力预算下，如何选择 MoE 配置以最小化 loss？这与纯粹的系统效率（吞吐/延迟）是不同的问题，我们稍后会再讨论。以下内容主要基于蚂蚁集团的 MoE scaling laws 分析 [@antgroup]。
 
-We'll use their notion of  *Efficiency Leverage (EL)* . Simply put, EL measures how much dense compute you'd need to match the loss achieved by an MoE design where the unit of measurement is FLOPs. A higher EL means the MoE configuration is delivering more loss improvement per unit of compute compared to dense training.
+我们会使用他们提出的 *Efficiency Leverage（EL）* 概念。简单来说，EL 衡量的是：要达到某个 MoE 设计的 loss，稠密模型需要多少计算量（以 FLOPs 为单位）。EL 越高，说明该 MoE 配置在单位算力下带来的 loss 改善越多。
 
 <HtmlEmbed src="embeds/efficiency-leverage.html"/>
 
 
 
-Let's have a closer look how we can setup the sparsity of the MoE to improve the efficiency leverage.
+下面我们更细致地看看，如何通过设置 MoE 的稀疏度来提升效率杠杆。
 
- **Sparsity / activation ratio** 
+ **稀疏度 / 激活比例** 
 
 <Quote>
 
-<b>TL;DR:</b> more sparsity → better FLOPs efficiency → diminishing returns at very high sparsity → sweetspot depends on your compute budget.
+<b>TL;DR:</b> 稀疏度更高 → FLOPs 效率更好 → 极高稀疏度收益递减 → 最佳点取决于算力预算。
 </Quote>
 
-In this section we want to find out which MoE setting is best. Asymptotically it's easy to see that the two extremes are not ideal settings. On the one hand, activating all experts all the time brings us back to the dense setting where all parameters are used all the time. On the other hand if the active parameters are very low (as an extreme think just of just 1 parameter being active) clearly it won't be enough to solve a task even in a narrow domain. So clearly we need to find some middle ground. Before we get deeper into finding the optimal setup it is useful to define two quantities:  ***activation ratio***  and its inverse the  ***sparsity***  *:* 
+本节我们想回答哪个 MoE 设置最好。从极限来看，两端都不是理想方案：一端是始终激活所有专家，等同于稠密模型；另一端是激活参数极少（极端情况下只有一个参数被激活），显然连狭窄领域任务都难以胜任。因此我们需要寻找中间地带。在深入讨论之前，先定义两个量：***激活比例*** 及其倒数 ***稀疏度*** *：* 
 
 $$
 \text{activation ratio} \;=\; \frac{\#\text{activated experts}}{\#\text{total experts}}
@@ -1453,14 +1453,14 @@ $$
 \text{sparsity} \;=\; \frac{\#\text{total experts}}{\#\text{activated experts}} \;=\; \frac{1}{\text{activation ratio}}
 $$
 
-From a compute perspective the cost is driven by active parameters only. If you keep the number (and size) of activated experts fixed and increase the total number of experts, your inference/training FLOPs budget stays somewhat the same, but you're adding model capacity so the model should be generally better as long as you train long enough.
+从算力角度看，成本只由激活参数决定。如果保持激活专家的数量（及大小）不变，同时增加专家总数，那么推理/训练 FLOPs 预算大致不变，但模型容量增加，因此只要训练足够久，模型整体会更好。
 
-There are some interesting empirical takeaways if you survey the recent MoE papers: Holding the number and size of active experts fixed, increasing the total number of experts (i.e., lowering activation ratio / increasing sparsity) improves loss, with diminishing returns once sparsity gets very high.
+回顾近期 MoE 论文，有一些清晰的经验结论：在激活专家的数量与规模固定的情况下，增加专家总数（即降低激活比例/提高稀疏度）会带来更好的 loss，但当稀疏度很高时收益会递减。
 
-Two examples:
+两个例子：
 
-- Kimi K2 plot [@kimik2]: shows both effects: higher sparsity improves performance, but gains taper off as sparsity grows.
-- Ant Group plot [@antgroup]: Same conclusion as K2, with additional result that higher sparsity MoE benefit more from increasing compute.
+- Kimi K2 图 [@kimik2]：展示了两种效应，稀疏度更高性能更好，但随着稀疏度增加收益逐渐变小。
+- Ant Group 图 [@antgroup]：与 K2 结论一致，并补充了一个结果：稀疏度更高的 MoE 受益于增加算力更明显。
 
 <Image src={Capture_decran_2025_10_20_a_13_25_47_2921384e_bcac_8087_83e5_fa7a40c1f342} alt="Image" />
 
@@ -1469,7 +1469,7 @@ Two examples:
 <Image src={Capture_decran_2025_10_20_a_13_26_08_2921384e_bcac_80b5_ac36_fb73d6374208} alt="Image" />
 </Wide>
 
-Here is a table with the sparsity of some MoE model:
+下面是一些 MoE 模型的稀疏度表：
 
 <Wide>
 
@@ -1492,30 +1492,30 @@ Here is a table with the sparsity of some MoE model:
 | Qwen3-Next-80B-A3B-Instruct | 512 routed + 1 shared = 513 | 10 total active + 1 shared = 11 | 46.6 |
 </Wide>
 
-The recent trend is clear: MoE models are getting sparser. That said, the optimal sparsity still depends on hardware and end-to-end efficiency. For example, Step-3 targets peak efficiency and intentionally doesn't max out sparsity to fit their specific hardware and bandwidth constraints, while gpt-oss-20b have a low sparsity due to on-device memory constraints (the passive expert still take some memory).
+近期趋势很明确：MoE 模型越来越稀疏。但最佳稀疏度仍取决于硬件与端到端效率。例如，Step-3 追求峰值效率，刻意不把稀疏度拉满，以适配特定硬件与带宽约束；而 gpt-oss-20b 因为设备内存限制而保持较低稀疏度（未激活专家仍会占用部分内存）。
 
- **Granularity** 
+ **粒度（Granularity）** 
 
-Beyond sparsity, we need to decide how large each expert should be. This is captured by granularity, a metric introduced by Ant Group. Let's pin down what we mean by this term. Terminology varies across papers, and some use slightly different formulas. Here, we'll use the definition that matches the plots we reference:
+除了稀疏度之外，我们还需要决定每个专家应该有多大。这可以用蚂蚁集团提出的“粒度”指标来刻画。不同论文的术语与公式略有差异，这里我们采用与引用图一致的定义：
 
 $$
 G = \frac{\alpha*d_{model}}{d_{expert}} \text{ with } \alpha = 2 \text{ or } 4
 $$
 
-A higher granularity value corresponds to having more experts with smaller dimension (given a fixed number of parameters). This metric is a ratio between the expert dimension ( $d_{expert}$ ) and the model dimension ( $d_{model}$ ). 
+在参数总量固定时，更高的粒度意味着更多、但更小的专家。该指标是专家维度（ $d_{expert}$ ）与模型维度（ $d_{model}$ ）之间的比值。 
 
-In dense models, a common rule of thumb is to have the dimension of the MLP set to  $d_{intermediate} = 4 * d_{model}$ . If  $\alpha = 4$  (like @krajewski2024scalinglawsfinegrainedmixture). You can loosely view granularity as  **how many experts it would take to match the dense MLP width** ( $4\, d_{\text{model}} = d_{\text{intermediate}} = G\, d_{\text{expert}}$ ). 
+在稠密模型中，一个常见经验是将 MLP 维度设为  $d_{intermediate} = 4 * d_{model}$ 。当  $\alpha = 4$  时（如 @krajewski2024scalinglawsfinegrainedmixture），可以把粒度粗略理解为 **需要多少个专家才能匹配稠密 MLP 的宽度**（ $4\, d_{\text{model}} = d_{\text{intermediate}} = G\, d_{\text{expert}}$ ）。 
 
-This interpretation is only a rough heuristic: modern MoE designs often allocate much larger total capacity than a single dense MLP, so the one-to-one match breaks down in practice. The Ant team setup choose  $\alpha = 2$   which is simply a different normalization choice. For consistency we will pick this convention and stick to it. 
+这个解释只是粗略的启发式：现代 MoE 设计往往分配了远超单个稠密 MLP 的总容量，因此一一对应在实践中并不成立。蚂蚁团队选择  $\alpha = 2$ ，只是另一种归一化选择。为保持一致性，我们也采用这一约定。
 
 <Sidenote>
 
-Because G scales with $d_{\text{model}}$, cross-model comparisons can be tricky when model widths differ.
+由于 G 会随 $d_{\text{model}}$ 缩放，当模型宽度不同时，跨模型比较会变得复杂。
 </Sidenote>
 
   
 
-Still here is a table with the different value for some of the MoE release:
+下面仍给出一些 MoE 发布模型的粒度数值：
 
 | Model | $(d_\text{model})$ | $(d_\text{expert})$ | $(G = 2 d_\text{model} / d_\text{expert})$ | Year |
 | --- | --- | --- | --- | --- |
@@ -1534,69 +1534,69 @@ Still here is a table with the different value for some of the MoE release:
 | DeepSeek V3 | 7168 | 2048 | 7.0 | 2024 |
 | Qwen3-Next-80B-A3B | 2048 | 512 | 8.0 | 2025 |
 
-Let's talk about how granularity shapes behavior (from [Ant Group's paper](https://arxiv.org/pdf/2507.17702)):
+下面看看粒度如何影响模型行为（来自 [Ant Group 论文](https://arxiv.org/pdf/2507.17702)）：
 
 <Image src={img_75ae60ff_50be_48e1_aad2_a8fc56120d3d_2921384e_bcac_80c2_984b_d81404e4bb7c} alt="Image" />
 
-Granularity doesn't look like the primary driver of EL—it helps, especially going above 2, but it's not the dominant factor determining the loss. There's a sweet spot though: pushing granularity higher helps up to a point, and then gains flatten. So granularity is a useful tuning knob with a clear trend toward higher values in recent releases, but it shouldn't be optimized in isolation.
+粒度看起来不是影响 EL 的主要驱动因素——它确实有帮助，尤其是高于 2 时，但并不是决定 loss 的主导变量。不过仍有一个甜点区间：粒度提高到一定程度后收益会趋于平缓。因此，粒度是一个有用的调节旋钮，近期发布模型也有趋向更高粒度的趋势，但不应单独优化它。
 
-Another method that is used widely to improve MoEs is the concept of shared experts. Let's have a look!
+另一种广泛用于改进 MoE 的方法是“共享专家”。我们来看看它的作用。
 
- **Shared experts** 
+ **共享专家** 
 
-A shared-expert setup routes every token to a small set of always-on experts. These shared experts absorb the basic, recurring patterns in the data so the remaining experts can specialize more aggressively. In practice, you usually don't need many of them; model designers commonly choose one, at most two. As granularity increases (e.g., moving from a Qwen3-style setting to something closer to Qwen3-Next), shared experts tend to become more useful. Looking at the following plot, the overall impact is modest, it doesn't dramatically change the EL. A simple rule of thumb works well in most cases: just use one shared expert, which matches choices in models like DeepSeek V3, K2, and Qwen3-Next and tends to maximize efficiency without adding unnecessary complexity. Figure from @antgroup .
+共享专家的做法是：把每个 token 都路由到一小组始终激活的专家。这些共享专家负责吸收数据中基础且重复的模式，使其他专家能更激进地专门化。实践中你不需要很多共享专家，模型设计者通常只用一个，最多两个。随着粒度增加（例如从 Qwen3 风格走向更接近 Qwen3-Next 的设定），共享专家往往更有用。从下面的图看，整体影响不算大，对 EL 的提升有限。一个简单且好用的经验法则是：只用一个共享专家，这与 DeepSeek V3、K2、Qwen3-Next 等模型的选择一致，通常能在不增加不必要复杂度的前提下最大化效率。图来自 @antgroup。
 
 <Wide>
 
 <Image src={Capture_decran_2025_10_21_a_11_11_38_2931384e_bcac_8008_ad8d_d5ab0c539d3a} alt="Image" />
 </Wide>
 
-So a shared expert is an expert where some tokens are always routed through. What about the other experts? How do we learn when to rout to each expert and make sure that we don't just use a handful of experts? Next we'll discuss load balancing which tackles exactly that problem.
+共享专家就是一类始终会被部分 token 路由到的专家。那么其他专家怎么办？我们如何学习将 token 路由到不同专家，同时避免只使用少数几个专家？接下来我们讨论负载均衡，它正是为了解决这个问题。
 
- **Load balancing** 
+ **负载均衡** 
 
-Load balancing is the critical piece in MoE. If it is set up poorly, it can undermine every other design choice. We can see why poor load balancing will cause us a lot of pain on the following example. Consider a very simple distributed training setup where we have 4 GPUs and we distribute the 4 experts of our model evenly across the GPUs. If the routing collapses and all tokens are routed to expert 1 this means that only 1/4 of our GPUs is utilized which is very bad for training and inference efficiency. Besides that, it means that the effective learning capacity of our model also decreased as not all experts are activated.
+负载均衡是 MoE 的关键环节。如果做得不好，其他所有设计选择都会被削弱。举个简单例子：假设我们有 4 张 GPU，把 4 个专家均匀分配到这些 GPU 上。如果路由发生坍缩，所有 token 都被送到专家 1，那么只有 1/4 的 GPU 被利用，训练与推理效率极差。同时，由于并非所有专家都被激活，模型的有效学习容量也降低了。
 
-To address this issue we can we can add an extra loss term to the router. Below you can see the standard auxiliary loss–based load balancing (LBL):
+为了解决这个问题，我们可以在路由器上加入额外的损失项。下面是标准的基于辅助损失的负载均衡（LBL）：
 
 $$
 \mathcal{L}_{\text{Bal}} \;=\; \alpha \sum_{i=1}^{N_{r}} f_{i}\, P_{i}
 $$
 
-This simple formula just uses three factors: the coefficient  $\alpha$  determines the strength of the loss,  $f_i$  is the traffic fraction so just the fraction of tokens going through expert  $i$  and finally  $P_i$  which is the probability mass and simply sums the probability of the tokens going through the expert. They are both necessary,  $f_i$  correspond to the actual balancing, while  $P_i$  is smooth and differentiable allowing the gradient to flows. If we achieve perfect load balancing we get  $f_i=P_i=1/N_r$ , however we need to be careful how we tune  $\alpha$  as a value too small we don't guide routing enough and if it's too big routing uniformity becomes more important than the primary language model loss.
+这个公式只包含三个因素：系数  $\alpha$  决定损失强度； $f_i$  是流量占比，即经过专家  $i$  的 token 比例； $P_i$  是概率质量，等于所有 token 经过该专家的概率之和。二者都很重要： $f_i$  反映真实的均衡情况，而  $P_i$  是平滑可导的，便于梯度传播。若实现完美均衡，则  $f_i=P_i=1/N_r$ 。但  $\alpha$  需要谨慎调节：太小无法有效引导路由，太大则会让路由均匀性压过主语言模型的 loss。
 
 <Note title="Loss free load balancing" emoji="💡" variant="info">
 
-It is also possible to achieve balancing without an explicit loss term. DeepSeek v3 [@deepseekv3] introduced a simple bias term added to the affinity scores that go into the routing softmax. If a router is overloaded they decrease the score a bit (a constant factor  $\gamma$ ) thus making it less likely to be selected and increase it by  $\gamma$  if the expert is underutilized. With this simple adaptive rule they also achieve load balancing.
+也可以在没有显式损失项的情况下实现均衡。DeepSeek v3 [@deepseekv3] 在路由 softmax 的亲和度分数上加入一个简单的偏置项：如果某个专家过载，就把它的分数下调一点（常数  $\gamma$ ），让它更不容易被选中；若某专家利用不足，则把分数上调  $\gamma$ 。这个简单的自适应规则也能实现负载均衡。
 </Note>
 
 
 
-A key detail is the scope at which you compute routing statistics: are  $f_i$  and  $P_i$  computed per local batch (each worker's mini-batch) or globally (aggregated across workers/devices)? Qwen team's analysis [@qiu2025demonsdetailimplementingload] shows that when there isn't enough token diversity in each local batch and that local computation can hurt both expert specialization (a good proxy for routing health) and overall model performance. Expert specialization is the phenomenon where one or more experts are activated more often than others for a specific domain. In other words, if a local batch is narrow, its routing stats become noisy/biased, and don't lead to good balancing. This implies that we should use global statistics (or at least cross-device aggregation) whenever feasible. Notably, at the time of that paper, many frameworks—including Megatron—computed these statistics locally by default.
+一个关键细节是路由统计的计算范围： $f_i$  和  $P_i$  是按本地 batch（每个 worker 的 mini-batch）计算，还是全局计算（跨设备汇总）？Qwen 团队的分析 [@qiu2025demonsdetailimplementingload] 表明，当本地 batch 的 token 多样性不足时，本地统计会损害专家专门化（它是路由健康状况的良好代理）以及整体模型性能。所谓专家专门化，是指某些专家在特定领域被更频繁地激活。换言之，如果本地 batch 过窄，它的路由统计会变得噪声大且偏置，从而无法形成良好均衡。这意味着在可行时应使用全局统计（或至少跨设备聚合）。值得注意的是，该论文发表时，包括 Megatron 在内的许多框架默认都使用本地统计。
 
-The following plot from Qwen's paper illustrates the difference of micro-batch vs global batch aggregation and it's impact on performance and specialization:
+下图来自 Qwen 论文，展示了 micro-batch 与 global batch 聚合的差异及其对性能与专门化的影响：
 
 <Wide>
 
 <Image src={Capture_decran_2025_10_21_a_15_34_27_2931384e_bcac_8066_834b_c485ae8d1fa5} alt="Image" />
 </Wide>
 
-Generally, ablating architecture choices around MoE is tricky as there is an interplay with many aspects. For example the usefulness of a shared expert might depend on the granularity of the model. So it's worth spending some time to make sure you have a good set of experiments to really get the insights you are looking for! 
+总体来说，围绕 MoE 的架构选择做消融并不容易，因为它与许多因素存在相互作用。例如，共享专家是否有用可能取决于模型的粒度。因此，值得花些时间设计好实验组合，才能真正得到你想要的洞见。 
 
-We have now covered the fundamentals of MoEs, however there is still more to discover. A non-exhaustive list of items to further study:
+我们已经覆盖了 MoE 的基础要点，但仍有许多值得探索的方向。下面是一个不完全列表：
 
-- Zero-computation experts, MoE layer rescaling and training monitoring (LongCat-Flash paper).
-- Orthogonal loss load balancing (as in ERNIE 4.5).
-- Scheduling the load-balancing coefficient over training.
-- Architecture/optimization interactions with MoE, like:
-    - Whether optimizer rankings change for MoE.
-    - How to apply MuP to MoE.
-    - How to adapt the learning rate for MoE (since they don't see the same number of token per batch).
+- 零计算专家、MoE 层重缩放与训练监控（LongCat-Flash 论文）。
+- 正交损失负载均衡（如 ERNIE 4.5）。
+- 训练中对负载均衡系数的调度。
+- MoE 与架构/优化的相互作用，例如：
+    - 优化器排名是否会因 MoE 改变。
+    - 如何将 MuP 应用于 MoE。
+    - 如何调整 MoE 的学习率（因为每个 batch 看到的 token 数量不同）。
 
-- Number of dense layers at the start.
-- Many more..
+- 开头稠密层的数量。
+- 以及更多。
 
-We leave it up to you, eager reader, to follow the rabbit whole further down, while we now move on to the last major architecture choice: hybrid models!
+我们把更深入的“兔子洞”留给有兴趣的读者探索，接下来我们转向最后一个主要架构选择：混合模型！
 
 #### Excursion: Hybrid Models
 
