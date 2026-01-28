@@ -1598,59 +1598,59 @@ $$
 
 我们把更深入的“兔子洞”留给有兴趣的读者探索，接下来我们转向最后一个主要架构选择：混合模型！
 
-#### Excursion: Hybrid Models
+#### 专题讨论：混合模型
 
-A recent trend is to augment the standard dense or MoE architecture with state space models (SSM) or linear attention mechanisms [@falconh1; @minimax01]. ** These new classes of models try to address some of the fundamental weaknesses of transformers: dealing efficiently with very long context. They take a middle ground between recurrent models, that can efficiently deal with arbitrary length context and scale linearly, but might suffer to keep utilize the information in context and transformers that get very expensive with long context but can leverage the patterns in context very well. 
+最近的一个趋势是，在标准的 dense 或 MoE 架构中加入状态空间模型（SSM）或线性注意力机制 [@falconh1; @minimax01]。**这些新模型类别试图解决 Transformer 的一些基础弱点：如何高效处理超长上下文。它们介于循环模型与 Transformer 之间：循环模型能高效处理任意长度上下文并线性扩展，但可能难以充分利用上下文信息；而 Transformer 在长上下文下成本极高，却能很好地利用上下文模式。
 
-There have been some studies [@waleffe2024empiricalstudymambabasedlanguage] to understand the weaknesses for example of Mamba models (a form of SSM) and found that such models perform well on many benchmarks but for example underperform on MMLU and hypothesize that it's the lack of in-context learning causing the gap. That's the reason that they are combined with blocks from dense or MoE models to get the best of both worlds, thus the name hybrid models.
+一些研究 [@waleffe2024empiricalstudymambabasedlanguage] 试图理解例如 Mamba 模型（SSM 的一种）的弱点，发现这类模型在许多基准上表现不错，但是像在 MMLU 上表现不佳，并推测差距来自缺乏 情景学习能力（in-context learning）。这也是它们与 dense 或 MoE 模块组合、取长补短的原因，因此称为混合模型。
 
-The core idea behind these linear attention methods is to reorder computations so attention no longer costs O(n^2d), which becomes intractable at long context. How does that work? First, recall the attention formulation at inference. Producing the output for token t looks like:
+这些线性注意力方法的核心思想是重排计算，使注意力不再是 O(n^2d) 的成本，避免在长上下文下变得不可承受。怎么做到的？先回忆推理时的注意力公式。生成 token t 的输出为：
 
 $$
 \mathbf{o}_{t} \;=\; \sum_{j=1}^{t} \frac{\exp\!\big(\mathbf{q}_{t}^{\top}\mathbf{k}_{j}\big) \mathbf{v}_{j}}{\sum_{l=1}^{t} \exp\!\big(\mathbf{q}_{t}^{\top}\mathbf{k}_{l}\big)} \,
 $$
 
-Now drop the softmax:
+现在去掉 softmax：
 
 $$
 o_t = \sum_{j=1}^{t} (q_t^\top k_j)\, v_j
 $$
 
-Reordering gives:
+重排得到：
 
 $$
 \quad\sum_{j=1}^{t}(q_t^\top k_j)\,v_j = \Big(\sum_{j=1}^{t} v_j k_j^\top\Big) q_t.
 $$
 
-Define the running state:
+定义运行态：
 
 $$
 S_t \triangleq \sum_{j=1}^{t} k_j v_j^\top = K_{1:t}^\top V_{1:t} \in \mathbb{R}^{d\times d}
 $$
 
-with the simple update:
+并使用简单的更新：
 
 $$
 S_t = S_{t-1} + k_t v_t^\top 
 $$
 
-So we can write:
+因此可写为：
 
 $$
 o_t = S_t q_t    = S_{t-1} q_t + v_t (k_t^\top q_t)
 $$
 
-Why is the reordering important: the left form  $\sum_{j\le t}(q_t^\top k_j)v_j$  means "for each past token j, take a dot  $q_t^\top k_j$  (a scalar), use it to scale  $v_j$ , and add those t vectors up"—that's about  $O(td)$  work at step t. The right form rewrites this as  $\big(\sum_{j\le t} v_j k_j^\top\big) q_t$ : you keep a single running state matrix  $S_t=\sum_{j\le t} v_j k_j^\top\in\mathbb{R}^{d\times d}$  that already summarizes all past  $(k_j,v_j)$ . Each new token updates it with one outer product  $v_t k_t^\top$  cost  $O(d^2)$ , then the output is just one matrix–vector multiply  $S_t q_t$  (another  $O(d^2)$ ). So generating T tokens by the left form from scratch is  $O(T^2 d)$ , while maintaining  $S_t$  and using the right form is  $O(T d^2)$ . Intuitively: left = "many small dot-scale-adds each step"; right = "one pre-summarized matrix times the query," trading dependence on sequence length for dependence on dimension. We here focus on inference and recurring form, but it's also more efficient in training, where the reordering is as simple as the following equation:
+为什么重排很重要：左边形式 $\sum_{j\le t}(q_t^\top k_j)v_j$ 表示“对每个过去的 token j 计算点积 $q_t^\top k_j$（标量），用它缩放 $v_j$，再把这 t 个向量相加”，在 t 次的工作量约为 $O(td)$。右边形式把它改写为 $\big(\sum_{j\le t} v_j k_j^\top\big) q_t$：你维护一个运行态矩阵 $S_t=\sum_{j\le t} v_j k_j^\top\in\mathbb{R}^{d\times d}$，它已经汇总了所有过去的 $(k_j,v_j)$。每来一个新 token，用一次外积 $v_t k_t^\top$ 更新它，成本 $O(d^2)$，然后输出只是一次矩阵-向量乘 $S_t q_t$（同样是 $O(d^2)$）。所以从头用左边形式生成 T 个 token 是 $O(T^2 d)$，而维护 $S_t$ 并用右边形式是 $O(T d^2)$。直观上：左边是“每一步很多小的点积-缩放-相加”；右边是“一个预先汇总的矩阵乘查询”，用对维度的依赖换掉对序列长度的依赖。这里我们聚焦推理和递推形式，但在训练中也更高效，重排只需下面的等式：
 
 $$
 \underset{n\times n}{(QK^\top)}\,V \;=\; Q\,\underset{d\times d}{(K^\top V)}
 $$
 
-So we can see that this looks now very similar to an RNN like structure. This solved our issue, right? Almost. In practice, the softmax plays an important stabilizing role, and the naïve linear form can be unstable without some normalization. This motivates a practical variant called lightning or norm attention!
+所以可以看到它现在很像 RNN 的结构。这就解决问题了吗？几乎如此。在实践中，softmax 起到重要的稳定作用，朴素的线性形式如果没有归一化可能不稳定。这就引出了一个更实用的变体：Lightning Attention 或 Norm Attention！
 
  **Lightning and norm attention** 
 
-This family appears in Minimax01 [@minimax01] and, more recently, in Ring-linear [@lingteam2025attentionmattersefficienthybrid]. Building on the Norm Attention idea [@qin2022devillineartransformer]. The key step is simple:  **normalize the output** . The "Lightning" variant focuses on making the implementation fast and efficient and make the formula a bit different. Here is the formula for both:
+这一家族出现在 Minimax01 [@minimax01] 以及更近期的 Ring-linear [@lingteam2025attentionmattersefficienthybrid] 中，建立在 Norm Attention 的思路之上 [@qin2022devillineartransformer]。关键一步很简单：**对输出做归一化**。Lightning 变体强调实现上的高速与高效，并让公式略有不同。两者公式如下：
 
 NormAttention: 
 
@@ -1668,7 +1668,7 @@ $$
 O = \text{SRMSNorm}(Q(KV^T))
 $$
 
-Empirically, hybrid model with Norm attention match softmax on most of the tasks according to Minimax01.
+根据 Minimax01 的实证结果，使用 Norm attention 的混合模型在大多数任务上与 softmax 表现相当。
 
 <Wide>
 
@@ -1677,26 +1677,26 @@ Empirically, hybrid model with Norm attention match softmax on most of the tasks
 
 
 
-What's interesting here is that on retrieval tasks like Needle in a Haystack (NIAH) it can do much much better than full softmax attention, which seems surprising but might indicate that there is some synergy when the softmax and the linear layer work together! 
+有意思的是，在 Needle in a Haystack（NIAH）这类检索任务上，它能远超完整 softmax 注意力，这看起来有些反直觉，但可能说明 softmax 与线性层协同工作时存在某种增益！
 
 <Note title="MiniMax M2" variant="info">
 
-Surprisingly, the recently released MiniMax M2 does not use hybrid or linear attention. According to their <a href="[https://x.com/zpysky1125/status/1983383094607347992](https://x.com/zpysky1125/status/1983383094607347992)" target="_blank">pretraining lead</a>, while their early MiniMax M1 experiments with Lightning Attention looked promising at smaller scales on the popular benchmarks at the time (MMLU, BBH, MATH), they found it had "clear deficits in complex, multi-hop reasoning tasks" at larger scales. They also cite numerical precision issues during RL training and infrastructure maturity as key blockers. They conclude that making architecture at scale is a multivariable problem that is hard and compute intensive due to the sensitivity to other parameters like data distribution, optimizer...  
+令人惊讶的是，最近发布的 MiniMax M2 并未采用混合或线性注意力。根据他们的 <a href="[https://x.com/zpysky1125/status/1983383094607347992](https://x.com/zpysky1125/status/1983383094607347992)" target="_blank">预训练负责人</a>所述，早期 MiniMax M1 在较小规模上用 Lightning Attention 做实验时，在当时流行的基准（MMLU、BBH、MATH）上看起来很有希望，但在更大规模上发现其在“复杂、多跳推理任务”上存在明显短板。他们还指出 RL 训练中的数值精度问题与基础设施成熟度是关键阻碍。他们的结论是：在规模化场景中做架构选择是一个多变量、计算成本很高的问题，因为它对数据分布、优化器等参数都很敏感……
 
-However, they acknowledge that "as GPU compute growth slows while data length keeps increasing, the benefits of linear and sparse attention will gradually emerge." This highlights both the complexity of architecture ablations and the gap between research and production reality.
+不过，他们也承认“随着 GPU 计算增长放缓而数据长度持续增长，线性与稀疏注意力的优势将逐步显现”。这同时突显了架构消融的复杂性，以及研究与生产现实之间的差距。
 </Note>
 
-Now let's have a look at some more of these methods and how they can be understood with a unified framework.
+现在我们再看一些相关方法，以及如何用统一框架来理解它们。
 
  **Advanced linear attention** 
 
-A helpful lesson from recurrent models is to let the state occasionally let go of the past. In practice, that means introducing a gate  $\mathbf{G}_t$  for the previous state:
+从循环模型得到的一个有用经验是，让状态偶尔“放下”过去。在实践中，这意味着为上一时刻的状态引入门控 $\mathbf{G}_t$：
 
 $$
 \mathbf{S}_t \;=\; \mathbf{G}_t \odot \mathbf{S}_{t-1} \;+\; \mathbf{v}_t \mathbf{k}_t^{\top}
 $$
 
-Almost all recent linear attention methods have this gating component with just different implementations of  $\mathbf{G}_t$ . Here is a list of the different variants for the gate and the corresponding architecture from [this paper](arxiv.org/abs/2312.06635):
+几乎所有近期的线性注意力方法都有这个门控组件，只是对 $\mathbf{G}_t$ 的实现不同。来自 [这篇论文](arxiv.org/abs/2312.06635) 的表格列出了不同的门控变体及其对应架构：
 
 <Wide>
 
@@ -1719,63 +1719,63 @@ Almost all recent linear attention methods have this gating component with just 
 
 
 
-One notable variant is Mamba-2 [@mamba2] on the list. It's used in many of the hybrid models like Nemotron-H [@nemotronh], Falcon H1 [@falconh1], and Granite-4.0-h [@granite4] . 
+其中一个值得注意的变体是 Mamba-2 [@mamba2]。它被用于许多混合模型，例如 Nemotron-H [@nemotronh]、Falcon H1 [@falconh1] 和 Granite-4.0-h [@granite4]。 
 
-However, it's still early days and there's important nuance to consider when scaling to large hybrid models. While they show promise, MiniMax's experience with [M2](https://x.com/zpysky1125/status/1983383094607347992) highlights that benefits at small scale don't always translate to large-scale production systems, particularly for complex reasoning tasks, RL training stability, and infrastructure maturity. That said, hybrid models are moving quickly and remain a solid choice for frontier training. Qwen3-Next (with a gated DeltaNet update) [@qwen3next] reports they are faster at inference for long context, faster to train, and stronger on usual benchmarks. We are also looking forward for Kimi's next model that will most likely use their new ["Kimi Delta Attention](https://github.com/fla-org/flash-linear-attention/pull/621)["](https://github.com/fla-org/flash-linear-attention/pull/621). Let's also mention Sparse Attention which solves the same issue for long context as linear attention by selecting block or query to compute attention. Some examples are Native Sparse Attention [@nsa], DeepSeek Sparse Attention [@dsa] and InfLLM v2 [@minicpm4].
+不过这仍处于早期阶段，扩展到大型混合模型时有很多细微差别需要考虑。尽管前景可期，MiniMax 在 [M2](https://x.com/zpysky1125/status/1983383094607347992) 的经验表明，小规模收益并不一定能转化为大规模生产系统的收益，尤其在复杂推理任务、RL 训练稳定性以及基础设施成熟度方面。即便如此，混合模型的发展很快，依然是前沿训练的稳健选择。Qwen3-Next（带门控的 DeltaNet 更新）[@qwen3next] 报告称在长上下文推理更快、训练更快、在常见基准上更强。我们也期待 Kimi 的下一代模型，很可能使用其新的 ["Kimi Delta Attention](https://github.com/fla-org/flash-linear-attention/pull/621)["](https://github.com/fla-org/flash-linear-attention/pull/621)。此外也要提到稀疏注意力，它通过选择 block 或 query 计算注意力来解决线性注意力同样的长上下文问题。例子包括 Native Sparse Attention [@nsa]、DeepSeek Sparse Attention [@dsa] 和 InfLLM v2 [@minicpm4]。
 
-We'll wrap up the architecture choices before moving to tokenizers by building a small decision tree to determine weather to train a dense, a MoE or a Hybrid model.
+在转向 tokenizer 之前，我们会用一个小的决策树来收束架构选择，判断是训练 dense、MoE 还是混合模型。
 
-####  **To MoE or not MoE: Choosing a Base Architecture** 
+####  **To MoE or not MoE: 选择基本架构** 
 
-We've now seen dense, MoE and hybrid models so you might naturally be curious to know which one you should use? Your architecture choice typically depends on where you'll deploy the model, your team's expertise, and your timeline. Let's go briefly over the pros and cons of each architecture and come up with a simple guiding process to find the right architecture for you.
+我们已经看过 dense、MoE 和混合模型，所以你可能自然会好奇：该选哪一个？你的架构选择通常取决于模型的部署场景、团队的经验，以及时间窗口。下面我们简要概览各架构的优缺点，并给出一个简单的指引流程，帮助你做出合适选择。
 
- **Dense transformers**  are the foundation standard decoder-only transformers where every parameter activates for every token. See [The Annotated Transformers](https://nlp.seas.harvard.edu/2018/04/03/attention.html) for the math and [The Illustrated Transformers](https://jalammar.github.io/illustrated-transformer/) to build your intuition.
+ **Dense transformers**  是最基础的标准 decoder-only transformer，每个 token 都会激活所有参数。数学推导可参考 [The Annotated Transformers](https://nlp.seas.harvard.edu/2018/04/03/attention.html)，直观理解可参考 [The Illustrated Transformers](https://jalammar.github.io/illustrated-transformer/)。
 
-Pros: Widely supported, well-understood, stable training, good performance per parameter.
+优点：生态支持广、理解成熟、训练稳定、单位参数性能好。
 
-Cons: Compute scales linearly with size, a 70B model costs ~23× more than 3B.
+缺点：计算量随规模线性增长，70B 模型的成本约为 3B 的 ~23×。
 
 <Note variant="success">
 
-This is usually the default choice for memory-contrained use cases or new LLM trainers.
+这通常是内存受限场景或新手训练 LLM 的默认选择。
 </Note>
 
- **Mixture of Experts (MoE)**  replaces feed-forward layers in the transformer with multiple "experts". For each token, a gating network routes it to only a few experts. The result is the capacity of a large network at a fraction of the compute. For example [Kimi K2](https://huggingface.co/moonshotai/Kimi-K2-Instruct) has 1T total parameters but only 32B active per token. The catch is that all experts must be loaded in memory. For a visual guide and reminder, check [this blog](https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-mixture-of-experts).
+ **Mixture of Experts (MoE)**  将 Transformer 的前馈层替换为多个“专家”。对每个 token，门控网络只路由到少数专家，因此可以用一小部分计算获得大模型的容量。比如 [Kimi K2](https://huggingface.co/moonshotai/Kimi-K2-Instruct) 的总参数为 1T，但每个 token 仅激活 32B。代价是必须把所有专家都加载到内存中。可视化理解可参考 [这篇博客](https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-mixture-of-experts)。
 
-Pros: Better performance per compute for training and inference.
+优点：训练与推理的单位计算性能更好。
 
-Cons: High memory (all experts must be loaded). More complex training than dense transformers. Framework support is improving but less mature than dense models. And distributed training is a nightmare with expert placement, load balancing, and all-to-all communication challenges.
+缺点：内存占用高（必须加载所有专家）；训练比 dense 更复杂；框架支持在改善但不如 dense 成熟；分布式训练在专家放置、负载均衡、以及 all-to-all 通信上非常棘手。
 
 <Note variant="success">
 
-Use when you're not memory-constrained and want maximum performance per compute.
+当你不受内存限制，且希望单位计算性能最大化时使用。
 </Note>
 
- **Hybrid models**  combine transformers with State Space Models (SSMs) like Mamba, offering linear complexity for some operations versus attention's quadratic scaling. ([Mathy blog](https://srush.github.io/annotated-mamba/hard.html) | [Visual guide](https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-mamba-and-state))
+ **Hybrid models**  将 Transformer 与 Mamba 等状态空间模型（SSM）结合，在部分操作上提供线性复杂度，从而规避注意力的二次增长。([Mathy blog](https://srush.github.io/annotated-mamba/hard.html) | [Visual guide](https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-mamba-and-state))
 
-Pros: Potentially better long-context handling. More efficient for very long sequences.
+优点：可能更擅长长上下文；对超长序列更高效。
 
-Cons: Less mature than dense and MoE with fewer proven training recipes. Limited framework support.
+缺点：成熟度不如 dense 与 MoE，经过验证的训练配方更少；框架支持有限。
 
 <Note variant="success">
 
-Use if you want to scale to very large contexts while reducing the inference overhead of standard transformers.
+当你希望扩展到超大上下文，同时降低标准 Transformer 推理开销时使用。
 </Note>
 
 <Sidenote>
 
-We're also now seeing some teams explore diffusion models for text, but these models (and other experimental alternatives) are very early stage that we consider them out of scope for the document.
+我们也看到一些团队在探索文本扩散模型，但这类模型（以及其他实验性替代方案）仍处于非常早期阶段，因此本文不作展开。
 </Sidenote>
 
-So to recap, start by asking where your model will be deployed. Then consider your team's expertise and your training timeline to assess how much exploration you can afford:
+总结一下，先问清楚模型会部署到哪里，再结合团队经验和训练周期，评估你能承担多少探索成本：
 
 <HtmlEmbed frameless src="embeds/model-architecture-decision-flowchart.html"/>
 
 
 
-For SmolLM3 we wanted to build a strong small model for on-device deployment, we had roughly a 3-month timeline, and have mostly trained dense models in the past. This ruled out MoE (memory constraints) and hybrid (short timeline to explore a new architecture, and dense models could get the long context we targeted of 128k tokens max), so we went for a dense model llama-style.
+以 SmolLM3 为例，我们要做的是面向端侧部署的高质量小模型，时间大约只有 3 个月，且团队过去主要训练 dense 模型。于是我们排除了 MoE（内存限制）与混合模型（探索新架构的时间不足；而 dense 也能达到我们目标的 128k 最大上下文），最终选择了 Llama 风格的 dense 模型。
 
-Now that we have studied the internals of the model architecture let's look at the tokenizer which forms the bridge between the data and our model.
+既然我们已经了解了模型架构的内部机制，接下来看看 tokenizer，它是数据与模型之间的桥梁。
 
 #### The tokenizer
 
