@@ -1777,46 +1777,46 @@ $$
 
 既然我们已经了解了模型架构的内部机制，接下来看看 tokenizer，它是数据与模型之间的桥梁。
 
-#### The tokenizer
+#### 分词器
 
-While it rarely steals the spotlight from architecture innovations, the tokenization scheme is likely one of the most underrated components of any language model. Think of it as the translator between human language and the mathematical world our model lives in, and just like any translator, the quality of the translation matters a lot. So how do we build or choose the right tokenizer for our needs?
+虽然分词器很少比架构创新更耀眼，但它可能是任何语言模型中最被低估的组件之一。把它想象成在人类语言与模型的数学世界之间的翻译器，翻译质量对最终效果有很大影响。那么我们应如何为自己的需求构建或选择合适的分词器？
 
- **Tokenizer fundamentals** 
+ **分词器基础** 
 
-At its core, a tokenizer converts raw text into sequences of numbers that our model can process, by segmenting a running text into individual processable units called tokens. Before diving into the technical details, we should first answer some fundamental questions that will guide our tokenizer design:
+分词器的核心任务是将原始文本切分并映射为模型可处理的数字序列（token）。在深入技术细节前，先回答几个会影响分词器设计的基本问题：
 
--  **What languages do we want to support?**  If we're building a multilingual model but our tokenizer has only seen English, the model will be inefficient when encountering non-English text, which will get split into many more tokens than necessary. This directly impacts performance, training cost and inference speed.
--  **Which domains matter to us?**  Beyond languages, domains like math and code require careful representation of digits.
--  **Do we know our target data mixture?**  If we plan to train our tokenizer from scratch, ideally, we should train it on a sample that mirrors our final training mixture. 
+-  **我们要支持哪些语言？**  如果打算做多语言模型，但分词器只基于英语训练，那么遇到非英语文本时会被切割成更多 token，直接影响性能、训练成本与推理速度。
+-  **哪些领域是重点？**  数学与代码等领域对数字与符号的表示要特别谨慎。
+-  **我们是否知道目标数据的混合比例？**  若从零训练分词器，应尽量用接近最终训练混合的样本来训练分词器。
 
-Once we have answered these questions, we can examine the main design decisions:
-
-<Sidenote>
-
-For a deep dive into tokenization fundamentals, Andrej Karpathy's ["Let's build the GPT Tokenizer"](https://www.youtube.com/watch?v=zduSFxRajkE) is an excellent hands-on tutorial. You can also check this [resource](https://github.com/huggingface/evaluation-guidebook/blob/main/contents/general-knowledge/tokenization.md) which provides an introduction to tokenizers and a number of external resources.
-</Sidenote>
-
- **Vocabulary size** 
-
-The vocabulary is essentially a dictionary listing all tokens (minimal text units, like words, subwords, or symbols) our model recognizes.
-
-Larger vocabularies compress text more efficiently since we generate fewer tokens per sentence, but there's a computational trade-off. The vocabulary size directly affects the size of our embedding matrices. If we have vocabulary size V and hidden dimension h, the input embeddings have V × h parameters, and the output layer has another V × h parameters. For smaller models, this becomes a significant chunk of total parameters as we've seen in the "Embedding Sharing" section, but the relative cost shrinks as models scale up. 
-
-The sweet spot depends on our target coverage and model size. For English-only models, around 50k tokens usually suffices, but multilingual models often need 100k+ to efficiently handle diverse writing systems and languages. Modern state-of-the-art models like Llama3 have adopted vocabularies in the 128k+ range to improve token efficiency across diverse languages. Smaller models in the same family apply embedding sharing to reduce the percentage of embedding parameters while still benefiting from the larger vocabulary.
-@dagan2024gettingtokenizerpretrainingdomain analyze the impact of vocabulary size on compression, inference and memory. They observe that compression gains from larger vocabularies decrease exponentially, suggesting an optimal size exists. For inference, larger models benefit from bigger vocabularies because compression saves more on the forward pass than the additional embedding tokens cost in softmax. For memory, optimal size depends on sequence length and batch size: longer contexts and large batches benefit from larger vocabs due to KV cache savings from having fewer tokens.
+明确这些后，再看主要设计抉择：
 
 <Sidenote>
 
-Set vocabulary size to a multiple of 128 (e.g., 50,304 instead of 50,000) to optimize throughput. Modern GPUs perform matrix operations better when dimensions are divisible by higher powers of 2, as this ensures efficient memory alignment and reduces overhead from misaligned memory accesses. More details in this [blog](https://www.thonking.ai/p/what-shapes-do-matrix-multiplications).
+如果想深入了解分词基础，Andrej Karpathy 的 ["Let's build the GPT Tokenizer"](https://www.youtube.com/watch?v=zduSFxRajkE) 是非常棒的动手教程。你也可以参考这个[资料](https://github.com/huggingface/evaluation-guidebook/blob/main/contents/general-knowledge/tokenization.md)，里面介绍了分词器并汇总了一些外部资源。
 </Sidenote>
 
- **Tokenization algorithm** 
+ **词表大小** 
 
-BPE (Byte-Pair Encoding) [@sennrich2016neuralmachinetranslationrare] remains the most popular choice, other algorithms like WordPiece or SentencePiece exist but are less adopted. There's also growing research interest in tokenizer-free approaches that work directly on bytes or characters, potentially eliminating tokenization altogether.
+词表相当于模型认识的“词典”——所有最小可处理单元（词、子词或符号）。
 
-Now that we've seen the key parameters that define a tokenizer, we face a practical decision: should we use an existing tokenizer or train from scratch? The answer depends on coverage: whether existing tokenizers with our target vocabulary size handle our languages and domains well.
+更大的词表能更高效压缩文本（每句话生成的 token 更少），但代价是嵌入矩阵变大：词表大小 V 与隐藏维度 h 决定了输入嵌入参数 V×h（输出层同理）。对小模型来说，嵌入会占据明显比例；模型越大，这部分占比越小。 
 
-The figure below compares how GPT-2's English-only tokenizer [@gpt2] and Gemma 3's multilingual tokenizer [@gemma3] segment the same English and Arabic sentence.
+合适的词表大小取决于覆盖需求和模型规模：英语模型常见在 ~50k；多语言模型常需 100k+。许多最新 SOTA 模型（如 Llama3）采用 128k+ 的词表以提升多语种效率。对小模型可用嵌入共享（embedding sharing）来减轻大词表带来的参数增长。
+@dagan2024gettingtokenizerpretrainingdomain 分析了词表大小对压缩率、推理与内存的影响。他们发现更大的词表带来的压缩收益呈指数递减，说明存在一个最优规模。就推理而言，大模型更能从大词表中受益，因为压缩带来的前向计算节省超过了 softmax 中额外嵌入 token 的成本。就内存而言，最优词表大小与序列长度和 batch size 相关：更长的上下文和更大的 batch 往往能从更大词表中获益，因为 token 更少会带来更小的 KV cache。
+
+<Sidenote>
+
+把词表大小设为 128 的倍数（如 50,304 而非 50,000）可以优化吞吐。现代 GPU 在矩阵维度可被更高的 2 次幂整除时性能更好，因为这样能确保内存对齐并降低非对齐访问的开销。更多细节见这篇[博客](https://www.thonking.ai/p/what-shapes-do-matrix-multiplications)。
+</Sidenote>
+
+ **分词算法** 
+
+BPE (Byte-Pair Encoding) [@sennrich2016neuralmachinetranslationrare] 依然是最常用的方案，WordPiece 或 SentencePiece 也常见。研究方向上有尝试直接以字节或字符为单位、免去分词器的方案，但目前主流仍以子词算法为主。
+
+在了解了决定分词器的关键参数后，我们要做一个实际决策：使用现成的分词器，还是从零训练？答案取决于覆盖度：现有分词器在我们期望的词表大小下，是否能很好覆盖我们的语言与领域。
+
+下图对比了 GPT-2 的英文分词器 [@gpt2] 与 Gemma 3 的多语分词器 [@gemma3] 在同一条英语与阿拉伯语句子上的切分方式。
 
 <Wide>
 
@@ -1825,27 +1825,27 @@ The figure below compares how GPT-2's English-only tokenizer [@gpt2] and Gemma 3
 
 
 
-While both tokenizers seem to perform similarly on English, the difference becomes striking for Arabic: GPT2 breaks the text into over a hundred fragments, while Gemma3 produces far fewer tokens thanks to its multilingual training data and larger, more inclusive vocabulary.
+两者在英语上的效果相近，但在阿拉伯语上差异非常明显：GPT2 会把文本切成一百多个碎片，而 Gemma3 因为使用了多语训练数据和更大、更包容的词表，产生的 token 要少得多。
 
-But to measure a tokenizer's quality we can't just eyeball a few tokenization examples and call it good, the same way we can't make architecture changes based on intuition without running ablations. We need concrete metrics to evaluate tokenizer quality.
+但要衡量分词器的质量，不能只靠“看起来还不错”的几个例子——就像我们不会在没有消融实验的情况下凭直觉改架构一样。我们需要明确的指标来评估分词器的质量。
 
- **Measuring Tokenizer Quality** 
+ **衡量分词器质量** 
 
-To evaluate how well a tokenizer performs, we can use two key metrics used in FineWeb2 [@fineweb2].
+评估分词器效果时，我们可以使用 FineWeb2 [@fineweb2] 中的两项关键指标。
 
- **Fertility:** 
+ **Fertility：** 
 
-It measures the average number of tokens needed to encode a word. Lower fertility means better compression, which translates to faster training and inference. Think of it this way: if one tokenizer needs one or two more tokens to encode most words while another does it in less tokens, the second one is clearly more efficient.
+它衡量编码一个“词”平均需要多少个 token。Fertility 越低，压缩率越高，训练与推理也更快。可以这样理解：如果一个分词器在大多数词上多用一到两个 token，而另一个用得更少，那么后者明显更高效。
 
-The standard approach for measuring fertility is to calculate  **words-to-tokens ratio**  (word fertility), which measures how many tokens are needed per word on average. This metric is defined around the concept of words because it provides meaningful cross-linguistic comparisons when appropriate word tokenizers are available, for example in [Spacy](https://spacy.io/) and [Stanza](https://stanfordnlp.github.io/stanza) [@fineweb2]. 
+衡量 fertility 的标准方法是计算 **words-to-tokens ratio**（词级 fertility），也就是平均每个词需要多少 token。之所以围绕“词”来定义，是因为当有合适的分词工具时（如 [Spacy](https://spacy.io/) 与 [Stanza](https://stanfordnlp.github.io/stanza) [@fineweb2]），它能提供有意义的跨语言比较。
 
-When comparing tokenizers for a single language, you can also use the number of characters or bytes instead of words to get the characters-to-tokens ratio or bytes-to-tokens ratio [@dagan2024gettingtokenizerpretrainingdomain]. However, these metrics have limitations for cross-linguistic comparison. Bytes can be skewed since characters in different scripts require different byte representations (e.g., Chinese characters use three bytes in UTF-8 while Latin characters use one to two). Similarly, using the number of characters doesn't account for the fact that words vary dramatically in length across languages. For instance, Chinese words tend to be much shorter than German compound words. 
+在单一语言内比较分词器时，也可以用字符或字节代替词，得到字符/字节到 token 的比率 [@dagan2024gettingtokenizerpretrainingdomain]。但这些指标在跨语言比较时有限制。字节数会因为脚本不同而偏斜（例如 UTF-8 中汉字占 3 个字节，而拉丁字符只占 1–2 个字节）。同样，字符数量无法体现不同语言词长差异，例如中文词通常比德语复合词短得多。
 
- **Proportion of continued words:** 
+ **Proportion of continued words（续分词比例）：** 
 
-This metric tells us what percentage of words get split into multiple pieces. Lower percentages are better since it means fewer words get fragmented, leading to more efficient tokenization.
+该指标衡量有多少比例的词被切成多个片段。比例越低越好，因为被拆分的词更少，分词更高效。
 
-Let's implement these metrics:
+下面实现这些指标：
 
 ```python
 import numpy as np
@@ -1869,20 +1869,20 @@ def compute_tokenizer_metrics(tokenizer, word_tokenizer, text):
     
     return fertility, proportion_continued_words
 ```
-For specialized domains like code and math, though, besides fertility we need to dig deeper and look at how well the tokenizer handles domain-specific patterns. Most modern tokenizers do single-digit splitting (so "123" becomes ["1", "2", "3"]) [@palm; @deepseekv2]. It might seem counterintuitive to break numbers apart, but it actually helps models learn arithmetic patterns more effectively. If "342792" is encoded as one indivisible token, the model must memorize what happens when you add, subtract, or multiply that specific token with every other number token. But when it's split, the model learns how digit-level operations work. Some tokenizers like Llama3 [@llama3] encode numbers from 1 to 999 as unique tokens and the rest are composed of these tokens.
+不过在代码、数学等专业领域，仅看 fertility 还不够，我们还要关注分词器对领域特定模式的处理能力。多数现代分词器会把数字拆成单个数字（例如把 "123" 拆成 ["1", "2", "3"]）[@palm; @deepseekv2]。这看似反直觉，但其实有助于模型学习算术规律。如果把 "342792" 编成一个不可再分的 token，模型就得记住它与每个数字 token 做加减乘时的结果；而拆分后，模型能学到数字级的运算规律。一些分词器如 Llama3 [@llama3] 会把 1 到 999 编成独立 token，其余数字由这些 token 组合而成。
 
 <Sidenote>
 
-For a deeper dive into how tokenization impacts arithmetic performance, <a href="https://huggingface.co/spaces/huggingface/number-tokenization-blog" target="_blank">From Digits to Decisions: How Tokenization Impacts Arithmetic in LLMs</a> compares different tokenization schemes on math tasks.
+如需深入了解分词对算术能力的影响，可参考 <a href="https://huggingface.co/spaces/huggingface/number-tokenization-blog" target="_blank">From Digits to Decisions: How Tokenization Impacts Arithmetic in LLMs</a>，该文比较了不同分词方案在数学任务上的表现。
 </Sidenote>
 
-So we can measure fertility on our target domains to assess the weaknesses and strengths of a tokenizer. The table below compares fertility across popular tokenizers for different languages and domains.
+因此我们可以在目标领域上测 fertility，从而评估分词器的优势与短板。下表比较了不同分词器在多种语言与领域上的 fertility。
 
- **Evaluating tokenizers** 
+ **评估分词器** 
 
-To compare tokenizers across different languages, we'll use the setup from [FineWeb2](https://arxiv.org/abs/2506.20920) tokenizer analysis, using Wikipedia articles as our evaluation corpus. For each language, we'll sample 100 articles to get a meaningful sample while keeping computation manageable.
+为了比较不同语言上的分词器表现，我们采用 [FineWeb2](https://arxiv.org/abs/2506.20920) 的分析设置，以 Wikipedia 文章作为评估语料。每种语言抽样 100 篇文章，既保证样本有代表性，又控制计算成本。
 
-First, let's install dependencies and define which tokenizers and languages we want to compare:
+首先安装依赖，并定义要比较的分词器与语言：
 
 ```bash
 pip install transformers datasets sentencepiece 'datatrove[multilingual]'
@@ -1903,7 +1903,7 @@ languages = [
     ("Arabic", "arb_Arab", "ar"),
 ]
 ```
-Now let's load our Wikipedia samples, we use streaming to avoid downloading entire datasets:
+接着加载 Wikipedia 样本，我们使用 streaming 来避免下载完整数据集：
 
 ```python
 from datasets import load_dataset
@@ -1916,7 +1916,7 @@ for lang_name, lang_code, short_lang_code in languages:
   ds_iter = iter(wiki_ds)
   wikis[lang_code] = "\n".join([next(ds_iter)["text"] for _ in range(100)])
 ```
-With our data ready, we can now evaluate each tokenizer on each language. For each combination, we load the appropriate word tokenizer from [datatrove](https://github.com/huggingface/datatrove)  and compute both metrics:
+数据准备好后，就可以在每种语言上评估各分词器。对每个组合，我们从 [datatrove](https://github.com/huggingface/datatrove) 加载相应的词级分词器，并计算两项指标：
 
 ```python
 from transformers import AutoTokenizer
@@ -1975,7 +1975,7 @@ print(df)
 26        Qwen3     Italian   1.883456  0.549402
 27        Qwen3      Arabic   2.255253  0.660318
 ```
-The results reveal some winners and trade-offs depending on your priorities:
+结果显示，不同优先目标会带来不同的赢家与取舍：
 
 <Wide>
 
@@ -1984,16 +1984,16 @@ The results reveal some winners and trade-offs depending on your priorities:
 
 
 
-Gemma3 tokenizer achieves low fertilities and word-splitting rates across multiple languages, notably on English, French, and Spanish, which can be explained by its tokenizer training data and very large vocabulary size of 262k, roughly 2x larger than Llama3's 128k. Qwen3 tokenizer excels on Chinese, but falls behind Llama3's tokenizer on English, French and Spanish. Mistral Small's tokenizer [@mistralsmall] performs best on Arabic but falls short of the other tokenizers on English and Chinese.
+Gemma3 分词器在多种语言上都达到了较低的 fertility 和拆分率，尤其是在英语、法语和西班牙语上，这与其分词器训练数据以及超大的 262k 词表有关，约为 Llama3 128k 的两倍。Qwen3 分词器在中文上表现突出，但在英语、法语和西班牙语上落后于 Llama3。Mistral Small 的分词器 [@mistralsmall] 在阿拉伯语上最好，但在英语和中文上不如其他分词器。
 
- **Choosing Between Existing and Custom Tokenizers** 
+ **在现有分词器与自训分词器之间做选择** 
 
-Currently, there's a good selection of strong tokenizers available. Many recent models start with something like GPT4's tokenizer [@gpt4] and augment it with additional multilingual tokens. As we can see in the table above, Llama 3's tokenizer performs well on average across multilingual text and code, while Qwen 2.5 excels particularly on Chinese and some low-resource languages.
+目前有不少强力分词器可选。许多新模型会以 GPT4 的分词器 [@gpt4] 为基础，再增加多语种 token。从上表可见，Llama 3 的分词器在多语文本与代码上表现均衡，而 Qwen 2.5 在中文与部分低资源语言上更突出。
 
--  **When to use existing tokenizers:**  If our target use case matches the language or domain coverage of the best tokenizers above (Llama, Qwen, Gemma), then they are solid choices that were battle-tested. For SmolLM3 training we chose Llama3's tokenizer: it offers competitive tokenization quality on our target languages (English, French, Spanish, Portuguese, Italian)  with a modest vocabulary size that made sense for our small model size. For larger models where embeddings are a smaller fraction of total parameters, Gemma3's efficiency gains become more attractive.
--  **When to train our own:**  If we're training for low-resource languages or have a very different data mixture, we'll likely need to train our own tokenizer to ensure good coverage.  In which case it's important that we train the tokenizer on a dataset close to what we believe the final training mixture will look like. This creates a bit of a chicken-and-egg problem since we need a tokenizer to run data ablations and find the mixture. But we can retrain the tokenizer before launching the final run and verify that downstream performance improves and fertilities are still good.
+-  **何时用现成分词器：** 如果我们的目标用例与上面这些分词器（Llama、Qwen、Gemma）的语言或领域覆盖相匹配，那么它们是经过实战验证的稳妥选择。SmolLM3 训练中我们选了 Llama3 的分词器：它在目标语言（英语、法语、西班牙语、葡萄牙语、意大利语）上表现竞争力强，同时词表规模适中，适合小模型。对于更大的模型，嵌入在总参数中占比更小，Gemma3 的效率收益会更有吸引力。
+-  **何时自训分词器：** 如果你面向低资源语言，或者数据混合比例差异很大，就很可能需要自训分词器以保证覆盖度。此时应尽量用接近最终训练混合的数据来训练分词器。但这会带来“鸡生蛋、蛋生鸡”的问题：我们需要分词器来做数据消融以找到混合比例。解决方法是先用近似数据训练一个分词器做消融，最终开跑前再重训分词器，并验证下游性能提升且 fertility 仍然良好。
 
-Your tokenizer choice might seem like a technical detail, but it ripples through every aspect of your model's performance. So don't be afraid to invest time in getting it right.
+分词器的选择看似细节，却会影响模型性能的方方面面。所以别怕在这一步投入时间，把它打磨到位。
 
 #### SmolLM3
 
