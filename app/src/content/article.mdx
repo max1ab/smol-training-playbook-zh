@@ -1997,53 +1997,53 @@ Gemma3 分词器在多种语言上都达到了较低的 fertility 和拆分率�
 
 #### SmolLM3
 
-Now that we've explored the architectural landscape and run our systematic ablations, let's see how this all comes together in practice for a model like SmolLM3.
+在考察完架构版图并完成系统性消融之后，我们来看这些结论如何在 SmolLM3 这样的模型上落地。
 
-The SmolLM family is about pushing the boundaries of what's possible with small models. SmolLM2 delivered three capable models at 135M, 360M, and 1.7B parameters, all designed to run efficiently on-device. For SmolLM3, we wanted to scale up performance while staying small enough for phones, and tackle SmolLM2's weak spots: multilinguality, very long context handling, and strong reasoning capabilities. We chose 3B parameters as the sweet spot for this balance.
+SmolLM 系列的目标，是不断拓展小模型的可能性边界。SmolLM2 交付了 135M、360M 和 1.7B 三个能力扎实的模型，全部面向端侧高效运行。到了 SmolLM3，我们希望在仍适配手机的前提下提升性能，并补齐 SmolLM2 的短板：多语言、超长上下文处理，以及更强的推理能力。综合权衡后，我们选择 3B 参数作为最佳平衡点。
 
-Since we were scaling up a proven recipe, we naturally gravitated toward dense transformers. MoE wasn't implemented in nanotron yet, and we already had the expertise and infrastructure for training strong small dense models. More importantly, for edge device deployment we're memory-bound, an MoE with many parameters even if only a few are active would be limiting since we still need to load all experts into memory, making dense models more practical for our edge deployment targets.
+因为是在放大一套已验证的配方，我们自然选择了稠密 Transformer。MoE 当时还未在 nanotron 中实现，而我们也具备训练强小型稠密模型的经验与基础设施。更关键的是，端侧部署受限于内存：即使 MoE 只有少数专家被激活，仍需把所有专家加载进内存，因此会受到限制。对我们的端侧目标来说，稠密模型更现实。
 
- **Ablations:** We started with SmolLM2 1.7B's architecture as our foundation, then trained a 3B ablation model on 100B tokens using Qwen2.5-3B layout. This gave us a solid baseline to test each modification individually. Each architecture change needed to either improve the loss and downstream performance on English benchmarks or provide measurable benefits like inference speed without quality degradation.
+ **Ablations:** 我们以 SmolLM2 1.7B 的架构为基础，先用 Qwen2.5-3B 的布局在 100B tokens 上训练了一个 3B 的消融模型。这样就有了一个稳固基线，便于逐项验证修改。每一项架构改动都必须满足其一：降低损失与提升英文基准的下游性能；或在不损失质量的前提下，带来可量化收益（如推理速度）。
 
-Here's what we tested before launching the run that made the cut:
+在正式开跑最终版本前，我们测试了以下内容：
 
- **Tokenizer:**  Before diving into architecture modifications, we needed to choose a tokenizer. We found a good set of tokenizers that covered our target languages and domains. Based on our fertility analysis, Llama3.2's tokenizer gave us the best tradeoff between our 6 target languages while keeping the vocabulary at 128k, large enough for multilingual efficiency but not so large that it bloated our 3B parameter count with embedding weights.
+ **Tokenizer:**  在动架构之前，首先要选分词器。我们找到了覆盖目标语言与领域的一组可用分词器。基于 fertility 分析，Llama3.2 的分词器在我们的 6 种目标语言之间给出了最佳折中，同时词表维持在 128k：足够支撑多语效率，又不会让 3B 模型的嵌入参数过度膨胀。
 
- **Grouped Query Attention (GQA)** : We reconfirmed our earlier finding that GQA with 4 groups matches Multi-Head Attention performance, but this time at 3B scale with 100B tokens. The KV cache efficiency gains were too good to pass up, especially for on-device deployment where memory is precious.
+ **Grouped Query Attention (GQA)** : 我们再次验证了先前结论：4 组的 GQA 能达到多头注意力的性能，这次是在 3B 规模、100B tokens 的设置下。KV cache 的效率提升非常可观，尤其在端侧内存紧张的情况下。
 
- **NoPE for long context** : We implemented NoPE, by removing RoPE every 4th layer. Our 3B ablation confirmed the findings in the section above. NoPE improved long context handling without sacrificing short context performance. 
+ **NoPE for long context** : 我们通过每 4 层移除一次 RoPE 来实现 NoPE。3B 的消融结果印证了上文发现：NoPE 能提升长上下文处理能力，同时不牺牲短上下文性能。 
 
- **Intra-document attention masking** : We prevent cross-document attention during training to help with training speed and stability when training on very large sequences, again we find that this doesn't impact downstream performance.
+ **Intra-document attention masking** : 训练时禁止跨文档注意力，有助于在超长序列训练中提升速度与稳定性，而下游性能并未受到影响。
 
- **Model layout optimization** : We compared layouts from recent 3B models in the literature, some prioritizing depth, others width. We tested Qwen2.5-3B (3.1B), Llama3.2-3B (3.2B), and Falcon3-H1-3B (3.1B) layouts on our training setup, where depth and width varied. The results were interesting: all layouts achieved nearly identical loss and downstream performance, despite Qwen2.5-3B actually having fewer parameters. But Qwen2.5-3B's deeper architecture aligned with research showing that network depth benefits generalization [@petty2024impactdepthcompositionalgeneralization]. Therefore, we went with the deeper layout, betting it would help as training progressed.
+ **Model layout optimization** : 我们对比了文献中近期 3B 模型的布局，有的偏深、有的偏宽。在我们的训练配置下测试了 Qwen2.5-3B（3.1B）、Llama3.2-3B（3.2B）和 Falcon3-H1-3B（3.1B）三种布局。结果很有意思：尽管 Qwen2.5-3B 参数更少，但三者在损失与下游性能上几乎一致。不过，Qwen2.5-3B 更深的架构与研究中“网络更深有利于泛化”的结论一致 [@petty2024impactdepthcompositionalgeneralization]。因此我们选择更深的布局，押注其在训练推进时更有优势。
 
- **Stability improvements** : We kept tied embeddings from SmolLM2 but added a new trick inspired by OLMo2, removing weight decay from embeddings. Our ablations showed this didn't hurt performance while lowering embedding norms, which can help for preventing training divergence.
+ **Stability improvements** : 我们保留了 SmolLM2 的 tied embeddings，同时引入了受 OLMo2 启发的新技巧：对 embedding 取消 weight decay。消融结果表明这不会影响性能，同时降低 embedding 范数，有助于避免训练发散。
 
-The beauty of this systematic ablations approach is that we could confidently combine all these modifications, knowing each had been validated.
+系统性消融的好处在于：我们可以确信每一项改动都被验证过，从而放心地将它们组合在一起。
 
 <Note title="Combining changes in ablations" emoji="💡" variant="info">
 
-In practice we test changes incrementally: once a feature was validated, it became part of the baseline for testing the next feature. Testing order matters: start with the battle-tested features first (tie embeddings → GQA → document masking → NoPE → remove weight decay).
+实践中我们会逐步验证：一旦某个特性被确认有效，它就成为后续测试的基线。测试顺序也很关键：先从最稳妥的特性开始（tie embeddings → GQA → document masking → NoPE → remove weight decay）。
 </Note>
 
-#### Rules of engagement
+#### 行动准则
 
 <Quote>
 
-TL;DR: Your use case drives your choices.
+TL;DR：用例决定选择。
 </Quote>
 
- **Let your deployment target guide architectural decisions.**  Consider how and where your model will actually run when evaluating new architectural innovations.
+ **让部署目标主导架构决策。**  在评估新的架构创新时，先考虑模型将在哪里、以何种方式运行。
 
- **Strike the right balance between innovation and pragmatism.**  We can't afford to ignore major architectural advances - using Multi-Head Attention today when GQA and better alternatives exist would be a poor technical choice. Stay informed about the latest research and adopt techniques that offer clear, validated benefits at scale. But resist the temptation to chase every new paper that promises marginal gains (unless you have the resources to do so or your goal is architecture research).
+ **在创新与务实之间找到平衡。**  关键架构进展不能忽视——当 GQA 和更优替代方案已存在时，仍使用多头注意力就是糟糕的技术选择。保持对最新研究的了解，并采纳那些在规模上有清晰、可验证收益的技术。但也要克制追逐每一篇只承诺微小增益的新论文的冲动（除非你资源充足或目标本就是架构研究）。
 
- **Systematic beats intuitive.**  Validate every architecture change, no matter how promising it looks on paper. Then test modifications individually before combining them to understand their impact.
+ **系统化胜过直觉。**  任何架构变更都要验证，不管它在纸面上多么诱人。然后逐项测试改动，再去组合，才能弄清各自影响。
 
- **Scale effects are real - re-ablate at target size when possible.**  Don't assume your small-scale ablations will hold perfectly at your target model size. If you have the compute, try to reconfirm them.
+ **规模效应真实存在——尽可能在目标规模上重做消融实验。**  不要假设小规模消融结论能在目标模型规模上完全成立。有算力就尽量复核。
 
- **Validate tokenizer efficiency on your actual domains.**  Fertility metrics across your target languages and domains matter more than following what the latest model used. A 50k English tokenizer won't cut it for serious multilingual work, but you don't need a 256k vocab if you're not covering that many languages either.
+ **在真实领域验证分词器效率。**  针对目标语言与领域的 fertility 指标，比追随最新模型用什么分词器更重要。50k 的英文分词器不足以胜任严肃的多语任务，但如果语言覆盖不多，也没必要上 256k 的词表。
 
-Now that the model architecture is now decided, it's time to tackle the optimizer and hyperparameters that will drive the learning process.
+既然模型架构已经确定，现在是时候着手选择将驱动学习过程的优化器和超参数了。
 
 ### Optimiser and training hyperparameters
 
