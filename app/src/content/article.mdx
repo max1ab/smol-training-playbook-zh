@@ -2045,64 +2045,64 @@ TL;DR：用例决定选择。
 
 既然模型架构已经确定，现在是时候着手选择将驱动学习过程的优化器和超参数了。
 
-### Optimiser and training hyperparameters
+### 优化器与训练超参数
 
-The pieces are coming into place. We've run our ablations, settled on the architecture, and chosen a tokenizer. But before we can actually launch the training, there are still some crucial missing pieces: which optimizer should we use? What learning rate and batch size? How should we schedule the learning rate over training?
+各块拼图正逐一落位：我们跑完了消融实验，敲定了架构，选好了分词器。但在真正启动训练之前，仍有几块关键拼图缺失：该用哪种优化器？学习率和批次大小该设多少？训练过程中如何调度学习率？
 
-The tempting approach here is to just borrow values from another strong model in the literature. After all, if it worked for big labs, it should work for us, right? And for many cases that will work just fine if we're taking values from a similar architecture and model size.
+最省事的做法是直接照搬文献里某个强模型所用的数值。毕竟大厂验证过的配置，按理说也能管用。若我们从相近架构和规模的模型中取用参数，很多时候确实没问题。
 
-However, we risk leaving performance on the table by not tuning these values for our specific setup. Literature hyperparameters were optimized for specific data and constraints, and sometimes those constraints aren't even about performance. Maybe that learning rate was picked early in development and never revisited. Even when model authors do thorough hyperparameter sweeps, those optimal values were found for their exact combination of architecture, data, and training regime, not ours. Literature values are always a good starting point, but it's a good idea to explore if we can find better values in the neighbourhood.
+但若不做针对自身场景的调优，我们很可能错过本可获得的性能提升。文献中的超参数是为特定数据和约束优化的，有些约束甚至与性能无关——也许某个学习率是开发早期随手定下、此后从未再碰的。即便作者做了完整的超参数扫描，那些“最优值”也是针对他们那套架构、数据和训练流程的组合得出的，而非我们的。文献数值永远是好起点，但值得在邻近范围内探索是否有更优解。
 
-In this chapter, we'll explore the latest optimizers (and see if trusty old AdamW [@kingma2014adam] still stands the [test of time](https://blog.iclr.cc/2025/04/14/announcing-the-test-of-time-award-winners-from-iclr-2015/) 🎉), dive into learning rate schedules that go beyond the standard cosine decay and figure out how to tune the learning rate and batch size given a model and data size. 
+本章将探讨最新的优化器（以及经典老将 AdamW [@kingma2014adam] 是否仍能经受[时间检验](https://blog.iclr.cc/2025/04/14/announcing-the-test-of-time-award-winners-from-iclr-2015/) 🎉），深入超越标准 cosine decay 的学习率调度方式，并说明在给定模型和数据规模下如何调节学习率与批次大小。
 
-Let's start with the the optimizer wars.
+先从优化器之争说起。
 
-#### Optimizers: AdamW and beyond
+#### 优化器：AdamW 及其它
 
-The optimizer is at the heart of the whole LLM training operation. It decides for every parameter what the actual update step will be based on the past updates, the current weights and the gradients derived from the loss. At the same time it is also a [memory and compute hungry beast](https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=profiling_the_memory_usage) and thus can impact how many GPUs you need and how fast your training is.
+优化器是整场 LLM 训练的核心。它根据过往更新、当前权重和损失求得的梯度，决定每个参数的实际更新步长。与此同时，它也是[吃显存、吃算力的巨兽](https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=profiling_the_memory_usage)，直接影响你需要的 GPU 数量和训练速度。
 
 <Sidenote>
 
-If you're uncertain what an optimizer is and what it's useful for, check Ruder's [blog on Gradient Descent and optimizers](https://www.ruder.io/optimizing-gradient-descent/), which notably compares cool optimizers
+若不清楚优化器是什么、有什么用，可参考 Ruder 的[梯度下降与优化器博客](https://www.ruder.io/optimizing-gradient-descent/)，里面对比了不少主流优化器。
 </Sidenote>
 
-We didn't spare any efforts to summarize the current landscape of optimizers used for LLM pretraining:
+我们梳理了当前 LLM 预训练中常用优化器的分布情况：
 
-| Model | Optimizer |
+| 模型 | 优化器 |
 | --- | --- |
-| Kimi K2, GLM 4.5 | Muon |
-| Everyone else | AdamW |
+| Kimi K2、GLM 4.5 | Muon |
+| 其它多数 | AdamW |
 
-So, you might wonder why everyone is using AdamW?
+你可能会问：为什么大家都在用 AdamW？
 
-The person writing this part of the blog post thinks it's because "people are lazy" (hi, it's [Elie](https://x.com/eliebakouch)), but others might more realistically say that AdamW has been working well/better at different scales for a long time, and it's always a bit scary to change such a core component especially if it's hard (ie expensive) to test how well it does in very long trainings.
+本文作者认为原因是「人比较懒」（大家好，我是 [Elie](https://x.com/eliebakouch)），但更务实的说法是：AdamW 在多个规模上长期表现稳定甚至更优，而更换这类核心组件总有风险，尤其在长训练中验证效果又难又贵的情况下。
 
-Moreover, comparing optimizers fairly is harder than it looks. Scale changes the dynamics in ways that can be hard to simulate in small ablations, so hyperparameter tuning is complex. You could say:  *"it's ok, I've tuned my AdamW for weeks, I can just reuse the same hyperparameters to compare!"*  and we wish so much this would be true. But unfortunately, for each optimizer, you need to do proper hyperparameter search (1D? 2D? 3D?), which makes optimizer research hard and costly.
+此外，公平比较优化器比看上去更难。规模会改变训练动力学，小规模消融难以模拟，超参数调优因此变得复杂。你可能会说：*「没关系，我调了几周 AdamW，直接把同一套超参数拿来比就行！」*——我们也希望如此。可惜的是，每种优化器都需要单独做系统的超参数搜索（一维？二维？三维？），这让优化器研究既难又烧钱。
 
 <Sidenote>
 
-Often, the baseline is not tuned very well, so new optimizers are compared against a weak AdamW settings. A recent study [@wen2025fantasticpretrainingoptimizers] shows how much that alone skews reported gains.
+基线往往没有认真调优，新优化器常与弱配置的 AdamW 对比。近期研究 [@wen2025fantasticpretrainingoptimizers] 表明，仅此一点就会显著扭曲所报告的提升幅度。
 </Sidenote>
 
-So let's start with the classic and the foundation of Durk Kingma's scary [Google scholar ](https://scholar.google.com/citations?user=yyIoQu4AAAAJ&hl=en)domination: AdamW.
+那就从经典、以及 Durk Kingma 那令人咋舌的[学术影响力](https://scholar.google.com/citations?user=yyIoQu4AAAAJ&hl=en)的基石说起：AdamW。
 
  **AdamW** 
 
-Adam (Adaptive Momentum Estimation) is a first order optimization technique. It means that in addition to looking at the gradients alone, we also consider how much the weights changed in the previous steps. This makes the learning rate for each parameter adapt based on the momentum. 
+Adam（Adaptive Momentum Estimation，自适应动量估计）是一阶优化算法。除梯度外，它还考虑前几步权重的变化量，使每个参数的学习率随动量自适应调整。
 
-The careful reader might wonder: hey there, aren't you missing a W? Indeed! The reason we specifically add the W (=weight decay) is the following. In standard SGD we can simply add a  $\lambda \theta^2$  (where  $\theta$  are the weights) to the loss to apply L2 regularization. However, if we do the same with Adam, the adaptive learning rate will also affect the L2 regularization. This means the regularization strength becomes dependent on gradient magnitudes, weakening its effect. This is not what we want and that's why AdamW applies it decoupled from the main optimization loop to fix this.
+细心的读者会问：是不是漏了 W？没错。我们特意加上 W（= weight decay，权重衰减）的原因如下。在标准 SGD 中，可以直接在损失里加  $\lambda \theta^2$（$\theta$ 为权重）来做 L2 正则。但若对 Adam 也这样做，自适应学习率会影响 L2 正则项，使正则强度依赖梯度大小，削弱其效果。这并非我们所愿，因此 AdamW 将权重衰减与主优化循环解耦，单独施加。
 
-Interestingly, across the last few years the AdamW hyperparameters have barely moved:
+有意思的是，过去几年 AdamW 的超参数几乎没变：
 
-- β₁ = 0.9, β₂ = 0.95
+- β₁ = 0.9，β₂ = 0.95
 - grad norm clipping = 1.0
-- weight decay = 0.1 (Llama-3-405B drops this to 0.01)
+- weight decay = 0.1（Llama-3-405B 降至 0.01）
 
-The same triplet is almost reused from Llama 1,2,3 to DeepSeek-V1,2,3 671B, no change. Was Durk Kingma right all along or can we do better? 
+从 Llama 1、2、3 到 DeepSeek-V1、2、3 671B，这套「三件套」几乎原样沿用。是 Durk Kingma 一路都对，还是我们还能更好？ 
 
- **Muon in one line** 
+ **Muon 一句话** 
 
-Adam is a first-order methods, as it is only uses the gradients. Muon is a second-order optimizer that acts on the  *matrix*  view of a parameter tensor.
+Adam 是一阶方法，只用梯度；Muon 是二阶优化器，对参数张量采取  *矩阵*  视角。
 
 $$
 
@@ -2114,22 +2114,22 @@ O_t &= \mathrm{NewtonSchulz5}(B_t) \ \approx\ U V^\top \quad \text{if } B_t = U\
 \end{aligned}
 $$
 
-Looking at these equations you might wonder why is this a second order method, I only see gradients and no higher oder terms. The second order optimization actually happens inside the Newton Schulz step, but we won't go into further details here. There are already high-quality blogs that explain Muon in depth, so here we'll just list the three key ideas of Muon:
+只看公式你可能会疑惑：为何算二阶方法？我只看到梯度，没有更高阶项。二阶优化其实发生在 Newton-Schulz 步骤内部，此处不展开。已有高质量博客深入讲解 Muon，这里只概括其三个核心思想：
 
 <Sidenote>
 
-To learn more about Muon, we recommend checking out this [blog](https://kellerjordan.github.io/posts/muon/) by Keller Jordan,  this [one](https://jeremybernste.in/writing/deriving-muon) by Jeremy Bernstein and this [video](https://www.youtube.com/watch?v=bO5nvE289ec) by Jia-Bin Huang which is a great starting point.
+想进一步了解 Muon，推荐 Keller Jordan 的这篇[博客](https://kellerjordan.github.io/posts/muon/)、Jeremy Bernstein 的[推导文章](https://jeremybernste.in/writing/deriving-muon)以及 Jia-Bin Huang 的[视频](https://www.youtube.com/watch?v=bO5nvE289ec)，都是很好的入门材料。
 </Sidenote>
 
-1.  **Matrix-wise geometry vs. parameter-wise updates:** AdamW preconditions  *per parameter*  (diagonal second moment). Muon treats each weight  **matrix**  as a single object and updates along  $G=UV^{\top}$ , which captures row/column subspace structure.
-1.  **Isotropic steps via orthogonalization:** Decomposing  $G=U\Sigma V^{\top}$   with singular value decomposition (SVD) separates magnitude ( $\Sigma$ ) from directions (the left/right subspaces  $U,V$  ). Replacing  $G$  by  $UV^{\top}$  discards singular values and makes the step  *isotropic*  in the active subspaces. It's a bit counterintuitive at first—since throwing away  $\Sigma$  looks like losing information—but it reduces axis-aligned bias and encourages exploration of directions that would otherwise be suppressed by very small singular values. There's still an open question on whether this kind of exploration bakes different capabilities into the model that aren't obvious if you only look at the loss.
-1.  **Empirical tolerance to larger batch sizes:** In practice, Muon often tolerates higher batch sizes. We'll talk about this more in depth in the batch size section, but this might be a key point of Muon adoption!
+1.  **矩阵级几何 vs 逐参数更新：** AdamW 按  *参数*  做预条件（对角二阶矩）。Muon 把每个权重  **矩阵**  当作整体，沿  $G=UV^{\top}$  更新，从而捕获行/列子空间结构。
+1.  **通过正交化实现各向同性步：** 用奇异值分解（SVD）将  $G=U\Sigma V^{\top}$  分解后，把幅度（$\Sigma$）与方向（左右子空间  $U,V$）分离。用  $UV^{\top}$  替代  $G$  会丢弃奇异值，使步长在活跃子空间内呈  *各向同性*。初看有点反直觉——丢掉  $\Sigma$  似乎损失信息——但能减少轴对齐偏置，并鼓励探索那些本会被极小奇异值压制的方向。这类探索是否会让模型具备仅看损失难以察觉的能力，仍是开放问题。
+1.  **对大批次的经验容忍度：** 实践中 Muon 往往能承受更大的 batch size。我们会在批次大小一节再详述，但这可能是采用 Muon 的关键考量之一。
 
-For years, the community mostly settled on AdamW and the optimizer recipes of frontier labs are often kept secret (Qwen doesn't talk about theirs, for instance), but recently Muon has seen uptake in high-profile releases (e.g., Kimi K2, GLM-4.5). Hopefully we'll see more open and robust recipes to use 
+多年来社区主要沿用 AdamW，前沿实验室的优化器配方也常保密（例如 Qwen 从未公开其配置），但近来 Muon 已在一些重磅发布中落地（如 Kimi K2、GLM-4.5）。希望未来能看到更多公开、稳健的用法。 
 
-There is a wild zoo of optimizers and the only thing researchers are more creative at than combining all possible momentums and derivates is coming up with names for them: Shampoo, SOAP, PSGD, CASPR, DION, Sophia, Lion… even AdamW has its own variants like NAdamW, StableAdamW, etc. Diving into all these optimizers would be worth its own blog, but we'll keep that for another time. In the meantime, we recommend this amazing paper by the stanford/marin team [@wen2025fantasticpretrainingoptimizers] who benchmarked many different optimizer to show how important hyperparemeter tuning is when doing comparisons.
+优化器种类繁多，研究员在组合各种动量和导数之余，最擅长的可能就是起名：Shampoo、SOAP、PSGD、CASPR、DION、Sophia、Lion……连 AdamW 也有 NAdamW、StableAdamW 等变体。逐一深挖这些优化器足够单独写一篇博客，我们留待日后。目前推荐 Stanford/Marin 团队的这篇论文 [@wen2025fantasticpretrainingoptimizers]，它对多种优化器做了基准测试，展示了超参数调优在比较中的重要性。
 
-Hand in hand with almost every optimizer is the question on how strongly we should update the weights determined by the learning rate which typically appears as a scalar value in the optimizer equations. Let's have a look how this seemingly simple topic still has many facets to it.
+几乎每个优化器都伴生同一个问题：该以多大力度更新权重？这由学习率决定，在优化器公式里通常表现为一个标量。下面来看看这个看似简单的话题为何仍有诸多面向。
 
 #### Learning Rate
 
