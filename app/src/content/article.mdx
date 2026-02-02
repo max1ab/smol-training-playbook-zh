@@ -2131,29 +2131,29 @@ $$
 
 几乎每个优化器都伴生同一个问题：该以多大力度更新权重？这由学习率决定，在优化器公式里通常表现为一个标量。下面来看看这个看似简单的话题为何仍有诸多面向。
 
-#### Learning Rate
+#### 学习率
 
-The learning rate is one of the most important hyperparameters we'll have to set. At each training step, it controls how much we adjust our model weights based on the computed gradients. Choosing a learning rate too low and our training gets painfully slow and we can get trapped in a bad local minima. The loss curves will look flat, and we'll burn through our compute budget without making meaningful progress. On the other hand if we set the learning rate too high we cause the optimizer to take massive steps that overshoot optimal solutions and never converge or, the unimaginable happens, the loss diverges and the loss shoots to the moon.
+学习率是我们需要设定的最重要超参数之一。在每个训练步中，它控制我们根据计算出的梯度对模型权重调整的幅度。学习率过低，训练会极其缓慢，还可能陷入糟糕的局部最优；损失曲线会显得平坦，算力白白消耗却难有实质进展。反之，学习率过高会让优化器步长过大、越过最优解而难以收敛，甚至出现最不愿看到的情况：损失发散、一飞冲天。
 
-But the best learning rate isn't even constant since the learning dynamics change during training. High learning rates work early when we're far from good solutions, but cause instability near convergence. This is where learning rate schedules come in: warmup from zero to avoid early chaos, then decay to settle into a good minimum. These patterns (warmup + cosine decay, for example) have been validated for neural networks training for many years.
+最优学习率也并非恒定——训练动力学会随训练推进而变化。远离良好解时，高学习率有利；接近收敛时则带来不稳定。学习率调度因此登场：先做 warmup 避免早期混乱，再衰减以沉入良好最小值。这类模式（如 warmup + cosine decay）在神经网络训练中已被验证多年。
 
 <Note title="Warmup steps" emoji="💡" variant="info">
 
-Most modern LLMs use a fixed number of warmup steps (for example 2000) regardless of model size and length of training, as shown in [Table 1](#llms-landscape-pretrain). We've found that for long trainings, increasing the number of warmup steps doens't have an impact on performance, but for very short trainings people usually use 1% to 5% of training steps.
+如 [Table 1](#llms-landscape-pretrain) 所示，多数现代 LLM 采用固定 warmup 步数（例如 2000），与模型规模和训练长度无关。我们发现：长训练时增加 warmup 步数对性能影响不大；极短训练时，通常取训练步数的 1% 至 5%。
 </Note>
 
-Let's look at the common schedules, then discuss how to pick the peak value.
+先看常用调度方式，再讨论如何选择峰值学习率。
 
- **Learning Rate Schedules: Beyond Cosine Decay** 
+ **学习率调度：超越 Cosine Decay** 
 
-It has been known for years that changing the learning rate helps convergence [@smith2018superconvergencefasttrainingneural] and the cosine decay [@loshchilov2017sgdrstochasticgradientdescent] was the go-to schedule for training LLMs: start at a peak learning rate after warmup, then smoothly decrease following a cosine curve. It's simple and works well. But its main disadvantage is inflexibility; we need to know our total training steps upfront, as the cosine cycle length must match your total training duration. This becomes a problem in common scenarios: your model hasn't plateaued yet or you get access to more compute and want to train longer, or you're running scaling laws and need to train the same model on different token counts.  Cosine decay forces you to restart from scratch.
+多年前就已知调节学习率有助于收敛 [@smith2018superconvergencefasttrainingneural]，cosine decay [@loshchilov2017sgdrstochasticgradientdescent] 是训练 LLM 的首选调度：warmup 后从峰值学习率开始，沿余弦曲线平滑下降。简单且好用。但主要缺点是缺乏灵活性：必须事先确定总训练步数，因为 cosine 周期必须与总训练时长匹配。这在常见场景下会出问题：模型尚未收敛、获得更多算力想延长训练、或做 scaling law 实验需在不同 token 量下训练同一模型——cosine decay 都会逼你从头重跑。
 
 <Sidenote>
 
-Interestingly, this inflexibility skewed early scaling laws research [@kaplan2020scalinglawsneurallanguage], because they used a fixed cosine schedule length when training models on varying token counts, underestimating the impact of data size. The Chinchilla study [@hoffmann2022trainingcomputeoptimallargelanguage] corrected this and matched the schedule length to each model's actual training duration.
+有意思的是，这种僵化曾扭曲早期 scaling laws 研究 [@kaplan2020scalinglawsneurallanguage]：他们在不同 token 量上训练时使用固定 cosine 周期，低估了数据规模的影响。Chinchilla 研究 [@hoffmann2022trainingcomputeoptimallargelanguage] 纠正了这一点，将调度长度与各模型的实际训练时长对应起来。
 </Sidenote>
 
-Many teams now use schedules where you don't need to start decaying immediately after warmup. This is the case for  **Warmup-Stable-Decay (** WSD) [@hu2024minicpmunveilingpotentialsmall] and  **Multi-Step**  [@deepseekai2024deepseekllmscalingopensource] variants shown in the plot below. You maintain a constant high learning rate for most of training, and either sharply decay in the final phase (typically the last 10-20% of tokens) for WSD, or do discrete drops (steps) to decrease the learning rate, for example after 80% of training and then after 90% as it was done in [DeepSeek LLM](https://arxiv.org/abs/2401.02954)'s Multi-Step schedule. 
+现在许多团队改用无需在 warmup 后立即衰减的调度。**Warmup-Stable-Decay（WSD）** [@hu2024minicpmunveilingpotentialsmall] 和 **Multi-Step** [@deepseekai2024deepseekllmscalingopensource] 变体就是如此，下图中有示意。训练大部分时间内保持恒定高学习率，WSD 在最后阶段（通常为最后 10–20% 的 tokens）急剧衰减；Multi-Step 则做离散下降（分步），例如 [DeepSeek LLM](https://arxiv.org/abs/2401.02954) 的做法：80% 训练后降一次，90% 后再降一次。 
 
 <HtmlEmbed 
   src="embeds/d3-line-chart.html" 
@@ -2172,19 +2172,19 @@ Many teams now use schedules where you don't need to start decaying immediately 
 
 
 
-These schedules offer practical advantages over cosine decay. We can extend training mid-run without restarting, whether we want to train longer than initially planned, are decay early to get a more measure of training progress and we can run scaling law experiments across different token counts with one main training run. Moreover, studies show that both WSD and Multi-Step match cosine decay [@wsdhagele; @deepseekai2024deepseekllmscalingopensource] while being more practical for real-world training scenarios. 
+相比 cosine decay，这些调度更具实用性。我们可以在训练中途延长而不必重启——无论是计划延长训练、提前衰减以更好衡量进度，还是用一次主实验跑出不同 token 量下的 scaling law。此外，研究显示 WSD 和 Multi-Step 在性能上可与 cosine decay 相当 [@wsdhagele; @deepseekai2024deepseekllmscalingopensource]，且在真实训练场景中更实用。
 
 <Sidenote>
 
-recently GLM 4.5 mentions that WSD perform worse on general benchmarks (SimpleQA, MMLU), but they don't provide any results.
+GLM 4.5 近期提到 WSD 在通用基准（SimpleQA、MMLU）上表现更差，但未给出具体结果。
 </Sidenote>
 
-But you probably noticed that these schedules introduce new hyperparameters compared to cosine: How long should the decay phase last in WSD? And how long should each step be in the Multi-Step variant?
+但你可能已注意到，这些调度相比 cosine 引入了新超参数：WSD 的衰减阶段该多长？Multi-Step 各步该多长？
 
-- For WSD:   The required cooldown duration to match cosine performance decreases with longer training runs, and it is recommended to allocate 10-20% of total tokens to the decay phase [@wsdhagele]. We will confirm this setup matches cosine in our ablations below.
-- For Multi-Step: DeepSeek LLM's ablations found that while their baseline 80/10/10 split (stable until 80%, first step from 80-90%, second step from 90-100%) matches cosine, tweaking these proportions can even outperform it, for instance when using 70/15/15 and 60/20/20 splits.
+- **WSD：** 要达到与 cosine 相当的性能，所需冷却时长会随训练变长而缩短；建议将总 token 的 10–20% 用于衰减阶段 [@wsdhagele]。下文的消融实验会验证这一设定与 cosine 相当。
+- **Multi-Step：** DeepSeek LLM 的消融显示，其基线 80/10/10 划分（稳定至 80%，第一步 80–90%，第二步 90–100%）与 cosine 相当，而调整比例还能更优，例如 70/15/15 和 60/20/20 的划分。
 
-But we can get even more creative with these schedules. Let's look at the schedules used in each family of the DeepSeek models:
+我们还可以在这些调度上发挥更多创意。看看 DeepSeek 各代模型采用的调度：
 
 <HtmlEmbed 
   src="embeds/d3-line-chart.html" 
@@ -2203,18 +2203,18 @@ But we can get even more creative with these schedules. Let's look at the schedu
 
 
 
-DeepSeek LLM used the baseline Multi-Step schedule (80/10/10). [DeepSeek V2](https://arxiv.org/abs/2405.04434) adjusted the proportions to 60/30/10, giving more time to the first decay step. [DeepSeek V3](https://arxiv.org/abs/2412.19437) took the most creative approach:  instead of maintaining a constant learning rate followed by two sharp steps, they transition from the constant phase with a cosine decay (from 67% to 97% of training), then apply a brief constant phase before the final sharp step.
+DeepSeek LLM 采用基线 Multi-Step 调度（80/10/10）。[DeepSeek V2](https://arxiv.org/abs/2405.04434) 将比例调整为 60/30/10，给第一步衰减留出更多时间。[DeepSeek V3](https://arxiv.org/abs/2412.19437) 最为创新：不再维持恒定学习率后接两次陡降，而是用 cosine decay（从训练的 67% 到 97%）从恒定阶段过渡，再在最终陡降前插入短暂恒定阶段。
 
-<Note title="DeepSeek Schedules Change" variant="info">
+<Note title="DeepSeek 调度变更" variant="info">
 
-DeepSeek-V2 and V3's technical reports don't include ablations on these schedule changes. For your setup, start with simple WSD or Multi-Step schedules, then consider tuning the parameters through ablations.
+DeepSeek-V2 与 V3 的技术报告未包含这些调度变更的消融实验。建议从简单的 WSD 或 Multi-Step 开始，再考虑通过消融调参。
 </Note>
 
-Let's stop our survey of exotic learning rate schedules here and burn some GPU hours to determine what works in practice!
+学习率调度的巡礼先告一段落，接下来烧些 GPU 时数，看看实践中什么管用。
 
- **Ablation - WSD matches Cosine** 
+ **消融：WSD 与 Cosine 相当** 
 
-Now it's time for an ablation! Let's test whether WSD actually matches cosine's performance in practice. We won't show Multi-Step ablations here but we recommend DeepSeek LLM's ablations where they showed that Multi-Step matches cosine with different phase splits. In this section, we'll compare cosine decay against WSD with two decay windows: 10% and 20%.
+到了做消融的时候。我们来验证 WSD 在实践中是否真能与 cosine 性能相当。此处不展示 Multi-Step 的消融，但推荐参考 DeepSeek LLM 的消融，他们展示了 Multi-Step 在不同阶段划分下均可匹配 cosine。本节将对比 cosine decay 与两种衰减窗口的 WSD：10% 和 20%。
 
 <HtmlEmbed
 src="embeds/d3-line-chart.html"
@@ -2249,28 +2249,28 @@ smoothingWindow: 5
 
 
 
-The evaluation results show similar final performance across all three configurations. Looking at the loss and evaluation curves (specifically HellaSwag), we see an interesting pattern: cosine achieves better loss and evaluation scores during the stable phase (before WSD's decay begins). However, once WSD enters its decay phase, there's an almost linear improvement in both loss and downstream metrics allowing WSD to catch up to cosine by the end of training.
+评估结果显示三种配置的最终性能相近。观察损失与评估曲线（尤其是 HellaSwag），可见一个有意思的模式：在稳定阶段（WSD 衰减开始前），cosine 的损失和评估分数更优。然而一旦 WSD 进入衰减阶段，损失与下游指标几乎线性改善，使 WSD 在训练结束时追上 cosine。
 
-This confirms that WSD's 10-20% decay window is sufficient to match cosine's final performance while maintaining the flexibility to extend training mid-run. We opted for WSD with 10% decay for SmolLM3.
+这说明 WSD 的 10–20% 衰减窗口足以在最终性能上与 cosine 相当，同时保留训练中途延长的灵活性。SmolLM3 选用 10% 衰减的 WSD。
 
-<Note title="Comparing models trained with different schedulers mid-run" emoji="⚠️" variant="danger">
+<Note title="比较不同调度训练的中途 checkpoint" emoji="⚠️" variant="danger">
 
-If you're comparing intermediate checkpoints between cosine and WSD during the stable phase, make sure to apply a decay to the WSD checkpoint for a fair comparison.
+若在稳定阶段比较 cosine 与 WSD 的中间 checkpoint，需对 WSD 的 checkpoint 施加衰减，才能公平比较。
 </Note>
 
-Now that we have a good overview of popular learning rate schedules, the next question is: what should the peak learning rate actually be?
+熟悉了主流学习率调度后，下一个问题是：峰值学习率究竟该设多少？
 
- **Finding The Optimal Learning Rate** 
+ **寻找最优学习率** 
 
-How do we pick the right learning rates for our specific learning rate scheduler and training setups? 
+如何为具体的学习率调度和训练设定选出合适的学习率？
 
-We could run learning rate sweeps on short ablations like we did for architecture choices. But optimal learning rate depends on training duration: a learning rate that converges fastest in a short ablation might not be the best one for the full run. And we can't afford to run expensive multi-week trainings multiple times just to test different learning rates. 
+可以对短消融做学习率扫描，就像架构选择时那样。但最优学习率取决于训练时长：短消融中收敛最快的学习率，未必是完整训练的最佳选择；多次跑耗时的数周训练来试不同学习率，成本也难以承受。
 
-Let's first look at simple sweeps we can quickly run that help us rule out learning rates that are much too high or low and then we'll discuss scaling laws for hyperparameters.
+先看一些可快速运行的简单扫描，排除明显过高或过低的学习率，再讨论超参数的 scaling laws。
 
- **Ablation - LR sweeps** 
+ **消融：学习率扫描** 
 
-To illustrate the impact of different learning rates, let's look at a sweep on our 1B ablation model trained on 45B tokens. We train the same model, under the same setup with 4 different learning rates: 1e-4, 5e-4, 5e-3, 5e-2. The results clearly show the dangers at both extremes:
+为说明不同学习率的影响，我们在 45B tokens 上训练的 1B 消融模型上做了一次扫描。同一模型、同一设定下，用 4 种学习率：1e-4、5e-4、5e-3、5e-2。结果清楚展示了两端的风险：
 
 <HtmlEmbed
 src="embeds/d3-line-chart.html"
@@ -2305,13 +2305,11 @@ smoothingWindow: 15
 
 
 
-LR 5e-2 diverges almost immediately, the loss spikes early and never recovers, making the model unusable. LR 1e-4 is too conservative, while it trains stably, it converges much more slowly than the other learning rates. The middle ground of 5e-4 and 5e-3 show better convergence and comparable performance. But running sweeps for every model size gets expensive quickly, and more importantly, it doesn't account for the planned number of training tokens as we previously stated. This is where scaling laws become invaluable.
+LR 5e-2 几乎立刻发散，损失早早飙升且无法恢复，模型不可用。LR 1e-4 过于保守，虽然训练稳定，但收敛远慢于其它学习率。5e-4 与 5e-3 的中段表现更好，收敛与性能都更理想。但针对每种模型规模做扫描会很快变得昂贵，更重要的是，它无法考虑计划训练的 token 数量——这正是 scaling laws 的价值所在。
 
-For SmolLM3, we trained 3B models on 100B tokens with AdamW using the WSD schedule, comparing several learning rates. We found that 2e-4 converged much faster than 1e-4 in both loss and downstream performance, while 3e-4 was only slightly better than 2e-4. The marginal gains from 3e-4 came with increased risk of instability during long training runs, so we chose 2e-4 as our sweet spot.
+在 SmolLM3 中，我们用 AdamW 和 WSD 调度在 100B tokens 上训练 3B 模型，比较了多种学习率。2e-4 在损失和下游表现上都比 1e-4 收敛快得多，3e-4 相较 2e-4 只有小幅提升，但长训练中不稳定性风险更高，因此我们以 2e-4 作为甜点。
 
-These sweeps help us rule out learning rates that are clearly too high (divergence) or too low (slow convergence), but running sweeps for every model size gets expensive quickly, and more importantly, it doesn't account for the planned number of training tokens as we previously stated. This is where scaling laws become invaluable.
-
-But before we dive into scaling laws for  hyperparameters, let's discuss the other critical hyperparameter that interacts with learning rate: batch size.
+这些扫描能帮我们排除明显过高（发散）或过低（收敛慢）的学习率，但为每种模型规模跑扫描成本不菲，且如前所述无法体现计划 token 量的影响。下一节将深入超参数的 scaling laws。在此之前，先讨论与学习率紧密相关的另一关键超参数：batch size。
 
 #### Batch size
 
