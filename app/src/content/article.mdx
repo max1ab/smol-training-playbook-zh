@@ -2311,37 +2311,37 @@ LR 5e-2 几乎立刻发散，损失早早飙升且无法恢复，模型不可用
 
 这些扫描能帮我们排除明显过高（发散）或过低（收敛慢）的学习率，但为每种模型规模跑扫描成本不菲，且如前所述无法体现计划 token 量的影响。下一节将深入超参数的 scaling laws。在此之前，先讨论与学习率紧密相关的另一关键超参数：batch size。
 
-#### Batch size
+#### 批次大小
 
-The batch size is the number of samples processed before updating model weights. It directly impacts both training efficiency and final model performance. Increasing the batch size improves throughput if your hardware and training stack scale well across devices. But beyond a certain point, larger batches start to hurt data efficiency: the model needs more total tokens to reach the same loss. The breakpoint where this happens is known as the  **critical batch size** [@mccandlish2018empiricalmodellargebatchtraining].
+批次大小指在更新模型权重之前所处理的样本数量，会同时影响训练效率和最终模型表现。若硬件与训练栈在多设备上扩展良好，增大批次大小可提升吞吐量；但超过某个拐点后，更大的批次会损害数据效率——要达到相同损失，模型需要更多的总 token 数。这一拐点即所谓 **临界批次大小（critical batch size）** [@mccandlish2018empiricalmodellargebatchtraining]。
 
 <Sidenote>
 
-Throughput is the number of tokens processed per second during training.
+吞吐量即训练时每秒处理的 token 数。
 </Sidenote>
 
--  **Increasing the batch size while staying below critical:**  after increasing the batch size and retuning the learning rate, you reach the same loss with the same number of tokens as the smaller batch size run, no data is wasted.
--  **Increasing the batch size while staying above critical:** larger batches start to sacrifice data efficiency; reaching the same loss now requires more total tokens (and thus more money), even if wall-clock time drops because more chips are busy.
+- **在临界值以下增大批次：** 增大批次并重新调节学习率后，能与更小批次实验相同的 token 数就能达到相同损失，数据没有被浪费。
+- **在临界值以上增大批次：** 更大批次会牺牲数据效率；要达到相同损失需要更多总 token（因而更高成本），即便墙上时钟时间因更多芯片在工作而缩短。
 
-Let's try to give some intuition about why we need to retune the learning rate, and how to compute an estimation of what the critical batch size should be. 
+下面直观说明为何需要重新调节学习率，以及如何估计临界批次大小。
 
-When batch size grows, each mini-batch gradient is a better estimate of the true gradient, so you can safely take a larger step (i.e., increase the learning rate) and reach a target loss in fewer updates. The question is how to scale it.
+批次变大时，每个 mini-batch 梯度对真实梯度的估计更准，因此可以安全地迈出更大步长（即提高学习率），用更少的更新步数达到目标损失。问题在于如何按比例缩放。
 
-Averaging over B samples
+对 B 个样本取平均：
 
-- Batch gradient:  $\tilde{g}_{B} \;=\; \frac{1}{B}\sum_{i=1}^{B} \tilde{g}^{(i)}$ 
-- Mean stays the same:  $\mathbb{E}\!\left[\tilde{g}_{B}\right] \;=\; g$ 
-- But covariance shrinks:  $\mathrm{Cov}\!\left(\tilde{g}_{B}\right) \;=\; \frac{\Sigma}{B}$ 
+- 批次梯度：$\tilde{g}_{B} \;=\; \frac{1}{B}\sum_{i=1}^{B} \tilde{g}^{(i)}$
+- 均值不变：$\mathbb{E}\!\left[\tilde{g}_{B}\right] \;=\; g$
+- 协方差缩小：$\mathrm{Cov}\!\left(\tilde{g}_{B}\right) \;=\; \frac{\Sigma}{B}$
 
-The SGD parameter update is:
+SGD 的参数更新为：
 
 -  $\Delta w \;=\; -\,\eta \,\tilde{g}_{B}$ 
 
-The variance of this update is proportional to:
+该更新的方差正比于：
 
--  $\mathrm{Var}(\Delta w) \;\propto\; \eta^{2}\,\frac{\Sigma}{B}$ 
+- $\mathrm{Var}(\Delta w) \;\propto\; \eta^{2}\,\frac{\Sigma}{B}$
 
-so to keep the update variance roughly constant, if you scale the batch size by k, you want to scale the learning rate by  $\sqrt k$ . So let's say you have you have computed your optimal batch size and learning rate and you've find that increasing to the critical batch size is possible and increasing the throughput, you'll need to adapt the optimal learning rate as well.
+因此，若要大致保持更新方差不变，将批次大小乘以 k 时，应将学习率乘以 $\sqrt k$。也就是说，若你已算得最优批次大小与学习率，并发现可以增大到临界批次大小以提升吞吐量，则也需要相应调整最优学习率。
 
 $$
 B_{\text{critical}} \;\rightarrow\; kB_{\text{optimal}} \quad\Rightarrow\quad \eta_{\text{critical}} \;\rightarrow\; \sqrt{k}\eta_{\text{optimal}}
@@ -2349,30 +2349,26 @@ $$
 
 <Sidenote>
 
-See the (amazing) Jianlin Su's series for more math on this: [https://kexue.fm/archives/11260](https://kexue.fm/archives/11260)
+更多数学推导可参考苏剑林的相关系列：[https://kexue.fm/archives/11260](https://kexue.fm/archives/11260)
 </Sidenote>
 
-A useful rule of thumb for optimizers like AdamW or Muon is  ***square-root***   ***LR scaling***  as batch size grows, but this also depends on the optimizer. For instance using AdamW there are interactions with  `beta1` / `beta2`  that can introduce very different behavior. A pragmatic alternative is to branch training for a brief window: keep one run at the original batch, start a second with the larger batch and a rescaled LR, and only adopt the larger batch if the two loss curves align after the rescale  [@merrill2025criticalbatchsizerevisited]. In the paper, they re-warm up the learning rate and reset the optimizer state when switching the batch size. They also set a tolerance and a time window to decide whether the losses "match", both knobs are chosen empirically. They found that the  $B_{simple}$  estimate - which is also noisy - is underestimating the "actual" critical batch size. This gives you a quick, low-risk check that the new batch/LR pair preserves training dynamics.
+对 AdamW、Muon 等优化器，一个常用经验是随批次增大采用 **平方根 LR 缩放**，但这也因优化器而异。例如 AdamW 与 `beta1` / `beta2` 的交互可能带来截然不同的行为。更务实的做法是短时分支训练：保留一条在原始批次上的运行，另开一条用更大批次和按比例缩放后的学习率，仅当两条损失曲线在缩放后对齐时才采用更大批次 [@merrill2025criticalbatchsizerevisited]。该文中在切换批次大小时会重新 warm up 学习率并重置优化器状态，还设定了容差和时间窗口来判断两条损失是否「匹配」，这两个旋钮均为经验选取。他们发现 $B_{simple}$ 估计（本身也有噪声）会低估「实际」临界批次大小。这种做法能快速、低风险地验证新的批次/学习率组合是否保持训练动态。
 
-The critical batch size isn't fixed, it grows as training progresses. Early in training, the model is making big gradient step, so  $\lVert g\rVert^2$  is big which means  $B_\text{simple}$  is small, hence the model have a smaller critical batch size. Later, as the model updates stabilizes and larger batches become more effective. This is why some large-scale trainings don't keep the batch size constant and use what we can batch size warmup. For example, DeepSeek-V3 begins with a 12.6 M batch for the first ~469 B tokens, then increases to 62.9M for the remainder of training. A batch-size warmup schedule like this serves the same purpose as a learning-rate warmup: it keeps the model on the efficient frontier as the gradient noise scale grows, maintaining stable and efficient optimization throughout.
+临界批次大小并非固定，会随训练推进而增大。训练早期模型梯度步长较大，$\lVert g\rVert^2$ 较大，故 $B_\text{simple}$ 较小，临界批次大小也较小；后期模型更新趋于稳定，更大批次更有效。因此部分大规模训练不固定批次大小，而采用所谓 **批次大小 warmup**。例如 DeepSeek-V3 在前约 469B tokens 使用 12.6M 的批次，之后将批次提高到 62.9M 直至训练结束。这类批次大小 warmup 与学习率 warmup 目的一致：在梯度噪声尺度增大的过程中让模型始终处在高效前沿，保持稳定且高效的优化。
 
-Another interesting approach is treating the loss as a proxy for the critical batch size. Minimax01 used this and in the last stage they trained with a 128M batch size! This is a bit different because they don't increase the learning rate, so their batch-size schedule acts like a learning-rate decay schedule.
+另一种思路是把损失当作临界批次大小的代理。Minimax01 采用了这种做法，在最后阶段用 128M 的批次大小训练。其不同之处在于他们并未提高学习率，因此其批次大小调度实际上起到了学习率衰减的作用。
 
-<Note title="Tuning batch size and learning rate" variant="info">
+<Note title="调节批次大小与学习率" variant="info">
 
-In practice, here's how you can choose the batch size and learning rate:
-- You first pick the batch size and learning rate you consider optimal, either from scaling laws (see later!) or from literature. 
-- Then, you can tune the batch size to see if you can improve the training throughput. 
+实践中可以这样选择批次大小与学习率：
+- 先根据 scaling laws（见后文）或文献确定你认为最优的批次大小与学习率。
+- 再调节批次大小，看能否提升训练吞吐量。
 
-The key insight is that there's often a range between your starting batch size 
-and the critical batch size where you can increase it to improve hardware 
-utilization without sacrificing data efficiency, but you must retune the learning 
-rate accordingly. 
-If the throughput gain isn't significant, or if testing a larger batch size 
-(with rescaled learning rate) shows worse data efficiency, stick with the initial values.
+要点是：从起始批次大小到临界批次大小之间，往往存在一个区间，可以在不牺牲数据效率的前提下增大批次、提高硬件利用率，但必须相应重新调节学习率。
+若吞吐量提升不明显，或更大批次（配合按比例缩放的学习率）在实验中表现出更差的数据效率，则保持初始取值即可。
 </Note>
 
-As mentioned in the note above, one way to pick your starting points for the batch size and learning rate is through scaling laws. Let's see how these scaling laws work and how they predict both hyperparameters as a function of your compute budget.
+如上所述，确定批次大小与学习率起点的一种方式是通过 scaling laws。下面看这些 scaling laws 如何工作，以及如何根据计算预算预测这两个超参数。
 
 ####  **Scaling laws for hyperparameters** 
 
