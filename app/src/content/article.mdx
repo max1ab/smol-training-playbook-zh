@@ -2370,47 +2370,47 @@ $$
 
 如上所述，确定批次大小与学习率起点的一种方式是通过 scaling laws。下面看这些 scaling laws 如何工作，以及如何根据计算预算预测这两个超参数。
 
-####  **Scaling laws for hyperparameters** 
+#### 超参数的 scaling laws
 
-The optimal learning rate and batch size aren't just about model architecture and size, they also depends on our compute budget, which combines both the number of model parameters and the number of training tokens. In practice, both of these factors interact to determine how aggressive or conservative our updates should be. This is where scaling laws come in.
+最优学习率与批次大小不仅取决于模型架构与规模，还取决于计算预算——即模型参数量与训练 token 数的组合。实践中，二者共同决定更新应更激进还是更保守，scaling laws 正是在此发挥作用。
 
-Scaling laws establish empirical relationships describing how model performance evolves as we increase training scale, whether that's through larger models or more training data (see the "Scaling laws" section at the end of this chapter for the full history). But scaling laws can also help us predict how to adjust key hyperparameters like the learning rate and batch size as we scale up training, as it was done in recent work by [DeepSeek](https://arxiv.org/abs/2401.02954) and [Qwen2.5](https://arxiv.org/abs/2412.15115). This gives us principled defaults rather than relying entirely on hyperparameter sweeps.
+Scaling laws 建立了描述「随训练规模增大（更大模型或更多数据）模型表现如何变化」的经验关系（本章末尾「Scaling laws」一节有完整脉络）。它们还能帮助我们预测在放大训练时如何调整学习率、批次大小等关键超参数，[DeepSeek](https://arxiv.org/abs/2401.02954) 与 [Qwen2.5](https://arxiv.org/abs/2412.15115) 等近期工作即如此使用，从而得到有依据的默认值，而不必完全依赖超参数扫描。
 
-To apply scaling laws in this context, we need a way to quantify training scale. The standard metric is the compute budget, denoted C and measured in FLOPs, which can be approximated as:
+要在这一语境下应用 scaling laws，需要先量化训练规模。常用指标是计算预算，记作 C，以 FLOPs 衡量，可近似为：
 
  $C\approx 6×N×D$  
 
-N is the number of model parameters (e.g., 1B = 1e9), D is the number of training tokens. This is often measured in FLOPs (floating-point operations), a hardware-agnostic way of quantifying how much actual computation is being done. But if FLOPs feel too abstract, just think of it this way: training a 1B parameter model on 100B tokens consumes about 2× fewer FLOPs than training a 2B model on 100B tokens, or a 1B model on 200B tokens.
+其中 N 为模型参数量（如 1B = 1e9），D 为训练 token 数。FLOPs（浮点运算次数）是与硬件无关的「实际计算量」度量。若觉得 FLOPs 太抽象，可以这样理解：在 100B tokens 上训练 1B 参数模型，其 FLOPs 约为在 100B tokens 上训练 2B 模型、或在 200B tokens 上训练 1B 模型的一半。
 
-The constant 6 comes from empirical estimates of how many floating-point operations are required to train a Transformer, roughly 6 FLOPs per parameter per token.
+常数 6 来自对训练 Transformer 所需浮点运算次数的经验估计，约每参数每 token 6 FLOPs。
 
 <Sidenote>
 
-If you want a more precise measure taking into account MoE layers and Hybrid layers you can checkout the [num_floating_point_operations](https://github.com/NVIDIA/Megatron-LM/blob/f34fa11af6f5dc65f5342f2a785c3227446cebfd/megatron/training/training.py#L158) function in Megatron-LM.
+若需更精确的度量（考虑 MoE、Hybrid 等层），可参考 Megatron-LM 中的 [num_floating_point_operations](https://github.com/NVIDIA/Megatron-LM/blob/f34fa11af6f5dc65f5342f2a785c3227446cebfd/megatron/training/training.py#L158) 函数。
 </Sidenote>
 
-Now, how does this relate to learning rate? We can derive scaling laws that predict optimal learning rates and batch sizes as functions of total compute budget (C). They help answer questions like:
+这与学习率有何关系？我们可以推导出将最优学习率与批次大小表示为总计算预算 C 的函数的 scaling laws，从而回答诸如：
 
-- How should the learning rate change as I scale from 1B to 7B parameters?
-- If I double my training data, should I adjust the learning rate?
+- 从 1B 扩到 7B 参数时，学习率应如何变化？
+- 训练数据翻倍时，是否需要调整学习率？
 
-Let's see how this works be walking through the approach DeepSeek used: First, we choose our learning rate schedule, ideally WSD for its flexibility. Then, we train models across a range of compute budgets (e.g., 1e17, 5e17, 1e18, 5e18, 1e19, 2e19 FLOPs) with different combinations of batch sizes and learning rates. In simpler terms: we train different model sizes for different numbers of tokens, testing different hyperparameter settings. This is where the WSD schedule shines, we can extend the same training run to different token counts without restarting. 
+下面以 DeepSeek 的做法为例说明。首先选定学习率调度（理想情况下用 WSD 以兼顾灵活性），然后在若干计算预算下（如 1e17、5e17、1e18、5e18、1e19、2e19 FLOPs）用不同的批次大小与学习率组合训练模型；换言之，用不同模型规模、不同 token 数、不同超参数做多组实验。WSD 的优势在此体现：同一次训练可延伸到不同 token 量而无需重启。
 
-For each setup, we perform sweeps over learning rate and batch size and identify the configurations that result in near-optimal performance, typically defined as being within a small margin (e.g., 0.25%) of the best validation loss (computed on an independent validation set, with a similar distribution to the training set). Each near-optimal configuration gives us a data point — a tuple of (compute budget C, optimal learning rate η) or (C, optimal batch size B). When plotted on a log-log scale, these relationships typically follow power-law behavior, appearing as approximately straight lines (as shown in the figure above). By fitting these data points, we can extract scaling laws that describe how optimal hyperparameters evolve with compute.
+对每种设置做学习率与批次大小的扫描，找出达到近最优表现的配置——通常定义为验证损失（在与训练集分布相近的独立验证集上计算）与最佳值相差在较小范围内（如 0.25%）。每个近最优配置对应一个数据点，即 (计算预算 C, 最优学习率 η) 或 (C, 最优批次大小 B)。在双对数坐标下，这些关系往往呈幂律，近似为直线（见上图）。对这些点做拟合即可得到描述最优超参数随计算量演化的 scaling laws。
 
-An important finding from this process is that for a fixed model size and compute budget, performance remains stable across a wide range of hyperparameters. This means there's a broad sweet spot rather than a narrow optimum. We don't need to find the perfect value, just a value that's close enough, which makes the whole process much more practical.
+由此得到的一个重要结论是：在固定模型规模与计算预算下，表现在一大段超参数范围内都较稳定，即存在较宽的「甜区」而非狭窄最优点。我们不必找到完美取值，只要足够接近即可，这使整个流程更易落地。
 
-Here you can see the results of the scaling laws DeepSeek derived, where each dot represents a near optimal setting:
+下图是 DeepSeek 推导出的 scaling laws 结果，每个点对应一个近最优配置：
 
 
 
 <Image src={image_2471384e_bcac_8059_84a4_d4ce5ae3847c} alt="Image" />
 
-The core intuition behind these results is that as training becomes larger and longer, we want  **more stable updates**  (hence, smaller learning rates) and  **more efficient gradient estimation**  (hence, larger batch sizes).
+背后的直观是：训练规模越大、时间越长，我们越需要 **更稳定的更新**（因而学习率更小）和 **更高效的梯度估计**（因而批次更大）。
 
-These scaling laws give us starting points for the learning rate and batch size. But the objective is not "optimal samples per gradient" but "lower loss reachable within our time and number of GPUd constraint" while still extracting the full signal from every token. 
+这些 scaling laws 为学习率与批次大小提供了起点，但目标不是「每次梯度的最优样本数」，而是在时间和 GPU 数量约束下达到 **更低的损失**，同时仍从每个 token 中提取完整信号。
 
-In practice, you may be able to increase the batch size beyond the predicted optimal batch size to significantly improve throughput without meaningfully hurting data efficiency, up to the critical batch size we discussed earlier.
+实践中，你往往可以在预测的最优批次大小之上继续增大批次，直至前文讨论的临界批次大小，从而显著提升吞吐量而不明显损害数据效率。
 
 
 
