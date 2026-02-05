@@ -2416,11 +2416,11 @@ Scaling laws 建立了描述「随训练规模增大（更大模型或更多数�
 
 #### SmolLM3
 
-So what did we end up using for SmolLM3? At the time of ablations before launching SmolLM3, we compared AdamW, AdEMAMix, and Muon on a 1B model trained on 100B tokens. Muon could outperform AdamW when properly tuned but was sensitive to learning rate and prone to divergence. AdeMaMix was less sensitive and achieved similar loss to Muon. AdamW was the most stable but reached a higher final loss than the tuned alternatives.
+那 SmolLM3 最终用了什么配置？在 SmolLM3 发布前的消融阶段，我们在一个用 100B tokens 训练的 1B 模型上对比了 AdamW、AdEMAMix 和 Muon。Muon 在调参到位时能超过 AdamW，但对学习率很敏感、也更容易发散。AdeMaMix 没那么敏感，最终 loss 与 Muon 相近。AdamW 最稳定，但最终 loss 高于调好参数的方案。
 
-However, when we scaled up to 3B, we encountered more frequent divergence with Muon and AdeMaMix. This may have been due to a parallelism bug we discovered after finishing the ablations (see The Training Marathon chapter), though we haven't confirmed this. We decided to use AdamW (beta1: 0.9, beta2: 0.95) with weight decay 0.1 and gradient clipping 1. After all a very vanilla setting.
+不过当我们把规模扩到 3B 时，Muon 和 AdeMaMix 出现发散的次数更多。这可能与我们在完成消融后才发现的并行化 bug 有关（见「训练马拉松」一章），但目前还没证实。最终我们选择了 AdamW（beta1: 0.9, beta2: 0.95），权重衰减 0.1、梯度裁剪 1。整体就是一个很标准的配置。
 
-For the learning rate schedule, we chose WSD. We had used it successfully in SmolLM2, and it proved to be one of our best decisions for ease of use and flexibility regarding total training duration plus the ability to run mid-training decay experiments. We ran learning rate sweeps and settled on 2e-4. For the global batch size, we tested values from 2M to 4M tokens but found minimal impact on the loss or downstream performance, so we chose 2.36M tokens - the size that gave us the best throughput.
+学习率调度方面我们选了 WSD。SmolLM2 里我们已经用它跑得很顺，而且它易用、对总训练时长更灵活，还方便在训练中途做衰减实验，是我们最满意的决定之一。我们做了学习率 sweep，最终定在 2e-4。全局批次大小方面，我们测试了 2M 到 4M tokens，发现对 loss 或下游表现影响很小，所以选择了 2.36M tokens——吞吐量最好的那个。
 
 #### Rules of engagement
 
