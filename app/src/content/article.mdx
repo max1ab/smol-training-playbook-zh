@@ -2422,29 +2422,29 @@ Scaling laws 建立了描述「随训练规模增大（更大模型或更多数�
 
 学习率调度方面我们选了 WSD。SmolLM2 里我们已经用它跑得很顺，而且它易用、对总训练时长更灵活，还方便在训练中途做衰减实验，是我们最满意的决定之一。我们做了学习率 sweep，最终定在 2e-4。全局批次大小方面，我们测试了 2M 到 4M tokens，发现对 loss 或下游表现影响很小，所以选择了 2.36M tokens——吞吐量最好的那个。
 
-#### Rules of engagement
+#### 行动准则
 
 <Quote>
 
-<b>TL;DR:</b> Balance exploration and execution, done is better than perfect.
+<b>TL;DR:</b> 在探索与执行之间取得平衡，完成胜于完美。
 </Quote>
 
-We've talked a lot about the "what" (optimizer, learning rate, batch size) but just as important is the  **how** . How do we decide what's worth experimenting with? How do we structure our time? When do we stop exploring and just train? 
+我们已经讨论了很多「做什么」（优化器、学习率、批次大小），但同样重要的是 **怎么做**。我们如何决定哪些值得实验？如何安排时间？何时停止探索、开始训练？
 
- **Allocate your time wisely between exploration and execution.**  Spending weeks perfecting a minor improvement from a new method is less valuable than investing that same compute in better data curation or more thorough architecture ablations. From our experience, and though it might disappoint architecture enthusiasts, the biggest performance gains usually come from data curation.
+ **在探索与执行之间明智分配时间。** 花上数周去打磨一种新方法带来的小幅提升，不如把同样的算力投入更好的数据策划，或更充分的架构消融。根据我们的经验，尽管这可能会让架构爱好者失望，最大的性能增益通常来自数据策划。
 
- **When in doubt, choose flexibility and stability over peak performance.**  If two methods perform equally well, pick the one that offers more flexibility or that has better implementation maturity and stability. A learning rate schedule like WSD that lets us extend training or run mid-training experiments is more valuable than a rigid schedule that might converge slightly better.
+ **拿不准时，优先选择灵活性与稳定性而非峰值性能。** 如果两种方法表现相当，就选更灵活或实现更成熟、更稳定的那个。像 WSD 这样允许延长训练或在训练中途做实验的学习率调度，比可能略好收敛却更僵硬的调度更有价值。
 
- **Know when to stop optimizing and start training.**  There's always one more hyperparameter to tune or one more optimizer to try. Set a deadline for exploration and stick to it - the model we actually finish training will always beat the perfect model we never start.
+ **知道何时停止优化、开始训练。** 总会还有一个超参数要调，或者还有一个优化器想试。为探索设定截止日期并坚持执行——真正完成训练的模型，总会胜过我们从未启动的完美模型。
 
-<Reference caption="One more ablation won't hurt (Spoiler: It did). Credits to <a href='[https://x.com/sea_snell/status/1905163154596012238](https://x.com/sea_snell/status/1905163154596012238)'>
+<Reference caption="再来一次消融不会有害（剧透：确实有害）。致谢 <a href='[https://x.com/sea_snell/status/1905163154596012238](https://x.com/sea_snell/status/1905163154596012238)'>
 
 sea_snell</a>">
 
 <Image src={Capture_decran_2025_10_27_a_22_10_05_2991384e_bcac_802a_a6e6_dab0f9f410ec} alt="Image" />
 </Reference>
 
-Perfect is the enemy of good, especially when we're working with finite compute budgets and deadlines.
+完美是最大的敌人，尤其是在算力预算和截止日期有限的情况下。
 
 ### Scaling laws: how many parameters, how much data?
 
