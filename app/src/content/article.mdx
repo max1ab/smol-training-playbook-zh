@@ -2446,30 +2446,30 @@ sea_snell</a>">
 
 完美是最大的敌人，尤其是在算力预算和截止日期有限的情况下。
 
-### Scaling laws: how many parameters, how much data?
+### Scaling laws：该用多少参数、多少数据？
 
-In the early days of deep learning, before language models (and the clusters they were trained on) were "large", training runs were often not heavily constrained by compute. When training a model, you'd just pick the largest model and batch size that fit on your hardware and then train until the model started overfitting or you ran out of data. However, even in these early days there was a sense that scale was helpful — for example, [Hestness et al.](https://arxiv.org/abs/1712.00409) provided a comprehensive set of results in 2017 showing that training larger models for longer produced predictable gains. 
+在深度学习早期，语言模型（以及训练它们的集群）还没“做大”时，训练通常不太受算力限制。训练一个模型时，你只要选硬件能装下的最大模型和批次大小，然后一直训练到模型开始过拟合或数据用完为止。但即便那时，人们也感觉规模是有帮助的——比如 [Hestness et al.](https://arxiv.org/abs/1712.00409) 在 2017 年给出了一套全面结果，表明更大的模型、训练更久会带来可预测的收益。
 
-In the era of large language models, we are  *always*  compute-constrained. Why? These early notions of scalability were formalized by [Kaplan et al.'s work on Scaling Laws for Neural Language Models](https://arxiv.org/abs/2001.08361), where it was shown that language model performance is remarkably predictable across many orders of magnitude of scale. This set off an explosion in the size and training duration of language models, because it provided a way to  *accurately predict* how much performance would improve from increasing scale. Consequently, the race to build better language models became a race to train larger models on larger amounts of data with ever-growing compute budgets, and the development of language models quickly became compute-constrained.
+进入大语言模型时代，我们 *总是* 受算力限制。为什么？[Kaplan 等人的《Scaling Laws for Neural Language Models》](https://arxiv.org/abs/2001.08361)把早期的“可扩展性直觉”系统化了，证明语言模型的性能在跨越多个数量级的规模上都很可预测。这引发了模型规模和训练时长的爆发式增长，因为我们可以 *准确预测* 扩大规模能提升多少性能。于是，做更好模型的竞赛变成了用越来越大的算力训练更大的模型、更多的数据，语言模型的发展也很快变成“算力受限”的问题。
 
-When faced with compute constraints, the most important question is whether to train a larger model or to train on more data. Surprisingly, Kaplan et al.'s scaling laws suggested that it was advantageous to allocate much more compute towards model scale than previous best practices — motivating, for example, training the gargantuan (175B parameters) GPT-3 model on a relatively modest token budget (300B tokens). On reexamination, [Hoffman et al.](https://arxiv.org/abs/2203.15556) found a methodological issue with Kaplan et al.'s approach, ultimately re-deriving scaling laws that suggested allocating much more compute to training duration which indicated, for example, that compute-optimal training of the 175B-parameter GPT-3 should have consumed 3.7T tokens!
+在算力受限时，最关键的问题是：是训练更大的模型，还是用更多数据训练更久？令人意外的是，Kaplan 等人的缩放定律认为，把更多算力投到模型规模上更划算。这推动了例如 GPT‑3 这种庞大模型（175B 参数）用相对“节省”的 token 预算（300B tokens）进行训练。后来，[Hoffman et al.](https://arxiv.org/abs/2203.15556) 重新审视发现 Kaplan 方法存在问题，最终重新推导了缩放定律，结果建议把更多算力用在训练时长上——也就是说，175B 的 GPT‑3 在“算力最优”条件下应当消耗 3.7T tokens！
 
-This shifted the field from "make models bigger" to "train them longer and better." However, most modern trainings still don't strictly follow the Chinchilla laws, because they have an shortcoming: They aim to predict the model size and  *training*  duration that achieves the best performance given a certain compute budget, but they fail to account for the fact that larger models are more expensive  *after*  training. Put another way, we might actually prefer to use a given compute budget train a smaller model for longer — even if this isn't "compute-optimal" — because this will make inference costs cheaper ([Sardana et al.](https://arxiv.org/abs/2401.00448), [de Vries](https://www.harmdevries.com/post/model-size-vs-compute-overhead/)). This could be the case if we expect that a model will be see a lot of inference usage (for example, because it's being released openly 🤗). Recently, this practice of "overtraining" models beyond the training duration suggested by scaling laws has become standard practice, and is the approach we took when developing SmolLM3.
+这让整个领域从“把模型做大”转向“训练更久、训练更好”。然而，大多数现代训练仍没有严格遵循 Chinchilla 定律，因为它们有一个缺陷：它们试图预测在给定算力预算下达到最好性能所需的模型规模和 *训练* 时长，却没有考虑更大的模型在训练结束 *之后* 推理成本更高。换句话说，我们可能更愿意在同样的算力预算下，用更小的模型训练更久——即便这不是“算力最优”——因为这样会让推理更便宜（[Sardana et al.](https://arxiv.org/abs/2401.00448), [de Vries](https://www.harmdevries.com/post/model-size-vs-compute-overhead/)）。如果我们预期模型会有大量推理使用（比如开源发布 🤗），这种选择就更合理。最近，把训练时长超过缩放定律建议值的“过度训练”已成为常态，我们在开发 SmolLM3 时也采用了这一做法。
 
-While scaling laws provide a suggestion for the model size and training duration given a particular compute budget, choosing to overtrain means you have to decide these factors yourself. For SmolLM3, we started by picking a target model size of 3 billion parameters. Based on recent models of a similar scale like Qwen3 4B, Gemma 3 4B, and Llama 3.2 3B, we considered 3B to be large enough to have meaningful capabilities (such as reasoning and tool calling), but small enough to enable super fast inference and efficient local usage. To pick a training duration, we first noted that recent models have been  *extremely*  overtrained — for example, the aforementioned Qwen3 series is claimed to have been trained for 36T tokens! As a result, training duration is often dictated by the amount of compute available. We secured 384 H100s roughly a month, which provided a budget for training on 11 trillion tokens (assuming an MFU of ~30%).
+缩放定律给出了在特定算力预算下建议的模型规模和训练时长，但一旦选择过度训练，就得自己决定这些因素。对 SmolLM3 来说，我们先选了 30 亿（3B）参数作为目标规模。参考同量级的近期模型，比如 Qwen3 4B、Gemma 3 4B 和 Llama 3.2 3B，我们认为 3B 足够大，能具备有意义的能力（如推理与工具调用），同时又足够小，推理很快、适合本地高效使用。训练时长方面，我们注意到最近的模型被训练得 *极其* 久——例如前面提到的 Qwen3 系列据称训练了 36T tokens！因此，训练时长往往由可用算力决定。我们拿到 384 张 H100、约一个月的资源，这给了我们约 11 万亿（11T）tokens 的训练预算（假设 MFU 约为 ~30%）。
 
 <Note title="Scaling laws" variant="info">
 
-Despite these deviations, scaling laws remain practically valuable.
-They provide baselines for experimental design,
-people often use Chinchilla-optimal setups to get signal on ablations,
-and they help predict whether a model size can reach a target performance.
-As de Vries notes in this <a href="[https://www.harmdevries.com/post/model-size-vs-compute-overhead/](https://www.harmdevries.com/post/model-size-vs-compute-overhead/)" target="_blank">blog</a>,
-by scaling down model size you can hit a critical model size: the minimal capacity required to reach a given loss,
-below which you start getting diminishing return.
+尽管有这些偏离，缩放定律在实践中仍然很有价值。
+它们为实验设计提供基线，
+人们常用 Chinchilla 最优设置来做消融、找信号，
+也能帮助预测某个模型规模是否能达到目标性能。
+正如 de Vries 在这篇 <a href="[https://www.harmdevries.com/post/model-size-vs-compute-overhead/](https://www.harmdevries.com/post/model-size-vs-compute-overhead/)" target="_blank">博客</a> 中提到的，
+把模型规模往下缩，可以找到一个临界模型规模：达到某个损失所需的最小容量，
+再小就会出现明显的边际收益递减。
 </Note>
 
-Now that we're settled on our model architecture, training setup, model size, and training duration, we need to prepare two critical components: the data mixture that will teach our model, and the infrastructure that will train it reliably. With SmolLM3's architecture set at 3B parameters, we needed to curate a data mixture that would deliver strong multilingual, math and code performance, and set up infrastructure robust enough for 11 trillion tokens of training. Getting these fundamentals right is essential, even the best architectural choices won't save us from poor data curation or unstable training systems.
+现在我们的模型架构、训练设置、模型规模和训练时长都已确定，接下来要准备两个关键部分：教模型的“数据配方”，以及能稳定训练它的基础设施。SmolLM3 的架构定在 3B 参数，我们需要策划一个数据混合，既能保证多语言、数学和代码能力，又要搭建能承受 11 万亿（11T）tokens 训练的稳定基础设施。把这些基础打牢很关键，否则再好的架构也救不了糟糕的数据策划或不稳定的训练系统。
 
 ## The art of data curation
 
