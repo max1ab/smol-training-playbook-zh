@@ -2471,18 +2471,18 @@ sea_snell</a>">
 
 现在我们的模型架构、训练设置、模型规模和训练时长都已确定，接下来要准备两个关键部分：教模型的“数据配方”，以及能稳定训练它的基础设施。SmolLM3 的架构定在 3B 参数，我们需要策划一个数据混合，既能保证多语言、数学和代码能力，又要搭建能承受 11 万亿（11T）tokens 训练的稳定基础设施。把这些基础打牢很关键，否则再好的架构也救不了糟糕的数据策划或不稳定的训练系统。
 
-## The art of data curation
+## 数据策划的艺术
 
-Picture this: you've spent weeks perfecting your architecture, tuning hyperparameters, and setting up the most robust training infrastructure. Your model converges beautifully, and then... it can't write coherent code, struggles with basic math, and maybe even switches languages mid-sentence. What went wrong?
-The answer usually lies in the data. While we obsess over fancy architectural innovations and hyperparameter sweeps, data curation often determines whether our model becomes genuinely useful or just another expensive experiment. It's the difference between training on random web crawls versus carefully curated, high-quality datasets that actually teach the skills we want our model to learn.
+想象一下：你花了几周完善架构、调超参数、搭建最稳健的训练基础设施。模型收敛得很好，然后……它写不出连贯的代码、基础数学也吃力，甚至会在一句话中途切换语言。问题出在哪？
+答案通常在数据上。当我们痴迷于花哨的架构创新和超参数扫描时，数据策划往往决定了模型究竟会变得真正有用，还是只是另一个昂贵的实验。这就是随机网页爬取训练与精心策划的高质量数据集之间的差别——后者能真正教会模型我们希望它学到的技能。
 
-If model architecture defines  *how*  your model learns, then data defines  *what*  it learns, and no amount of compute or optimizer tuning can compensate for training on the wrong content. Moreover, getting the training data right isn't just about having good datasets. It's about assembling the right  **mixture** : balancing conflicting objectives (like strong English vs. robust multilinguality) and tuning data proportions to align with our performance goals. This process is less about finding a universal best mix and more about asking the right questions and devising concrete plans to answer them:
+如果模型架构定义了模型 *如何* 学习，那么数据就定义了它 *学什么*，再多的算力或优化器调参也无法弥补训练内容选错。此外，把训练数据选对并不只是拥有好数据集。关键在于组装正确的 **数据混合**：在相互冲突的目标之间取得平衡（如强英语能力 vs. 强多语言能力），并调整数据比例以对齐我们的性能目标。这个过程与其说是在寻找一个放之四海而皆准的最佳配比，不如说是在提出正确的问题并制定具体计划来回答它们：
 
-- What do we want our model to be good at?
-- Which datasets are best for each domain and how do we mix them?
-- Do we have enough high-quality data for our target training scale?
+- 我们希望模型擅长什么？
+- 每个领域哪些数据集最好，我们该如何混合？
+- 针对目标训练规模，我们是否有足够高质量的数据？
 
-This section is about navigating these questions using a mix of principled methods, ablation experiments, and a little bit of alchemy, to turn a pile of great datasets into a great training mixture.
+本节将用原则性的方法、消融实验，以及一点点“炼金术”来应对这些问题，把一堆优秀的数据集变成优秀的训练混合。
 
 ### What's a good data mixture and why it matters most
 
