@@ -2484,9 +2484,9 @@ sea_snell</a>">
 
 本节将用原则性的方法、消融实验，以及一点点“炼金术”来应对这些问题，把一堆优秀的数据集变成优秀的训练混合。
 
-### What's a good data mixture and why it matters most
+### 什么是好的数据混合，为什么它至关重要
 
-We expect a lot from our language models, they should be able to help us write code, give us advice, answer questions about pretty much anything, complete tasks using tools, and more. Plentiful pre-training data sources like the web don't cover the full range of knowledge and capabilities needed for these tasks. As a result, recent models additionally rely on more specialized pre-training datasets that target specific domains like math and coding. We have done a lot of past work on curating datasets, but for SmolLM3 we primarily made use of preexisting datasets. To learn more about dataset curation, check out our reports on building [FineWeb and FineWeb-Edu](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1), [FineWeb2](https://arxiv.org/abs/2506.20920), [Stack-Edu, and FineMath](https://arxiv.org/abs/2502.02737).
+我们对语言模型的期待很高：它们应该能帮我们写代码、给建议、回答几乎所有问题、使用工具完成任务，等等。像网页这样的海量预训练数据源并不能覆盖完成这些任务所需的全部知识与能力。因此，近来的模型还会依赖更专业的预训练数据集，针对数学、编程等特定领域。我们过去在数据集策划上做了大量工作，但在 SmolLM3 上我们主要使用了现有数据集。想了解更多数据集策划的细节，请参阅我们关于构建 [FineWeb 和 FineWeb-Edu](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1)、[FineWeb2](https://arxiv.org/abs/2506.20920)、[Stack-Edu 与 FineMath](https://arxiv.org/abs/2502.02737) 的报告。
 
 ####  **The unintuitive nature of data mixtures** 
 
