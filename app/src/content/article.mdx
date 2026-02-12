@@ -2488,15 +2488,15 @@ sea_snell</a>">
 
 我们对语言模型的期待很高：它们应该能帮我们写代码、给建议、回答几乎所有问题、使用工具完成任务，等等。像网页这样的海量预训练数据源并不能覆盖完成这些任务所需的全部知识与能力。因此，近来的模型还会依赖更专业的预训练数据集，针对数学、编程等特定领域。我们过去在数据集策划上做了大量工作，但在 SmolLM3 上我们主要使用了现有数据集。想了解更多数据集策划的细节，请参阅我们关于构建 [FineWeb 和 FineWeb-Edu](https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1)、[FineWeb2](https://arxiv.org/abs/2506.20920)、[Stack-Edu 与 FineMath](https://arxiv.org/abs/2502.02737) 的报告。
 
-####  **The unintuitive nature of data mixtures** 
+####  **数据混合的反直觉本质** 
 
-If you're new to training language models, finding a good data mixture might seem straightforward: identify your target capabilities, gather high-quality datasets for each domain, and combine them. The reality is more complex, since some domains might compete with each other for your training budget. When focusing on some particular capability like coding, it can be tempting to upweight task-relevant data like source code. However, upweighting one source implicitly downweights all of the other sources, which can harm the language model's capabilities in other settings. Training on a collection of different sources therefore involves striking some kind of balance between downstream capabilities.
+如果你刚开始训练语言模型，找到一个好的数据混合看起来可能很直接：先明确目标能力，再为每个领域收集高质量数据集，然后将它们组合起来。现实要复杂得多，因为不同领域可能会争夺同一份训练预算。当你聚焦某项特定能力（比如代码）时，很容易想提高任务相关数据（如源代码）的权重。然而，提高某一来源的权重，实际上就意味着降低其他所有来源的权重，这可能会损害语言模型在其他场景下的能力。因此，在多来源数据上训练，本质上是在不同下游能力之间寻求平衡。
 
-Additionally, across all of these sources and domains, there's often a subset of "high-quality" data that is especially helpful at improving the language model's capabilities. Why not just throw out all the lower quality data and train on the highest quality data only? For SmolLM3's large training budget of 11T tokens, doing such extreme filtering would result in repeating data many times. Prior work has shown that this kind of repetition can be harmful [@muennighoff2025scalingdataconstrainedlanguagemodels], so we should ideally be able to make use of higher and lower quality while still maximizing model performance.
+此外，在这些来源和领域中，通常会有一部分“高质量”数据，对提升语言模型能力特别有帮助。那为什么不直接丢掉所有低质量数据，只用最高质量数据训练？对于 SmolLM3 的 11T tokens 大规模训练预算而言，进行这种极端过滤会导致数据被反复使用。已有研究表明，这类重复可能有害 [@muennighoff2025scalingdataconstrainedlanguagemodels]，因此理想情况下，我们应当同时利用高质量和较低质量数据，并尽可能最大化模型性能。
 
-To balance data across sources and make use of high-quality data, we need to carefully design the  *mixture* : the relative proportion of training documents from each source. Since a language model's performance on some particular task or domain depends heavily on the amount of data it saw that is relevant to that task, tuning the mixing weights provides a direct way of balancing the model's capabilities across domains. Because these trade-offs are model-dependent and difficult to predict, ablations are essential.
+为了在不同来源间平衡数据并利用高质量数据，我们需要精心设计 *mixture*：即各来源训练文档的相对占比。由于语言模型在某项任务或领域上的表现，很大程度取决于它见过多少与该任务相关的数据，调节 mixing weights 就提供了一种直接的方式来平衡模型在各领域的能力。由于这些权衡高度依赖具体模型且难以预测，消融实验至关重要。
 
-But the mixture doesn't have to stay fixed throughout training. By adjusting the mixture as training progresses, what we call multi-stage training **** or curriculum, we can make better use of both high-quality and lower-quality data.
+但数据混合不必在整个训练过程中保持不变。随着训练推进动态调整混合比例，也就是我们所说的多阶段训练（multi-stage training）或 curriculum，可以更好地同时利用高质量和较低质量数据。
 
 ####  **The evolution of training curricula** 
 
