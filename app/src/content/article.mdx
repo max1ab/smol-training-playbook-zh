@@ -2498,16 +2498,16 @@ sea_snell</a>">
 
 但数据混合不必在整个训练过程中保持不变。随着训练推进动态调整混合比例，也就是我们所说的多阶段训练（multi-stage training）或 curriculum，可以更好地同时利用高质量和较低质量数据。
 
-####  **The evolution of training curricula** 
+####  **训练课程的演进** 
 
-In the early days of large language model training, the standard approach was to fix a single data mixture for the entire training run. Models like GPT3 and early versions of Llama trained on a static mixture from start to finish. More recently, the field has shifted toward  **multi-stage training**  [@smollm2] where the data mixture changes over the course of training. The main motivation is that a language model's final behavior is strongly influenced by data seen toward the end of training [@chen2025scalinglawspredictingdownstream]. This insight enables a practical strategy: upweighting more plentiful sources early in training and mixing in smaller, higher quality sources towards the end.
+在大语言模型训练的早期，标准做法是在整个训练过程中固定单一的数据混合。GPT-3 和早期版本的 Llama 等模型，都是从开始到结束使用静态混合。近些年，行业逐渐转向  **多阶段训练**  [@smollm2]，即在训练过程中动态调整数据混合。主要动机在于：语言模型的最终行为会受到训练后期所见数据的强烈影响 [@chen2025scalinglawspredictingdownstream]。这一洞察带来了一个实用策略：在训练前期提高更充足数据源的权重，在训练后期再混入规模更小、质量更高的数据源。
 
-A common question is: how do you decide when to change the mixture? While there's no universal rule, but we typically follow these principles:
+一个常见问题是：应当在什么时候调整混合比例？虽然没有放之四海而皆准的规则，但我们通常遵循以下原则：
 
-1.  **Performance-driven interventions** : Monitor evaluation metrics on key benchmarks and adapt dataset mixtures to address specific capability bottlenecks. For example, if math performance plateaus while other capabilities continue improving, that's a signal to introduce higher-quality math data.
-1.  **Reserve high-quality data for late stages** : small high quality math and code datasets are most impactful when introduced during the annealing phase (final stage with learning rate decay).
+1.  **性能驱动的干预** : 监控关键基准上的评估指标，并调整数据集混合来解决特定能力瓶颈。例如，如果数学能力进入平台期而其他能力仍在提升，这就是引入更高质量数学数据的信号。
+1.  **将高质量数据留给后期阶段** : 规模较小但高质量的数学和代码数据集，在退火阶段（学习率衰减的最终阶段）引入时影响最大。
 
-Now that we've established why mixtures matter and how curricula work, let's discuss how to tune both.
+现在我们已经明确了为什么混合比例重要、训练课程如何运作，接下来讨论如何同时调优这两者。
 
 ### Ablation setup: how to systematically test data recipes
 
