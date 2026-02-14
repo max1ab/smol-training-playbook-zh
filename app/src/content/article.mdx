@@ -2509,11 +2509,11 @@ sea_snell</a>">
 
 现在我们已经明确了为什么混合比例重要、训练课程如何运作，接下来讨论如何同时调优这两者。
 
-### Ablation setup: how to systematically test data recipes
+### 消融实验设置：如何系统化测试数据配方
 
-When testing data mixtures, our approach is similar to how we run architecture ablations, with one difference: we try to run them at the target model scale. Small and large models have different capacities, for example a very small model might struggle to handle many languages, while a larger one can absorb them without sacrificing performance elsewhere. Therefore running data ablations at too small a scale risks drawing the wrong conclusions about the optimal mix.
+在测试数据混合时，我们的方法与架构消融实验类似，但有一个关键区别：我们尽量在目标模型规模上进行实验。小模型和大模型的容量不同，例如非常小的模型可能难以同时处理多种语言，而更大的模型可以在不牺牲其他能力的情况下吸收这些数据。因此，如果在过小规模上做数据消融，很可能会对最优混合比例得出错误结论。
 
-For SmolLM3, we ran our main data ablations directly on the 3B model, using shorter training runs of 50B and 100B tokens. We also used another type of ablation setup: ******  **annealing experiments** . Instead of training from scratch with different mixtures, we took an intermediate checkpoint from the main run (for example at 7T tokens) and continued training with modified data compositions. This approach, allows us to test data mixture changes for doing multi-stage training (i.e changing the training mixture mid-training), and was used in recent work such as SmolLM2, Llama3 and Olmo2. For evaluation, we expanded our benchmark suite to include multilingual tasks alongside our standard English evaluations, ensuring we could properly assess the trade-offs between different language ratios.
+在 SmolLM3 中，我们直接在 3B 模型上开展主要数据消融，使用 50B 和 100B tokens 的短程训练。我们还使用了另一类消融设置：**退火实验（annealing experiments）**。我们不是从头用不同混合比例重新训练，而是从主训练过程中的中间检查点（例如 7T tokens）继续训练，并修改数据组成。这个方法可以用于测试多阶段训练中的数据混合调整（即在训练中途改变数据配方），最近的 SmolLM2、Llama3 和 Olmo2 等工作也采用了类似做法。评估方面，我们在标准英文评测之外加入了多语言任务，以便更准确地衡量不同语言配比之间的权衡。
 
 <Wide>
 
@@ -2522,13 +2522,13 @@ For SmolLM3, we ran our main data ablations directly on the 3B model, using shor
 
 
 
-Recent work has proposed automated approaches for finding optimal data proportions, including:
+近期也有一些工作提出了自动化方法来寻找最优数据配比，包括：
 
--  **DoReMi**  [@xie2023doremioptimizingdatamixtures]: Uses a small proxy model to learn domain weights that minimize validation loss
--  **Rho Loss**  [@mindermann2022prioritizedtrainingpointslearnable]: Selects individual training points based on a holdout loss, prioritizing samples that are learnable, task-relevant, and not yet learned by the model
--  **RegMix**  [@liu2025regmixdatamixtureregression]: Determines optimal data mixture proportions through regularized regression that balances performance across multiple evaluation objectives and data domains
+-  **DoReMi**  [@xie2023doremioptimizingdatamixtures]：使用小型代理模型学习各领域权重，以最小化验证损失。
+-  **Rho Loss**  [@mindermann2022prioritizedtrainingpointslearnable]：基于留出集损失选择单条训练样本，优先保留“可学习、与任务相关、且模型尚未学会”的样本。
+-  **RegMix**  [@liu2025regmixdatamixtureregression]：通过正则化回归确定最优数据混合比例，在多个评估目标和数据领域之间平衡性能。
 
-We experimented with DoReMi and Rho Loss in past projects, but found they tend to converge toward distributions that roughly mirror the natural distribution of dataset sizes, essentially suggesting to use more of what we have more of. While theoretically appealing, they didn't outperform careful manual ablations in our setting. Recent SOTA models still rely on manual mixture tuning through systematic ablations and annealing experiments, which is the approach we adopted for SmolLM3.
+我们在过去的项目中尝试过 DoReMi 和 Rho Loss，但发现它们往往会收敛到与数据集自然规模分布大致相似的配比，本质上就是“哪类数据更多，就继续用更多”。这在理论上很有吸引力，但在我们的场景里并没有超过精细的手工消融。近期的 SOTA 模型仍主要依赖通过系统化消融和退火实验进行手工配比调优，这也是我们在 SmolLM3 中采用的方法。
 
 ### SmolLM3: Curating the data mixture (web, multilingual, math, code)
 
