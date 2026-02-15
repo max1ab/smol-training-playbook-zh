@@ -2530,72 +2530,72 @@ sea_snell</a>">
 
 我们在过去的项目中尝试过 DoReMi 和 Rho Loss，但发现它们往往会收敛到与数据集自然规模分布大致相似的配比，本质上就是“哪类数据更多，就继续用更多”。这在理论上很有吸引力，但在我们的场景里并没有超过精细的手工消融。近期的 SOTA 模型仍主要依赖通过系统化消融和退火实验进行手工配比调优，这也是我们在 SmolLM3 中采用的方法。
 
-### SmolLM3: Curating the data mixture (web, multilingual, math, code)
+### SmolLM3：数据混合策划（web、多语言、数学、代码）
 
-For SmolLM3, we wanted a model that can handle English and multiple other languages, and excel in math and code. These domains — web text, multilingual content, code and math — are common in most LLMs, but the process we'll describe here applies equally if you're training for a low-resource language or a specific domain such as finance or healthcare. The method is the same: identify good candidate datasets, run ablations, and design a mixture that balances all the target domains.
+对于 SmolLM3，我们希望模型既能处理英语和多种其他语言，又能在数学与代码方面表现出色。web 文本、多语言内容、代码和数学这些领域在大多数 LLM 中都很常见，但我们这里介绍的流程同样适用于低资源语言，或金融、医疗等特定领域的训练。方法是一致的：选出优质候选数据集，运行消融实验，并设计一个能平衡所有目标领域的数据混合。
 
-We won't cover how to build high-quality datasets here, since we've already detailed that extensively in earlier work (FineWeb, FineWeb2, FineMath and Stack-Edu). Instead, this section focuses on how we  *combine*  those datasets into an effective pretraining mixture.
+这里我们不展开讲如何构建高质量数据集，因为此前工作（FineWeb、FineWeb2、FineMath 和 Stack-Edu）已经详细介绍过。相反，本节聚焦于如何将这些数据集  *组合*  成有效的预训练混合。
 
-####  **Building on Proven Foundations** 
+####  **在成熟基础上构建** 
 
-When it comes to pretraining data, the good news is that we rarely have to start from scratch. The open-source community has already built strong datasets for most common domains. Sometimes we will need to create something new — as we did with the Fine series (FineWeb, FineMath, etc.) — but more often, the challenge is in selecting and combining existing sources rather than reinventing them.
+说到预训练数据，一个好消息是我们很少需要从零开始。开源社区已经为大多数常见领域构建了很强的数据集。有时我们确实需要创建新数据集，比如 Fine 系列（FineWeb、FineMath 等）；但更多时候，挑战在于如何选择并组合现有来源，而不是重复造轮子。
 
-That was our situation with SmolLM3. SmolLM2 had already established a strong recipe at 1.7B parameters for English web data, and identified the best math and code datasets we had access to. Our goal was to scale that success to 3B while adding the certain capabilities: robust multilinguality, stronger math reasoning, and better code generation.
+SmolLM3 就是这种情况。SmolLM2 已经在 1.7B 参数规模上为英语 web 数据建立了强配方，并识别出了我们可用的最佳数学与代码数据集。我们的目标是把这套成功经验扩展到 3B，同时加入一些能力：更稳健的多语言能力、更强的数学推理能力和更好的代码生成能力。
 
-####  **English Web Data: The Foundation Layer** 
+####  **英语 Web 数据：基础层** 
 
-Web text forms the backbone of any general-purpose LLM, but quality matters as much as quantity.
+web 文本是通用 LLM 的骨干，但质量和数量同样重要。
 
-From SmolLM3, we knew that FineWeb-Edu and DCLM were the strongest open English web datasets at the time of training. Together, they gave us 5.1T tokens of high-quality English web data. The question was: what's the optimal mixing ratio? FineWeb-Edu helps on educational and  STEM benchmarks, while DCLM improves commonsense reasoning.
+在 SmolLM3 中，我们知道 FineWeb-Edu 和 DCLM 是训练当时最强的开源英语 web 数据集。两者合计提供了 5.1T tokens 的高质量英语 web 数据。问题是：最优混合比例是多少？FineWeb-Edu 更有利于教育与 STEM 基准，DCLM 则能提升常识推理。
 
-Following the SmolLM2 methodology, we ran a sweep on our 3B model over 100B tokens, testing ratios of 20/80, 40/60, 50/50, 60/40, and 80/20 (FineWeb-Edu/DCLM).  Mixing them (around 60/40 or 50/50) gave the best trade-offs. We rerun the same ablations as the [SmolLM2 paper](https://arxiv.org/abs/2502.02737v1) on our 3B model trained on 100B tokens and found the same conclusion. 
+我们沿用了 SmolLM2 的方法，在 3B 模型上做了 100B tokens 的比例扫描，测试了 20/80、40/60、50/50、60/40、80/20（FineWeb-Edu/DCLM）。结果显示，将两者混合（约 60/40 或 50/50）能取得最佳权衡。我们还在 100B tokens 的 3B 模型上复现了 [SmolLM2 论文](https://arxiv.org/abs/2502.02737v1) 的同类消融，结论一致。
 
-Using 60/40 or 50/50  provided the best balance across benchmarks, matching our SmolLM2 findings. We used 50/50 ratio ratio for Stage 1.
+60/40 或 50/50 在各项基准上都提供了最佳平衡，与 SmolLM2 的发现一致。我们在 Stage 1 采用了 50/50。
 
-We also added other datasets like [Pes2o](https://huggingface.co/datasets/allenai/dolmino-mix-1124/tree/main/data/pes2o), [Wikipedia & Wikibooks](https://huggingface.co/datasets/allenai/dolmino-mix-1124/tree/main/data/wiki) and [StackExchange](https://huggingface.co/datasets/HuggingFaceTB/stackexchange_2025_md), these datasets didn't have any impact on the performance but we included them to improve diversity.
+我们还加入了 [Pes2o](https://huggingface.co/datasets/allenai/dolmino-mix-1124/tree/main/data/pes2o)、[Wikipedia & Wikibooks](https://huggingface.co/datasets/allenai/dolmino-mix-1124/tree/main/data/wiki) 和 [StackExchange](https://huggingface.co/datasets/HuggingFaceTB/stackexchange_2025_md) 等其他数据集。它们对性能没有明显提升，但我们仍然纳入以增强数据多样性。
 
-####  **Multilingual Web Data** 
+####  **多语言 Web 数据** 
 
-For multilingual capability, we targeted 5 other languages: French, Spanish, German, Italian, and Portuguese. We selected them from FineWeb2-HQ, which gave us 628B tokens total. We also included 10 other languages at smaller ratios, such as Chinese, Arabic, and Russian, not to target state of the art performance for them, but to allow people to easily do continual pretraining of SmolLM3 on them. We used FineWeb2 for the languages not supported in FineWeb2-HQ.
+在多语言能力上，我们重点覆盖了 5 种其他语言：法语、西班牙语、德语、意大利语和葡萄牙语。我们从 FineWeb2-HQ 中选择了这些语言，合计 628B tokens。我们还以较小比例加入了 10 种其他语言（如中文、阿拉伯语和俄语），目的不是追求这些语言的 SOTA，而是让用户更容易在这些语言上对 SmolLM3 做持续预训练。对于 FineWeb2-HQ 不支持的语言，我们使用了 FineWeb2。
 
-The key question was: how much of our web data should be non-English? We know that more data a model sees in a language or domain, the better it gets at that language or domain. The trade-off comes from our fixed compute budget: increasing data for one language means reducing data for the other languages including English.
+关键问题是：我们的 web 数据中，非英语应占多少？我们知道，模型在某种语言或领域见到的数据越多，它在该语言或领域通常越强。但由于算力预算固定，增加某种语言的数据就意味着要减少其他语言（包括英语）的数据。
 
-Through ablations on the 3B model, we found that 12% multilingual content in the web mix struck the right balance, improving multilingual performance without degrading English benchmarks. This fit SmolLM3's expected usage, where English would remain the primary language. It's also worth noting that with only 628B tokens of non-English data versus 5.1T English tokens, going much higher would require doing more repetition of the multilingual data.
+通过 3B 模型消融，我们发现 web 混合中多语言内容占 12% 时达到了理想平衡：多语言性能提升，同时英语基准不退化。这也符合 SmolLM3 的预期使用场景，即英语仍是主语言。另外需要注意的是，非英语数据只有 628B tokens，而英语有 5.1T tokens；如果比例再高很多，就需要更多重复使用多语言数据。
 
-####  **Code Data** 
+####  **代码数据** 
 
-Our code sources for Stage 1 are extracted from[ The Stack v2 and StarCoder2 ](https://arxiv.org/abs/2402.19173)training corpus: 
+我们 Stage 1 的代码来源提取自 [The Stack v2 and StarCoder2](https://arxiv.org/abs/2402.19173) 训练语料：
 
-- [The Stack v2](https://huggingface.co/datasets/bigcode/the-stack-v2) (16 languages) as our basis, filtered as StarCoder2Data.
-- StarCoder2 GitHub pull requests for real-world code review reasoning.
-- Jupyter and [Kaggle notebooks](https://huggingface.co/datasets/HuggingFaceTB/issues-kaggle-notebooks) for executable, step-by-step workflows.
-- [GitHub issues](https://huggingface.co/datasets/HuggingFaceTB/issues-kaggle-notebooks) and [StackExchange](https://huggingface.co/datasets/HuggingFaceTB/stackexchange_2025_md) threads for contextual discussions around code.
+- [The Stack v2](https://huggingface.co/datasets/bigcode/the-stack-v2)（16 种语言）作为基础，并按 StarCoder2Data 方式过滤。
+- StarCoder2 的 GitHub pull requests，用于真实世界代码审查推理。
+- Jupyter 与 [Kaggle notebooks](https://huggingface.co/datasets/HuggingFaceTB/issues-kaggle-notebooks)，用于可执行、分步骤的工作流。
+- [GitHub issues](https://huggingface.co/datasets/HuggingFaceTB/issues-kaggle-notebooks) 和 [StackExchange](https://huggingface.co/datasets/HuggingFaceTB/stackexchange_2025_md) 讨论串，用于围绕代码的上下文讨论。
 
-@aryabumi2024codecodeexploringimpact highlight that code improves language models' performance beyond coding, for example on natural language reasoning and world knowledge and recommend using 25% code in the training mixture. Motivated by this, we started our ablations with 25% code in the mixture.  However, we observed significant degradation on English benchmarks (HellaSwag, ARC-C, MMLU). Reducing to 10% code, we didn't see improvements on our English benchmark suite compared to 0% code, but we included it anyway since code was a very important capability to have in the model.
+[@aryabumi2024codecodeexploringimpact] 指出，代码数据对语言模型的提升不止体现在编码任务上，也会提升自然语言推理和世界知识等能力，并建议在训练混合中使用 25% 的代码数据。受此启发，我们最初从 25% 代码占比开始消融。但我们观察到英语基准（HellaSwag、ARC-C、MMLU）显著下降。将代码比例降到 10% 后，相比 0% 代码，我们在英语基准套件上仍未看到提升；不过由于代码能力对模型非常重要，我们仍保留了这部分数据。
 
-We delayed adding Stack-Edu — our educationally filtered subset of StarCoder2Data — until later stages, following the principle of staging high-quality data for maximum late-training impact.
+我们将 Stack-Edu（StarCoder2Data 的教育过滤子集）延后到后续阶段引入，以遵循“高质量数据后置、最大化后期训练收益”的原则。
 
-####  **Math Data** 
+####  **数学数据** 
 
-Math followed a similar philosophy to code. Early on, we used the larger, more general sets FineMath3+ and InfiWebMath3+ and later we upsampled FineMath4+ and InfiWebMath4+, and introduced new high quality datasets:
+数学数据沿用了与代码相似的思路。早期我们使用规模更大、更通用的 FineMath3+ 和 InfiWebMath3+；后期我们上采样了 FineMath4+ 与 InfiWebMath4+，并引入了新的高质量数据集：
 
 - MegaMath [@zhou2025megamathpushinglimitsopen]
-- Instruction and reasoning datasets like OpenMathInstruct [@toshniwal2024openmathinstruct118millionmath] and OpenMathReasoning [@moshkov2025aimo2winningsolutionbuilding]
+- 指令与推理数据集，如 OpenMathInstruct [@toshniwal2024openmathinstruct118millionmath] 和 OpenMathReasoning [@moshkov2025aimo2winningsolutionbuilding]
 
-We use 3% of math in Stage 1 equally split between FineMath3+ and InfiWebMath3+. With only 54B tokens available and an estimated 8T to 9T token Stage 1, using more than 3% math would require more than 5 epochs on the dataset. 
+在 Stage 1，我们给数学分配 3%，并在 FineMath3+ 与 InfiWebMath3+ 之间均分。可用数学数据只有 54B tokens，而 Stage 1 预计训练 8T 到 9T tokens；如果数学占比超过 3%，数据集训练轮次就会超过 5 个 epoch。
 
-####  **Finding the right mixture for new stages** 
+####  **为新阶段寻找合适的数据混合** 
 
-While we ran ablations from scratch to determine the stage 1 mixture, to test new datasets for new stages (in our case two new stages) we used annealing ablations: we took a checkpoint at around 7T tokens (late in stage 1) and ran a 50B token annealing experiments with the following setup:
+我们通过从零开始的消融确定了 stage 1 的混合配方；而在测试新阶段的新数据集时（我们这里是两个新阶段），使用的是退火消融：在约 7T tokens（stage 1 后期）处取一个 checkpoint，然后进行 50B tokens 的退火实验，配置如下：
 
--  **40% baseline mixture** : The exact stage 1 mixture we'd been training on
--  **60% new dataset** : The candidate dataset we wanted to evaluate
+-  **40% baseline mixture** ：我们一直在训练的 stage 1 原始配方
+-  **60% new dataset** ：待评估的候选数据集
 
-For example, to test whether MegaMath would improve our math performance, we ran 40% Stage 1 mixture (maintaining the 75/12/10/3 domain split) and 60% MegaMath.
+例如，为了测试 MegaMath 是否能提升数学性能，我们使用 40% 的 Stage 1 配方（保持 75/12/10/3 的领域占比）和 60% 的 MegaMath 来训练。
 
-The can find the composition of the 3 stages in the following section. 
+三阶段的具体组成见下一节。
 
-With our data carefully curated and our mixture validated through ablations, we're ready to embark on the actual training journey. The chapter that follows is the story of SmolLM3's month-long training run: the preparation, the unexpected challenges, and the lessons learned along the way.
+当数据被精心策划、配方也通过消融验证后，我们就可以进入真正的训练旅程。下一章讲述的就是 SmolLM3 这次为期一个月训练的故事：准备过程、意外挑战，以及一路上得到的经验教训。
 
 ## The training marathon
 
