@@ -2934,11 +2934,11 @@ loss spikes 可分为两类：
 
 我们已经走过了规模化训练中的一系列挑战：从吞吐量下跌到 TP bug，从用于尽早发现问题的监控实践，到预防和修复 loss spikes 的策略。接下来，让我们用“多阶段训练如何提升模型最终性能”来结束本章。
 
-### Mid-training
+### 训练中期
 
-Modern LLM pretraining typically involves multiple stages with different data mixtures, often followed by a final phase to extend context length. For example, Qwen3 [@qwen3] uses a three-stage approach: a general stage on 30T tokens at 4k context, a reasoning stage with 5T higher-quality tokens emphasising STEM and coding, and finally a long context stage on hundreds of billions of tokens at 32k context length. SmolLM3 follows a similar philosophy, with planned interventions to introduce higher-quality datasets and extend context, alongside reactive adjustments based on performance monitoring.
+现代 LLM 预训练通常包含多个阶段，每个阶段使用不同的数据混合，最后常接一个用于扩展上下文长度的阶段。例如，Qwen3 [@qwen3] 采用三阶段方案：先在 4k 上下文长度下用 30T tokens 进行通用训练；随后使用 5T 质量更高、侧重 STEM 与代码的数据进行推理阶段训练；最后再进行一个 32k 上下文长度、数千亿 tokens 的长上下文阶段。SmolLM3 遵循了类似思路：一方面按计划引入更高质量数据集并扩展上下文，另一方面基于训练监控结果做响应式调整。
 
-As we explained in the data curation section, the data mixture doesn't have to stay fixed throughout training. Multi-stage training allows us to strategically shift dataset proportions as training progresses. Some interventions are planned from the start: for SmolLM3, we knew we'd introduce higher-quality FineMath4+ and Stack-Edu in Stage 2, then add curated Q&A and reasoning data during the final decay phase. Other interventions are reactive, driven by monitoring performance during training. For example, in SmolLM2, when we found math and code performance lagging behind our targets, we curated entirely new datasets (FineMath and Stack-Edu) and introduced them mid-training. This flexibility—whether following a planned curriculum or adapting to emerging gaps—is what allows us to maximize the value of our compute budget.
+正如我们在数据策划章节所述，数据混合并不需要在整个训练过程中保持不变。多阶段训练让我们能够随着训练推进，策略性调整各类数据占比。有些干预从一开始就已规划好：对 SmolLM3 而言，我们在 Stage 2 计划引入更高质量的 FineMath4+ 与 Stack-Edu，并在最终衰减阶段加入精选的问答与推理数据。另一些干预是响应式的，由训练过程中的监控结果驱动。例如，在 SmolLM2 中，当我们发现数学与代码能力落后于目标时，我们专门构建了全新数据集（FineMath 和 Stack-Edu），并在训练中期引入。这种灵活性，无论是遵循既定课程还是针对新暴露的短板动态调整，都是最大化算力预算价值的关键。
 
 #### Stage 2 and stage 3 mixtures
 
