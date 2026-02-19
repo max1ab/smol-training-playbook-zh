@@ -2998,24 +2998,24 @@ loss spikes 可分为两类：
 
 至此，我们完整走完了 SmolLM3 的预训练旅程：从规划与消融实验，到最终训练运行，以及一路上的所有幕后挑战。
 
-### Wrapping up pretraining
+### 预训练收官
 
-We've covered a lot of ground. From the training compass that helped us decide why and what to train, through strategic planning, systematic ablations that validated every architectural choice, to the actual training marathon where surprises emerged at scale (throughput mysteriously collapsing, dataloader bottlenecks, and a subtle tensor parallelism bug that forced a restart at 1T tokens).
+我们已经覆盖了大量内容。从帮助我们明确“为什么训练、训练什么”的 training compass，到战略规划、逐项验证架构选择的系统化 ablations，再到真正的 training marathon：一旦上规模，意外就会接连出现（throughput 莫名下滑、dataloader 成为瓶颈，以及一个隐蔽的 tensor parallelism bug，让我们在 1T tokens 时不得不重启）。
 
-The messy reality behind those polished technical reports is now visible:  **training LLMs is as much about disciplined experimentation and rapid debugging as it is about architectural innovations and data curation.**  Planning identifies what's worth testing. Ablations validate each decision. Monitoring catches problems early. And when things inevitably break, systematic derisking tells you exactly where to look.
+至此，那些技术报告中被打磨过的表象背后，真实而复杂的一面已经很清楚： **训练 LLMs，既关乎 architecture innovations 与 data curation，也同样依赖严谨的 experimentation 和快速 debugging。** planning 决定什么值得测试。ablations 验证每一项决策。monitoring 让问题尽早暴露。而当系统不可避免地出故障时，系统化的 derisking 会直接指向排查入口。
 
-For SmolLM3 specifically, this process delivered what we set out to build: a 3B model trained on 11T tokens that's competitive on math, code, multilingual understanding, and long-context tasks, in the Pareto frontier of Qwen3 models. 
+就 SmolLM3 而言，这套流程确实交付了我们最初设定的目标：一个在 11T tokens 上训练出的 3B model，在 math、code、multilingual understanding 和 long-context tasks 上都具备竞争力，并跻身 Qwen3 models 的 Pareto frontier。
 
 <Wide>
 
-<HtmlEmbed src="embeds/base-model-performance.html" caption="The win rate of of base models evaluation on: HellaSwag, ARC, Winogrande, CommonsenseQA, MMLU-CF, MMLU Pro CF, PIQA, OpenBookQA, GSM8K, MATH, HumanEval+, MBPP+" />
+<HtmlEmbed src="embeds/base-model-performance.html" caption="基础模型在以下评测上的 win rate：HellaSwag, ARC, Winogrande, CommonsenseQA, MMLU-CF, MMLU Pro CF, PIQA, OpenBookQA, GSM8K, MATH, HumanEval+, MBPP+" />
 </Wide>
 
-With our base model checkpoint saved, training complete, and GPUs finally cooling down, we might be tempted to call it done. After all, we have a model that predicts text well, achieves strong benchmark scores, and demonstrates the capabilities we targeted.
+当 base model checkpoint 已经保存、训练结束、GPU 终于开始降温时，我们很容易觉得可以收工了。毕竟，这个模型已经具备很强的 text prediction 能力，benchmark 分数也不错，目标能力基本都已达成。
 
-Not quite. Because what people want today are assistants and coding agents, not raw next-token predictors.
+但还不能。因为今天用户真正需要的是 assistants 和 coding agents，而不是裸露的 next-token predictors。
 
-This is where post-training comes in. And just like pretraining, the reality is messier than the papers suggest.
+post-training 正是在这里登场。而且和 pretraining 一样，真实过程远比论文里看起来更复杂。
 
 ## Beyond base models — post-training in 2025
 
