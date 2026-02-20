@@ -3017,22 +3017,22 @@ loss spikes 可分为两类：
 
 post-training 正是在这里登场。而且和 pretraining 一样，真实过程远比论文里看起来更复杂。
 
-## Beyond base models — post-training in 2025
+## 超越基础模型：2025 年的后训练
 
-<Quote source="Lewis Tunstall, optimistic LLM expert.">
+<Quote source="Lewis Tunstall，乐观派 LLM 专家。">
 
-Once the pre-training finishes we should have an SFT baseline within a day
+预训练一结束，我们应该能在一天内拿到一个 SFT baseline
 </Quote>
 
-<HtmlEmbed src="embeds/post-training-adventure.html" caption="Choose your own (post-training) adventure." />
+<HtmlEmbed src="embeds/post-training-adventure.html" caption="选择你的（后训练）冒险路径。" />
 
 
 
-Pre-training gave us SmolLM3's raw ability, but before the GPUs are cooled down we enter the next frontier of model capabilities:  *post-training* . This includes supervised fine-tuning, reinforcement learning, model merging, and more — all designed to bridge the gap between "a model that predicts text" to "a model people can actually use". If pre-training is about brute-forcing knowledge into weights, post-training is about sculpting that raw capability into something reliable and steerable. And just like pre-training, the polished post-training papers don't capture the late-night surprises: GPU meltdowns, finicky data mixtures, or the way a seemingly minor chat template decision can ripple through downstream benchmarks. In this section, we'll show how we navigated the messy world of post-training to turn SmolLM3 from a strong base model into a state-of-the-art hybrid reasoner.
+预训练赋予了 SmolLM3 原始能力，但在 GPU 还没完全降温之前，我们就进入了模型能力的下一前沿： *后训练（post-training）* 。这包括监督微调（supervised fine-tuning）、强化学习（reinforcement learning）、模型合并（model merging）等，目标都是弥合“会预测文本的模型”与“人们真正能用的模型”之间的差距。若说预训练是在权重中强行注入知识，后训练就是把这份原始能力雕琢成可靠、可控的系统。和预训练一样，精修过的后训练论文并不会写出那些深夜里的意外：GPU 崩溃、脆弱的数据混合配方，或者一个看似微小的 chat template 决策如何层层传导到下游基准。本节我们会展示，如何在复杂而混乱的后训练世界中推进，把 SmolLM3 从一个强大的 base model 打造成 SOTA 的混合推理模型。
 
-<Note title="What is a hybrid reasoning model?" emoji="📍" variant="info">
+<Note title="什么是混合推理模型？" emoji="📍" variant="info">
 
-A hybrid reasoning model operates in two distinct modes: one for concise, direct responses and another for extended step-by-step reasoning. Typically, the operating mode is set by the user in the system message. Following Qwen3, we make this explicit with lightweight commands: "/think" invokes extended reasoning, while "/no_think" enforces concise answers. This way, the user controls whether the model prioritises depth or speed.
+混合推理模型有两种不同的工作模式：一种用于简洁、直接的回答，另一种用于更长链路的逐步推理。通常，运行模式由用户在 system message 中设定。我们沿用 Qwen3 的做法，用轻量命令显式切换："/think" 启用扩展推理，"/no_think" 强制简洁回答。这样用户就能自行控制模型是优先深度还是优先速度。
 </Note>
 
 ### Post-training compass: why → what → how
