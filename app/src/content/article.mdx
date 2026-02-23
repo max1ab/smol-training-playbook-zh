@@ -3074,95 +3074,95 @@ post-training 正是在这里登场。而且和 pretraining 一样，真实过�
 
 让我们从一个很多模型训练者直到项目后期才会认真面对的话题开始：evals。
 
-### First things first: evals before everything else
+### 先做最重要的事：把 evals 放在一切之前
 
-The very first step in post-training — just like in pre-training — is to decide on the right set of evals. Since most LLMs today are used as assistants, we've found that aiming for a model that "works well" is a better goal than chasing abstract benchmarks of "intelligence" like [ARC-AGI](https://arcprize.org/arc-agi). So what does a good assistant need to do? At minimum, it should be able to:
+后训练的第一步和预训练一样，都是先确定一套合适的 evals。鉴于如今大多数 LLM 都被当作助手使用，我们发现，相比追逐 [ARC-AGI](https://arcprize.org/arc-agi) 这类抽象的“智能”基准，把目标设为“模型是否真正好用”更实际。那么，一个好助手要做到什么？至少应具备：
 
-- Handle ambiguous instructions
-- Plan step-by-step
-- Write code
-- Call tools when appropriate
+- 处理含糊不清的指令
+- 逐步规划
+- 编写代码
+- 在合适时机调用工具
 
-These behaviours draw on a mix of reasoning, long-context handling, and skills with math, code, and tool use. Models as small as or even smaller than 3B parameters can work well as assistants, though performance usually falls off steeply below 1B.
+这些行为依赖多种能力组合：推理、长上下文处理，以及数学、代码和工具使用能力。参数规模在 3B 左右甚至更小的模型也可以作为不错的助手，但当规模低于 1B 时，性能通常会明显下滑。
 
 <Sidenote>
 
-It remains an interesting, yet open question whether tiny models can use tool calling to offset their limited capacity and thus act as viable assistants. See the models from [LiquidAI](https://huggingface.co/LiquidAI/LFM2-1.2B-Tool) for recent work in this direction.
+一个仍然有趣但尚无定论的问题是：超小模型能否通过 tool calling 弥补容量不足，从而成为可用的助手。这个方向的最新工作可参考 [LiquidAI](https://huggingface.co/LiquidAI/LFM2-1.2B-Tool) 的模型。
 </Sidenote>
 
-At Hugging Face, we use a layered eval suite, echoing the pre-training principles (monotonicity, low noise, above-random signal, ranking consistency) that we detailed in the [ablations section](#every-big-model-starts-with-a-small-ablation) for pretraining. 
+在 Hugging Face，我们使用分层的评估套件（layered eval suite），沿用了我们在预训练[消融章节](#every-big-model-starts-with-a-small-ablation)中总结的原则：单调性、低噪声、高于随机的有效信号、以及排名一致性。
 
-<Note title="Keep your evals current" emoji="📍" variant="info">
+<Note title="让你的 evals 与时俱进" emoji="📍" variant="info">
 
-The list of evals to consider is continuously evolving as models improve and the ones discussed below reflect our focus in mid 2025. See the <a href="https://github.com/huggingface/evaluation-guidebook/blob/main/yearly_dives/2025-evaluations-for-useful-models.md">[Evaluation Guidebook](https://github.com/huggingface/evaluation-guidebook/blob/main/yearly_dives/2025-evaluations-for-useful-models.md)</a> for a comprehensive overview of post-training evals.
+随着模型持续进步，可选的 evals 列表也在不断变化。下面提到的内容反映的是我们在 2025 年年中的关注重点。想全面了解后训练评估，可参考 <a href="https://github.com/huggingface/evaluation-guidebook/blob/main/yearly_dives/2025-evaluations-for-useful-models.md">[Evaluation Guidebook](https://github.com/huggingface/evaluation-guidebook/blob/main/yearly_dives/2025-evaluations-for-useful-models.md)</a>。
 </Note>
 
-Here are the many ways one can evaluate a post trained model: 
+下面是评估后训练模型的几类常见方式：
 
-1.  **Capability evals** 
+1.  **能力评估（Capability evals）**
 
-This class of evals target fundamental skills, like reasoning and competitive math and coding. 
-    -  **Knowledge.**  We currently use GPQA Diamond [@gpqa] as the main eval for scientific knowledge. This benchmark consists of graduate-level, multiple-choice questions.  For small models, it's far from saturated and gives better signal than MMLU and friends, while being much faster to run. Another good test of factuality is SimpleQA [[@simpleqa](https://huggingface.co/papers/2411.04368)], although small models tend to struggle significantly on this benchmark due to their limited knowledge.
-    -  **Math.**  To measure mathematical ability, most models today are evaluated on the latest version of AIME (currently the 2025 version). MATH-500 [[@openaiprm](https://arxiv.org/abs/2305.20050)] remains a useful sanity test for small models, but is largely saturated by reasoning models. For a more comprehensive set of math evals, we recommend those from [MathArena](https://matharena.ai/).
-    -  **Code.**  We use the latest version of [LiveCodeBench](https://livecodebench.github.io/leaderboard.html) to track coding competency. Although targeted towards competitive programming problems, we've found that improvements on LiveCodeBench do translate into better coding models, albeit limited to Python. [SWE-bench Verified](https://openai.com/index/introducing-swe-bench-verified/) is a more sophisticated measure of coding skill, but tends to be too hard for small models and thus is not one we usually consider.
-    -  **Multilinguality.** Unfortunately, there are not many options when it comes to testing the multilingual capabilities of models. We currently rely on Global MMLU [[@globalmmlu](https://arxiv.org/abs/2412.03304)] to target the main languages our models should perform well in, with MGSM [[@mgsm](/2421384ebcac800cb22cdf0bb34c69f7)] included as a test of multilingual mathematical ability.
+这类评估针对基础能力，例如推理、竞赛数学和代码能力。
+    -  **知识。** 目前我们使用 GPQA Diamond [@gpqa] 作为科学知识的主评估。该基准由研究生水平的多项选择题构成。对小模型而言，它远未饱和，信号通常比 MMLU 等基准更好，而且运行更快。另一个检验事实性的好基准是 SimpleQA [[@simpleqa](https://huggingface.co/papers/2411.04368)]，不过受限于知识容量，小模型在这个基准上通常表现较弱。
+    -  **数学。** 为了衡量数学能力，如今大多数模型会在最新版本的 AIME 上评估（目前是 2025 版）。MATH-500 [[@openaiprm](https://arxiv.org/abs/2305.20050)] 对小模型仍是有价值的 sanity check，但对推理模型来说已基本饱和。若想覆盖更全面的数学评估，我们推荐 [MathArena](https://matharena.ai/)。
+    -  **代码。** 我们使用最新版 [LiveCodeBench](https://livecodebench.github.io/leaderboard.html) 跟踪代码能力。尽管它主要面向竞赛编程题，我们观察到 LiveCodeBench 的提升确实会转化为更强的代码模型，但这种相关性主要体现在 Python。[SWE-bench Verified](https://openai.com/index/introducing-swe-bench-verified/) 是更复杂的代码能力指标，但通常对小模型过难，因此不属于我们常用评估。
+    -  **多语言。** 遗憾的是，评测模型多语言能力的选择并不多。我们目前主要依赖 Global MMLU [[@globalmmlu](https://arxiv.org/abs/2412.03304)] 来覆盖模型重点语言，并加入 MGSM [[@mgsm](/2421384ebcac800cb22cdf0bb34c69f7)] 评估多语言数学能力。
 
-1.  **Integrated task evals** 
+1.  **综合任务评估（Integrated task evals）**
 
-These evals test things that are close to what we'll ship: multi-turn reasoning, long-context use, and tool calls in semi-realistic settings.
-    -  **Long context.**  The most commonly used test for long-context retrieval is the Needle in a Haystack (NIAH) [[@niah](https://github.com/gkamradt/LLMTest_NeedleInAHaystack)], where a random fact ("needle") is placed in somewhere within a long document ("haystack") and the model has to retrieve it. However, this benchmark is too superficial to discriminate long-context understanding, so the community has developed more comprehensive evals like RULER [[@ruler](https://arxiv.org/abs/2404.06654)] and HELMET [[@helmet](https://arxiv.org/abs/2410.02694)]. More recently, OpenAI have released the [MRCR](https://huggingface.co/datasets/openai/mrcr) and [GraphWalks](https://huggingface.co/datasets/openai/graphwalks) benchmarks which extend the difficulty of long-context evals.
-
-<Sidenote>
-
-See also this <a href="https://nrehiew.github.io/blog/long_context/">excellent [blog post](https://nrehiew.github.io/blog/long_context/)</a> on the limitations of long-context evals and how to design realistic ones.
-</Sidenote>
-
-    -  **Instruction following.**  IFEval [[@ifeval](https://arxiv.org/abs/2311.07911)] is currently the most popular eval to measure instruction following, and uses automatic scoring against "verifiable instructions". IFBench [[@ifbench](https://arxiv.org/abs/2507.02833)] is a new extension from Ai2 which includes a more diverse set of constraints than IFEval and mitigates some benchmaxxing that has occurred in recent model releases. For multi-turn instruction following, we recommend Multi-IF [[@multiif](https://arxiv.org/abs/2410.15553)] or MultiChallenge [[@multichallenge](https://arxiv.org/abs/2501.17399)]. 
-    -  **Alignment.** Measuring how well models align to user intent is typically done through human annotators or by public leaderboards like [LMArena](https://lmarena.ai/). This is because qualities such as free-form generation, style, or overall helpfulness are difficult to measure quantitatively with automated metrics. However, in all cases it is very expensive to run these evaluations which is why the community has resorted to using LLMs as a proxy for human preferences. The most popular benchmarks of this flavour include AlpacaEval [[@alpacaeval](https://arxiv.org/abs/2404.04475)], ArenaHard [[@arenahard](https://arxiv.org/abs/2406.11939)] and MixEval [[@mixeval](https://arxiv.org/abs/2406.06565)], with the latter having the strongest correlation with human Elo ratings on LMArena.
-    -  **Tool calling.**  [BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) provides a comprehensive test of tool calling, albeit one that is often saturated quite quickly. TAU-Bench [[@taubench](https://arxiv.org/abs/2506.07982)] provides a test of a model's ability to use tools and resolve user problems in simulated customer service settings and has also become a popular benchmark to report on.
-
-1.  **Overfitting-prevention evals** 
-
-To test whether our models are overfitting to a specific skill, we include some robustness or adaptability evals in our set, like GSMPlus [[@gsmplus](https://arxiv.org/abs/2402.19255)], which perturbs problems from GSM8k [[@gsm8k](https://arxiv.org/abs/2110.14168)] to test whether models can still solve problems of similar difficulty.  
-
-1.  **Internal evals** 
-
-Although public benchmarks can provide some useful signal during model development, they are no substitute for implementing your own internal evals to target specific capabilities, or asking internal experts to interact with your model.
+这类评估更贴近我们最终要交付的能力：多轮推理、长上下文使用，以及半真实场景中的工具调用。
+    -  **长上下文。** 长上下文检索最常见的测试是 Needle in a Haystack（NIAH）[[@niah](https://github.com/gkamradt/LLMTest_NeedleInAHaystack)]：把一个随机事实（“needle”）放入长文档（“haystack”）中，要求模型检索出来。但这个基准过于表层，不足以区分真正的长上下文理解能力，因此社区发展出了更全面的评估，如 RULER [[@ruler](https://arxiv.org/abs/2404.06654)] 和 HELMET [[@helmet](https://arxiv.org/abs/2410.02694)]。最近 OpenAI 还发布了 [MRCR](https://huggingface.co/datasets/openai/mrcr) 与 [GraphWalks](https://huggingface.co/datasets/openai/graphwalks) 基准，进一步提高了长上下文评估难度。
 
 <Sidenote>
 
-This is especially true if you are building an AI product. See Hamel Husain's wonderful <a href="https://hamel.dev/blog/posts/evals/">[blog post](https://decodingml.substack.com/?utm_source=navbar&utm_medium=web)</a> for specific advice on this topic.
+关于长上下文评估的局限与如何设计更真实的评估，也可参考这篇 <a href="https://nrehiew.github.io/blog/long_context/">优秀的[博客](https://nrehiew.github.io/blog/long_context/)</a>。
 </Sidenote>
 
-For example, for SmolLM3 we needed a benchmark to evaluate whether the model was capable of  *multi-turn*   *reasoning* , so we implemented a variant of Multi-IF to measure this. 
+    -  **指令遵循。** IFEval [[@ifeval](https://arxiv.org/abs/2311.07911)] 目前是最常用的指令遵循评估，基于“可验证指令”进行自动打分。IFBench [[@ifbench](https://arxiv.org/abs/2507.02833)] 是 Ai2 的新扩展，包含比 IFEval 更多样的约束，并缓解了近来模型发布中出现的一些刷榜化（benchmaxxing）现象。对于多轮指令遵循，我们推荐 Multi-IF [[@multiif](https://arxiv.org/abs/2410.15553)] 或 MultiChallenge [[@multichallenge](https://arxiv.org/abs/2501.17399)]。
+    -  **对齐。** 衡量模型对用户意图的对齐程度，通常依赖人工标注或 [LMArena](https://lmarena.ai/) 这类公开榜单。原因是自由生成质量、风格或整体有用性等属性，很难用自动化指标做量化。然而这类评估成本很高，因此社区普遍会用 LLM 充当人类偏好的代理。此类最常见基准包括 AlpacaEval [[@alpacaeval](https://arxiv.org/abs/2404.04475)]、ArenaHard [[@arenahard](https://arxiv.org/abs/2406.11939)] 和 MixEval [[@mixeval](https://arxiv.org/abs/2406.06565)]；其中 MixEval 与 LMArena 人类 Elo 评分的相关性最强。
+    -  **工具调用。** [BFCL](https://gorilla.cs.berkeley.edu/leaderboard.html) 提供了相对全面的工具调用测试，但往往很快饱和。TAU-Bench [[@taubench](https://arxiv.org/abs/2506.07982)] 在模拟客服场景中评估模型的工具使用与问题解决能力，也已成为常被报告的热门基准。
 
-1.  **Vibe evaluations and arenas** 
+1.  **防过拟合评估（Overfitting-prevention evals）**
 
-Similarly, we have found that "vibe testing" intermediate checkpoints (aka interacting with your model) is essential for uncovering subtle quirks in model behaviour that are not captured by eval scores. As we discuss later, vibe testing uncovered a bug in our data processing code where all system messages were deleted from the corpus! 
-This is also something that can be done at scale to measure human preference, like on the popular [LMArena](https://lmarena.ai/). However, crowdsourced human evaluation tends to be brittle (favouring sycophancy and flowery speech over actual usefulness), so it's important to see it as a low signal feedback. 
+为了检验模型是否对某项能力过拟合，我们会加入鲁棒性或适应性评估。例如 GSMPlus [[@gsmplus](https://arxiv.org/abs/2402.19255)] 会扰动 GSM8k [[@gsm8k](https://arxiv.org/abs/2110.14168)] 的题目，测试模型在相近难度问题上是否仍然可解。
 
-<Note title="Decontaminate your training data" emoji="☝️" variant="danger">
+1.  **内部评估（Internal evals）**
 
-One risk with relying on public benchmarks is that the models can easily be overfit to them, especially when synthetic data is used to generate prompts and responses that are similar to the target benchmarks. For this reason, it is essential to decontaminate your training data against the evals you will use to guide model development. You can do this with N-gram matching using scripts like those in <a href="https://github.com/huggingface/open-r1/blob/main/scripts/decontaminate.py">Open-R1.</a>
+公开基准在模型开发过程中能提供一定信号，但它不能替代你自己的内部评估，也不能替代让内部专家直接与模型交互，以验证特定能力。
+
+<Sidenote>
+
+如果你在做 AI 产品，这一点尤为重要。可参考 Hamel Husain 的这篇 <a href="https://hamel.dev/blog/posts/evals/">[博客](https://decodingml.substack.com/?utm_source=navbar&utm_medium=web)</a>，其中给出了非常具体的建议。
+</Sidenote>
+
+例如，对 SmolLM3 来说，我们需要一个能评估模型是否具备 *多轮*  *推理* 能力的基准，因此我们实现了 Multi-IF 的一个变体来测量它。
+
+1.  **Vibe 测评与竞技场（Vibe evaluations and arenas）**
+
+我们同样发现，对中间 checkpoint 做“vibe testing”（即亲自与模型交互）对于发现 eval 分数捕捉不到的细微行为问题至关重要。正如后文会提到的，vibe testing 曾帮我们发现数据处理代码中的一个 bug：语料中的所有 system messages 都被删掉了。
+这类评估也可以规模化，用来衡量人类偏好，例如在 [LMArena](https://lmarena.ai/) 上进行。但众包人类评估往往比较脆弱（偏好迎合与辞藻，而非真实有用性），因此应将其视为低信号反馈。
+
+<Note title="对训练数据做去污染（decontamination）" emoji="☝️" variant="danger">
+
+依赖公开基准的一个风险是，模型很容易被“刷”到这些基准上，尤其当你用合成数据生成与目标基准相似的 prompt 和 response 时更是如此。因此，必须针对用于指导开发的评估集，对训练数据做去污染。你可以用 N-gram 匹配来完成，例如 <a href="https://github.com/huggingface/open-r1/blob/main/scripts/decontaminate.py">Open-R1</a> 中的脚本。
 </Note>
 
-For SmolLM3 specifically, we wanted a hybrid reasoning model that could reliably follow instructions and reason well in popular domains like mathematics and code. We also wanted to ensure we preserved the base model's capabilities of multilinguality and long-context retrieval.
+就 SmolLM3 而言，我们希望构建一个混合推理模型：既能稳定遵循指令，又能在数学和代码等常见领域具备良好推理能力。同时，我们也希望保留 base model 在多语言和长上下文检索上的能力。
 
-This led us to the following set of evals:
+这带来了我们最终采用的这组 evals：
 
-| Benchmark | Category | Number of prompts | Metric |
+| 基准 | 类别 | 提示数量 | 指标 |
 | --- | --- | --- | --- |
-| AIME25 | Competitive mathematics | 30 | avg@64 |
-| LiveCodeBench (v4 for validation, v5 for final release) | Competitive programming | 100 (268) | avg@16 |
-| GPQA Diamond | Graduate-level reasoning | 198 | avg@8 |
-| IFEval | Instruction following | 541 | accuracy |
-| MixEval Hard | Alignment | 1000 | accuracy |
-| BFCL v3 | Tool use | 4441 | mixed |
-| Global MMLU (lite for validation) | Multilingual Q&A | 590,000 (6,400) | accuracy |
-| GSMPlus (mini for validation) | Robustness | 10,000 (2,400) | accuracy |
-| RULER | Long context | 6,500 | accuracy |
+| AIME25 | 竞赛数学 | 30 | avg@64 |
+| LiveCodeBench（验证用 v4，最终发布用 v5） | 竞赛编程 | 100 (268) | avg@16 |
+| GPQA Diamond | 研究生水平推理 | 198 | avg@8 |
+| IFEval | 指令遵循 | 541 | accuracy |
+| MixEval Hard | 对齐 | 1000 | accuracy |
+| BFCL v3 | 工具使用 | 4441 | mixed |
+| Global MMLU（验证使用 lite 版本） | 多语言问答 | 590,000 (6,400) | accuracy |
+| GSMPlus（验证使用 mini 版本） | 鲁棒性 | 10,000 (2,400) | accuracy |
+| RULER | 长上下文 | 6,500 | accuracy |
 
-Let's look at a few example questions from each to get a concrete sense of what these evaluations actually test:
+下面我们从每个基准中看几个示例题，直观感受这些评估到底在测什么：
 
 <iframe
   src="https://huggingface.co/datasets/HuggingFaceTB/post-training-benchmarks-viewer/embed/viewer/aime25/test"
@@ -3172,13 +3172,13 @@ Let's look at a few example questions from each to get a concrete sense of what 
 ></iframe>
 
 
-Browse through the examples above to see the types of questions in each benchmark. Notice how the diversity of domains ensures we're testing different aspects of model capability throughout our ablations.
+浏览上面的示例，你会看到不同基准各自的问题类型。它们覆盖了不同领域，确保我们在整套消融实验中能持续检验模型能力的不同维度。
 
-For the 3B model scale we were working with, we felt these evals would give us actionable signal, run faster than training itself, and give us confidence that improvements are real and not just noise from sampling. We also tracked our pre-training evals (see the [ablation section](#every-big-model-starts-with-a-small-ablation) for a full list) to make sure we weren't regressing too much on the base model performance.
+对于我们当时使用的 3B 模型规模，这组 evals 能提供可执行信号，运行速度也快于训练本身，并让我们更有把握确认提升是真实的，而不是采样噪声。我们也同步跟踪了预训练阶段的 evals（完整列表见[消融章节](#every-big-model-starts-with-a-small-ablation)），确保 base model 能力没有明显退化。
 
-<Note title="Prioritise your evals" emoji="☝️" variant="danger">
+<Note title="优先级最高的是 evals" emoji="☝️" variant="danger">
 
-The story above suggests that we got together as a team, converged on the set of evals, and had them ready to go before training any models. The reality was far messier: we had a tight deadline and rushed ahead with model training before many of the above evals were implemented (e.g. RULER was not available until a few days before the model release 🙈). In hindsight, this was a  **mistake**  and we should have discussed with the pre-training team which core evals should be preserved across post-training and also prioritised implementing them long before the base model was finished training. In other words, prioritise your evals before all else!
+上面的叙述看起来像是：我们团队先坐下来统一评估集，然后在训练前全部准备完毕。现实要混乱得多。我们的截止时间很紧，因此在上面很多 evals 尚未实现时就匆忙启动了训练（例如 RULER 直到模型发布前几天才可用 🙈）。现在回看，这是一个 **错误**。我们本该更早与预训练团队讨论：哪些核心 evals 需要在后训练阶段持续保留，并在 base model 训练完成前很久就把它们优先实现。换句话说，先把 evals 排到最高优先级。
 </Note>
 
 #### Rules of engagement
