@@ -3181,21 +3181,21 @@ post-training 正是在这里登场。而且和 pretraining 一样，真实过�
 上面的叙述看起来像是：我们团队先坐下来统一评估集，然后在训练前全部准备完毕。现实要混乱得多。我们的截止时间很紧，因此在上面很多 evals 尚未实现时就匆忙启动了训练（例如 RULER 直到模型发布前几天才可用 🙈）。现在回看，这是一个 **错误**。我们本该更早与预训练团队讨论：哪些核心 evals 需要在后训练阶段持续保留，并在 base model 训练完成前很久就把它们优先实现。换句话说，先把 evals 排到最高优先级。
 </Note>
 
-#### Rules of engagement
+#### 行动准则
 
-Let's summarise this section with a few hard-earned lessons we've acquired from evaluating thousands of models:
+让我们用几条“从评估过成千上万模型后换来的经验教训”来总结这一节：
 
-- Use  **small subsets to accelerate evals**  during model development. For example, LiveCodeBench v4 is highly correlated with v5, but runs in half the time. Alternatively, use methods like those from tinyBenchmarks [[@tinybenchmarks](https://arxiv.org/abs/2402.14992)] which seek to find the smallest subset of prompts that reliably match the full evaluation.
-- For  **reasoning models** , strip the chain-of-thought from the  **scored**  output. This eliminates false positives and also directly impacts benchmarks like IFEval which penalise responses that violate constraints like "write a poem in under 50 words".
-- If an eval uses  **LLM judges, pin the judge and version**  for apples-to-apples comparisons over time. Even better, use an open weight model so that the eval is reproducible even if a provider deprecates the judge model.
-- Be wary of  **contamination**  in the base models. For example, most models released before AIME 2025 performed much worse than AIME 2024, suggesting some benchmaxxing was at play.
-- If possible, treat anything used during ablations as  **validation** , not  **test.** This means keeping a set of held-out benchmarks for the final model reports, similar to the Tulu3 evaluation framework [[@tulu3](https://arxiv.org/abs/2411.15124)].
-- Always include a small set of  **"vibe evals"**  on your own data and tasks to catch overfitting to public suites.
-- For evals with a small number of problems (typically less than ~2k), sample  `k`  times and report the  `avg@k`  accuracy. This is important to mitigate noise which can lead to incorrect decisions during development.
-- When implementing a new eval, make sure you  **can replicate the published result of a few models**  (within some error). Failing to do this will waste a lot of time later on if you need to fix the implementation and re-evaluate many checkpoints.
-- When in doubt, always go back to the evaluation data, and notably inspect what you are prompting your models with 
+- 在模型开发阶段，使用  **小规模子集来加速评估** 。例如，LiveCodeBench v4 与 v5 的相关性很高，但运行时间只有后者的一半。你也可以使用 tinyBenchmarks [[@tinybenchmarks](https://arxiv.org/abs/2402.14992)] 一类方法，寻找能稳定代表全量评估结果的最小提示子集。
+- 对于  **推理模型** ，要从  **计分输出**  中去除 chain-of-thought。这能减少误判（false positives），也会直接影响 IFEval 这类基准，因为它会惩罚违反约束的回答（例如“把诗写在 50 个词以内”）。
+- 如果某个评估使用  **LLM 评审器（judge）** ，请固定评审模型及其版本，以便长期进行可比对（apples-to-apples）的比较。更理想的是使用开源权重模型，这样即使服务商下线了评审模型，评估仍可复现。
+- 要警惕 base model 中的  **污染（contamination）** 。例如，大多数在 AIME 2025 之前发布的模型，在 AIME 2025 上显著差于 AIME 2024，这表明可能存在 benchmaxxing 现象。
+- 在条件允许时，把消融阶段使用的一切都视作  **验证集（validation）** ，而不是  **测试集（test）** 。这意味着要像 Tulu3 评估框架 [[@tulu3](https://arxiv.org/abs/2411.15124)] 那样，为最终模型报告保留一组真正留出的基准。
+- 始终在你自己的数据和任务上保留一小组  **“vibe evals”** ，以捕捉模型对公开基准过拟合的问题。
+- 对于题量较小的评估（通常少于约 2k 题），请采样 `k` 次并报告 `avg@k` 准确率。这对抑制噪声很关键，否则开发阶段很容易做出错误决策。
+- 实现新评估时，请先确保你  **能够复现若干已发布模型的公开结果** （允许一定误差）。否则后续一旦需要修实现并重评大量 checkpoint，会浪费很多时间。
+- 如果拿不准，就回到评估数据本身，重点检查你到底在用什么提示词（prompt）喂给模型。
 
-With the evals at hand, it's time to train some models! Before doing that, we first need to pick a post-training framework.
+评估准备就绪后，就该开始训练模型了！但在此之前，我们先需要选定一个后训练框架。
 
 ### Tools of the trade
 
