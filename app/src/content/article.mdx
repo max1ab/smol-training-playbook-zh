@@ -3197,11 +3197,11 @@ post-training 正是在这里登场。而且和 pretraining 一样，真实过�
 
 评估准备就绪后，就该开始训练模型了！但在此之前，我们先需要选定一个后训练框架。
 
-### Tools of the trade
+### 工具箱：常用训练框架
 
-Behind every post-training recipe lies a toolbox of frameworks and libraries that enable large-scale experimentation. Each frameworks brings its own set of supported algorithms, fine-tuning methods, and scalability features. The table below summarises the main areas of support, from supervised fine-tuning (SFT) to preference optimisation (PO) and reinforcement learning (RL):
+每一套后训练配方背后，都有一组支撑大规模实验的框架与库。每个框架在支持的算法、微调方式和可扩展能力上各有侧重。下表汇总了主要能力覆盖范围，从监督微调（SFT）到偏好优化（PO）和强化学习（RL）：
 
-| Framework | SFT | PO | RL | Multi-modal | FullFT | LoRA | Distributed |
+| 框架 | SFT | PO | RL | 多模态 | FullFT | LoRA | 分布式 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | [ **TRL** ](https://github.com/huggingface/trl) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [ **Axolotl** ](https://github.com/axolotl-ai-cloud/axolotl) | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -3215,26 +3215,26 @@ Behind every post-training recipe lies a toolbox of frameworks and libraries tha
 | [ **NemoRL** ](https://github.com/NVIDIA-NeMo/RL) | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
 | [ **OpenRLHF** ](https://github.com/OpenRLHF/OpenRLHF) | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
 
-Here  *FullFT*  refers to  **full fine-tuning** , where all model parameters are updated during training.  *LoRA*  stands for  **Low-Rank Adaptation** , a parameter-efficient approach that updates only small low-rank matrices while keeping the base model frozen.  *Multi-modal*  refers to whether support for training on modalities beyond text (e.g. images) is supported and  *Distributed*  indicates whether training models on more than one GPU is possible.
+这里的  *FullFT*  指  **全参数微调** ，即在训练中更新模型的全部参数。 *LoRA*  是  **Low-Rank Adaptation（低秩适配）** ，这是一种参数高效方法：在冻结基座模型的同时，只更新少量低秩矩阵。 *Multi-modal*  表示是否支持文本之外模态（如图像）的训练， *Distributed*  表示是否支持在多张 GPU 上训练模型。
 
-At Hugging Face, we develop and maintain TRL, so it's our framework of choice and the one we used to post-train SmolLM3. 
+在 Hugging Face，我们开发并维护 TRL，因此它是我们的首选框架，也是我们用于 SmolLM3 后训练的框架。
 
-<Note title="Fork your frameworks" emoji="📍" variant="info">
+<Note title="建议 fork 你的训练框架" emoji="📍" variant="info">
 
-Given the fast-moving pace of the field, we've found it quite effective to run our experiments on an internal fork of TRL. This allows us to add new features very quickly, which are later upstreamed to the main library. If you're comfortable working with your framework's internals, adopting a similar workflow can be a powerful approach for rapid iteration.
+考虑到这个领域变化极快，我们发现基于 TRL 的内部 fork 来运行实验非常高效。这样可以让我们快速添加新功能，后续再回流到主库。如果你熟悉所用框架的内部实现，采用类似工作流会是实现快速迭代的有力方法。
 </Note>
 
-#### Why bother with frameworks at all?
+#### 为什么还要使用训练框架？
 
-There is a class of researchers that love to bemoan the use of training frameworks and instead argue that you should implement everything from scratch, all the time. The implicit claim here is that "real" understanding only comes from re-implementing every RL algorithm, manually coding every distributed training primitive, or hacking together a one-off eval harness.
+有一类研究者很喜欢批评训练框架，转而主张你应该始终从零实现一切。这里隐含的说法是：只有把每个 RL 算法都重写一遍、手工编码每个分布式训练原语，或临时拼一个一次性评测 harness，才算“真正”理解。
 
-But this position ignores the reality of modern research and production. Take RL for example. Algorithms like PPO and GRPO are notoriously tricky to implement correctly [[@ndetailsrlhf](https://arxiv.org/abs/2403.17031)], and tiny mistakes in normalisation or KL penalties can lead to days of wasted compute and effort.
+但这种立场忽略了现代研究和生产的现实。以 RL 为例，像 PPO 和 GRPO 这样的算法在“正确实现”上出了名地棘手 [[@ndetailsrlhf](https://arxiv.org/abs/2403.17031)]，而归一化或 KL 惩罚里的微小错误，就可能造成数天的算力与人力浪费。
 
-Similarly, although it's tempting to write a single-file implementation of some algorithm, can that same script scale from 1B to 100B+ parameters?
+同样，虽然把某个算法写成单文件实现很诱人，但同一份脚本真能从 1B 扩展到 100B+ 参数规模吗？
 
-Frameworks exist precisely because the basics are already well-understood and endlessly reinventing them is a poor use of time. That's not to say there's no value in low-level tinkering. Implementing PPO from scratch once is an excellent learning exercise. Writing a toy transformer without a framework teaches you how attention really works. But in most cases, just pick a framework you like and hack it for your purposes.
+框架之所以存在，恰恰是因为基础问题已经被充分理解，而无休止地重复造轮子并不划算。这并不意味着底层折腾没有价值。亲手从零实现一次 PPO 是很好的学习练习；不借助框架写一个玩具 Transformer，也能帮助你真正理解注意力机制。但在大多数情况下，更务实的做法是选一个你顺手的框架，然后按自己的需求改造它。
 
-With that rant out of the way, let's take a look at where we often start our training runs.
+说完这段“吐槽”，下面我们看看自己通常从哪里开始训练流程。
 
 ### Why (almost) every post-training pipeline starts with SFT
 
