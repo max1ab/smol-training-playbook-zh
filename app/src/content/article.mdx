@@ -3236,33 +3236,33 @@ post-training 正是在这里登场。而且和 pretraining 一样，真实过�
 
 说完这段“吐槽”，下面我们看看自己通常从哪里开始训练流程。
 
-### Why (almost) every post-training pipeline starts with SFT
+### 为什么（几乎）所有后训练流程都从 SFT 开始
 
-If you spend any time on X these days, you'd think reinforcement learning (RL) is the only game in town. Every day brings new acronyms, [algorithmic tweaks](https://x.com/agarwl_/status/1981518825007853891), and heated debates [[@chu2025](https://huggingface.co/papers/2501.17161); [@yue2025](https://huggingface.co/papers/2504.13837)] about whether RL can elicit new capabilities or not.
+如果你最近经常刷 X，可能会觉得强化学习（RL）几乎成了唯一值得讨论的方向。每天都会出现新的缩写、[算法改动](https://x.com/agarwl_/status/1981518825007853891)，以及关于 RL 是否真的能激发新能力的激烈争论 [[@chu2025](https://huggingface.co/papers/2501.17161); [@yue2025](https://huggingface.co/papers/2504.13837)]。
 
 <Sidenote>
 
-As we'll see later in this chapter, RL really does work, but comes with practical tradeoffs we discuss below.
+正如本章后面会看到的，RL 的确有效，但它也伴随着我们稍后会讨论的现实权衡。
 </Sidenote>
 
-RL isn't new of course. OpenAI and other labs relied heavily on RL from human feedback (RLHF) [[@rlhf](https://huggingface.co/blog/rlhf)] to align their early models, but it wasn't until the release of DeepSeek-R1 [[@deepseekr1](https://huggingface.co/papers/2501.12948)] that RL-based post-training really caught on in the open-source ecosystem.
+当然，RL 并不新鲜。OpenAI 和其他实验室很早就大量依赖基于人类反馈的强化学习（RLHF）[[@rlhf](https://huggingface.co/blog/rlhf)] 来对齐早期模型，但直到 DeepSeek-R1 发布 [[@deepseekr1](https://huggingface.co/papers/2501.12948)]，基于 RL 的后训练才在开源生态里真正流行起来。
 
-But one thing hasn't changed: almost every effective post-training pipeline still begins with supervised fine-tuning (SFT). The reasons are straightforward:
+但有一件事没变：几乎所有有效的后训练流程仍然从监督微调（SFT）开始。原因很直接：
 
--  **It's cheap:**  SFT requires modest compute compared to RL. You can usually get meaningful gains without needing to burn a bonfire of silicon, and in fraction of the time required for RL.
--  **It's stable:**  unlike RL, which is notoriously sensitive to reward design and hyperparameters, SFT "just works."
--  **It's the right baseline:** a good SFT checkpoint usually gives most of the gains you're after, and it makes later methods like DPO or RLHF far more effective.
+-  **成本低：**  与 RL 相比，SFT 所需算力更温和。通常不需要“烧”大量芯片，就能拿到有意义的提升，而且耗时只是 RL 的一小部分。
+-  **稳定：**  RL 对奖励设计和超参数高度敏感，而 SFT 往往“就是能跑通”。
+-  **是正确的 baseline：**  一个高质量的 SFT checkpoint 往往已经覆盖了你想要的大部分收益，同时也会让后续的 DPO 或 RLHF 更有效。
 
-In practice, this means that SFT isn't just the first step because it's easy; it's the step that consistently improves performance before anything more complex should be attempted. This is especially true when you are working with base models. With a few exceptions, base models are too unrefined to benefit from advanced post-training methods.
+在实践中，这意味着 SFT 并不只是因为“简单”才作为第一步；在尝试更复杂方法之前，它是最稳定、最持续带来性能提升的一步。尤其当你面对的是 base model 时，这一点更明显。除少数例外，base model 通常还不够成熟，难以直接从高级后训练方法中受益。
 
-<Note title="What about DeepSeek R1-Zero?" emoji="📍" variant="info">
+<Note title="那 DeepSeek R1-Zero 呢？" emoji="📍" variant="info">
 
-At the frontier, the usual reasons for starting with SFT don't always apply. There's no stronger model to distill from and human annotations are too noisy for complex behaviors like long chain-of-thought. That's why DeepSeek skipped SFT and went straight to RL with R1-Zero; to *discover* reasoning behaviors that couldn't be taught with standard supervision.  
+在前沿场景里，从 SFT 开始的常见理由并不总成立。你可能没有更强的模型可供蒸馏，人类标注对于长 chain-of-thought 这类复杂行为也往往噪声太大。因此 DeepSeek 跳过了 SFT，直接用 R1-Zero 进入 RL；目的是去 *发现* 那些无法通过标准监督直接教会的推理行为。  
 
-If you're in that regime, starting with RL can make sense. But if you're operating there ... you probably aren't reading this blog post anyway 😀.
+如果你正处在这个范式里，从 RL 起步是合理的。但如果你已经在那个层级……你大概率也不会在看这篇博客 😀。
 </Note>
 
-So, if SFT is where most pipelines begin, the next question is:  *what*  should you fine-tune? That starts with choosing the right base model.
+所以，如果大多数流程都从 SFT 开始，下一个问题就是：你应该微调 *什么* ？这要从选对 base model 开始。
 
 #### Picking a base model
 
