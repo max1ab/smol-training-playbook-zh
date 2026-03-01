@@ -3264,25 +3264,25 @@ post-training 正是在这里登场。而且和 pretraining 一样，真实过�
 
 所以，如果大多数流程都从 SFT 开始，下一个问题就是：你应该微调 *什么* ？这要从选对 base model 开始。
 
-#### Picking a base model
+#### 选择 base model
 
-When choosing a base model for post-training, a few practical dimensions matter most:
+在为后训练选择 base model 时，有几个实用维度最关键：
 
--  **Model size:**  although smol models have dramatically improved over time, it is still the case today that larger models generalise better, and often with fewer samples. Pick a model size that is representative of how you plan to use or deploy the model after training. On the [Hugging Face Hub](https://huggingface.co/models?pipeline_tag=text-generation&num_parameters=min%3A0%2Cmax%3A32B&sort=trending), you can filter models by modality and size to find suitable candidates:
+-  **模型规模：**  尽管 smol 模型这些年进步显著，但在当下，更大的模型通常仍有更好的泛化能力，而且往往所需样本更少。应选择能代表你训练后实际使用或部署形态的模型规模。在 [Hugging Face Hub](https://huggingface.co/models?pipeline_tag=text-generation&num_parameters=min%3A0%2Cmax%3A32B&sort=trending) 上，你可以按模态和参数规模筛选候选模型：
 
 <Image src={Screenshot_2025_10_24_at_09_37_24_2961384e_bcac_8055_9e8e_ffbd3a1aa368} alt="Image" />
 
--  **Architecture (MoE vs dense):**  MoE models activate a subset of parameters per token and offer higher capacity per unit of compute. They're great for large-scale serving, but trickier to fine-tune in our experience. By contrast, dense models are simpler to train and often outperform MoEs at smaller scales.
--  **Post-training track record:**  benchmarks are useful, but it's even better if the base model has already spawned a collection of strong post-trained models that resonate with the community. This provides a proxy for whether the model trains well.
+-  **架构（MoE vs Dense）：**  MoE 模型会为每个 token 只激活部分参数，在单位计算量下提供更高容量。它们在大规模服务场景很有吸引力，但按我们的经验，微调更棘手。相比之下，Dense 模型训练更简单，并且在较小规模上常常优于 MoE。
+-  **后训练履历：**  基准分数固然有用，但如果某个 base model 已经孵化出一批受社区认可的强后训练模型，会更有参考价值。这可以作为该模型是否“容易训好”的代理信号。
 
 <Sidenote>
 
-The <a href="https://www.reddit.com/r/LocalLLaMA/">LocalLLaMa subreddit</a> is a great place to understand the broad vibes of new models. <a href="https://artificialanalysis.ai">Artificial Analysis</a> and <a href="https://lmarena.ai">LMArena</a> also provide independent evaluation of new models, although these platforms are sometimes [benchmaxxed by model providers.](https://huggingface.co/papers/2504.20879)
+<a href="https://www.reddit.com/r/LocalLLaMA/">LocalLLaMA 子版块</a>是了解新模型整体口碑与社区体感的好地方。<a href="https://artificialanalysis.ai">Artificial Analysis</a> 和 <a href="https://lmarena.ai">LMArena</a> 也提供对新模型的独立评测，不过这些平台有时会被模型提供方[刷榜](https://huggingface.co/papers/2504.20879)。
 </Sidenote>
 
-In our experience, the base models from Qwen, Mistral, and DeepSeek are the most amenable to post-training, with Qwen being a clear favourite since each model series typically covers a large parameter range (e.g. Qwen3 models range in size from 0.6B to 235B!). This feature makes scaling far more straightforward.
+根据我们的经验，Qwen、Mistral 和 DeepSeek 的 base model 都比较适合做后训练，其中 Qwen 尤其突出，因为每一代模型通常覆盖很宽的参数区间（例如 Qwen3 从 0.6B 到 235B）。这一点会让后续扩展更直接。
 
-Once you've chosen a base model that matches your deployment needs, the next step is to establish a simple, fast SFT baseline to probe its core skills.
+当你选定与部署需求匹配的 base model 后，下一步就是建立一个简单、快速的 SFT baseline，用来探查它的核心能力。
 
 #### Training simple baselines
 
