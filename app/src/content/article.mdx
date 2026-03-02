@@ -3284,24 +3284,24 @@ post-training 正是在这里登场。而且和 pretraining 一样，真实过�
 
 当你选定与部署需求匹配的 base model 后，下一步就是建立一个简单、快速的 SFT baseline，用来探查它的核心能力。
 
-#### Training simple baselines
+#### 训练简单 baseline
 
-For SFT, a good baseline should be fast to train, focused on the model's core skills, and simple to extend with more data when a particular capability isn't up to scratch. Choosing which datasets to use for an initial baseline involves some taste and familiarity with those that are likely to be of high quality. In general, avoid over-indexing on public datasets which report high scores on academic benchmarks and instead focus on those which have been used to train great models like [OpenHermes](https://huggingface.co/datasets/teknium/OpenHermes-2.5). For example, in the development of SmolLM1, we initially ran SFT on [WebInstruct](https://huggingface.co/datasets/TIGER-Lab/WebInstructFull), which is a great dataset on paper. However, during our vibe tests, we discovered it was too science focused because the model would respond with equations to simple greetings like "How are you?".
+对于 SFT，一个好的 baseline 应该具备几个特征：训练快、聚焦模型核心能力，并且当某项能力不足时，能方便地通过加入更多数据进行扩展。为初始 baseline 选择哪些数据集，既需要一定判断，也需要你熟悉哪些数据集更可能具备高质量。总体来说，不要过度依赖那些在学术基准上分数很高的公开数据集，而应更多关注那些已被用于训练优秀模型（如 [OpenHermes](https://huggingface.co/datasets/teknium/OpenHermes-2.5)）的数据。例如，在开发 SmolLM1 时，我们最初使用 [WebInstruct](https://huggingface.co/datasets/TIGER-Lab/WebInstructFull) 做 SFT。它在“纸面上”是个很好的数据集，但在 vibe 测试中我们发现它过于偏重科学内容，模型甚至会对 “How are you?” 这类简单问候直接回公式。
 
 <Sidenote>
 
-The use of vibe testing to uncover quirks in the training data is a recurrent theme in this chapter — don't underestimate the power of just chatting with your model!
+使用 vibe 测试来发现训练数据中的奇怪模式，是本章反复出现的主题。不要低估“直接和模型聊天”这件事的力量！
 </Sidenote>
 
-This led us to create the [Everyday Conversations](/2421384ebcac800cb22cdf0bb34c69f7) dataset which turned out to be crucial for instilling basic chat capabilities in small models. 
+这促使我们创建了 [Everyday Conversations](/2421384ebcac800cb22cdf0bb34c69f7) 数据集。事实证明，它对在小模型中注入基础对话能力至关重要。
 
-For SmolLM3, we set out to train a hybrid reasoning model and initially picked a small set of datasets to target reasoning, instruction following, and steerabilty. The table below shows the statistics of each dataset:[^f1]
+在 SmolLM3 中，我们的目标是训练一个混合推理模型，因此最初挑选了一组小规模数据集，重点覆盖推理、指令遵循和可控性（steerability）。下表展示了各数据集的统计信息：[^f1]
 
 <Wide>
 
-<Reference id="sft-datasets" caption="Data mixture for hybrid reasoning baselines">
+<Reference id="sft-datasets" caption="混合推理 baseline 的数据混合">
 
-| Dataset | Reasoning mode | # examples | % of examples | # tokens (M) | % of tokens | Avg. # tokens per example | Avg. # tokens in context | Avg. # tokens in response | Avg. # turns |
+| 数据集 | 推理模式 | 样本数 | 样本占比 (%) | token 数 (M) | token 占比 (%) | 平均每样本 token 数 | 平均上下文 token 数 | 平均回复 token 数 | 平均轮次 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Everyday Conversations | /no_think | 2,260 | 2.3 | 0.6 | 0.8 | 260.2 | 222.3 | 94.0 | 7.8 |
 | SystemChats 30k | /no_think | 33,997 | 35.2 | 21.5 | 28.2 | 631.9 | 422.8 | 267.7 | 6.3 |
@@ -3314,9 +3314,9 @@ For SmolLM3, we set out to train a hybrid reasoning model and initially picked a
 
 </Wide>
 
-As we learned throughout the development of SmolLM3, training hybrid reasoning models is trickier than standard SFT because you can't just mix datasets together; you need to  *pair*  data across modes. Each example has to clearly indicate whether the model should engage in extended reasoning or give a concise answer, and ideally you want parallel examples that teach it when to switch modes. Another thing to note from the above table is that you should balance your data mixture in terms of  *tokens*  not  *examples* : for instance, the s1k-1.1 dataset is ~1% of the total examples but accounts for ~11% of the total tokens due to the long reasoning responses.
+正如我们在 SmolLM3 开发过程中学到的，训练混合推理模型比标准 SFT 更棘手，因为你不能只是把数据集简单混在一起，而是需要在不同模式之间对数据进行 *配对* 。每条样本都必须明确告诉模型：此处应该进行扩展推理，还是给出简洁回答；理想情况下，你还需要并行样本来教会模型何时切换模式。上表还有一点很关键：平衡数据混合时，应该按 *token* 而不是按 *样本数* 。例如，s1k-1.1 只占总样本数约 1%，但由于推理回答更长，它贡献了约 11% 的总 token。
 
-This gave us basic coverage across the skills we cared about most, but also introduced a new challenge: each dataset had to be formatted differently, depending on whether it should enable extended thinking or not. To unify these formats, we needed a consistent chat template.
+这让我们在最关注的能力上获得了基础覆盖，但也带来了新挑战：每个数据集的格式都要根据是否启用扩展思考而不同。为了统一这些格式，我们需要一个一致的 chat template。
 
 #### Picking a good chat template
 
