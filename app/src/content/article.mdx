@@ -3318,31 +3318,31 @@ post-training 正是在这里登场。而且和 pretraining 一样，真实过�
 
 这让我们在最关注的能力上获得了基础覆盖，但也带来了新挑战：每个数据集的格式都要根据是否启用扩展思考而不同。为了统一这些格式，我们需要一个一致的 chat template。
 
-#### Picking a good chat template
+#### 选择合适的 chat template
 
-When it comes to choosing or designing a chat template, there isn't a one-size-fits-all answer. In practice, we've found there are a few questions worth asking up front:
+在选择或设计 chat template 时，并不存在放之四海皆准的答案。根据我们的实践经验，先问清楚以下几个问题通常很关键：
 
--  **Can users customise the system role?**  If users should be able to define their own system prompts (e.g. "act like a pirate"), the template needs to handle that cleanly.
--  **Does the model need tools?**  If your model needs to call APIs, the template needs to accommodate structured outputs for tool calls and responses.
--  **Is it a reasoning model?** Reasoning models use templates like  `<think> ... </think>`  to separate the model's "thoughts" from its final answer. Some models discard the reasoning tokens across turns in a conversation, and the chat template needs to handle that logic. 
--  **Will it work with inference engines?**  Inference engines like vLLM and SGLang have dedicated parsers for reasoning and tools[^f2]. Compatibility with these parsers saves a lot of pain later, especially in complex agent benchmarks where consistent tool calls are essential.[^f3]
+-  **用户能否自定义 system role？**  如果用户需要定义自己的 system prompt（例如 “act like a pirate”），template 就必须能干净地支持这一点。
+-  **模型是否需要工具调用？**  如果模型需要调用 API，template 就必须支持 tool call 和响应的结构化输出。
+-  **它是否是推理模型？** 推理模型会使用  `<think> ... </think>`  这类模板，把模型“思考过程”和最终回答分开。一些模型会在多轮对话中丢弃中间轮次的推理 tokens，因此 chat template 需要处理这套逻辑。 
+-  **它能否与推理引擎兼容？**  vLLM 和 SGLang 这类推理引擎对推理和工具调用有专用 parser[^f2]。与这些 parser 兼容能在后期省去大量麻烦，尤其在复杂 agent 基准中，一致的工具调用是必需条件。[^f3]
 
-The table below shows a few popular chat templates and how they compare across the key considerations:
+下表给出几个常见 chat template，并从关键维度做了对比：
 
 <Wide>
 
-| **Chat template** | **System role customisation** | **Tools** | **Reasoning** | **Inference  compatibility** | **Notes** |
+| **Chat template** | **System role 自定义** | **Tools** | **Reasoning** | **Inference 兼容性** | **备注** |
 | --- | --- | --- | --- | --- | --- |
-| ChatML | ✅ | ✅ | ❌ | ✅ | Simple and good for most use cases. |
-| Qwen3 | ✅ | ✅ | <u>✅</u> | ✅ | Hybrid reasoning template |
-| DeepSeek-R1 | ❌ | ❌ | ✅ | ✅ | Prefills reasoning content with  `<think>` . |
-| Llama 3 | ✅ | ✅ | ❌ | ✅ | Has built-in tools like a Python code interpreter. |
-| Gemma 3 | ✅ | ❌ | ❌ | ❌ | System role customisation defined at the first user turn. |
-| Command A Reasoning | ✅ | ✅ | ✅ | ❌ | Multiple chat templates per model. |
-| GPT-OSS | ✅ | ✅ | ✅ | ✅ | Based on the [Harmony response format](https://cookbook.openai.com/articles/openai-harmony). Complex, yet versatile. |
+| ChatML | ✅ | ✅ | ❌ | ✅ | 简单，适合大多数场景。 |
+| Qwen3 | ✅ | ✅ | <u>✅</u> | ✅ | 混合推理模板。 |
+| DeepSeek-R1 | ❌ | ❌ | ✅ | ✅ | 会通过  `<think>`  预填充推理内容。 |
+| Llama 3 | ✅ | ✅ | ❌ | ✅ | 内置工具能力，如 Python 代码解释器。 |
+| Gemma 3 | ✅ | ❌ | ❌ | ❌ | system role 自定义在首轮 user 消息中定义。 |
+| Command A Reasoning | ✅ | ✅ | ✅ | ❌ | 同一模型提供多个 chat template。 |
+| GPT-OSS | ✅ | ✅ | ✅ | ✅ | 基于 [Harmony response format](https://cookbook.openai.com/articles/openai-harmony)。复杂但灵活。 |
 </Wide>
 
-In most cases, we've found that ChatML or Qwen's chat templates are an excellent place to start. For SmolLM3, we needed a template for hybrid reasoning and found that Qwen3 was one of the few templates that struck a good balance across the dimensions we cared about. However, it had one quirk that we weren't entirely happy with: the reasoning content is  *discarded*  for all but the final turn in a conversation. As shown in the figure below, this is similar to how [OpenAI's reasoning models work](https://platform.openai.com/docs/guides/reasoning/how-reasoning-works):
+在大多数情况下，我们发现 ChatML 或 Qwen 的 chat template 都是很好的起点。对于 SmolLM3，我们需要一个支持混合推理的模板，而 Qwen3 是少数能在我们关心的多个维度上取得平衡的选择之一。不过它有一个我们不太满意的点：在多轮对话中，除最后一轮外，推理内容都会被 *丢弃* 。如下图所示，这与 [OpenAI 推理模型的工作方式](https://platform.openai.com/docs/guides/reasoning/how-reasoning-works) 类似：
 
 <Wide>
 
@@ -3396,15 +3396,15 @@ flowchart LR
 ```
 </Wide>
 
-Although this makes sense for  *inference*  (to avoid blowing up the context), we concluded that for  *training*  it is important to  *retain the reasoning tokens across all turns*  in order to condition the model appropriately.
+这对  *inference*  来说是合理的（避免上下文被迅速占满），但我们认为对  *training*  而言，必须在所有轮次中  *保留推理 tokens* ，才能正确地对模型进行条件化。
 
-Instead, we decided to craft our own chat template with the following features:
+因此，我们决定设计自己的 chat template，具备以下特性：
 
-- A structured system prompt, like [Llama 3's](https://huggingface.co/spaces/huggingfacejs/chat-template-playground?modelId=meta-llama%2FLlama-3.1-8B-Instruct) and those [jailbroken from proprietary models](https://github.com/elder-plinius/CL4R1T4S). We also wanted to offer the flexibility to override the system prompt entirely.
-- Support for [code agents](https://huggingface.co/learn/agents-course/en/unit2/smolagents/code_agents), which execute arbitrary Python code instead of making JSON tool calls.
-- Explicit control of the reasoning mode via the system message.
+- 使用结构化 system prompt，风格类似 [Llama 3](https://huggingface.co/spaces/huggingfacejs/chat-template-playground?modelId=meta-llama%2FLlama-3.1-8B-Instruct) 和一些[从闭源模型逆向整理出的模板](https://github.com/elder-plinius/CL4R1T4S)。同时我们也希望支持完全覆盖 system prompt。
+- 支持 [code agents](https://huggingface.co/learn/agents-course/en/unit2/smolagents/code_agents)，即执行任意 Python 代码，而不是只做 JSON 工具调用。
+- 通过 system message 显式控制推理模式。
 
-To iterate on the design of the chat template, we used the [Chat Template Playground](https://huggingface.co/spaces/huggingfacejs/chat-template-playground). This handy application was developed by our colleagues at Hugging Face and makes it easy to preview how messages are rendered and debug formatting issues. Here's an embedded version of the playground so you can try it out directly:
+为了迭代 chat template 的设计，我们使用了 [Chat Template Playground](https://huggingface.co/spaces/huggingfacejs/chat-template-playground)。这个实用工具由 Hugging Face 的同事开发，能方便地预览消息渲染结果并调试格式问题。下面是内嵌版本，你可以直接体验：
 
 <Wide>
 
@@ -3418,9 +3418,9 @@ To iterate on the design of the chat template, we used the [Chat Template Playgr
 
 
 
-Select different examples from the drop-down to see how the chat template works for multi-turn dialogues, reasoning, or tool-use. You can even change the JSON input manually to enable different behaviour. For example, see what happens if you provide  `enable_thinking: false`  or append  `/no_think`  to the system message.
+你可以在下拉菜单中切换不同示例，观察 chat template 在多轮对话、推理和工具调用场景下的行为。你还可以手动修改 JSON 输入来触发不同模式，例如设置  `enable_thinking: false` ，或在 system message 末尾追加  `/no_think` 。
 
-Once you've settled on some initial datasets and a chat template, it's time to train some baselines!
+当你确定了初始数据集和 chat template 后，就可以开始训练 baseline 了！
 
 #### Baby baselines
 
