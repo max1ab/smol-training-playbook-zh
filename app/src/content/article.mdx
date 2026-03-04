@@ -3422,39 +3422,39 @@ flowchart LR
 
 当你确定了初始数据集和 chat template 后，就可以开始训练 baseline 了！
 
-#### Baby baselines
+#### Baby baselines（起步基线）
 
-Before we dive into optimisation and squeezing every point of performance, we need to establish some "baby baselines". These baselines aren't about reaching state-of-the-art (yet), but aim to validate that the chat template does what you want and that the initial set of hyperparameters produce stable training. Only after we have this foundation do we start heavily tuning hyperparameters and training mixtures.
+在深入优化、榨取每一点性能之前，我们需要先建立一些“起步基线（baby baselines）”。这些基线的目标（暂时）不是冲击 SOTA，而是验证 chat template 是否按预期工作，以及初始超参数组合能否带来稳定训练。只有打好这层基础后，我们才开始大幅调参与调整训练数据混合。
 
-When it comes to training SFT baselines, here's the main things to consider:
+在训练 SFT baseline 时，主要需要考虑以下几点：
 
-- Will you use full fine-tuning (FullFT) or parameter efficient methods like LoRA or QLoRA? As described in the wonderful [blog post](https://thinkingmachines.ai/blog/lora/) by Thinking Machines, LoRA can match FullFT under certain conditions (usually determined by the size of the dataset).
-- What type of parallelism do you need? For small models or those trained with LoRA, you can usually get by with data parallel. For larger models you will need FSDP2 or DeepSpeed ZeRO-3 to shared the model weights and optimiser states. For models trained with long context, use methods like [context parallelism](https://huggingface.co/docs/trl/v0.23.0/en/reducing_memory_usage#context-parallelism).
-- Use kernels like FlashAttention and Liger if your hardware supports them. Many of these kernels are hosted on the [Hugging Face Hub](https://huggingface.co/models?other=kernel) and can be set via a [simple argument](https://huggingface.co/docs/trl/kernels_hub) in TRL to dramatically lower the VRAM usage.
-- Mask the loss to [train only on assistant tokens](https://huggingface.co/docs/trl/sft_trainer#train-on-assistant-messages-only).  As we discuss below, this can be achieved by wrapping the assistant turns of your chat template with a special  `{% generation %}`  keyword.
-- Tune the learning rate; aside from the data, this is the most important factor that determines whether your model is "meh" vs "great".
-- [Pack the training samples](https://huggingface.co/docs/trl/v0.23.0/en/reducing_memory_usage#packing) and tune the sequence length to match the distribution of your data. This will dramatically speed up training.  TRL has a handy [application](https://huggingface.co/docs/trl/v0.23.0/en/reducing_memory_usage#how-to-choose-the-maxlength-value) to do this for you.
+- 你会使用全参数微调（FullFT），还是 LoRA、QLoRA 这类参数高效方法？正如 Thinking Machines 在这篇精彩的[博客](https://thinkingmachines.ai/blog/lora/)中所说，在某些条件下（通常由数据集大小决定），LoRA 可以达到与 FullFT 相当的效果。
+- 你需要哪种并行策略？对于小模型或使用 LoRA 训练的模型，通常数据并行就够了。对于更大的模型，你需要 FSDP2 或 DeepSpeed ZeRO-3 来分摊模型权重和优化器状态。对于长上下文训练，可采用 [context parallelism](https://huggingface.co/docs/trl/v0.23.0/en/reducing_memory_usage#context-parallelism) 等方法。
+- 如果硬件支持，使用 FlashAttention 和 Liger 等 kernel。许多这类 kernel 托管在 [Hugging Face Hub](https://huggingface.co/models?other=kernel) 上，并可通过 TRL 中一个[简单参数](https://huggingface.co/docs/trl/kernels_hub)启用，从而显著降低 VRAM 占用。
+- 对 loss 做 mask，只在 [assistant tokens](https://huggingface.co/docs/trl/sft_trainer#train-on-assistant-messages-only) 上训练。正如下文会讨论的，这可以通过在 chat template 的 assistant 轮次中包裹特殊的 `{% generation %}` 关键字来实现。
+- 调好学习率；除数据本身外，这是决定你的模型是“meh”还是“great”的最关键因素。
+- 使用 [packing](https://huggingface.co/docs/trl/v0.23.0/en/reducing_memory_usage#packing) 打包训练样本，并将序列长度调整到与数据分布匹配。这会显著提升训练速度。TRL 提供了一个实用[工具](https://huggingface.co/docs/trl/v0.23.0/en/reducing_memory_usage#how-to-choose-the-maxlength-value)来帮助你完成这件事。
 
-Let's look at how some of these choices panned out for SmolLM3. For our first baseline experiments, we wanted a simple sanity check: does the chat template actually elicit hybrid reasoning? To test this, we compared three data mixtures from our [table](#sft-datasets):
+我们来看看其中一些选择在 SmolLM3 上的实际表现。在第一轮 baseline 实验中，我们先做了一个简单的 sanity check：chat template 是否真的能诱导出混合推理能力？为此，我们比较了 [table](#sft-datasets) 中的三种数据混合：
 
--  **Instruct:**  train on the non-reasoning examples.
--  **Thinking:** train on the reasoning examples.
--  **Hybrid:**  train on all examples.
+- **Instruct：** 在非推理样本上训练。
+- **Thinking：** 在推理样本上训练。
+- **Hybrid：** 在全部样本上训练。
 
-For each mixture, we ran SFT on [SmolLM3-3B-Base](https://huggingface.co/HuggingFaceTB/SmolLM3-3B-Base) using FullFT with a learning rate of 1e-5, an effective batch size of 128, and trained for 1 epoch.
+针对每种混合，我们都在 [SmolLM3-3B-Base](https://huggingface.co/HuggingFaceTB/SmolLM3-3B-Base) 上进行 SFT，采用 FullFT，学习率设为 1e-5，有效 batch size 为 128，并训练 1 个 epoch。
 
 <Sidenote>
 
-We have found that for most models and datasets, this choice of hyperparameters works well as a baseline.
+我们的经验是，对大多数模型和数据集来说，这组超参数作为 baseline 通常都能稳定工作。
 </Sidenote>
 
-Since these are small datasets, we did not use packing, capping sequences at 8,192 tokens for the Instruct subset and 32,768 tokens for the rest. On one node of 8 x H100s, these experiments were quick to run, taking between 30-90 minutes depending on the subset. The figures below compare the performance of each subset for the corresponding reasoning mode:
+由于这些数据集规模较小，我们没有启用 packing：Instruct 子集的序列上限设为 8,192 tokens，其余子集设为 32,768 tokens。在 1 个包含 8 张 H100 的节点上，这些实验很快就能跑完，按子集不同耗时约 30-90 分钟。下图对比了各子集在对应推理模式下的性能：
 
 <HtmlEmbed src="embeds/d3-sft-baby-baseline.html" />
 
 
 
-These results quickly showed us that hybrid models exhibit a type of "split brain", where the data mixture for one reasoning mode has little effect on the other. This is evident by most evals having similar scores between the Instruct, Thinking and Hybrid subsets, with LiveCodeBench v4 and IFEval being the exception where hybrid data boosts the overall performance. 
+这些结果很快表明，hybrid 模型会出现一种“split brain”现象：针对一种推理模式优化的数据混合，对另一种模式几乎没有影响。大多数评测中，Instruct、Thinking 与 Hybrid 子集得分相近；例外是 LiveCodeBench v4 和 IFEval，在这两项上 hybrid 数据能提升整体表现。 
 
 ####  **Vibe-test your baselines** 
 
