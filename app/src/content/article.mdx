@@ -3456,13 +3456,13 @@ flowchart LR
 
 这些结果很快表明，hybrid 模型会出现一种“split brain”现象：针对一种推理模式优化的数据混合，对另一种模式几乎没有影响。大多数评测中，Instruct、Thinking 与 Hybrid 子集得分相近；例外是 LiveCodeBench v4 和 IFEval，在这两项上 hybrid 数据能提升整体表现。 
 
-####  **Vibe-test your baselines** 
+####  **给 baseline 做一次“体感测试（vibe test）”** 
 
-Although the evals looked OK, when we tried getting the hybrid model to act in different personas (e.g. like a pirate), it consistently ignored anything we placed in the system message. After a bit of digging, we found the reason was due to the way we had formatted the data: 
+虽然评测结果看起来还不错，但当我们尝试让 hybrid 模型扮演不同人格（例如海盗）时，它始终会忽略我们放在 system message 里的内容。进一步排查后，我们发现原因出在数据格式化方式上：
 
 <Image src={Screenshot_2025_09_26_at_22_36_40_27a1384e_bcac_8063_94e0_f1c689e7d9b9} alt="Image" />
 
-What happened is that in the design of our chat template, we exposed a  `custom_instructions`  argument to store the system prompts. For example, here's how we set a persona in a dialogue:
+具体来说，在 chat template 设计中，我们暴露了一个  `custom_instructions`  参数来存放 system prompts。比如，下面是我们在对话里设置 persona 的方式：
 
 ```python
 from transformers import AutoTokenizer
@@ -3506,7 +3506,7 @@ print(rendered_input)
 ## </think>
 ## Of course, even as a vampire, technology can be a bit of a challenge sometimes # [TRUNCATED]<|im_end|>
 ```
-The issue was that our data samples looked like this:
+问题在于，我们的数据样本实际上是这样的：
 
 ```python
 {
@@ -3528,7 +3528,7 @@ The issue was that our data samples looked like this:
     },
 }
 ```
-A bug in our processing code had set  `custom_instructions`  to  `None` , which effectively removed the system message from  *every single training sample*  🙈! So instead of getting a nice persona for these training samples, we ended up with the SmolLM3 default system prompt:
+我们的处理代码里有一个 bug，把  `custom_instructions`  设成了  `None` ，这等于把  *每一条训练样本*  的 system message 都移除了 🙈！结果这些训练样本不再使用预期的人设，而是回退到了 SmolLM3 的默认 system prompt：
 
 ```python
 chat_template_kwargs = {"custom_instructions": None, "enable_thinking": False}
@@ -3553,14 +3553,14 @@ print(rendered_input)
 ## </think>
 ## Of course, even as a vampire, technology can be a bit of a challenge sometimes [TRUNCATED]<|im_end|>
 ```
-This was especially problematic for the SystemChats subset, where all the personas are defined via  `custom_instructions`  and thus the model had a tendency to randomly switch character mid-conversation. This brings us to the following rule:
+这对 SystemChats 子集尤其致命，因为其中所有 persona 都通过  `custom_instructions`  定义，因此模型会在对话中倾向于随机切换角色。这引出了下面这条准则：
 
-<Note title="Rule" emoji="☝️" variant="info">
+<Note title="准则" emoji="☝️" variant="info">
 
-Always vibe-test your models, even if the evals look fine. More often than not, you will uncover subtle bugs in your training data.
+即使评测看起来没问题，也一定要给模型做 vibe test。很多时候，你会因此发现训练数据中非常隐蔽的 bug。
 </Note>
 
-Fixing this bug had no impact on the evals, but finally we were confident the chat template and dataset formatting was working. Once your setup is stable and your data pipeline checks out, the next step is to focus on developing specific capabilities.
+修复这个 bug 后，评测结果并没有变化，但我们终于确认 chat template 和数据集格式都在正常工作。等你的配置稳定、数据管线也验证通过后，下一步就是聚焦于特定能力的构建。
 
 #### Targeting specific capabilities
 
