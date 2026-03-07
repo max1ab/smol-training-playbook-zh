@@ -3562,40 +3562,40 @@ print(rendered_input)
 
 修复这个 bug 后，评测结果并没有变化，但我们终于确认 chat template 和数据集格式都在正常工作。等你的配置稳定、数据管线也验证通过后，下一步就是聚焦于特定能力的构建。
 
-#### Targeting specific capabilities
+#### 定向构建特定能力
 
-During the development of [Open-R1](https://github.com/huggingface/open-r1), we noticed that training a base model entirely on single-turn reasoning data would fail to generalise to multi-turn. This is not a surprise; absent such examples, the model is being tested outside its training distribution. 
+在开发 [Open-R1](https://github.com/huggingface/open-r1) 的过程中，我们注意到，如果只用单轮推理数据来训练一个 base model，它往往无法泛化到多轮场景。这其实并不令人意外；如果训练时完全没有这类样本，那么测试时模型就等于被放到了训练分布之外。
 
-To measure this quantitatively for SmolLM3, we took inspiration from Qwen3, who developed an internal eval called  *ThinkFollow* , which randomly inserts  `/think`  or  `/no_think`  tags to test whether the model can consistently switch reasoning modes. In our implementation, we took the prompts from Multi-IF and then checked if the model generated empty or non-empty think blocks enclosed in the  `<think>`  and  `</think>`  tags. As expected, the results from our hybrid baseline showed the model failing abysmally to enable the reasoning mode beyond the first turn:
+为了在 SmolLM3 上定量衡量这个问题，我们借鉴了 Qwen3 的做法。他们开发了一个内部评测  *ThinkFollow* ，会随机插入  `/think`  或  `/no_think`  标签，用来测试模型能否稳定切换推理模式。在我们的实现中，我们使用了 Multi-IF 的 prompts，然后检查模型生成的  `<think>`  和  `</think>`  标签之间的 think block 是空还是非空。正如预期，我们的 hybrid baseline 结果表明：模型在第一轮之后几乎完全无法继续启用推理模式：
 
 <HtmlEmbed src="embeds/d3-sft-think-follow-0.html" />
 
 
 
-To fix this capability, we constructed a new dataset called IFThink. Based on the Multi-IF pipeline, we used single-turn instructions from [Tulu 3's instruction-following subset](https://huggingface.co/datasets/allenai/tulu-3-sft-personas-instruction-following) and expanded them into multi-turn exchanges using Qwen3-32B to both generate both verifiable instructions and reasoning traces. The method is illustrated below:
+为了修复这项能力，我们构建了一个名为 IFThink 的新数据集。基于 Multi-IF 的流程，我们取用了 [Tulu 3 instruction-following 子集](https://huggingface.co/datasets/allenai/tulu-3-sft-personas-instruction-following)中的单轮指令，再使用 Qwen3-32B 将其扩展为多轮交互，同时生成可验证指令与推理轨迹。方法如下图所示：
 
 <Sidenote>
 
-We considered filtering out conflicting instructions, but the initial results were strong enough to skip this step.
+我们考虑过过滤掉彼此冲突的指令，但初步结果已经足够好，因此跳过了这一步。
 </Sidenote>
 
 ```mermaid
 flowchart TD
     %% Inputs
     IFEval["Tülu3 IF Dataset"]
-    InstructionTypes["Set of instruction types"]
+    InstructionTypes["指令类型集合"]
     
     %% English Multi-Turn Generation
-    SingleTurn["Single turn prompt"]
-    LLM1["Generate instructions with Qwen3-32B"]
+    SingleTurn["单轮 prompt"]
+    LLM1["用 Qwen3-32B 生成指令"]
     
-    subgraph Turns ["Multi-turn prompts"]
-        Turn1["Prompt @ turn 1"]
-        Turn2["Prompt @ turn 2"]
-        Turn3["Prompt @ turn 3"]
+    subgraph Turns ["多轮 prompts"]
+        Turn1["第 1 轮 prompt"]
+        Turn2["第 2 轮 prompt"]
+        Turn3["第 3 轮 prompt"]
     end
     
-    MultiTurn["Generate reasoning traces with Qwen3-32B"]
+    MultiTurn["用 Qwen3-32B 生成推理轨迹"]
     
     IFThink["IFThink"]
     
@@ -3625,13 +3625,13 @@ flowchart TD
     class Turn1,Turn2,Turn3 decision
     class IFThink success
 ```
-Including this data in our baseline mix produced a dramatic improvement:
+把这份数据加入 baseline 数据混合后，效果得到了显著提升：
 
 <HtmlEmbed src="embeds/d3-sft-think-follow-1.html" />
 
 
 
-After fixing the multi-turn reasoning issue with IFThink, our baseline finally behaved as intended; it could stay consistent across turns, follow instructions, and use the chat template correctly. With that foundation in place, we turned back to the basics: tuning the training setup itself. 
+在用 IFThink 修复了多轮推理问题之后，我们的 baseline 终于按预期工作了；它能够在多轮对话中保持一致、遵循指令，并正确使用 chat template。在这个基础打稳之后，我们又回到了更基础的问题：调优训练设置本身。
 
 #### Which hyperparameters actually matter?
 
