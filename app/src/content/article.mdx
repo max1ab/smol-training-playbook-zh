@@ -3633,21 +3633,21 @@ flowchart TD
 
 在用 IFThink 修复了多轮推理问题之后，我们的 baseline 终于按预期工作了；它能够在多轮对话中保持一致、遵循指令，并正确使用 chat template。在这个基础打稳之后，我们又回到了更基础的问题：调优训练设置本身。
 
-#### Which hyperparameters actually matter?
+#### 哪些超参数真正重要？
 
-In SFT, there are only a few hyperparameters that actually matter. Learning rate, batch size, and packing determine almost everything about how efficiently your model trains and how well it generalises. In our baby baselines, we picked reasonable defaults just to validate the data and chat template. Now that the setup was stable, we revisited these choices to see how much impact they have on our baseline. 
+在 SFT 中，真正重要的超参数其实并不多。学习率、批次大小和 packing，几乎决定了模型训练的效率以及它的泛化能力。在我们的 baby baselines 中，我们先选了一组合理的默认值，只为验证数据和 chat template 是否正常。现在既然整套流程已经稳定，我们就回过头来重新审视这些选择，看看它们究竟会对 baseline 造成多大影响。
 
- **Masking user turns** 
+ **遮蔽用户轮次** 
 
-One subtle design choice for the chat template is whether to mask the user turns during training. In most chat-style datasets, each training example consists of alternating user and assistant messages (possibly with interleaved tool calls). If we train the model to predict all tokens, it effectively learns to autocomplete user queries, rather than focusing on producing high-quality assistant responses. 
+chat template 中一个很微妙的设计选择，是训练时是否要遮蔽用户轮次。在大多数聊天风格的数据集中，每个训练样本都由交替出现的 user 和 assistant 消息组成，其中也可能夹杂工具调用。如果我们让模型预测所有 token，它实际上学到的会更像是“自动补全用户问题”，而不是专注于生成高质量的 assistant 回复。
 
-As shown in the figure below, masking user turns prevents this by ensuring the model's loss is only computed on assistant outputs, not user messages:
+如下图所示，遮蔽用户轮次可以避免这个问题，因为这样模型的 loss 只会计算 assistant 的输出，而不会计算用户消息：
 
 <HtmlEmbed src="/embeds/input-labels-training.html" />
 
 
 
-In TRL, masking is applied for chat templates that can return the assistant tokens mask. In practice, this involves including a  `{% generation %}`  keyword in the template as follows:
+在 TRL 中，只要 chat template 能返回 assistant tokens mask，就可以启用 masking。实际做法是在模板里加入  `{% generation %}`  关键字，如下所示：
 
 ```javascript
 {%- for message in messages -%}
@@ -3663,7 +3663,7 @@ In TRL, masking is applied for chat templates that can return the assistant toke
   {{ "<|im_start|>assistant\n" }}
 {%- endif %}
 ```
-Then, when  `apply_chat_template()`  is used with  `return_assistant_tokens_mask=True`  the chat template will indicate which parts of the dialogue should be masked. Here's a simple example, which shows how the assistant tokens are given ID 1, while the user tokens are masked with ID 0:
+随后，当  `apply_chat_template()`  搭配  `return_assistant_tokens_mask=True`  使用时，chat template 就会指出对话中哪些部分应该被遮蔽。下面是一个简单例子：assistant 的 token 会被标成 1，而 user 的 token 会被标成 0：
 
 ```python
 chat_template = '''
@@ -3684,17 +3684,17 @@ rendered_input = tok.apply_chat_template(messages, chat_template=chat_template, 
 print(rendered_input)
 ## {'input_ids': [128011, 882, 198, 40, 2846, 4560, 311, 743, 709, 856, 12443, 11, 649, 499, 1520, 30, 128012, 198, 257, 128011, 78191, 198, 2173, 3388, 11, 1524, 439, 264, 51587, 11, 5557, 649, 387, 264, 2766, 315, 264, 8815, 7170, 510, 2434, 12921, 9182, 60, 128012, 271], 'attention_mask': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 'assistant_masks': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]}
 ```
-In practice, masking doesn't have a huge impact on downstream evals and usually provides a few points improvement in most cases. With SmolLM3, we found it had the most impact on IFEval, likely because the model is less inclined to restate the prompt and follow the various constraints more closely. A comparison of how user masking affected each eval and reasoning mode is shown below: 
+在实践中，masking 对下游 eval 的影响通常不算特别大，大多数情况下只是带来几个点的提升。对 SmolLM3 来说，我们发现它对 IFEval 的影响最明显，可能是因为模型不那么倾向于复述 prompt，并且能更严格地遵守各种约束。下图比较了用户轮次 masking 对各项评测以及不同推理模式的影响：
 
 <HtmlEmbed src="/embeds/d3-sft-mask-turns.html" />
 
 
 
- **To pack or not to pack?** 
+ **该不该做 packing？** 
 
-As we Sequence packing is one of the training details that makes a huge difference to training efficiency. In SFT, most datasets contain samples of variable length, which means each batch contains a large number of padding tokens that waste compute and slow convergence. 
+Sequence packing 是那些会显著影响训练效率的细节之一。在 SFT 中，大多数数据集都由不同长度的样本构成，这意味着每个 batch 都会包含大量 padding token，既浪费算力，也会拖慢收敛。
 
-Packing solves this by concatenating multiple sequences together until a desired maximum token length is achieved. There are various ways to perform the concatenation, with TRL adopting a "best-fit decreasing" strategy [[@bfd](https://huggingface.co/papers/2404.10830)], where the ordering of sequences to pack is determined by their length. As shown below, this strategy minimises truncation of documents across batch boundaries, while also reducing the amount of padding tokens:
+Packing 通过把多条序列拼接在一起，直到达到目标最大 token 长度，来解决这个问题。具体的拼接方式有很多，TRL 采用的是一种 “best-fit decreasing” 策略 [[@bfd](https://huggingface.co/papers/2404.10830)]，也就是按照序列长度来决定打包顺序。如下图所示，这种策略既能尽量减少文档在 batch 边界处被截断，也能减少 padding token 的数量：
 
 <Wide>
 
@@ -3703,85 +3703,85 @@ Packing solves this by concatenating multiple sequences together until a desired
 
 
 
-<Note title="Packing in post-training vs pre-training" variant="info">
+<Note title="后训练与预训练中的 Packing" variant="info">
 
-In pre-training, this isn't really a question. When training on trillions of tokens, packing is essential to avoid wasting significant amounts of compute on padding. Pretraining frameworks like Megatron-LM and Nanotron implement packing by default. Post-training is different. Because the runs are shorter, the trade-offs change.
+在预训练中，这几乎不是一个需要讨论的问题。面对数万亿 token 的训练规模，packing 是必须的，否则会在 padding 上浪费大量算力。Megatron-LM 和 Nanotron 这类预训练框架默认就实现了 packing。后训练则不同，由于运行时间更短，权衡关系也会随之变化。
 </Note>
 
-To get a sense of how efficient packing is for training, below we compare the runtimes between packing and no-packing over one epoch of our baseline dataset:
+为了更直观地感受 packing 对训练效率的影响，下面我们比较了在 baseline 数据集上跑一个 epoch 时，packing 和 no-packing 的运行时间：
 
 <Sidenote>
 
-The reason the runtime flattens out after an effective batch size of 32 is because this is the largest size possible without invoking gradient accumulation.
+当 effective batch size 超过 32 之后，运行时间趋于平缓，是因为这是在不启用 gradient accumulation 的前提下所能达到的最大 batch size。
 </Sidenote>
 
 <HtmlEmbed src="/embeds/d3-sft-packing-runtime.html" />
 
 
 
-Depending on the batch size, we see that packing improves throughput by a factor of 3-5x! So, should you  *always*  use packing? To some extent, the answer depends on how large your dataset is, because packing reduces the number of optimisation steps per epoch by fitting more tokens into each step. You can see this in the following figure, where we plot the average number of non-padding tokens per batch:
+根据 batch size 的不同，packing 能把吞吐提升到 3-5 倍！那么，你是否  *总是*  应该启用 packing 呢？在一定程度上，这取决于你的数据集有多大，因为 packing 会让每一步塞进更多 token，从而减少每个 epoch 的优化步数。你可以在下图中看到这一点，我们绘制了每个 batch 中非 padding token 的平均数量：
 
 <HtmlEmbed src="/embeds/d3-sft-packing-tokens.html" />
 
 
 
-With packing, the number of tokens per batch scales linearly with the batch size and compared to training without packing, can include up to 33x more tokens per optimisation step! However, packing can slightly alter the training dynamics: while you process more data overall, you take fewer gradient updates which can influence final performance, especially on small datasets where each sample matters more. For example, if we compare packing versus no-packing at the same effective batch size of 128, we see that some evals like IFEval take a significant performance hit of nearly 10 percentage points:
+启用 packing 后，每个 batch 的 token 数会随着 batch size 线性增长；与不做 packing 的训练相比，每一步优化中纳入的 token 最多可以多出 33 倍！不过，packing 也会轻微改变训练动力学：虽然你整体处理了更多数据，但梯度更新次数变少了，这可能影响最终性能，尤其是在每个样本都更关键的小数据集上。举个例子，如果我们在相同的 effective batch size 128 下比较 packing 和 no-packing，会发现某些 eval，例如 IFEval，性能会显著下降，将近 10 个百分点：
 
 <HtmlEmbed src="/embeds/d3-sft-packing-vs-no-packing.html" />
 
 
 
-More generally, we see that once the effective batch size is large than 32, there is an average drop in performance for this particular model and dataset:
+更一般地看，对于这个特定模型和数据集，一旦 effective batch size 大于 32，平均性能就会开始下降：
 
 <HtmlEmbed src="/embeds/d3-sft-packing-vs-bs.html" />
 
 
 
-In practice, for large-scale SFT where the dataset is massive, packing is almost always beneficial since the compute savings far outweigh any minor differences in gradient frequency. However, for smaller or more diverse datasets—like domain-specific fine-tuning or instruction-tuning on limited human-curated data—it might be worth disabling packing to preserve sample granularity and ensure every example contributes cleanly to optimisation.
+在实践中，对于大规模 SFT，只要数据集足够大，packing 几乎总是有益的，因为节省下来的算力远远超过梯度更新频率变化带来的轻微差异。但对于更小或更多样化的数据集，例如特定领域微调，或基于有限人工整理数据做 instruction-tuning，关闭 packing 反而可能更合适，因为这样能保留样本粒度，确保每个样本都更干净地参与优化。
 
-Ultimately, the best strategy is empirical: start with packing enabled, monitor both throughput and downstream evals, and adjust based on whether the speed gains translate into equivalent or improved model quality.
+归根结底，最佳策略仍然是经验性的：先开启 packing，同时监控吞吐和下游 eval，再根据速度提升是否真正转化为同等甚至更好的模型质量来做调整。
 
- **Tuning the learning rate** 
+ **调学习率** 
 
-We now come to the last, but still important hyperparameter: the learning rate. Set it too high and training may diverge; too low and convergence is painfully slow. 
+现在来到最后一个但仍然很重要的超参数：学习率。设得太高，训练可能会发散；设得太低，收敛速度又会慢得令人难受。
 
-In SFT, the optimal learning rate is typically an order of magnitude (or more) smaller than the one used during pretraining. This is because we're initialising from a model with rich representations, and aggressive updates can lead to catastrophic forgetting. 
+在 SFT 中，最优学习率通常会比预训练时使用的值小一个数量级，甚至更多。这是因为我们是从一个已经具备丰富表征能力的模型出发，过于激进的更新很容易导致灾难性遗忘。
 
-<Note title="Tuning the learning rate in post-training vs pretraining" variant="info">
+<Note title="后训练与预训练中的学习率调优" variant="info">
 
-Unlike pre-training, where hyperparameter sweeps on the full run are prohibitively expensive, post-training runs are short enough that we can actually do full learning rate sweeps.
+不同于预训练，在预训练里对完整训练过程做超参数扫描通常贵得难以承受；而后训练运行时间足够短，我们实际上可以对学习率做完整的 sweep。
 </Note>
 
-In our experiments, we've found that the "best" learning rate varies with both model family, size and the use of packing. Since a high learning rate can lead to exploding gradients, we find it's often safer to slightly decrease the learning rate when packing is enabled. You can see this below, where using a small learning rate of 3e-6 or 1e-5 gives better overall performance than large values:
+在我们的实验中，“最佳”学习率会随着模型家族、模型规模以及是否启用 packing 而变化。由于过高的学习率可能导致梯度爆炸，我们发现当启用 packing 时，略微降低学习率通常会更安全。你可以在下图中看到，像 3e-6 或 1e-5 这样较小的学习率，整体表现优于更大的数值：
 
 <Sidenote>
 
-When picking a range of learning rate values to scan over, we find is useful to pick an initial range like [1e-6, 3e-6, 1e-5, 3e-5, 1e-4]. This covers two orders of magnitude and allows us to hone in on a region where some additional tuning can be applied
+在选择要扫描的学习率范围时，我们发现先从 [1e-6, 3e-6, 1e-5, 3e-5, 1e-4] 这样的初始区间开始会比较有用。这个范围覆盖了两个数量级，便于我们迅速定位到值得进一步精调的区域。
 </Sidenote>
 
 <HtmlEmbed src="/embeds/d3-sft-lr-scan.html" />
 
 
 
-Although a few points on average may not seem like much, if you look at individual benchmarks like AIME25, you'll see the performance drop dramatically when the learning rate is larger than 1e-5. 
+虽然平均来看只差几个点似乎不算多，但如果你看 AIME25 这类单项 benchmark，就会发现当学习率高于 1e-5 时，性能会出现明显下滑。
 
- **Scaling the number of epochs** 
+ **增加训练轮数** 
 
-In our ablations, we usually train for a single epoch to iterate quickly. Once you've identified a good data mixture and tuned key parameters like the learning rate, the next step is to increase the number of epochs for final training.
+在我们的消融实验里，通常只训练一个 epoch，以便快速迭代。一旦你确定了不错的数据混合，并调好了学习率等关键参数，下一步通常就是在最终训练时增加 epoch 数。
 
-For example, if we take our baseline data mixture and train for five epochs, we see it is possible to squeeze a few more percentage points of performance on average:
+例如，如果我们使用 baseline 数据混合训练 5 个 epoch，就能看到平均性能还可以再挤出几个百分点：
 
 <HtmlEmbed src="/embeds/d3-sft-epoch-scan.html" />
 
 
 
-As we saw with the learning rate scan, the average performance obscures the impact that scaling the number of epochs has on individual evals: in the case of LiveCodeBench v4 with extended thinking, we nearly double the performance over one epoch!
+正如我们在学习率扫描中看到的那样，平均性能会掩盖增加 epoch 数对单项 eval 的影响。以带 extended thinking 的 LiveCodeBench v4 为例，我们相较于 1 个 epoch 几乎把性能翻倍了！
 
-Once you've iterated on your SFT data mixture and the model has reached a reasonable level of performance, the next step is often to explore more advanced methods like [preference optimisation](#from-sft-to-preference-optimisation:-teaching-models-what- *better-* means) or [reinforcement learning](#going-online-and-beyond-supervised-labels). However, before diving into those, it's worth considering whether the additional compute would be better spent on strengthening the base model through  *continued pretraining.* 
+当你对 SFT 数据混合做过几轮迭代，并让模型达到一个还不错的性能水平后，下一步通常就是探索更高级的方法，比如[偏好优化](#from-sft-to-preference-optimisation:-teaching-models-what- *better-* means)或[强化学习](#going-online-and-beyond-supervised-labels)。不过，在真正投入这些方法之前，也值得先想一想：额外的算力是否更应该花在通过  *continued pretraining*  来增强 base model 上。
 
-<Note title="Optimisers in post-training" emoji="📍" variant="info">
+<Note title="后训练中的优化器" emoji="📍" variant="info">
 
-Another important component we mentioned in the pre-training section is the optimiser. Similarly, AdamW remains the default choice for post-training. An open question is whether models pre-trained with alternative optimisers like Muon should be post-trained with the  *same*  optimiser. The Kimi team found that using the same optimise for pre- and post-training yielded best performance for their [Moonlight](https://arxiv.org/abs/2502.16982) model.
+我们在预训练部分提到过另一个重要组件：优化器。同样，AdamW 仍然是后训练中的默认选择。一个尚未完全定论的问题是：如果模型在预训练阶段使用了 Muon 这类替代优化器，那么后训练阶段是否也应该继续使用  *同一种*  优化器。Kimi 团队发现，对他们的 [Moonlight](https://arxiv.org/abs/2502.16982) 模型来说，预训练和后训练使用同一个优化器能得到最佳表现。
 </Note>
 
 #### Boosting reasoning through continued pretraining
