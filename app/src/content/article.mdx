@@ -3784,11 +3784,11 @@ Packing 通过把多条序列拼接在一起，直到达到目标最大 token �
 我们在预训练部分提到过另一个重要组件：优化器。同样，AdamW 仍然是后训练中的默认选择。一个尚未完全定论的问题是：如果模型在预训练阶段使用了 Muon 这类替代优化器，那么后训练阶段是否也应该继续使用  *同一种*  优化器。Kimi 团队发现，对他们的 [Moonlight](https://arxiv.org/abs/2502.16982) 模型来说，预训练和后训练使用同一个优化器能得到最佳表现。
 </Note>
 
-#### Boosting reasoning through continued pretraining
+#### 通过持续预训练增强推理能力
 
-Continued pretraining—or mid-training if you want to sound fancy—means taking a base model and training it further on large amounts of domain-specific tokens before doing SFT. Mid-training is useful when your target capabilities for SFT share a common core skill, such as coding or reasoning. In practice, this shifts the model toward a distribution that better supports reasoning, a specific language, or any other capability you care about. Starting SFT from a model that has already integrated that core skill allows your model to better focus on the specific topics in your SFT data rather than using compute to learn the core skill from scratch.
+持续预训练（continued pretraining），如果你想说得更时髦一点，也可以叫 mid-training，指的是在做 SFT 之前，先拿一个 base model 用大量特定领域的 token 继续训练。当前者与 SFT 的目标能力共享某种核心技能时，例如代码或推理，mid-training 就会特别有用。在实践中，这会把模型推向一个更有利于推理、特定语言能力，或任何你关心能力的数据分布上。这样一来，当你从一个已经吸收了这项核心技能的模型出发做 SFT 时，模型就能把更多注意力放在 SFT 数据中的具体主题上，而不是把算力花在从零学习这项核心技能上。
 
-The mid-training approach traces back to ULMFit [[@ulmfit](https://arxiv.org/abs/1801.06146)], which pioneered the three-stage pipeline of general pretraining → mid-training → post-training that is now common in modern LLMs like FAIR's Code World Model [[@cwm](https://huggingface.co/papers/2510.02387)]:
+mid-training 这一路线可以追溯到 ULMFit [[@ulmfit](https://arxiv.org/abs/1801.06146)]。它提出了“通用预训练 → mid-training → 后训练”的三阶段流程，如今这已经成为现代 LLM 的常见范式，例如 FAIR 的 Code World Model [[@cwm](https://huggingface.co/papers/2510.02387)]：
 
 <Wide>
 
@@ -3797,7 +3797,7 @@ The mid-training approach traces back to ULMFit [[@ulmfit](https://arxiv.org/a
 
 
 
-This approach was also used in the training of Phi-4-Mini-Reasoning [[@phi4reasoning](https://huggingface.co/papers/2504.21233)], but with a twist: instead of doing continued pretraining on web data, the authors used distilled reasoning tokens from DeepSeek-R1 for the mid-training corpus. The results were compelling, showing consistent and large gains through multi-stage training: 
+Phi-4-Mini-Reasoning 的训练也采用了这种方法 [[@phi4reasoning](https://huggingface.co/papers/2504.21233)]，但做了一点变化：作者并不是在网页数据上做持续预训练，而是使用从 DeepSeek-R1 蒸馏出来的推理 token 作为 mid-training 语料。结果很有说服力，显示出多阶段训练能够带来稳定而显著的收益：
 
 | Model | AIME24 | MATH-500 | GPQA Diamond |
 | --- | --- | --- | --- |
@@ -3807,70 +3807,70 @@ This approach was also used in the training of Phi-4-Mini-Reasoning [[@phi4reaso
 | + Roll-Out DPO | 50.0 | 93.6 | 49.0 |
 | + RL (Phi-4-Mini-Reasoning) | **57.5** | **94.6** | **52.0** |
 
-These results prompted us to try a similar approach. From our prior experience with creating and evaluating reasoning datasets in Open-R1, we had three main candidates to work with:
+这些结果促使我们尝试类似的方法。结合我们此前在 Open-R1 中构建和评估推理数据集的经验，我们主要考虑了三个候选数据集：
 
-- [ **Mixture of Thoughts** ](https://huggingface.co/datasets/open-r1/Mixture-of-Thoughts) **:** 350k reasoning samples distilled from DeepSeek-R1 across math, code, and science.
-- [ **Llama-Nemotron-Post-Training-Dataset:** ](https://huggingface.co/datasets/nvidia/Llama-Nemotron-Post-Training-Dataset) NVIDIA's large-scale dataset of distilled from a wide variety of models such as Llama3 and DeepSeek-R1. We filtered the dataset for the DeepSeek-R1 outputs, which resulted in about 3.64M samples or 18.7B tokens.
-- [ **OpenThoughts3-1.2M:** ](https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M) one of the highest-quality reasoning datasets, with 1.2M samples distilled from QwQ-32B, comprising 16.5B tokens.
+- [ **Mixture of Thoughts** ](https://huggingface.co/datasets/open-r1/Mixture-of-Thoughts) **：** 35 万条从 DeepSeek-R1 蒸馏得到的推理样本，覆盖数学、代码和科学。
+- [ **Llama-Nemotron-Post-Training-Dataset:** ](https://huggingface.co/datasets/nvidia/Llama-Nemotron-Post-Training-Dataset) NVIDIA 的大规模蒸馏数据集，来源涵盖 Llama3、DeepSeek-R1 等多种模型。我们从中筛选出 DeepSeek-R1 的输出，得到约 364 万个样本，也就是 18.7B tokens。
+- [ **OpenThoughts3-1.2M:** ](https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M) 质量最高的推理数据集之一，包含 120 万条从 QwQ-32B 蒸馏得到的样本，共 16.5B tokens。
 
-Since we planned to include reasoning data in the final SFT mix, we decided to keep Mixture of Thoughts for that stage the others for mid-training. We used ChatML as the chat template to avoid "burning in" the SmolLM3 one too early on. We also trained for 5 epochs with a learning rate of 2e-5, using 8 nodes to accelerate training with an effective batch size of 128.
+由于我们计划在最终的 SFT 数据混合中加入推理数据，因此我们决定把 Mixture of Thoughts 留到那个阶段使用，而另外两个数据集则用于 mid-training。我们采用 ChatML 作为 chat template，避免过早把 SmolLM3 自己的模板“烧录”进去。训练时我们使用 8 个节点，将有效 batch size 提升到 128，并以 2e-5 的学习率训练 5 个 epochs。
 
-<Note title="When to mid-train?" emoji="📍" variant="info">
+<Note title="什么时候做 mid-training？" emoji="📍" variant="info">
 
-You might wonder why we're discussing mid-training  *after*  we did some SFT runs. Chronologically, mid-training happens before SFT on the base model. But the decision to do mid-training only becomes clear after you've run initial SFT experiments and identified performance gaps. In practice, you'll often iterate: run SFT to identify weak areas, then do targeted mid-training, then run SFT again. Think of this section as <b>"what to do when SFT alone isn't enough."</b>
+你可能会疑惑，为什么我们会在做过一些 SFT 运行之后才来讨论 mid-training。按时间顺序来说，mid-training 的确发生在 base model 做 SFT 之前。但是否需要做 mid-training，通常只有在你先跑过初始的 SFT 实验、识别出性能短板之后，才会变得清晰。在实践中，你往往会这样迭代：先跑 SFT 找出薄弱点，再做有针对性的 mid-training，然后重新跑一轮 SFT。把这一节理解为<b>“当仅靠 SFT 不够时该怎么办”</b>会更合适。
 </Note>
 
- **The mystery of the melting GPUs** 
+ **GPU 融化之谜** 
 
-Running these experiments turned out to be a surprising challenge on our cluster: the aging GPUs would get throttled at various points which would lead to hardware failures and forced restarts of each run. To give you a taste of what it was like, here's the logs from one of the runs, where each colour represents a restart:
+在我们的集群上跑这些实验，结果成了一场出乎意料的挑战：那批逐渐老化的 GPU 会在不同阶段触发降频，进而导致硬件故障，并迫使每次运行重新启动。为了让你直观感受一下当时的情况，下面是一段某次运行的日志，其中每种颜色都代表一次重启：
 
 <Image src={GtU8DnoWsAAruEG_28e1384e_bcac_8051_8122_ed6cacf8f632} alt="Image" />
 
-We initially thought DeepSpeed might be the culprit, since the accelerator is highly optimised for throughput. To test this, we switched to DP, which helped somewhat, but then the loss was dramatically different!
+一开始我们以为罪魁祸首可能是 DeepSpeed，毕竟这个加速器对吞吐做了大量优化。为了验证这一点，我们切换到了 DP。情况确实稍有改善，但 loss 却出现了明显不同。
 
 <Sidenote>
 
-Finding bugs in your code at midnight is more common than you might think. In hindsight, for long runs at this scale, it would have made more sense to use nanotron since it was battle-tested and had faster throughput.
+半夜在代码里找 bug 的经历，比你想象中更常见。现在回头看，对于这种规模的长时间运行，直接使用经过充分验证、而且吞吐更高的 nanotron 会是更合理的选择。
 </Sidenote>
 
 <Image src={Screenshot_2025_10_01_at_11_31_19_28e1384e_bcac_8005_8c5e_f0af3bf70372} alt="Image" />
 
-As we later discovered, a bug with DP in Accelerate meant that the weights and gradients were stored in the model's native precision (BF16 in this case), which led to numerical instability and loss of gradient accuracy during accumulation and optimisation.
+后来我们发现，Accelerate 里的 DP 存在一个 bug，导致权重和梯度都以模型的原生精度存储（这里是 BF16），这会在梯度累积和优化过程中引发数值不稳定，并损失梯度精度。
 
 <Sidenote>
 
-To prevent this, most accelerators use FP32 for the "master weights" and optimiser states, and only cast back to BF16 for the forward and backward passes.
+为了避免这个问题，大多数加速器都会用 FP32 保存 “master weights” 和优化器状态，只在前向和反向传播时再转换回 BF16。
 </Sidenote>
 
-So we switched back to DeepSpeed and added aggressive checkpointing to minimise the time lost from GPUs overheating and "falling off the bus". This strategy proved successful and is something we recommend more generally:
+于是我们又切回 DeepSpeed，并加入更激进的 checkpoint 保存策略，以尽量减少 GPU 过热和 “falling off the bus” 带来的时间损失。这个策略最终证明是有效的，而且我们也更普遍地推荐这样做：
 
-<Note title="Rule" emoji="☝️" variant="danger">
+<Note title="准则" emoji="☝️" variant="danger">
 
-As we emphasized in pre-training, save model checkpoints frequently during a training run, and ideally push them to the Hugging Face Hub to avoid accidental overwrites. Also, make your training framework robust to failures and capable of automatic restarts. Both of these strategies will save you time, especially for long-running jobs like mid-training ones.
+正如我们在预训练部分强调过的那样，在训练过程中要频繁保存模型 checkpoint，最好还能推送到 Hugging Face Hub，以避免被意外覆盖。同时，你的训练框架也应该能够稳健地应对故障，并支持自动重启。这两种策略都能帮你节省大量时间，尤其是在 mid-training 这种长时间运行的任务里。
 </Note>
 
-After babysitting the runs for a week or so, we finally had our results:
+在盯着这些运行状态“带娃”一周左右之后，我们终于拿到了结果：
 
 <HtmlEmbed src="/embeds/d3-sft-mid-train.html" />
 
 
 
-Overall, we found that NVIDIA's post-training dataset gave better performance than OpenThoughts, but the combination was best overall. 
+总体来看，我们发现 NVIDIA 的 post-training 数据集表现优于 OpenThoughts，但两者组合起来的效果最好。
 
-Now let's take a look at the effect of taking one of these checkpoints and applying our same baseline data mixture:
+接下来我们再看看，如果从这些 checkpoint 中拿一个出来，并套用同样的 baseline 数据混合，会产生什么效果：
 
 <HtmlEmbed src="/embeds/d3-sft-base-vs-mid.html" />
 
 
 
-The effect of using a mid-trained reasoning model instead of the pre-trained one are dramatic: with extended thinking, we nearly triple the performance on AIME25 and LiveCodeBench v4, while GPQA-D receives a full 10 point gain. Somewhat surprisingly, the reasoning core also translated partially to the  `/no_think`  reasoning mode, with about 4-6 point improvements on the reasoning benchmarks. These results gave us clear evidence that for reasoning models, it almost always makes sense to perform some amount of mid-training if your base model hasn't already seen a lot of reasoning data during pre-training.
+使用经过 mid-training 的推理模型来替代原始预训练模型，带来的效果非常惊人：在 extended thinking 模式下，AIME25 和 LiveCodeBench v4 的表现几乎提升到原来的三倍，而 GPQA-D 也整整提高了 10 分。更让人意外的是，这种推理能力也部分迁移到了 `/no_think` 推理模式，在这些推理基准上依然带来了约 4 到 6 分的提升。这些结果清楚地表明：对于推理模型来说，如果你的 base model 在预训练阶段还没有见过足够多的推理数据，那么做一定程度的 mid-training 几乎总是值得的。
 
-<Note title="When not to mid-train" emoji="📍" variant="info">
+<Note title="什么时候不该做 mid-training" emoji="📍" variant="info">
 
-Mid-training shines when your model must learn a new, core skill. It's less useful when the base model already has the skill or if you're trying to elicit shallow capabilities like style or conversational chit-chat. In these cases, we recommend skipping mid-training and allocating your compute to other methods like preference optimisation or reinforcement learning.
+当模型必须学习一项新的核心技能时，mid-training 最能发挥作用。如果 base model 已经具备这项技能，或者你只是想激发一些较浅层的能力，例如文风或闲聊对话，那么它的价值就没有那么大。在这些情况下，我们建议跳过 mid-training，把算力投入到偏好优化或强化学习等其他方法上。
 </Note>
 
-Once you're confident in your SFT data mixture and the model's broad capabilities, the focus naturally shifts from learning skills to refining them. In most cases, the most effective way forward is  *preference optimisation.* 
+当你已经对自己的 SFT 数据混合和模型的整体能力有了足够信心，关注点就会自然从“学习技能”转向“打磨技能”。在大多数情况下，接下来最有效的路线就是 *偏好优化（preference optimisation）*。
 
 ### From SFT to preference optimisation: teaching models what  *better*  means
 
