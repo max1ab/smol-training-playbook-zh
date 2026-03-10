@@ -3872,20 +3872,20 @@ Phi-4-Mini-Reasoning 的训练也采用了这种方法 [[@phi4reasoning](https:/
 
 当你已经对自己的 SFT 数据混合和模型的整体能力有了足够信心，关注点就会自然从“学习技能”转向“打磨技能”。在大多数情况下，接下来最有效的路线就是 *偏好优化（preference optimisation）*。
 
-### From SFT to preference optimisation: teaching models what  *better*  means
+### 从 SFT 到偏好优化：教会模型什么才算 *更好*
 
-Although you can keep scaling SFT with more data, at some point you'll observe diminishing gains or failure modes like your model being unable to fix its own buggy code. Why?  Because SFT is a form of  *imitation learning* , and so the model only learns to reproduce patterns in the data it was trained on. If the data doesn't already contain good fixes, or if the desired behaviour is hard to elicit with distillation, the model has no clear signal for what counts as "better".
+尽管你可以继续通过增加数据规模来扩展 SFT，但到某个阶段，你会发现收益开始递减，或者出现一些失败模式，比如模型无法修复自己写出的有 Bug 的代码。为什么会这样？因为 SFT 本质上是一种 *模仿学习（imitation learning）*，模型学到的只是复现训练数据中的模式。如果数据本身并没有包含高质量的修复方案，或者目标行为很难通过蒸馏诱导出来，那么模型就得不到关于什么才算“更好”的明确信号。
 
 <Sidenote>
 
-The problem persists even if your dataset contains an even mix of traces (i.e. some that reach the correct solution immediately, and others where the model first makes a mistake and corrects it). In this case, the model may simply learn that making an initial error is part of the desired pattern. What we actually want, of course, is a model that can produce the correct solution from the start.
+即使你的数据集在轨迹（trace）上是均衡混合的，这个问题依然存在。也就是说，其中一部分样本会直接得到正确解答，另一部分则是模型先犯错再纠正。在这种情况下，模型可能只是学会了“先犯一个初始错误”本身也是目标模式的一部分。而我们真正想要的，当然是一个一开始就能给出正确解答的模型。
 </Sidenote>
 
-This is where preference optimisation comes in. Instead of just copying demonstrations, we give the model comparative feedback like "response A is better than response B". These preferences provide a more direct training signal for quality and enable to model performance to scale beyond the limits of SFT alone. 
+这正是偏好优化发挥作用的地方。我们不再只是让模型照搬示范，而是给它提供比较式反馈，例如“回答 A 比回答 B 更好”。这些偏好为“质量”提供了更直接的训练信号，使模型性能能够突破仅靠 SFT 所能达到的上限。
 
-Another benefit of preference optimisation is that you typically need far less data than SFT, since the starting point is already a pretty good model that can follow instructions and has knowledge from previous training stages.
+偏好优化的另一个好处是，它通常所需的数据远少于 SFT，因为此时的起点已经是一个相当不错的模型了，它既能遵循指令，也具备前几个训练阶段积累的知识。
 
-Let's take a look at how these datasets are created.
+下面我们来看这些数据集是如何构建出来的。
 
 #### Creating preference datasets
 
