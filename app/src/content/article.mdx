@@ -3887,19 +3887,19 @@ Phi-4-Mini-Reasoning 的训练也采用了这种方法 [[@phi4reasoning](https:/
 
 下面我们来看这些数据集是如何构建出来的。
 
-#### Creating preference datasets
+#### 偏好数据集的构建
 
-Historically, preference datasets were created by providing human annotators with pairs of model responses and asking them to grade which one is better (possibly on a scale). This approach is still used by LLM providers to collect  *human preference*  labels, but it is extremely expensive and scales poorly. Recently, LLMs have become capable of producing high-quality responses, and often in a cost-effective way. These advances make it practical for LLMs to  *generate*  preferences for many applications. In practice, there are two common approaches:
+历史上，偏好数据集通常通过向人工标注者提供成对的模型回复，并让他们判断哪一个更好来构建，有时还会要求按等级打分。这种方法至今仍被不少 LLM 提供方用于收集 *人类偏好* 标签，但成本极高，而且很难扩展。近来，LLM 已经能够生成高质量回复，而且往往具备不错的成本效益。这些进展使得让 LLM 为许多应用场景 *生成* 偏好成为现实。实践中，常见的方法主要有两类：
 
- **Strong vs. weak** 
+ **强模型 vs. 弱模型** 
 
-1. Take a fixed set of prompts  $x$  (often curated for coverage and difficulty).
-1. Generate one response from a weaker or baseline model, and another from a high-performing model.
-1. Label the stronger model's output as the chosen response  $y_c$  and the weaker one as rejected  $y_r$ .
+1. 选取一组固定的提示词 $x$ ，通常会为覆盖面和难度做专门筛选。
+1. 分别让一个较弱的模型或 baseline 模型，以及一个性能更强的模型，各生成一条回复。
+1. 将强模型的输出标记为被选中的回复 $y_c$ ，将弱模型的输出标记为被拒绝的回复 $y_r$ 。
 
-This produces a dataset of "stronger vs. weaker" comparisons  $(\lbrace{x,y_c,y_r\rbrace})$  , which is simple to construct because we assume the stronger model's output is reliably better.
+这样就能得到一个“强于弱”比较数据集 $(\lbrace{x,y_c,y_r\rbrace})$ ，其构建方式相对简单，因为我们默认强模型的输出会更可靠地优于弱模型。
 
-Below is a popular example from Intel, who took an SFT dataset with responses from gpt-3.5 and gpt-4 and converted it into a preference dataset by selecting the gpt-4 responses as chosen and the gpt-3.5 ones as rejected:
+下面是 Intel 的一个经典示例：他们从一个包含 gpt-3.5 与 gpt-4 回复的 SFT 数据集中出发，将 gpt-4 的回复选作 chosen、gpt-3.5 的回复选作 rejected，从而将其转换为偏好数据集：
 
 <iframe
   src="https://huggingface.co/datasets/Intel/orca_dpo_pairs/embed/viewer/default/train"
@@ -3907,15 +3907,15 @@ Below is a popular example from Intel, who took an SFT dataset with responses fr
   width="100%"
   height="560px"
 ></iframe>
- **On-policy with grading** 
+ **On-policy + 打分器** 
 
-1. Use the  *same model*  you will train to generate multiple candidate responses to the same prompt. This creates data that is "on-policy" because it reflects the distribution of outputs the model would naturally produce.
-1. Instead of relying on a stronger model as the reference, introduce an  *external grader:*  either a verifier or a reward model that scores responses along one or more quality axes (e.g., helpfulness or factual accuracy).
-1. The grader then assigns preference labels among the candidate responses, producing a more nuanced and flexible preference dataset.
+1. 使用你即将训练的 *同一个模型* ，针对同一条提示词生成多条候选回复。由于这些数据反映的是该模型自然会产出的回复分布，因此它们属于“on-policy”数据。
+1. 不再依赖更强的模型作为参考答案，而是引入一个 *外部打分器* ：它可以是 verifier，也可以是 reward model，用来沿着一个或多个质量维度（例如 helpfulness 或 factual accuracy）为回复打分。
+1. 随后由打分器在这些候选回复之间赋予偏好标签，从而产出更细致、也更灵活的偏好数据集。
 
-This method allows ongoing bootstrapping of preference data as the model improves, but its quality depends heavily on the evaluator's reliability and calibration.
+这种方法允许随着模型能力提升，持续自举出新的偏好数据；但它的效果高度依赖评估器本身的可靠性以及校准质量。
 
-A nice example of such a dataset is from SnorkelAI, who took the prompts from a popular preference dataset called [UltraFeedback](https://huggingface.co/datasets/openbmb/UltraFeedback), partitioned them into 3 sets, and then applied the above recipe iteratively to improve their model:
+SnorkelAI 就提供了一个很好的例子：他们取用了一个流行偏好数据集 [UltraFeedback](https://huggingface.co/datasets/openbmb/UltraFeedback) 中的提示词，将其划分为 3 个子集，然后迭代应用上述流程来不断改进模型：
 
 <iframe
   src="https://huggingface.co/datasets/snorkelai/Snorkel-Mistral-PairRM-DPO-Dataset/embed/viewer/default/train_iteration_1"
@@ -3923,7 +3923,7 @@ A nice example of such a dataset is from SnorkelAI, who took the prompts from a 
   width="100%"
   height="560px"
 ></iframe>
-At the time of SmolLM3's development, there did not exist any preference data with reasoning traces, so we decided to generate some of our own using the "strong vs weak" approach. We used the prompts from Ai2's Tulu 3 preference mixture to generate responses from Qwen3-0.6B and Qwen3-32B in the  `/think`  mode. The result was a [large-scale dataset of 250k+ LLM-generated preferences](https://huggingface.co/datasets/HuggingFaceTB/smoltalk2/viewer/Preference/tulu_3_8b_pref_mix_Qwen3_32B_Qwen3_0.6B_think), ready to simultaneously improve our SFT checkpoint across multiple axes using preference optimisation algorithms.
+在开发 SmolLM3 时，市面上还没有带有 reasoning trace 的偏好数据，因此我们决定采用“强模型 vs. 弱模型”的方法自行生成一部分数据。我们使用 Ai2 的 Tulu 3 preference mixture 中的提示词，在 `/think` 模式下分别让 Qwen3-0.6B 和 Qwen3-32B 生成回复。最终得到的是一个[超过 25 万条、由 LLM 生成偏好的大规模数据集](https://huggingface.co/datasets/HuggingFaceTB/smoltalk2/viewer/Preference/tulu_3_8b_pref_mix_Qwen3_32B_Qwen3_0.6B_think)，可用于配合偏好优化算法，从多个维度同时提升我们的 SFT checkpoint。
 
 #### Which algorithm do I pick?
 
