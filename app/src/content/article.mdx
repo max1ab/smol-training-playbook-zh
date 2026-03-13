@@ -3925,40 +3925,40 @@ SnorkelAI 就提供了一个很好的例子：他们取用了一个流行偏好�
 ></iframe>
 在开发 SmolLM3 时，市面上还没有带有 reasoning trace 的偏好数据，因此我们决定采用“强模型 vs. 弱模型”的方法自行生成一部分数据。我们使用 Ai2 的 Tulu 3 preference mixture 中的提示词，在 `/think` 模式下分别让 Qwen3-0.6B 和 Qwen3-32B 生成回复。最终得到的是一个[超过 25 万条、由 LLM 生成偏好的大规模数据集](https://huggingface.co/datasets/HuggingFaceTB/smoltalk2/viewer/Preference/tulu_3_8b_pref_mix_Qwen3_32B_Qwen3_0.6B_think)，可用于配合偏好优化算法，从多个维度同时提升我们的 SFT checkpoint。
 
-#### Which algorithm do I pick?
+#### 选择哪种算法？
 
-Direct Preference Optimization (DPO) [[@dpo](https://arxiv.org/abs/2305.18290)] was the first preference optimisation algorithm to gain widespread adoption in open source.
+Direct Preference Optimization（DPO）[[ @dpo ](https://arxiv.org/abs/2305.18290)] 是第一个在开源社区获得广泛采用的偏好优化算法。
 
 <Sidenote>
 
-When the DPO paper came out in mid-2023, there was heated debate online about whether it could match RL methods, and there were no recipes showing it's effectiveness in industrial settings. To address that, we released [Zephyr 7B](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta) a few months later, training the entire model on synthetic data and showing significant performance gains from DPO.
+2023 年年中 DPO 论文刚发布时，网上曾激烈争论它是否能达到 RL 方法的效果，而且当时也没有任何配方证明它在工业场景中同样有效。为回应这些质疑，我们在几个月后发布了 [Zephyr 7B](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta)，用合成数据训练了整个模型，并展示了 DPO 带来的显著性能提升。
 </Sidenote>
 
-Its appeal came from being simple to implement, stable in practice, and effective even with modest amounts of preference data. As a result, DPO has become the default method to improve SFT models before reaching for more complex techniques like RL.
+DPO 之所以受到欢迎，是因为它实现简单、实践中稳定，而且即使只有适量的偏好数据也能取得良好效果。因此，在尝试 RL 等更复杂技术之前，DPO 已经成为改进 SFT 模型的默认方法。
 
-But researchers quickly discovered there are many ways to improve upon DPO, and nowadays there is a wide variety of alternatives to explore. Below we list a few of the ones we've found most effective:
+但研究人员很快发现，DPO 还有许多可以改进的方向，如今也已经出现了大量可供探索的替代方案。下面列出的是我们认为最有效的几种：
 
--  **Kahneman-Tversky Optimisation (KTO) [** [ **@kto** ](https://huggingface.co/papers/2402.01306) **]:** Instead of relying on preference pairs, KTO models whether an individual response is "desirable or not", using ideas from human decision making. This is a good choice if you don't have access to paired preference data (e.g. raw responses like 👍 or 👎 collected from end-users).
--  **Odds Ratio Preference Optimisation (ORPO) [** [ **@orpo** ](https://huggingface.co/papers/2403.07691) **]:** integrates preference optimisation directly into SFT by adding an odds ratio to the cross-entropy loss. As a result there is no need for a reference model or SFT stage, which makes this method more computationally efficient. 
--  **Anchored Preference Optimisation (APO) [** [ **@apo** ](https://huggingface.co/papers/2408.06266) **]:** this is a more controllable objective the explicitly regularises how much the model's likelihoods for chosen vs. rejected outputs should shift, rather than just optimising their difference. There are two variants (APO-zero and APO-down) who's choice depends on the relationship between your model and the preference data, i.e. whether the chosen outputs are better than the model or worse.
+-  **Kahneman-Tversky Optimisation（KTO）[** [ **@kto** ](https://huggingface.co/papers/2402.01306) **]：** KTO 不依赖偏好对，而是借鉴人类决策理论，去建模单条回复是否“值得偏好”。如果你拿不到成对的偏好数据，这会是一个不错的选择，例如你手里只有来自终端用户的原始反馈，像 👍 或 👎 这样的标记。
+-  **Odds Ratio Preference Optimisation（ORPO）[** [ **@orpo** ](https://huggingface.co/papers/2403.07691) **]：** ORPO 通过在交叉熵损失中加入 odds ratio，将偏好优化直接整合进 SFT。因此它不再需要 reference model，也不需要单独的 SFT 阶段，这使得它在计算上更高效。
+-  **Anchored Preference Optimisation（APO）[** [ **@apo** ](https://huggingface.co/papers/2408.06266) **]：** 这是一个更可控的目标函数，它会显式正则化模型对 chosen 与 rejected 输出的概率应当偏移多少，而不是只优化二者之间的差值。它有两个变体（APO-zero 和 APO-down），具体该选哪一个，取决于你的模型与偏好数据之间的关系，也就是 chosen 输出究竟比当前模型更好，还是更差。
 
-Luckily, many of these choices are just a one-line change in TRL's  `DPOTrainer` , so for our initial baseline we did the following:
+幸运的是，这些方法在 TRL 的 `DPOTrainer` 中很多都只需要改一行代码。因此，在最初的 baseline 实验里，我们做了下面几件事：
 
-- Use the prompts and completions from Ai2's [Tülu3 Preference Personas IF dataset](https://huggingface.co/datasets/allenai/tulu-3-pref-personas-instruction-following) to measure the improvements for instruction-following on IFEval with the  `/no_think`  reasoning mode.
-- Re-use the prompts from the above, but now generate "strong vs. weak" preference pairs with Qwen3-32B and Qwen3-0.6B. This gave us preference data for the  `/think`  reasoning mode.
-- Train for 1 epoch and measure the  *in-domain*  improvements on IFEval, along with the  *out-of-domain*  impact on other evals like AIME25 which are directly correlated with instruction-following.
+- 使用 Ai2 的 [Tülu3 Preference Personas IF dataset](https://huggingface.co/datasets/allenai/tulu-3-pref-personas-instruction-following) 中的 prompts 和 completions，在 `/no_think` 推理模式下衡量模型在 IFEval 上的指令跟随能力提升。
+- 复用上面的 prompts，但改为用 Qwen3-32B 和 Qwen3-0.6B 生成“强模型 vs. 弱模型”的偏好对。这样我们就得到了适用于 `/think` 推理模式的偏好数据。
+- 训练 1 个 epoch，并测量模型在 IFEval 上的 *in-domain* 提升，同时观察它对其他评测的 *out-of-domain* 影响，例如与指令跟随能力直接相关的 AIME25。
 
-As shown in the figure below, the in-domain improvements for both reasoning modes were significant: on IFEval, APO-zero improved over the SFT checkpoint by 15-20 percentage points! 
+如下图所示，两种推理模式在领域内评测上的提升都非常明显：在 IFEval 上，APO-zero 相比 SFT checkpoint 提高了 15 到 20 个百分点！
 
 <HtmlEmbed src="/embeds/d3-po-loss-ablations.html" />
 
 
 
-Since APO-zero also had the best overall out-of-domain performance, we settled on using it for the remainder of our ablations.
+由于 APO-zero 在整体的 out-of-domain 表现上也最好，我们最终决定在后续所有消融实验中都使用它。
 
 <Note title="Preference optimisation works for reasoning" emoji="📍" variant="info">
 
-As our results above show, preference optimisation doesn't just make models more helpful or aligned, it teaches them to  *reason better* . If you need a quick way to improve your reasoning model, try generating strong-vs-weak preferences and ablate different loss functions: you may find significant gains over vanilla DPO!
+正如上面的结果所示，偏好优化不仅能让模型更有帮助性、更对齐，它还能教会模型 *更好地推理*。如果你想快速提升推理模型，不妨尝试构造 strong-vs-weak 偏好数据，并对不同损失函数做消融实验；你很可能会看到相较于 vanilla DPO 的显著收益。
 </Note>
 
 #### Which hyperparameters matter most for preference optimisation?
