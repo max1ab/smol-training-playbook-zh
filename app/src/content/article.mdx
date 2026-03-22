@@ -4256,49 +4256,49 @@ on-policy distillation 在小模型上的一个有趣特性是：它通常能以
 
 [^f3]: The Transformers team has recently added [parsers](https://huggingface.co/docs/transformers/main/en/chat_response_parsing) for extract tool calling and reasoning outputs. If adopted by engines like vLLM, the compatibility criterion may become less important in the future.
 
-## Infrastructure - the unsung hero
+## 基础设施：那位无名英雄
 
-Now that you know everything we know about model creation and training, let's address the critical yet  *underrated*  component that can make or break your project (and your bank account): infrastructure. Whether you focus on frameworks, architecture, or data curation, understanding infrastructure basics helps identify training bottlenecks, optimise parallelism strategies, and debug throughput issues. (At the minimum, it improves communication with infrastructure teams 😉).
+既然你已经了解了我们关于模型构建与训练的全部经验，接下来就该谈谈那个关键却又常被低估的组成部分了。它既可能成就你的项目，也可能拖垮你的项目，甚至连你的预算都会受影响：这就是基础设施。无论你关注的是框架、架构还是数据整理，理解基础设施的基本原理，都有助于识别训练瓶颈、优化并行策略，以及调试吞吐问题。（至少，它还能让你和基础设施团队沟通得更顺畅 😉）。
 
-Most people training models care deeply about architecture and data, yet very few understand the infrastructure details. Infrastructure expertise typically lives with framework developers and cluster engineers, and gets treated by the rest as a solved problem: rent some GPUs, install PyTorch, and you're good to go. We trained SmolLM3 on 384 H100s for nearly a month, processing a total of 11 trillion tokens… and this was not a smooth ride! During that time, we dealt with node failures, storage issues and run restarts (see the [training marathon section](#the-training-marathon)). You need to have good contingency plans and strategies to prepare for these issues, and keep training smooth and low-maintenance. 
+大多数训练模型的人都非常关心架构和数据，但真正理解基础设施细节的人却很少。基础设施相关的知识通常掌握在框架开发者和集群工程师手中，在其他人看来，它更像一个已经“被解决的问题”：租几张 GPU，装上 PyTorch，就可以开始了。我们在 384 张 H100 上训练 SmolLM3，持续了将近一个月，总共处理了 11 万亿个 tokens……而这段过程一点也不平稳！在那期间，我们遇到了节点故障、存储问题和训练重启（见[训练马拉松章节](#the-training-marathon)）。你必须提前准备好应急方案和处理策略，才能让训练过程尽可能平稳、低维护。
 
-This chapter aims to bridge that knowledge gap. Think of it as a practical guide to the hardware layer, focused on the questions that matter for training. (Note: Each subsection starts with a TL;DR so you can choose your depth level.)
+这一章的目标，就是弥补这部分知识鸿沟。你可以把它看作一份面向硬件层的实用指南，聚焦于训练中真正重要的问题。（注：每个小节开头都有一个 TL;DR，因此你可以按自己需要的深度来读。）
 
-The first two sections tackle the fundamentals of how hardware works: what does a GPU actually consist of? How does memory hierarchy work? How do CPUs and GPUs communicate? We'll also go over you what to consider when acquiring GPUs and how to test them before committing to long training runs. Most importantly, we'll show you at each step how to measure and diagnose these systems yourself. The next sections are then more applied, and we'll see how to make your infra resilient to failure, and how to maximally optimize your training throughput. 
+前两个小节会讨论硬件工作原理的基础：GPU 到底由什么组成？内存层级是如何工作的？CPU 和 GPU 是如何通信的？我们也会介绍采购 GPU 时应当考虑哪些因素，以及在真正投入长时间训练之前，应该如何测试它们。更重要的是，我们会在每一步都告诉你，如何亲自去测量和诊断这些系统。后面的章节则更偏应用，我们会讨论如何让你的基础设施更抗故障，以及怎样把训练吞吐尽可能优化到极致。
 
-The name of the game of this chapter is to find and fix the bottlenecks!
+这一章的核心目标，就是找到并修复瓶颈！
 
-Think of this as building your intuition for why certain design decisions matter. When you understand that your model's activations need to flow through multiple levels of cache, each with different bandwidth and latency characteristics, you'll naturally start thinking about how to structure your training to minimise data movement. When you see that inter-node communication is orders of magnitude slower than intra-node, you'll understand why parallelism strategies matter so much.
+你可以把这一章理解为：建立一种直觉，去理解为什么某些设计决策如此重要。当你理解模型的激活值必须经过多级 cache 流动，而每一级 cache 都有不同的带宽和延迟特性时，你自然就会开始思考，如何组织训练流程，才能尽量减少数据移动。当你看到跨节点通信比节点内通信慢上好几个数量级时，你也就会明白，并行策略为什么会如此关键。
 
-Let's start by cracking open a GPU and seeing what's inside.
+我们先从“拆开”一块 GPU，看看里面到底有什么开始。
 
-### Inside a GPU: Internal Architecture
+### GPU 内部：内部架构
 
-A GPU is fundamentally a massively parallel processor optimised for throughput over latency. Unlike CPUs, which excel at executing a few complex instruction streams quickly, GPUs achieve performance by executing thousands of simple operations simultaneously. 
+从根本上说，GPU 是一种大规模并行处理器，它优先针对吞吐量而不是延迟进行优化。CPU 擅长快速执行少量复杂的指令流，而 GPU 则通过同时执行成千上万个简单操作来获得性能优势。
 
-The key to understanding GPU performance lies in recognising that it's not just about raw compute power, it's about the interplay between computation and data movement. A GPU can have teraflops of theoretical compute, but if data can't reach the compute units fast enough, that potential goes unused. This is why we need to understand both the memory hierarchy (how data moves) and the compute pipelines (how work gets done).
+理解 GPU 性能的关键在于认识到：它不只是原始算力的问题，更是“计算”和“数据移动”之间相互作用的问题。GPU 也许拥有以 TFLOPs 计的理论算力，但如果数据不能足够快地送达计算单元，这些潜力就无法发挥出来。这就是为什么我们既要理解内存层级（数据如何流动），也要理解计算流水线（工作是如何完成的）。
 
-At the highest level, a GPU therefore performs two essential tasks:
+因此，从最高层面看，GPU 会执行两个核心任务：
 
-1.  **Move and store data**  (the memory system)
-1.  **Do useful work with the data**  (the compute pipelines)
+1.  **移动和存储数据**（内存系统）
+1.  **用这些数据做有意义的计算**（计算流水线）
 
-#### Compute Units and FLOPs
+#### 计算单元与 FLOPs
 
 <Note>
 
-<b>TL;DR:</b> GPUs measure performance in FLOPs (floating-point operations per second). Modern GPUs like the H100 deliver dramatically higher throughput at lower precision: 990 TFLOPs at BF16 vs 67 TFLOPs at FP32. However, real-world performance is 70-77% of theoretical peaks due to memory bottlenecks. State-of-the-art training achieves 20-41% end-to-end efficiency, also known as model flops utilization (MFU). Use realistic numbers, not marketing specs, when planning training runs.
+<b>TL;DR:</b> GPU 的性能通常用 FLOPs（每秒浮点运算次数）来衡量。像 H100 这样的现代 GPU，在更低精度下能提供高得多的吞吐：BF16 下可达 990 TFLOPs，而 FP32 下只有 67 TFLOPs。不过，由于内存瓶颈，真实世界中的性能通常只有理论峰值的 70% 到 77%。当前最先进的训练任务，其端到端效率通常在 20% 到 41% 之间，这也被称为 model flops utilization（MFU）。规划训练任务时，要用现实可达的数字，而不是宣传参数。
 </Note>
 
-GPU compute performance is measured in  **FLOPs**  (floating-point operations per second). A FLOP is a single arithmetic operation, typically a floating numbers addition like  `a + b` , and modern GPUs can execute trillions of these per second (TFLOPs).
+GPU 的计算性能通常用 **FLOPs**（floating-point operations per second，每秒浮点运算次数）来衡量。一个 FLOP 就是一条浮点算术操作，最典型的例子是像 `a + b` 这样的加法；而现代 GPU 每秒可以执行数万亿次这样的操作，也就是 TFLOPs。
 
-The fundamental building blocks of GPU compute are  **Streaming Multiprocessors (SMs)** , independent processing units that execute instructions in parallel. Each SM contains two types of  **cores** :  **CUDA cores**  for standard floating-point operations, and specialized  **Tensor Cores**  optimized for matrix multiplication, the workhorse operation in deep learning (critical for transformer performance).
+GPU 计算最基础的构件是 **Streaming Multiprocessors（SM）**，也就是能够并行执行指令的独立处理单元。每个 SM 中都包含两类 **cores**：用于标准浮点运算的 **CUDA cores**，以及专门为矩阵乘法优化的 **Tensor Cores**。后者是深度学习中的主力运算单元，对 transformer 的性能尤其关键。
 
-Modern GPUs organize hundreds of these SMs across the chip! For example, the [H100](https://developer.nvidia.com/blog/nvidia-hopper-architecture-in-depth/) SXM5 version (which is the GPU we're using on our cluster) contains 132 SMs. Each SM operates independently, executing groups of 32 threads called  **warps**  in lockstep. To help there, the SMs rely on another component, the  **warp schedulers:**  by balancing instructions to different warps, they enable the SM to "hide latency" by switching between warps when one is held up. This  **SIMT**  (Single Instruction, Multiple Thread) execution model means all threads in a warp execute the same instruction simultaneously on different data. 
+现代 GPU 会在整块芯片上组织起数百个这样的 SM。以 [H100](https://developer.nvidia.com/blog/nvidia-hopper-architecture-in-depth/) 的 SXM5 版本为例（这正是我们集群中使用的 GPU），它包含 132 个 SM。每个 SM 都能独立工作，以锁步方式执行一组由 32 个线程组成的 **warps**。为了实现这一点，SM 还依赖另一个组件：**warp schedulers**。它们通过在不同 warp 之间调度指令，使 SM 能够在某个 warp 被阻塞时切换到其他 warp，从而“隐藏延迟”。这种 **SIMT**（Single Instruction, Multiple Thread）执行模型意味着：同一个 warp 中的所有线程会同时在不同数据上执行同一条指令。
 
 <Sidenote>
 
-Warps are named in reference to weaving, "the first parallel thread technology", according to [Lindholm et al., 2008](https://www.cs.cmu.edu/afs/cs/academic/class/15869-f11/www/readings/lindholm08_tesla.pdf). The equivalent of warps in other GPU programming models include [subgroups ](https://github.com/gpuweb/gpuweb/pull/4368) in WebGPU, [waves ](https://microsoft.github.io/DirectX-Specs/d3d/HLSL_SM_6_6_WaveSize.html) in DirectX, and [simdgroups ](https://developer.apple.com/documentation/metal/compute_passes/creating_threads_and_threadgroups#2928931) in Metal.
+根据 [Lindholm et al., 2008](https://www.cs.cmu.edu/afs/cs/academic/class/15869-f11/www/readings/lindholm08_tesla.pdf) 的说法，warp 这个名字借用了织布领域的概念，也就是“最早的并行线程技术”。在其他 GPU 编程模型中，与 warp 对应的概念包括 WebGPU 中的 [subgroups](https://github.com/gpuweb/gpuweb/pull/4368)、DirectX 中的 [waves](https://microsoft.github.io/DirectX-Specs/d3d/HLSL_SM_6_6_WaveSize.html)，以及 Metal 中的 [simdgroups](https://developer.apple.com/documentation/metal/compute_passes/creating_threads_and_threadgroups#2928931)。
 </Sidenote>
 
 <HtmlEmbed frameless src="embeds/gpu-sm-architecture.html" caption="Multiple SMs within a single GPU -  <a href='https://www.youtube.com/watch?v=ZQKMZIP3Fzg'>
@@ -4306,16 +4306,16 @@ Warps are named in reference to weaving, "the first parallel thread technology",
 Source</a>"/>
 
 
-With hundreds of SMs each executing multiple warps concurrently, a single GPU can run tens of thousands of threads simultaneously. This massive parallelism is what enables GPUs to excel at the matrix operations that dominate deep learning workloads!
+在数百个 SM、且每个 SM 都同时执行多个 warp 的情况下，一块 GPU 就可以同时运行数以万计的线程。正是这种大规模并行能力，让 GPU 在深度学习负载中占主导地位的矩阵运算上表现得如此出色。
 
- **Precision matters significantly**  when discussing FLOPs. Tensor Cores can operate at different precisions (FP64, FP32, FP16/BF16, FP8, FP4 - see [here for a reminder on floating point numbers](https://en.wikipedia.org/wiki/Floating-point_arithmetic)). The achievable throughput therefore varies dramatically, often by orders of magnitude, depending on the data type. Lower precision formats enable higher throughput because they require less data movement and can pack more operations into the same silicon area, but were formerly avoided because of training instabilities. However, nowadays, both training and inference are increasingly pushed toward lower precision, reaching FP8 and FP4, thanks to a range of new techniques.
+讨论 FLOPs 时，**精度会带来非常显著的差异**。Tensor Cores 可以在多种不同精度下工作（FP64、FP32、FP16/BF16、FP8、FP4，关于浮点数可以参考[这里](https://en.wikipedia.org/wiki/Floating-point_arithmetic)）。因此，可达到的吞吐量会随着数据类型不同而发生巨大变化，往往相差一个甚至多个数量级。更低的精度能够实现更高吞吐，因为它们需要搬运的数据更少，而且能在相同的芯片面积中容纳更多运算。但在过去，人们常常因为训练不稳定而避免使用低精度。不过如今，随着一系列新技术的出现，训练和推理都在不断向更低精度推进，已经逐渐走到 FP8，甚至 FP4。
 
 <Sidenote>
 
-If you want to learn more about our experience with FP8 mixed precision training check out the [Ultra Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook).
+如果你想进一步了解我们在 FP8 混合精度训练方面的经验，可以看看 [Ultra Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)。
 </Sidenote>
 
-The table below shows theoretical peak performance across different NVIDIA GPU generations and precision:
+下表展示了 NVIDIA 不同 GPU 世代、不同精度下的理论峰值性能：
 
 | Precision\GPU Type | A100 | H100 | H200 | B100 | B200 |
 | --- | --- | --- | --- | --- | --- |
@@ -4325,17 +4325,17 @@ The table below shows theoretical peak performance across different NVIDIA GPU g
 | **FP8** | - | 3960 | 3960 | 4500 | 5000 |
 | **FP4** | - | - | - | 9000 | 10000 |
 
- *Table showing theoretical TFLOPs depending on precision and GPU generation. Source: Nvidia, SemiAnalysis* 
+ *表格展示了不同精度与 GPU 代际下的理论 TFLOPs。来源：NVIDIA、SemiAnalysis* 
 
-The dramatic increase in throughput at a lower precision isn't just about raw speed, it reflects a fundamental shift in how we think about numerical computation. FP8 and FP4 enable models to perform more operations per  **watt**  and per  **second** , making them essential for both training and inference at scale. The H100's 3960 TFLOPs at FP8 represents a 4x improvement over FP16/BF16, while the B200's 10,000 TFLOPs at FP4 pushes this even further.
+在低精度下吞吐量的大幅增长，并不只是“更快”这么简单，它实际上反映了我们对数值计算方式的一个根本性变化。FP8 和 FP4 让模型在每 **瓦特** 和每 **秒** 内都能完成更多运算，因此它们已经成为大规模训练和推理中的关键能力。H100 在 FP8 下的 3960 TFLOPs，相比 FP16/BF16 提升了 4 倍；而 B200 在 FP4 下的 10000 TFLOPs，则把这一趋势又进一步推进。
 
- **Understanding the numbers** : These theoretical peak FLOPs represent the  *maximum computational throughput achievable under ideal conditions* , when all compute units are fully utilized and data is readily available. In practice, actual performance depends heavily on how well your workload can keep the compute units fed with data and whether your operations can be efficiently mapped to the available hardware.
+ **如何理解这些数字**：这些理论峰值 FLOPs 表示的是 *理想条件下可达到的最大计算吞吐*，也就是所有计算单元都被完全利用，且数据可以随取随到。在实际中，真实性能高度依赖于你的工作负载能否持续给计算单元“喂饱”数据，以及这些运算能否高效地映射到现有硬件上。
 
-For SmolLM3, we were going to train on NVIDIA H100 80GB HBM3 GPUs, so we first wanted to test the H100's theoretical TFLOPs specifications against real world performance. For this, we used the [SemiAnalysis GEMM benchmark](https://www.ray.so/#theme=prisma&darkMode=false&code=IyBBTUQgVklQIGltYWdlCmFsaWFzIGRydW49InN1ZG8gZG9ja2VyIHJ1biAtLXByaXZpbGVnZWQgLS1uZXR3b3JrPWhvc3QgLS1kZXZpY2U9L2Rldi9rZmQgLS1kZXZpY2U9L2Rldi9kcmkgLS1ncm91cC1hZGQgdmlkZW8gLS1jYXAtYWRkPVNZU19QVFJBQ0UgLS1zZWN1cml0eS1vcHQgc2VjY29tcD11bmNvbmZpbmVkIC0taXBjPWhvc3QgLS1zaG0tc2l6ZT0xOTI2IC0tcm0gLWl0IgpkcnVuIHNlbWlhbmFseXNpc3dvcmsvYW1kLW1hdG11bDpsYXRlc3QKRElTQUJMRV9BREROX0hJUF9MVD0wIFBZVE9SQ0hfVFVOQUJMRV9PUF9FTkFCTEVEPTEgcHl0aG9uIG1hdG11bC5weQoKI0FNRCBweXBpIG5pZ2h0bHkKZHJ1biBhbWQtbGF0ZXN0LXB5cGktbmlnaHRseS1tYXRtdWwKUFlUT1JDSF9UVU5BQkxFX09QX0VOQUJMRUQ9MSBweXRob24gbWF0bXVsLnB5CgojIEFNRCBweXBpIHN0YWJsZSBQeVRvcmNoIDIuNS4xCmRydW4gc2VtaWFuYWx5c2lzd29yay9hbWQtbGF0ZXN0LXB5cGktc3RhYmxlLW1hdG11bApQWVRPUkNIX1RVTkFCTEVfT1BfRU5BQkxFRD0xIHB5dGhvbiBtYXRtdWwucHkKCiMgTnZpZGlhIHN0YWJsZSAyNC4wOQphbGlhcyBkcnVuPSJkb2NrZXIgcnVuIC0tcm0gLWl0IC0tZ3B1cyBhbGwgLS1pcGM9aG9zdCAtLW5ldD1ob3N0IC0tc2htLXNpemU9MTkyNiIKZHJ1biBzZW1pYW5hbHlzaXN3b3JrL252aWRpYS1tYXRtdWw6bGF0ZXN0CnB5dGhvbiBtYXRtdWwucHkKCg&language=shell): it [tests throughput on real-world matrix multiplication shapes from Meta's Llama 70B training](https://newsletter.semianalysis.com/p/mi300x-vs-h100-vs-h200-benchmark-part-1-training#general-matrix-multiply-gemm-performance).
+对于 SmolLM3，我们计划在 NVIDIA H100 80GB HBM3 GPU 上训练，因此首先想验证一下：H100 的理论 TFLOPs 指标，和真实世界中的性能之间到底差多少。为此，我们使用了 [SemiAnalysis GEMM benchmark](https://www.ray.so/#theme=prisma&darkMode=false&code=IyBBTUQgVklQIGltYWdlCmFsaWFzIGRydW49InN1ZG8gZG9ja2VyIHJ1biAtLXByaXZpbGVnZWQgLS1uZXR3b3JrPWhvc3QgLS1kZXZpY2U9L2Rldi9rZmQgLS1kZXZpY2U9L2Rldi9kcmkgLS1ncm91cC1hZGQgdmlkZW8gLS1jYXAtYWRkPVNZU19QVFJBQ0UgLS1zZWN1cml0eS1vcHQgc2VjY29tcD11bmNvbmZpbmVkIC0taXBjPWhvc3QgLS1zaG0tc2l6ZT0xOTI2IC0tcm0gLWl0IgpkcnVuIHNlbWlhbmFseXNpc3dvcmsvYW1kLW1hdG11bDpsYXRlc3QKRElTQUJMRV9BREROX0hJUF9MVD0wIFBZVE9SQ0hfVFVOQUJMRV9PUF9FTkFCTEVEPTEgcHl0aG9uIG1hdG11bC5weQoKI0FNRCBweXBpIG5pZ2h0bHkKZHJ1biBhbWQtbGF0ZXN0LXB5cGktbmlnaHRseS1tYXRtdWwKUFlUT1JDSF9UVU5BQkxFX09QX0VOQUJMRUQ9MSBweXRob24gbWF0bXVsLnB5CgojIEFNRCBweXBpIHN0YWJsZSBQeVRvcmNoIDIuNS4xCmRydW4gc2VtaWFuYWx5c2lzd29yay9hbWQtbGF0ZXN0LXB5cGktc3RhYmxlLW1hdG11bApQWVRPUkNIX1RVTkFCTEVfT1BfRU5BQkxFRD0xIHB5dGhvbiBtYXRtdWwucHkKCiMgTnZpZGlhIHN0YWJsZSAyNC4wOQphbGlhcyBkcnVuPSJkb2NrZXIgcnVuIC0tcm0gLWl0IC0tZ3B1cyBhbGwgLS1pcGM9aG9zdCAtLW5ldD1ob3N0IC0tc2htLXNpemU9MTkyNiIKZHJ1biBzZW1pYW5hbHlzaXN3b3JrL252aWRpYS1tYXRtdWw6bGF0ZXN0CnB5dGhvbiBtYXRtdWwucHkKCg&language=shell)。它会[在来自 Meta Llama 70B 训练的真实矩阵乘法形状上测试吞吐](https://newsletter.semianalysis.com/p/mi300x-vs-h100-vs-h200-benchmark-part-1-training#general-matrix-multiply-gemm-performance)。
 
 <Wide>
 
-<Reference caption="Table showing achieved TFLOPs on H100 80GB depending on precision and matrix shape from the Llama 70B training workload">
+<Reference caption="表格展示了 H100 80GB 在 Llama 70B 训练工作负载下，针对不同精度和矩阵形状所达到的 TFLOPs">
 
 | Shape (M, N, K) | FP64 torch.matmul | FP32 torch.matmul | FP16 torch.matmul | BF16 torch.matmul | FP8 TE.Linear (autocast, bias=False) | FP8 torch._scaled_mm (e5m2/e4m3fn) | FP8 torch._scaled_mm (e4m3) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -4348,148 +4348,148 @@ For SmolLM3, we were going to train on NVIDIA H100 80GB HBM3 GPUs, so we first w
 
 </Wide>
 
- **Validating theoretical performance** : Our experiments revealed the gap between theoretical peaks and achievable performance. 
+ **验证理论性能**：我们的实验揭示了理论峰值与实际可达性能之间的差距。
 
-For  **FP64 Tensor Core**  operations, we achieved 49-56 TFLOPs, representing 74-84% of the theoretical peak (67 TFLOPs). For  **TF32**  (TensorFloat-32, which PyTorch uses by default for FP32 tensors on Tensor Cores), we achieved 356-396 TFLOPs, representing 72-80% of the theoretical peak (~495 TFLOPs dense). While these show excellent hardware utilization, these precisions are rarely used in modern deep learning training: FP64 due to its computational cost, and TF32 because lower precisions like BF16 and FP8 offer better performance.
+对于 **FP64 Tensor Core** 运算，我们测得 49 到 56 TFLOPs，相当于理论峰值（67 TFLOPs）的 74% 到 84%。对于 **TF32**（TensorFloat-32，也就是 PyTorch 在 Tensor Cores 上默认用于 FP32 tensors 的格式），我们测得 356 到 396 TFLOPs，相当于理论峰值（稠密计算下约 495 TFLOPs）的 72% 到 80%。虽然这已经说明硬件利用率很高，但在现代深度学习训练中，这两种精度都不太常用：FP64 的问题在于计算成本太高，而 TF32 则因为 BF16、FP8 等更低精度格式能带来更好的性能而逐渐被取代。
 
 <Sidenote>
 
-[NVIDIA specs](https://www.nvidia.com/en-us/data-center/h100/) often list sparse performance (989 TFLOPs for TF32) which assumes 2:4 structured sparsity patterns. Dense operations, which our benchmark tests, achieve roughly half the sparse peak (~495 TFLOPs).
+[NVIDIA 的规格说明](https://www.nvidia.com/en-us/data-center/h100/) 经常列出的是稀疏性能（例如 TF32 的 989 TFLOPs），这是假设存在 2:4 结构化稀疏模式。而我们的 benchmark 测试的是稠密运算，因此其理论峰值大约只有稀疏峰值的一半（约 495 TFLOPs）。
 </Sidenote>
 
-For  **BF16**  operations, we consistently achieved 714-758 TFLOPs across different matrix shapes, approximately 72-77% of the H100's theoretical 990 TFLOPs peak. This is, in practice, an excellent utilisation rate for a real-world workload!
+对于 **BF16** 运算，我们在不同矩阵形状下稳定测得 714 到 758 TFLOPs，大约是 H100 理论峰值 990 TFLOPs 的 72% 到 77%。在真实工作负载中，这已经是非常优秀的利用率了！
 
 <Note title="Model FLOPs Utilization (MFU)" emoji="📊" variant="info">
 
-<p>While kernel benchmarks measure raw TFLOPS, end-to-end training efficiency is captured by <b>Model FLOPs Utilization (MFU)</b>: the ratio of useful model computation to theoretical peak hardware performance.</p>
+<p>kernel benchmark 衡量的是原始 TFLOPS，而端到端训练效率通常用 <b>Model FLOPs Utilization（MFU）</b> 来表示：也就是“有效模型计算量”与“硬件理论峰值性能”之间的比值。</p>
 
-<p>Our BF16 matmul benchmarks showed we achieved 72-77% of the H100's theoretical peak. This represents the upper bound for what's achievable at the kernel level for our setup. End-to-end training MFU will necessarily be lower due to more complex non-matmul operations, communication overhead, and other auxiliary computations.</p>
+<p>我们的 BF16 matmul benchmark 表明，实际达到了 H100 理论峰值的 72% 到 77%。这代表了在我们这套环境里，kernel 层面大致能达到的上限。由于还存在更复杂的非 matmul 操作、通信开销以及其他辅助计算，端到端训练中的 MFU 必然会更低。</p>
 
-<p><b>State-of-the-art MFU in training</b>: Meta achieved 38-41% when training Llama 3 405B, while DeepSeek-v3 reached ~20-30% on GPUs with tighter communication bottlenecks related to the MoE architecture. For SmolLM3, we achieved ~30% MFU as we'll see later. Much of the gap comes from inter-node communication overhead in distributed training. Given our kernel-level ceiling of ~77%, these end-to-end numbers represent roughly 50-55% efficiency relative to achievable matmul performance. Inference workloads can reach higher MFU >70%, closer to raw matmul performance, though published results from production deployments are scarce.</p>
+<p><b>训练中的 SOTA MFU</b>：Meta 在训练 Llama 3 405B 时达到了 38% 到 41%，而 DeepSeek-v3 在受 MoE 架构通信瓶颈影响更强的 GPU 环境中达到了约 20% 到 30%。至于 SmolLM3，我们后面会看到，它大约达到了 30% 的 MFU。这个差距有很大一部分来自分布式训练中的跨节点通信开销。考虑到我们的 kernel 层上限大约是 77%，这些端到端数字相当于相对于“可达的 matmul 性能”实现了约 50% 到 55% 的效率。推理任务中的 MFU 可以更高，超过 70%，更接近原始 matmul 性能，不过来自生产部署的公开结果仍然较少。</p>
 </Note>
 
-The  **FP8**  results are more nuanced. Let's look at our results on 3 different matrix multiplication methods/kernels.
+**FP8** 的结果则更复杂一些。我们来看一下 3 种不同矩阵乘法方法/内核下的结果。
 
 <Sidenote>
 
-A <a href="https://modal.com/gpu-glossary/device-software/kernel">kernel</a> is the unit of CUDA code.
+<a href="https://modal.com/gpu-glossary/device-software/kernel">kernel</a> 是 CUDA 代码的执行单元。
 </Sidenote>
 
-Using PyTorch's  `torch._scaled_mm`  kernel with e4m3 precision, we achieved 1,210-1,457 TFLOPs depending on the matrix shape, roughly 31-37% of the theoretical 3,960 TFLOPs peak. 😮 Why? This lower utilization percentage (in FP8) actually doesn't indicate poor performance; rather, it reflects that these operations become increasingly memory-bound as compute throughput grows. The [Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/) can process FP8 data faster than the memory system can deliver it, making memory bandwidth the limiting factor.
+使用 PyTorch 的 `torch._scaled_mm` 内核，并采用 e4m3 精度时，我们根据不同矩阵形状测得了 1,210 到 1,457 TFLOPs，大约是理论峰值 3,960 TFLOPs 的 31% 到 37%。😮 为什么会这样？这种较低的利用率百分比（在 FP8 下）其实并不意味着性能差；相反，它反映的是：随着计算吞吐不断升高，这些操作会越来越受到内存限制。 [Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/) 处理 FP8 数据的速度，已经快到超过内存系统供数的速度，因此真正的瓶颈变成了内存带宽。
 
-The [Transformer Engine](https://github.com/NVIDIA/TransformerEngine)'s  `TE.Linear`  achieved 547-1,121 TFLOPs depending on the shape, while  `torch._scaled_mm`  consistently delivered higher throughput. This highlights an important lesson:  ***kernel implementation matters***  *significantly, and the choice of API can impact performance by 2-3x even when targeting the same hardware capabilities.* 
+[Transformer Engine](https://github.com/NVIDIA/TransformerEngine) 的 `TE.Linear` 在不同形状下达到的是 547 到 1,121 TFLOPs，而 `torch._scaled_mm` 则始终表现出更高吞吐。这说明了一个重要教训： ***kernel 的实现方式非常重要*** ，*即使针对的是同一套硬件能力，仅仅 API 选择不同，性能也可能相差 2 到 3 倍。*
 
-For SmolLM3's training, these practical measurements helped us set realistic throughput expectations. When planning your own training runs, use these achievable numbers rather than theoretical peaks to set your expectations.
+对于 SmolLM3 的训练来说，这些实测结果帮助我们建立了更现实的吞吐预期。你在规划自己的训练任务时，也应该用这些“实际可达”的数字，而不是理论峰值，来设定预期。
 
 <Note title="Compute Capability" emoji="🔧" variant="info">
 
-<p>Besides choosing the right kernel API, we also need to ensure those kernels are compiled for the right hardware generation. Compute Capability (CC) is NVIDIA's versioning system that abstracts physical GPU details from the PTX instruction set. It determines which instructions and features your GPU supports.</p>
+<p>除了选择合适的 kernel API，我们还必须确保这些 kernels 是为正确的硬件代际编译的。Compute Capability（CC）是 NVIDIA 的版本体系，它把物理 GPU 的细节抽象到 PTX 指令集之上，用来决定你的 GPU 支持哪些指令和功能。</p>
 
-<p><b>Why this matters</b>: Kernels compiled for a specific compute capability may not run on older hardware, and you might miss optimizations if your code isn't compiled for your target GPU's CC. Even worse, frameworks can silently select suboptimal kernels—we discovered PyTorch selecting sm_75 kernels (compute capability 7.5, designed for Turing GPUs) on our H100s, causing mysterious slowdowns. This is a <a href="https://discuss.pytorch.org/t/performance-issue-torch-matmul-selecting-cutlass-sm75-kernel-for-a100/220682/3" target="_blank">similar issue documented in the PyTorch community</a>, where frameworks often default to older, more compatible kernels rather than optimal ones. This seemingly minor detail can make the difference between getting 720 TFLOPS or 500 TFLOPS from the same hardware.</p>
+<p><b>为什么这很重要</b>：为特定 compute capability 编译的 kernel，可能无法在更老的硬件上运行；而如果你的代码没有针对目标 GPU 的 CC 进行编译，你也可能错过本该有的优化。更糟糕的是，框架有时会悄悄选择次优 kernel。我们就发现过，PyTorch 在 H100 上选择了 sm_75 的 kernels（compute capability 7.5，原本是给 Turing GPU 设计的），从而导致莫名其妙的性能下降。PyTorch 社区里也有一个<a href="https://discuss.pytorch.org/t/performance-issue-torch-matmul-selecting-cutlass-sm75-kernel-for-a100/220682/3" target="_blank">类似问题的记录</a>：框架往往会默认选择更老、兼容性更好的 kernels，而不是最佳 kernels。这个看似不起眼的细节，可能会让同一套硬件的性能，从 720 TFLOPS 掉到 500 TFLOPS。</p>
 
-<p>When using pre-compiled libraries or custom kernels, always verify they're built for your hardware's compute capability to ensure compatibility and optimal performance. For example, sm90_xmma_gemm_..._cublas indicates a kernel compiled for SM 9.0 (compute capability 9.0, used by H100).</p>
+<p>使用预编译库或自定义 kernels 时，一定要确认它们是为你的硬件 compute capability 构建的，这样才能保证兼容性和最佳性能。例如，sm90_xmma_gemm_..._cublas 就表示这是为 SM 9.0（也就是 compute capability 9.0，H100 所用）编译的 kernel。</p>
 
-<p>You can check your GPU's compute capability with <code>nvidia-smi --query-gpu=compute_cap</code> or find the technical specifications in the <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#compute-capabilities" target="_blank">Compute Capability section of the NVIDIA CUDA C Programming Guide</a>.</p>
+<p>你可以通过 <code>nvidia-smi --query-gpu=compute_cap</code> 查看 GPU 的 compute capability，也可以在 <a href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#compute-capabilities" target="_blank">NVIDIA CUDA C Programming Guide 的 Compute Capability 章节</a>中查阅相关技术规格。</p>
 </Note>
 
-As we saw, the GPU memory seems to become a bottleneck when computations get too fast at a low precision. Let's have a look at how GPU memory works, and at what causes bottlenecks to occur!
+正如我们刚才看到的，当低精度下的计算速度变得太快时，GPU 内存似乎就会变成瓶颈。接下来我们就来看看 GPU 内存是如何工作的，以及瓶颈究竟是如何产生的。
 
-#### GPU Memory Hierarchy: From Registers to HBM
+#### GPU 内存层级：从寄存器到 HBM
 
-In order to make calculations, GPUs need to read/write to memory, so it's important to know at what speed these transfers happen. Understanding GPU memory hierarchy is crucial for writing high-performance kernels.
+GPU 要完成计算，就必须不断地读写内存，因此理解这些数据传输到底有多快是非常重要的。想写出高性能 kernel，理解 GPU 内存层级是关键。
 
 <Note>
 
-<b>TL;DR:</b> GPUs organize memory in a hierarchy from fast-but-small (registers, shared memory) to slow-but-large (HBM main memory). Understanding this hierarchy is critical because modern AI is often memory-bound: the bottleneck is moving data, not computing on it. Operator fusion (like Flash Attention) achieves 2-4× speedups by keeping intermediate results in fast on-chip memory instead of writing to slow HBM. Benchmarks show H100's HBM3 delivers ~3 TB/s in practice, matching theoretical specs for large transfers.
+<b>TL;DR:</b> GPU 会把内存组织成一个层级体系：从快但小的部分（寄存器、shared memory），到慢但大的部分（HBM 主存）。理解这一层级结构非常关键，因为现代 AI 工作负载往往是 memory-bound 的，真正的瓶颈在于搬数据，而不是做计算。像 Flash Attention 这样的 operator fusion，之所以能实现 2 到 4 倍加速，就是因为它把中间结果保留在快速的片上内存中，而不是写回较慢的 HBM。benchmark 表明，H100 的 HBM3 在实际中可以达到约 3 TB/s，基本符合大规模传输时的理论规格。
 </Note>
 
-To visualize how memory operations flow through a GPU in practice, let's first look at the [Memory Chart from NVIDIA Nsight Compute](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#memory-chart), a profiling graph which shows a graphical representation of how data moves between different memory units for any kernel of your choice:
+为了在实践中直观地看到内存操作是如何在 GPU 中流动的，我们先来看 [NVIDIA Nsight Compute 的 Memory Chart](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#memory-chart)。这是一种 profiling 图，可以把任意 kernel 中数据在不同内存单元之间的移动情况可视化出来：
 
-<Reference caption="Memory Chart showing data flow through GPU memory hierarchy during FP64 matrix multiplication on H100">
+<Reference caption="Memory Chart 展示了 H100 在 FP64 矩阵乘法期间，数据如何流经 GPU 内存层级">
 
 <Image src={image_2881384e_bcac_80d6_84fe_d705cb1eae0a} alt="Image" />
 </Reference>
 
-In general, a Memory Chart shows both  **logical units**  (in green) like Global, Local, Texture, Surface, and Shared memory, and  **physical units**  (in blue) like L1/TEX Cache, Shared Memory, L2 Cache, and Device Memory. Links between units represent the number of instructions (Inst) or requests (Req) happening between units, with colors indicating the percentage of peak utilization: from unused (0%) to operating at peak performance (100%). 
+一般来说，Memory Chart 同时展示 **逻辑单元**（绿色），例如 Global、Local、Texture、Surface 和 Shared memory；以及 **物理单元**（蓝色），例如 L1/TEX Cache、Shared Memory、L2 Cache 和 Device Memory。各单元之间的连线表示两者之间发生的指令数（Inst）或请求数（Req），颜色则表示峰值利用率百分比：从未使用（0%）到满载运行（100%）。
 
-You can generate this memory chart for any kernel using [NVIDIA Nsight Compute](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html):
+你可以使用 [NVIDIA Nsight Compute](https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html) 为任意 kernel 生成这样的 memory chart：
 
 ```bash
-## Profile a specific kernel with memory workload analysis
+## 用内存工作负载分析来剖析特定 kernel
 ncu --set full --kernel-name "your_kernel_name" --launch-skip 0 --launch-count 1 python your_script.py
-## Once profiling is complete, open the results in the Nsight Compute GUI to view the Memory Chart
+## profiling 完成后，在 Nsight Compute GUI 中打开结果查看 Memory Chart
 ```
-It provides several key insights:
+它能提供几个关键洞察：
 
--  **Bottleneck identification** : Saturated links (shown in red/orange) indicate where data movement is constrained
--  **Cache efficiency** : Hit rates for L1/TEX and L2 caches reveal how well your kernel utilizes the memory hierarchy
--  **Memory access patterns** : The flow between logical and physical units shows whether your kernel has good spatial/temporal locality
--  **Port utilization** : Individual memory ports may be saturated even when aggregate bandwidth appears underutilized
+-  **瓶颈识别**：被打满的链路（红色/橙色）表明数据移动受限的位置
+-  **Cache 效率**：L1/TEX 和 L2 cache 的命中率能反映你的 kernel 对内存层级的利用情况
+-  **内存访问模式**：逻辑单元与物理单元之间的数据流，能显示你的 kernel 是否具备良好的空间/时间局部性
+-  **端口利用率**：即使总体带宽看起来没有打满，某些单独的内存端口也可能已经饱和
 
-In our specific case above, you can see how kernel instructions flow through the memory hierarchy (for FP64 matrix multiplications on our hardware): global load instructions generate requests to the L1/TEX cache, which may hit or miss and generate further requests to L2, which ultimately accesses device memory (HBM) on misses. The colored rectangles inside units show port utilization, even if individual links operate below peak, the shared data port may be saturated.
+在上面的具体例子里，你可以看到 kernel 指令是如何流经内存层级的（这里是我们硬件上的 FP64 矩阵乘法）：global load 指令先向 L1/TEX cache 发出请求，可能命中，也可能 miss；如果 miss，就会继续向 L2 发请求，最终在 L2 miss 时访问 device memory（HBM）。单元内部的彩色矩形表示端口利用率，所以即便某些单独链路没有跑满，共享数据端口仍然可能已经饱和。
 
 <Note title="Optimizing Memory Hierarchy Access" emoji="💡" variant="tip">
 
-For optimal performance, aim to minimize traffic to slower memory tiers (HBM) while maximizing utilization of faster tiers (shared memory, registers).
+为了获得最佳性能，你应该尽量减少对较慢内存层（HBM）的访问，同时最大化对较快层（shared memory、registers）的利用。
 </Note>
 
-Now let's understand the underlying memory hierarchy that makes this chart possible. Modern GPUs organize memory in a hierarchy that balances speed, capacity, and cost, a design dictated by fundamental physics and circuit constraints.
+现在我们来理解一下，让这张图成立的底层内存层级。现代 GPU 会把内存组织成一个在速度、容量和成本之间做平衡的层级结构，而这种设计最终受制于物理规律和电路约束。
 
-<Reference caption="Memory hierarchy of the H100 (SXM5) GPU. <a href='https://www.aleksagordic.com/blog/matmul'>
+<Reference caption="H100（SXM5）GPU 的内存层级。<a href='https://www.aleksagordic.com/blog/matmul'>
 
-Source</a>">
+来源</a>">
 
 <Image src={image_2881384e_bcac_801d_9f3d_c875181b9dd1} alt="Image" />
 </Reference>
 
-At the bottom of this hierarchy sits  **HBM (High Bandwidth Memory):** the GPU's main memory, also called global memory or device memory. The H100 features HBM3 with a theoretical bandwidth of 3.35 TB/s. HBM is the largest but slowest tier in the memory hierarchy.
+在这个层级的最底部，是 **HBM（High Bandwidth Memory）**：也就是 GPU 的主存，也常被称为 global memory 或 device memory。H100 搭载的是 HBM3，理论带宽为 3.35 TB/s。HBM 是整个内存层级里容量最大、但速度最慢的一层。
 
-Moving up the hierarchy toward the compute units, we find progressively faster but smaller memory tiers:
+沿着层级向上，越靠近计算单元，内存会变得越来越快，但容量也越来越小：
 
--  **L2 cache** : A large SRAM-based cache shared across the GPU, typically several tens of megabytes. On H100, this is 50 MB with a bandwidth of ~13 TB/s
--  **L1 cache and Shared Memory (SMEM)** : Each Streaming Multiprocessor (SM) has its own L1 cache and programmer-managed shared memory, which share the same physical SRAM storage. On H100, this combined space is 256 KB per SM with bandwidth of ~31 TB/s per SM
--  **Register File (RMEM)** : At the top of the hierarchy, registers are the fastest storage, located directly next to compute units. Registers are private to individual threads and offer bandwidth measured in ~100s TB/s per SM
+-  **L2 cache**：一种基于 SRAM 的大型 cache，由整块 GPU 共享，通常有几十 MB。H100 上这一层是 50 MB，带宽约为 13 TB/s
+-  **L1 cache 和 Shared Memory（SMEM）**：每个 Streaming Multiprocessor（SM）都有自己的 L1 cache 和由程序员管理的 shared memory，它们共享同一块物理 SRAM 存储。在 H100 上，这部分每个 SM 有 256 KB，带宽约为每个 SM 31 TB/s
+-  **Register File（RMEM）**：位于层级最顶端，register 是速度最快的存储，直接紧邻计算单元。register 对单个线程私有，带宽可达每个 SM 数百 TB/s 量级
 
-This hierarchy exists because SRAM (used for caches and registers) is fast but physically large and expensive, while DRAM (used for HBM) is dense and cheap but slower. The result: fast memory comes in small quantities close to compute, backed by progressively larger pools of slower memory further away.
+这种层级之所以存在，是因为 SRAM（用于 caches 和 registers）虽然快，但物理面积大、成本高；而 DRAM（用于 HBM）虽然密度高、成本低，但速度慢。结果就是：越快的内存，容量越小、离计算越近；越远的内存池则容量更大，但速度更慢。
 
- **Why this matters** : Understanding this hierarchy is essential for kernel optimization. The key insight is that memory-bound operations are limited by how fast you can move data, not how fast you can compute. As [Horace He](https://upload.wikimedia.org/wikipedia/commons/b/b2/Hausziege_04.jpg) explains in [Making Deep Learning Go Brrrr From First Principles](https://horace.io/brrr_intro.html), *"load from memory" → "multiply by itself twice" → "write to memory"*  takes essentially the same time as  *"load from memory" → "multiply by itself once" → "write to memory"* : the computation is "free" compared to the memory access.
+ **为什么这很重要**：理解这一层级对于优化 kernel 至关重要。核心洞察在于，memory-bound 操作受限的不是“你能算多快”，而是“你能搬数据多快”。正如 [Horace He](https://upload.wikimedia.org/wikipedia/commons/b/b2/Hausziege_04.jpg) 在 [Making Deep Learning Go Brrrr From First Principles](https://horace.io/brrr_intro.html) 中解释的，*"从内存加载" → "自乘两次" → "写回内存"* 与 *"从内存加载" → "自乘一次" → "写回内存"* 所花的时间几乎一样：和内存访问比起来，计算几乎是“免费的”。
 
-This is why  **operator fusion**  is so powerful: by combining multiple operations into a single kernel, you can keep intermediate results in fast SRAM instead of writing them back to slow HBM between operations. Flash Attention is a perfect example of this principle in action.
+这就是为什么 **operator fusion** 如此强大：把多个操作合并进同一个 kernel 后，中间结果就可以保留在快速的 SRAM 里，而不是在每个操作之间反复写回较慢的 HBM。Flash Attention 正是这一原则的经典实例。
 
 <Note title="Flash Attention: A Case Study in Memory Hierarchy Optimization" emoji="⚡" variant="info">
 
-<p>Standard attention implementations are memory-bound because they materialize the full attention matrix in HBM:</p>
+<p>标准 attention 实现之所以是 memory-bound 的，是因为它会把完整 attention matrix 物化到 HBM 中：</p>
 
 <ol>
-  <li>Compute <code>Q @ K^T</code> → write N×N attention scores to HBM</li>
-  <li>Apply softmax → read from HBM, compute, write back to HBM</li>
-  <li>Multiply by V → read attention scores from HBM again</li>
+  <li>计算 <code>Q @ K^T</code> → 把 N×N 的 attention scores 写入 HBM</li>
+  <li>应用 softmax → 从 HBM 读出，计算，再写回 HBM</li>
+  <li>与 V 相乘 → 再次从 HBM 读取 attention scores</li>
 </ol>
 
-<p>Flash Attention achieves its 2-4× speedup by <b>fusing these operations</b> and keeping intermediate results in SRAM:</p>
+<p>Flash Attention 之所以能实现 2 到 4 倍加速，是因为它把这些操作<b>融合在一起</b>，并把中间结果保留在 SRAM 中：</p>
 
 <ul>
-  <li>Instead of computing the full attention matrix, it processes attention in tiles that fit in SRAM</li>
-  <li>Intermediate attention scores never leave the fast on-chip memory</li>
-  <li>Only the final output is written back to HBM</li>
+  <li>它不再计算完整 attention matrix，而是按能装进 SRAM 的 tile 分块处理 attention</li>
+  <li>中间 attention scores 从不离开快速的片上内存</li>
+  <li>只有最终输出才会写回 HBM</li>
 </ul>
 
-<p><b>The result</b>: Flash Attention reduces HBM accesses from O(N²) to O(N), transforming a memory-bound operation into one that better utilizes the GPU's compute capabilities. This is the essence of efficient kernel design:  *minimize slow memory movement, maximize fast computation* .</p>
+<p><b>结果是</b>：Flash Attention 将对 HBM 的访问从 O(N²) 降到 O(N)，把一个 memory-bound 操作转化为一个能更好利用 GPU 算力的实现。这正是高效 kernel 设计的本质： *尽量减少慢速内存搬运，尽量放大快速计算* 。</p>
 </Note>
 
- **Example: Validating our HBM3 Bandwidth in Practice** 
+ **示例：在实践中验证我们的 HBM3 带宽** 
 
-Now that we understand the memory hierarchy, let's put theory into practice and validate the actual bandwidth on our H100 GPUs! This is where benchmarking tools become essential.
+现在我们已经理解了内存层级，就来把理论落到实践中，验证一下我们 H100 GPU 上的实际带宽。这正是 benchmarking tools 发挥作用的地方。
 
- **NVBandwidth**  is NVIDIA's open-source benchmarking tool designed specifically for measuring bandwidth and latency across GPU systems. It evaluates data transfer rates for various memory copy patterns—host-to-device, device-to-host, and device-to-device operations—using both copy engines and kernel-based methods. The tool is particularly valuable for assessing inter-GPU communication (for example [NVLink](https://en.wikipedia.org/wiki/NVLink) and [PCIe](https://fr.wikipedia.org/wiki/PCI_Express), two types of connectors) and validating system performance in multi-GPU environments.
+ **NVBandwidth** 是 NVIDIA 开源的 benchmark 工具，专门用于测量 GPU 系统中的带宽和延迟。它会使用 copy engine 和基于 kernel 的方式，评估多种内存拷贝模式下的数据传输速率，包括 host-to-device、device-to-host 和 device-to-device。这个工具对于评估 GPU 之间的通信（例如 [NVLink](https://en.wikipedia.org/wiki/NVLink) 和 [PCIe](https://fr.wikipedia.org/wiki/PCI_Express) 这两类连接器）尤其有价值，也很适合用于验证多 GPU 环境中的系统性能。
 
-You can install NVBandwidth from [NVIDIA's GitHub repository](https://github.com/NVIDIA/nvbandwidth). The tool outputs detailed bandwidth matrices showing how efficiently data transfers between different devices, making it ideal for diagnosing performance bottlenecks or verifying healthy GPU interconnects.
+你可以从 [NVIDIA 的 GitHub 仓库](https://github.com/NVIDIA/nvbandwidth) 安装 NVBandwidth。这个工具会输出详细的带宽矩阵，展示不同设备之间的数据传输效率，因此非常适合用来诊断性能瓶颈，或确认 GPU 互连是否处于健康状态。
 
-Let's use it to measure our H100's local memory bandwidth using the  `device_local_copy`  test, which measures bandwidth of  `cuMemcpyAsync`  between device buffers local to the GPU across different message sizes.
+我们先用它的 `device_local_copy` 测试来测量 H100 的本地内存带宽。这个测试会在不同 message size 下，测量 GPU 本地 device buffers 之间通过 `cuMemcpyAsync` 拷贝时的带宽。
 
 <Sidenote>
 
-cuMemcpyAsync is a CUDA driver API function that asynchronously copies data between two memory pointers, inferring the type of transfer (host-to-host, host-to-device, device-to-device, or device-to-host)
+cuMemcpyAsync 是 CUDA driver API 中的一个函数，用于在两个内存指针之间异步拷贝数据，并自动判断传输类型（host-to-host、host-to-device、device-to-device 或 device-to-host）
 </Sidenote>
 
   
@@ -4514,81 +4514,81 @@ memcpy local GPU(column) bandwidth (GB/s)
     referenceLine: { value: 1975, label: "Max" },
     xFormatAsFileSize: true
   }}
-  title="Measured H100 Local Memory Bandwidth"
+  title="测得的 H100 本地内存带宽"
 />
 
 
 
-The results reveal an important characteristic of memory systems:  **for small message sizes (< 1 MB), we're latency-bound**  rather than bandwidth-bound. The overhead of initiating memory transfers dominates performance, preventing us from reaching peak bandwidth. However,  **for large message sizes (≥ 1 MB), we achieve sustained bandwidth of ~1,500 GB/s for both read and write operations** .
+结果揭示了内存系统的一个重要特性： **当 message size 很小（< 1 MB）时，我们受限于 latency，而不是 bandwidth**。发起内存传输本身的开销主导了性能，因此达不到峰值带宽。而 **当 message size 足够大（≥ 1 MB）时，我们在读和写两个方向上都能达到约 1,500 GB/s 的持续带宽**。
 
-Since HBM bandwidth accounts for both reads and writes happening simultaneously, we sum these to get  **3 TB/s total bidirectional bandwidth**  (1,519 read + 1,519 write), which closely validates the H100's theoretical 3.35 TB/s HBM3 specification.
+由于 HBM 带宽统计的是同时发生的读写，因此我们把两者相加，得到 **3 TB/s 的总双向带宽**（1,519 读 + 1,519 写），这与 H100 HBM3 理论上的 3.35 TB/s 非常接近。
 
-#### Roofline Model
+#### Roofline 模型
 
-Understanding whether your kernel is compute-bound or memory-bound determines which optimizations will help. 
+判断你的 kernel 是 compute-bound 还是 memory-bound，会直接决定哪些优化是有效的。 
 
-There are two scenarios:
+通常有两种情况：
 
-- If you're  **memory-bound**  (spending most time moving data), increasing compute throughput won't help: You need to reduce memory traffic through techniques like operator fusion. 
-- If you're  **compute-bound**  (spending most time on FLOPs), optimizing memory access patterns won't help: You need more compute power or better algorithms.
+- 如果你是 **memory-bound**（大部分时间花在搬数据上），提升计算吞吐并没有帮助：你需要通过 operator fusion 等技术减少内存流量。
+- 如果你是 **compute-bound**（大部分时间花在 FLOPs 上），优化内存访问模式帮助不大：你需要更多算力，或者更好的算法。
 
-The  *roofline model*  provides a visual framework for understanding these performance characteristics and identifying optimization opportunities. 
+*roofline model* 为理解这类性能特征、以及识别优化空间提供了一个可视化框架。 
 
-Let's apply it to a real kernel analysis. It's available in the NSight Compute profiling tool we mentioned before (under "roofline analysis view"). Here's what we get:
+我们把它用到一个真实 kernel 的分析上。这个视图可以在前面提到的 NSight Compute profiling 工具里找到（位于 “roofline analysis view”）。结果如下：
 
-<Reference caption="Roofline chart showing kernel performance boundaries - Source: <a href='https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html'>
+<Reference caption="Roofline 图，展示 kernel 的性能边界。来源：<a href='https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html'>
 
 NVIDIA NSight Compute Profiling Guide</a>">
 
 <Image src={image_2881384e_bcac_80ed_9bdf_c077977d77b8} alt="Image" />
 </Reference>
 
-Let's see how we can read this chart, which has two axes:
+我们来看一下这个图怎么读。它有两个坐标轴：
 
--  **Vertical axis (FLOP/s)** : Shows achieved floating-point operations per second, using a logarithmic scale to accommodate the large range of values
--  **Horizontal axis (Arithmetic Intensity)** : Represents the ratio of work (FLOPs) to memory traffic (bytes), measured in FLOPs per byte. This also uses a logarithmic scale.
+-  **纵轴（FLOP/s）**：表示实际达到的每秒浮点运算次数，采用对数坐标以容纳很大的数值范围
+-  **横轴（Arithmetic Intensity）**：表示工作量（FLOPs）与内存流量（bytes）之间的比值，也就是每 byte 对应多少 FLOPs，同样使用对数坐标
 
-The roofline itself consists of two boundaries:
+roofline 本身由两条边界组成：
 
--  **Memory Bandwidth Boundary**  (sloped line): Determined by the GPU's memory transfer rate (HBM bandwidth). Performance along this line is limited by how fast data can be moved.
--  **Peak Performance Boundary**  (flat line): Determined by the GPU's maximum compute throughput. Performance along this line is limited by how fast computations can be executed.
+-  **Memory Bandwidth Boundary**（斜线）：由 GPU 的内存传输速率（HBM 带宽）决定。位于这条线上的性能，受限于数据搬运速度。
+-  **Peak Performance Boundary**（水平线）：由 GPU 的最大计算吞吐决定。位于这条线上的性能，受限于计算执行速度。
 
-The  **ridge point**  where these boundaries meet represents the transition between memory-bound and compute-bound regimes.
+这两条边界的交点，也就是 **ridge point**，代表 memory-bound 与 compute-bound 两个区域的分界。
 
-We can interpret the performance by looking at the two divided regions of the chart:
+我们可以通过图中划分出的两个区域来理解性能：
 
--  **Memory Bound**  (below the sloped boundary): Kernels in this region are limited by memory bandwidth. The GPU is waiting for data, increasing compute power won't help. Optimizations should focus on reducing memory traffic through techniques like operator fusion, better memory access patterns, or increasing arithmetic intensity.
--  **Compute Bound**  (below the flat boundary): Kernels in this region are limited by compute throughput. The GPU has enough data but can't process it fast enough. Optimizations should focus on algorithmic improvements or leveraging specialized hardware like Tensor Cores.
+-  **Memory Bound**（位于斜线边界下方）：这个区域里的 kernels 受限于内存带宽。GPU 在等数据，增加算力没有意义。优化应聚焦于减少内存流量，例如 operator fusion、更好的内存访问模式，或者提高 arithmetic intensity。
+-  **Compute Bound**（位于水平边界下方）：这个区域里的 kernels 受限于计算吞吐。GPU 有足够数据，但处理不过来。优化应聚焦于算法改进，或者利用 Tensor Cores 这类专用硬件。
 
-The  **achieved value**  (the plotted point) shows where your kernel currently sits. The distance from this point to the roofline boundary represents your optimization headroom, the closer to the boundary, the more optimal your kernel's performance.
+图中的 **achieved value**（也就是那个点）表示你的 kernel 当前所处的位置。这个点距离 roofline 边界的远近，就代表了你的优化空间有多大；越接近边界，说明 kernel 的性能越接近最优。
 
-In our example, the kernel sits in the memory-bound region, indicating that there's still room for improvement by optimizing memory traffic!
+在我们的例子中，这个 kernel 落在 memory-bound 区域，说明通过优化内存流量，仍然有进一步提升的空间。
 
-For a deeper dive into GPU internals including detailed explanations of CUDA cores, Tensor Cores, memory hierarchies, and low-level optimization techniques, check out the [Ultrascale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)! Now that we understand what happens  *inside*  a GPU, let's zoom out and explore how GPUs communicate with the rest of the world.
+如果你想更深入了解 GPU 内部原理，包括 CUDA cores、Tensor Cores、内存层级以及底层优化技巧，可以看看 [Ultrascale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)。既然我们已经理解了 GPU *内部* 发生了什么，下面就把视角拉远，看看 GPU 是如何与外部世界通信的。
 
-### Outside a GPU: How GPUs Talk to the World
+### GPU 外部：GPU 如何与世界通信
 
-Now that we understand how a GPU performs computation using its internal memory hierarchy, we need to address a critical reality: a GPU doesn't operate in isolation. Before any computation can happen, data must be loaded into the GPU's memory. The CPU needs to schedule kernels and coordinate work. And in distributed training, GPUs must constantly exchange activations, gradients, and model weights with each other.
+现在我们已经理解了 GPU 如何借助内部内存层级完成计算，但还必须面对一个关键现实：GPU 并不是孤立工作的。在任何计算发生之前，数据必须先被加载进 GPU 内存；CPU 需要负责调度 kernels 和协调工作；而在分布式训练中，GPU 之间还必须持续交换 activations、gradients 和模型权重。
 
-<Reference caption="DGX H100. Source: NVIDIA">
+<Reference caption="DGX H100。来源：NVIDIA">
 
 <Image src={h100_dgx_2891384e_bcac_80cf_9f86_ccf0653a79e5} alt="Image" />
 </Reference>
 
-This is where the external communication infrastructure becomes crucial. No matter how powerful your GPU's compute units are, if data can't reach them fast enough, whether from the CPU, from storage, or from other GPUs, your expensive hardware sits idle. Understanding these communication pathways and their bandwidth characteristics is essential for maximizing hardware utilization and minimizing bottlenecks.
+这正是外部通信基础设施变得关键的地方。不管 GPU 的计算单元有多强，如果数据不能足够快地从 CPU、存储或其他 GPU 送到它那里，那么昂贵的硬件就只能空转。理解这些通信路径及其带宽特性，是最大化硬件利用率、最小化瓶颈的关键。
 
-In this section, we'll look at four critical communication links that connect a GPU to the outside world:
+这一节里，我们会看四条把 GPU 与外部世界连接起来的关键通信链路：
 
--  **GPU-CPU** : How the CPU schedules work and transfers data to GPUs
--  **GPU-GPU intra-node** : How GPUs on the same machine communicate
--  **GPU-GPU inter-node** : How GPUs across different machines communicate over the network
--  **GPU-Storage** : How data flows from storage to GPU memory
+-  **GPU-CPU**：CPU 如何调度工作并向 GPU 传输数据
+-  **GPU-GPU intra-node**：同一台机器内的 GPU 如何互相通信
+-  **GPU-GPU inter-node**：不同机器上的 GPU 如何通过网络通信
+-  **GPU-Storage**：数据如何从存储流入 GPU 内存
 
-Each of these links has different bandwidth and latency characteristics, and understanding them will help you identify where your training pipeline might be bottlenecked. To make this easier to understand, we've created a simplified diagram that highlights the most important components and communication links:
+这些链路各自都有不同的带宽和延迟特性。理解它们，有助于你找出训练流水线中的潜在瓶颈。为了让这一点更容易理解，我们做了一张简化图，突出展示最重要的组件和通信链路：
 
 <Wide>
 
-<Reference caption="Simplified diagram of the key components and communication links in our AWS p5 instance setup">
+<Reference caption="我们在 AWS p5 实例配置中关键组件与通信链路的简化图">
 
 <HtmlEmbed src="/embeds/aws-bandwidth-bottleneck.html" />
 </Reference>
@@ -4597,26 +4597,26 @@ Each of these links has different bandwidth and latency characteristics, and und
 
 
 
-If this looks overwhelming, don't worry. We'll dive into each of these connections in detail and measure their actual bandwidths to understand the performance characteristics of each link.
+如果这看起来有点复杂，也不用担心。我们会逐一深入讲解这些连接，并测量它们的实际带宽，从而理解每条链路的性能特征。
 
-#### GPU-to-CPU 
+#### GPU 到 CPU
 
 <Note>
 
-<b>TL;DR:</b> The CPU orchestrates GPU work via PCIe connections, which bottleneck at ~14.2 GB/s (PCIe Gen4 x8) for CPU-to-GPU transfers in our p5 instance. CPU-GPU latency is ~1.4 microseconds, which adds kernel launch overhead that is problematic for workloads with many small kernels. CUDA Graphs can reduce this overhead by batching operations. NUMA affinity is critical on multi-socket systems; running GPU processes on the wrong CPU socket adds significant latency. Modern architectures like Grace Hopper eliminate PCIe bottlenecks with NVLink-C2C (900 GB/s vs 128 GB/s).
+<b>TL;DR:</b> CPU 通过 PCIe 连接来编排 GPU 工作；在我们的 p5 实例中，CPU 到 GPU 的传输瓶颈大约是 14.2 GB/s（PCIe Gen4 x8）。CPU-GPU 延迟约为 1.4 微秒，这会带来 kernel launch 开销，对于包含大量小 kernel 的工作负载尤其成问题。CUDA Graphs 可以通过批量重放操作来降低这类开销。在多路 socket 系统中，NUMA affinity 非常关键；如果 GPU 进程跑在错误的 CPU socket 上，会显著增加延迟。像 Grace Hopper 这样的现代架构则用 NVLink-C2C（900 GB/s 对比 128 GB/s）消除了 PCIe 瓶颈。
 </Note>
 
-The CPU is the orchestrator of GPU computation. It's responsible for launching kernels, managing memory allocations, and coordinating data transfers. But how fast can the CPU actually communicate with the GPU? This is determined by the  **PCIe (Peripheral Component Interconnect Express)**  connection between them.
+CPU 是 GPU 计算的调度者。它负责启动 kernels、管理内存分配，并协调数据传输。但 CPU 实际上能以多快的速度和 GPU 通信？这取决于它们之间的 **PCIe（Peripheral Component Interconnect Express）** 连接。
 
-Understanding this link is crucial because it affects:
+理解这条链路之所以关键，是因为它会影响：
 
--  **Kernel launch latency** : How quickly the CPU can schedule work on the GPU
--  **Data transfer speed** : How fast we can move data between CPU and GPU memory
--  **Synchronization overhead** : The cost of CPU-GPU coordination points
+-  **Kernel launch latency**：CPU 能多快把工作调度到 GPU 上
+-  **Data transfer speed**：CPU 与 GPU 内存之间数据搬运有多快
+-  **Synchronization overhead**：CPU-GPU 协调点带来的开销
 
-In modern GPU servers, the CPU-GPU connection has evolved significantly. While earlier systems used direct PCIe connections, modern high-performance systems like the DGX H100 use more sophisticated topologies with PCIe  *switches*  to manage multiple GPUs efficiently. And with the latest [GB200 architecture](https://newsletter.semianalysis.com/p/nvidias-blackwell-reworked-shipment), NVIDIA has taken this even further by placing the CPU and GPU on the same printed circuit board, eliminating the need for external switches altogether.
+在现代 GPU 服务器中，CPU-GPU 连接方式已经有了很大演进。早期系统通常使用直接 PCIe 连接，而像 DGX H100 这样的现代高性能系统，则采用了更复杂的拓扑，通过 PCIe *switches* 高效管理多张 GPU。而在最新的 [GB200 架构](https://newsletter.semianalysis.com/p/nvidias-blackwell-reworked-shipment) 中，NVIDIA 更进一步，把 CPU 和 GPU 放到了同一块印刷电路板上，彻底消除了外部 switches 的需求。
 
-Let's examine the physical topology of our p5 instance using  `lstopo`  and then measure the actual performance of this critical link, to identify potential bottlenecks.
+下面我们先用 `lstopo` 查看 p5 实例的物理拓扑，再测量这条关键链路的真实性能，找出潜在瓶颈。
 
 ```
 $ lstopo -v
@@ -4632,12 +4632,12 @@ HostBridge L#1 (buses=0000:[44-54])
             ...
 ...
 ```
-From the  `lstopo`  output, we can see two key PCIe bandwidth values in our system:
+从 `lstopo` 的输出中，我们可以看到系统里两个关键的 PCIe 带宽数值：
 
--  **15.75GB/s** : corresponds to PCIe Gen4 x8 links (CPU to PCIe switches)
--  **63.02GB/s** : corresponds to PCIe Gen5 x16 links (PCIe switches to GPUs)
+-  **15.75GB/s**：对应 PCIe Gen4 x8 链路（CPU 到 PCIe switches）
+-  **63.02GB/s**：对应 PCIe Gen5 x16 链路（PCIe switches 到 GPU）
 
-To have a better understanding of the whole topology, we can visualize it using:
+为了更直观地理解整体拓扑，我们可以把它可视化：
 
 ```
 $ lstopo --whole-system lstopo-diagram.png
@@ -4645,16 +4645,16 @@ $ lstopo --whole-system lstopo-diagram.png
 
 <Image src={lstopo_29c1384e_bcac_80c9_9715_cbfe9e73d86b} alt="Image" />
 
-This diagram showcases the hierarchical structure of our system:
+这张图展示了我们系统的层级结构：
 
-- It contains two  **NUMA**  (Non-Uniform Memory Access) nodes (NUMA is memory zone per CPU socket)
-- Each  **CPU socket**  connects to four  **PCIe switches**  via  **PCIe Gen4**  x8 links (15.75GB/s)
-- Each  **PCIe switch**  connects to one  **H100 GPU** via  **PCIe Gen5**  x16 links (63.02GB/s)
-- … (We'll explore the other components like NVSwitch, EFA network cards and NVMe drives in next sections.)
+- 它包含两个 **NUMA**（Non-Uniform Memory Access）节点（可以把 NUMA 理解为每个 CPU socket 对应的一块内存区域）
+- 每个 **CPU socket** 通过 **PCIe Gen4** x8 链路（15.75GB/s）连接到四个 **PCIe switches**
+- 每个 **PCIe switch** 再通过 **PCIe Gen5** x16 链路（63.02GB/s）连接到一张 **H100 GPU**
+- …（其他组件，例如 NVSwitch、EFA 网卡和 NVMe 硬盘，我们会在后续小节里继续展开）
 
-The PCIe specification differs between generations, each doubling the transfer rate per lane. Note that Transfer Rate is measured in GT/s (GigaTransfers per second), which represents the raw signaling rate, while Throughput is measured in GB/s (Gigabytes per second), which accounts for encoding overhead and represents the actual usable bandwidth:
+PCIe 规范会随着代际演进而变化，每一代通常都会让每条 lane 的传输速率翻倍。需要注意的是，Transfer Rate 用 GT/s（GigaTransfers per second）表示，它代表原始信号速率；而 Throughput 用 GB/s（Gigabytes per second）表示，它考虑了编码开销，更能反映实际可用带宽：
 
-<Reference caption="Theoretical PCIe bandwidths. Source: https://en.wikipedia.org/wiki/PCI_Express">
+<Reference caption="PCIe 理论带宽。来源：https://en.wikipedia.org/wiki/PCI_Express">
 
 | PCIe Version | Transfer Rate (per lane) | Throughput (GB/s) |
 | --- | --- | --- |
@@ -4671,12 +4671,12 @@ The PCIe specification differs between generations, each doubling the transfer r
 <HtmlEmbed
 src="/embeds/aws-bandwidth-bottleneck.html"
 config={{ initialFilter: 'cpu-gpu' }}
-caption="CPU-to-GPU communication path."
+caption="CPU 到 GPU 的通信路径。"
 />
 
-From the topology diagram and the PCIe bandwidth table, we can see that the CPU-to-GPU path goes through two PCIe hops: first from the CPU to the PCIe switch via  **PCIe Gen4** x8 (15.754 GB/s), then from the PCIe switch to the GPU via  **PCIe Gen5** x16 (63.015 GB/s).  *This means the bottleneck for CPU-GPU communication is the first hop at 15.754 GB/s* . Let's validate this with another util,  `nvbandwidth` !
+从拓扑图和 PCIe 带宽表中可以看出，CPU 到 GPU 的路径要经过两跳 PCIe：先从 CPU 到 PCIe switch，使用 **PCIe Gen4** x8（15.754 GB/s）；再从 PCIe switch 到 GPU，使用 **PCIe Gen5** x16（63.015 GB/s）。 *这意味着 CPU-GPU 通信的瓶颈其实是第一跳，也就是 15.754 GB/s。* 下面我们再用一个工具 `nvbandwidth` 来验证这一点。
 
-The  `host_to_device_memcpy_ce`  command measures bandwidth of  `cuMemcpyAsync`  from host (CPU) memory to device (GPU) memory using the GPU's copy engines. 
+`host_to_device_memcpy_ce` 命令会使用 GPU 的 copy engines，测量 `cuMemcpyAsync` 从 host（CPU）内存到 device（GPU）内存的带宽。 
 
 ```markdown
 ./nvbandwidth -t host_to_device_memcpy_ce -b <message_size> -i 5
@@ -4684,9 +4684,7 @@ The  `host_to_device_memcpy_ce`  command measures bandwidth of  `cuMemcpyAsync` 
 
 <HtmlEmbed 
 src="embeds/d3-line-chart.html"
-title="CPU->
-
-GPU measured bandwidth" caption="CPU-to-GPU bandwidth measured with nvbandwidth's host_to_device test, showing the PCIe Gen4 x8 bottleneck at ~14.2 GB/s for large transfers"
+title="CPU 到 GPU 的实测带宽" caption="使用 nvbandwidth 的 host_to_device 测试测得的 CPU-GPU 带宽，显示大传输下受 PCIe Gen4 x8 限制，约为 14.2 GB/s"
 config={{
 dataUrl: "./data/host_device_memcpy_bandwidth.csv",
 xColumn: "message_size",
@@ -4701,9 +4699,9 @@ xFormatAsFileSize: true
 />
 
 
-The results indeed show that for small message sizes we're latency-bound, but for large message sizes we achieve  **~14.2 GB/s** , which is about 90% of the theoretical 15.754 GB/s bandwidth for PCIe Gen4 x8. This confirms that in  **CPU-GPU**  communication, the CPU-to-PCIe switch link is indeed our bottleneck.
+结果确实表明：小 message size 下我们受限于 latency；但在大 message size 下，能达到 **约 14.2 GB/s**，大约相当于 PCIe Gen4 x8 理论带宽 15.754 GB/s 的 90%。这验证了在 **CPU-GPU** 通信中，CPU 到 PCIe switch 的这段链路确实是瓶颈。
 
-Beyond bandwidth,  **latency**  is equally important for CPU-GPU communication since it determines how quickly we can schedule kernels. To measure this, we use  `nvbandwidth` 's  `host_device_latency_sm`  test, which employs a pointer-chase kernel to measure round-trip latency. The  `host_device_latency_sm`  test measures round-trip latency by allocating a buffer on the host (CPU) and accessing it from the GPU using a pointer-chase kernel. This simulates the real-world latency of CPU-GPU communication.
+除了带宽之外，**latency** 对 CPU-GPU 通信同样重要，因为它决定了我们能多快地调度 kernel。为了测量这一点，我们使用 `nvbandwidth` 的 `host_device_latency_sm` 测试，它通过一个 pointer-chase kernel 来测量往返延迟。这个测试会先在 host（CPU）上分配 buffer，再让 GPU 通过 pointer-chase kernel 访问它，从而模拟真实世界中的 CPU-GPU 通信延迟。
 
 ```markdown
 ./nvbandwidth -t host_device_latency_sm -i 5
@@ -4722,46 +4720,44 @@ yAxisLabel: "Latency (μs)",
 referenceLine: { value: 1440, label: "Max" },
 xFormatAsFileSize: true
 }}
-title="CPU->
-
-GPU measured latency" 
-caption="CPU-to-GPU latency measured with nvbandwidth's host_device_latency_sm test (adapted to make buffer size variable), showing approximately 1.4 microseconds round-trip latency"
+title="CPU 到 GPU 的实测延迟" 
+caption="使用 nvbandwidth 的 host_device_latency_sm 测试测得的 CPU-GPU 延迟（这里做了适配，使 buffer size 可变），结果显示往返延迟约为 1.4 微秒"
 />
 
 
-The results show that  **latency**  is approximately  **1.4 microseconds** . This explains the kernel launch overhead of a few microseconds we often observe in ML workloads. For workloads launching many small kernels, the added latency can become a bottleneck; otherwise, overhead is hidden by overlapping execution.
+结果表明，**latency** 大约是 **1.4 微秒**。这也解释了我们在 ML 工作负载中经常观察到的几微秒级 kernel launch 开销。对于会频繁启动很多小 kernel 的工作负载，这部分额外延迟就可能成为瓶颈；否则，它通常会被重叠执行所掩盖。
 
 <Sidenote>
 
-For example for small models or with small batches we can see inference saturate on the GPU because of the kernel launches. FlashFormer addresses this by fusing a whole layer to gain speedups [@nrusimha2025flashformerwholemodelkernelsefficient].
+例如，在小模型或者小 batch 场景下，我们会看到 inference 因为频繁启动 kernels 而让 GPU“被 launch 开销卡住”。FlashFormer 通过把整层融合起来获得加速，正是针对这个问题 [@nrusimha2025flashformerwholemodelkernelsefficient]。
 </Sidenote>
 
 <Note title="CUDA Graphs for Reducing Launch Overhead" emoji="🚀" variant="info">
 
-CUDA Graphs can significantly reduce kernel launch overhead by capturing a sequence of operations and replaying them as a single unit, eliminating microseconds of CPU-GPU round-trip latency for each kernel launch. This is particularly beneficial for workloads with many small kernels or frequent CPU-GPU synchronization. For more details on understanding and optimizing launch overhead, see <a href="https://developer.nvidia.com/blog/understanding-the-visualization-of-overhead-and-latency-in-nsight-systems/">Understanding the Visualization of Overhead and Latency in NVIDIA Nsight Systems</a>.
+CUDA Graphs 可以通过捕获一串操作并把它们作为一个整体重放，显著降低 kernel launch 开销，从而避免每次 kernel 启动都支付几微秒的 CPU-GPU 往返延迟。这对那些包含大量小 kernel、或者频繁发生 CPU-GPU 同步的工作负载尤其有利。关于如何理解和优化 launch overhead，可以参考 <a href="https://developer.nvidia.com/blog/understanding-the-visualization-of-overhead-and-latency-in-nsight-systems/">Understanding the Visualization of Overhead and Latency in NVIDIA Nsight Systems</a>。
 </Note>
 
 <Note title="MoE Models and CPU-GPU Synchronization Overhead" emoji="⚠️" variant="warning">
 
-Some implementations of Mixture-of-Experts (MoE) models require CPU-GPU synchronization in each iteration to schedule the appropriate kernels for the selected experts. This introduces kernel launch overhead that can significantly affect throughput, especially when the CPU-GPU connection is slow. For example, in <a href="https://www.mako.ai/blog/mako-generate-achieves-1-83x-performance-over-torch-compile-on-deepseek-moe-kernels">MakoGenerate's optimization of DeepSeek MOE kernels</a>, the reference implementation dispatched 1,043 kernels with 67 CPU-GPU synchronization points per forward pass. By restructuring the expert routing mechanism, they reduced this to 533 kernel launches and just 3 synchronization points, achieving a 97% reduction in synchronization overhead and 44% reduction in end-to-end latency. Note that not all MoE implementations require CPU-GPU synchronization (modern implementations often keep routing entirely on the GPU), but for those that do, efficient CPU-GPU communication becomes critical for performance.
+某些 Mixture-of-Experts（MoE）模型的实现，需要在每次迭代中进行 CPU-GPU 同步，以便为被选中的 experts 调度对应 kernels。这会引入 kernel launch 开销，尤其在 CPU-GPU 连接较慢时，会显著影响吞吐。例如，在 <a href="https://www.mako.ai/blog/mako-generate-achieves-1-83x-performance-over-torch-compile-on-deepseek-moe-kernels">MakoGenerate 对 DeepSeek MOE kernels 的优化</a> 中，参考实现每次 forward 会发出 1,043 个 kernels，并包含 67 个 CPU-GPU 同步点。通过重构 expert routing 机制，他们把这一数字降到了 533 次 kernel 启动和 3 个同步点，实现了 97% 的同步开销下降，以及 44% 的端到端延迟下降。需要注意的是，并不是所有 MoE 实现都需要 CPU-GPU 同步（现代实现通常会把 routing 完全保留在 GPU 上），但对那些确实需要的实现来说，高效的 CPU-GPU 通信就会变得至关重要。
 </Note>
 
 <Note title="Grace Hopper Superchips: A Different Approach to CPU-GPU Communication" emoji="🔗" variant="info">
 
-NVIDIA's Grace Hopper superchips take a fundamentally different approach to CPU-GPU communication compared to traditional x86+Hopper systems. Key improvements include:
+与传统的 x86+Hopper 系统相比，NVIDIA 的 Grace Hopper superchips 在 CPU-GPU 通信上采用了根本不同的思路。关键改进包括：
 <ul>
-  <li><b>1:1 GPU to CPU ratio</b> (compared to 4:1 for x86+Hopper), providing 3.5x higher CPU memory bandwidth per GPU</li>
-  <li><b>NVLink-C2C</b> replacing PCIe Gen5 lanes, delivering 900 GB/s vs 128 GB/s (7x higher GPU-CPU link bandwidth)</li>
-  <li><b>NVLink Switch System</b> providing 9x higher GPU-GPU link bandwidth than InfiniBand NDR400 NICs connected via PCIe Gen4</li>
+  <li><b>1:1 的 GPU 与 CPU 配比</b>（相比之下，x86+Hopper 通常是 4:1），从而为每张 GPU 提供 3.5 倍更高的 CPU 内存带宽</li>
+  <li><b>用 NVLink-C2C</b> 取代 PCIe Gen5 lanes，实现 900 GB/s 对比 128 GB/s 的带宽（GPU-CPU 链路带宽提升 7 倍）</li>
+  <li><b>NVLink Switch System</b> 提供了比通过 PCIe Gen4 连接的 InfiniBand NDR400 NICs 高 9 倍的 GPU-GPU 链路带宽</li>
 </ul>
-For more details, see the <a href="https://download.deltacomputer.com/NVIDIA%20Grace%20Hopper%20Superchip%20Architecture%20Whitepaper.pdf">NVIDIA Grace Hopper Superchip Architecture Whitepaper</a> (page 11).
+更多细节可参考 <a href="https://download.deltacomputer.com/NVIDIA%20Grace%20Hopper%20Superchip%20Architecture%20Whitepaper.pdf">NVIDIA Grace Hopper Superchip Architecture Whitepaper</a>（第 11 页）。
 </Note>
 
- **⚠️ NUMA Affinity: Critical for Multi-Socket Performance** 
+ **⚠️ NUMA Affinity：多路 socket 性能的关键** 
 
-On multi-socket systems like our AMD EPYC 7R13 nodes (2 sockets, 48 cores each), ****  **NUMA affinity**is crucial for GPU performance** . It refers to running processes on CPU cores that share the same socket as their target devices (like GPUs). When your GPU process runs on CPUs from a different NUMA node than where the GPU is attached, operations must traverse the CPU interconnect (AMD Infinity Fabric), adding significant latency and bandwidth constraints.
+在像我们 AMD EPYC 7R13 节点（2 个 sockets，每个 48 核）这样的多路 socket 系统中，**NUMA affinity 对 GPU 性能至关重要**。它指的是：让进程运行在与目标设备（比如 GPU）属于同一个 socket 的 CPU cores 上。如果 GPU 进程运行在与 GPU 所连接的 NUMA 节点不同的 CPU 上，那么相关操作就必须穿过 CPU 互连（AMD Infinity Fabric），这会显著增加延迟，并带来额外带宽限制。
 
- **First, let's examine the NUMA topology and node distances to understand the performance implications** :
+ **首先，我们先看看 NUMA 拓扑和节点距离，以理解它对性能的影响**：
 
 ```bash
 $ numactl --hardware
@@ -4770,24 +4766,24 @@ node   0   1
   0:  10  32 
   1:  32  10 
 ```
-The distance values show that accessing memory on the same NUMA node (distance 10) is much faster than crossing to the other NUMA node (distance 32). This  **3.2x difference**  in memory access  **latency**  can significantly impact GPU performance when your process is pinned to the wrong NUMA node.
+这些 distance 数值表明：访问同一个 NUMA 节点上的内存（distance 10），要比跨到另一个 NUMA 节点（distance 32）快得多。这种 **3.2 倍** 的内存访问 **延迟** 差异，在你的进程被 pin 到错误 NUMA 节点上时，会显著影响 GPU 性能。
 
-For detailed steps on diagnosing and resolving NUMA-related performance issues, see the Troubleshooting Interconnect Performance section.
+关于如何诊断并解决 NUMA 相关性能问题的详细步骤，请参见后面的 Troubleshooting Interconnect Performance 一节。
 
-#### GPU-to-GPU Intranode
+#### 节点内 GPU 到 GPU 通信
 
-In distributed training, GPUs must frequently exchange gradients, weights, and activations, often gigabytes of data per iteration. This huge amount of data requires careful handling of communication. While the H100's internal HBM can read at about 3 TB/s, accidentally using the wrong flags can completely flunk your GPU-to-GPU communication bandwidth!
+在分布式训练中，GPU 必须频繁交换 gradients、weights 和 activations，每次迭代往往就是数 GB 的数据。这么大的数据量要求我们非常谨慎地处理通信问题。虽然 H100 内部的 HBM 读取速度大约有 3 TB/s，但如果不小心用了错误的 flags，你的 GPU-GPU 通信带宽可能会直接“翻车”。
 
-Let's see why by examining all the ways you can do communication between GPUs within the same node (and all the flags you should - or should not - set) 🙂
+下面我们就来看看，节点内 GPU 之间到底有哪些通信方式，以及哪些 flags 应该设置、哪些不该设置。🙂
 
 <Note>
 
-<b>TL;DR:</b> GPUs within a node can communicate three ways: through CPU (slowest, ~3 GB/s, bottlenecked by PCIe), via GPUDirect RDMA over EFA NICs (~38 GB/s), or GPUDirect RDMA via NVLink (~786 GB/s bidirectional). NVLink is 9-112x faster and bypasses CPU/PCIe entirely. NCCL automatically prioritizes NVLink when available. NVLink SHARP (NVLS) provides hardware-accelerated collectives, boosting allreduce performance by 1.3x to 480 GB/s. However, alltoall operations (340 GB/s) don't benefit from NVLS acceleration.
+<b>TL;DR:</b> 同一节点内的 GPU 有三种通信方式：通过 CPU（最慢，约 ~3 GB/s，受 PCIe 限制）、通过 EFA 网卡走 GPUDirect RDMA（约 ~38 GB/s），或者通过 NVLink 走 GPUDirect RDMA（双向约 ~786 GB/s）。NVLink 快 9 到 112 倍，而且完全绕过 CPU/PCIe。NCCL 在可用时会自动优先使用 NVLink。NVLink SHARP（NVLS）还能提供硬件加速的 collectives，把 allreduce 性能提升 1.3 倍，达到 480 GB/s。不过 alltoall（340 GB/s）并不能从 NVLS 加速中受益。
 </Note>
 
-####  **Through CPU** 
+#### **通过 CPU** 
 
-The naive approach uses host memory (SHM): data travels from GPU1 through the PCIe switch to the CPU, into host memory, back through the CPU, through the PCIe switch again, and finally to GPU2. This can be achieved (although not recommended) using  `NCCL_P2P_DISABLE=1`  and  `FI_PROVIDER=tcp`  environment variable by NCCL. When this mode is activated, you can verify it by setting  `NCCL_DEBUG=INFO` , which will show messages like:
+最朴素的方法是使用 host memory（SHM）：数据从 GPU1 出发，经由 PCIe switch 传到 CPU，再进到 host memory，然后又从 CPU 返回，重新经过 PCIe switch，最后抵达 GPU2。这个模式可以通过设置 NCCL 的环境变量 `NCCL_P2P_DISABLE=1` 和 `FI_PROVIDER=tcp` 来实现（虽然并不推荐）。当该模式开启时，你可以通过设置 `NCCL_DEBUG=INFO` 来验证，它会打印类似下面这样的信息：
 
 ```
 NCCL INFO Channel 00 : 1[1] -> 0[0] via SHM/direct/direct
@@ -4796,24 +4792,24 @@ NCCL INFO Channel 00 : 1[1] -> 0[0] via SHM/direct/direct
 <HtmlEmbed
 src="/embeds/aws-bandwidth-bottleneck.html"
 config={{ initialFilter: 'gpu-gpu-cpu' }}
-caption="GPU-to-GPU communication path through CPU and main memory, showing the inefficient roundtrip through the PCIe switch and CPU."
+caption="GPU 通过 CPU 与主存进行通信的路径，展示了数据如何低效地绕经 PCIe switch 和 CPU。"
 />
 
 
 
-This roundabout path involves multiple memory copies and saturates both PCIe and CPU memory buses, causing congestion. In our topology where 4 H100s share the same CPU memory buses, this congestion becomes even more problematic when multiple GPUs attempt simultaneous communication, as they compete for the same limited CPU memory bandwidth… 😢
+这种绕路方式涉及多次内存拷贝，并会同时打满 PCIe 和 CPU 内存总线，造成拥塞。在我们的拓扑里，4 张 H100 共享同一组 CPU 内存总线，因此当多张 GPU 同时尝试通信时，问题会更加严重，因为它们都在争抢同一份有限的 CPU 内存带宽……😢
 
-With this CPU-mediated approach, we're fundamentally bottlenecked by the PCIe Gen4 x8 link at ~16 GB/s between the CPU and PCIe switch. Fortunately, there's a better way for our GPUs to communicate without involving the CPU:  **GPUDirect RDMA** .
+在这种经由 CPU 中转的方式下，我们从根本上受限于 CPU 和 PCIe switch 之间大约 ~16 GB/s 的 PCIe Gen4 x8 链路。好在，GPU 之间还有更好的通信方式，不需要让 CPU 参与： **GPUDirect RDMA**。
 
-#### Through Libfabric EFA
+#### 通过 Libfabric EFA
 
- **GPUDirect RDMA**  (Remote Direct Memory Access or GDRDMA) is a technology that enables direct communication between NVIDIA GPUs by allowing direct access to GPU memory. This eliminates the need for data to pass through the system CPU and avoids buffer copies via system memory, resulting in up to 10x better performance compared to traditional CPU-mediated transfers. GPUDirect RDMA works over PCIe to enable fast GPU-to-GPU communication both within a node (as we see here) and across nodes using  **NICs**  (network interface cards, as we'll see in a future section) with RDMA capabilities. For more details, see [NVIDIA GPUDirect](https://developer.nvidia.com/gpudirect).
+ **GPUDirect RDMA**（Remote Direct Memory Access，或简称 GDRDMA）是一项允许直接访问 GPU 内存、从而实现 NVIDIA GPU 之间直接通信的技术。它消除了数据必须经过系统 CPU 的需求，也避免了通过系统内存进行 buffer 拷贝，因此相较于传统经由 CPU 中转的传输，性能最高可以提升 10 倍。GPUDirect RDMA 通过 PCIe 工作，既可以支持节点内的 GPU-GPU 高速通信（正如这里所示），也能借助具备 RDMA 能力的 **NICs**（network interface cards，后面的小节会展开）支持跨节点通信。更多细节可见 [NVIDIA GPUDirect](https://developer.nvidia.com/gpudirect)。
 
-Looking back at our topology diagram, we can see that each  **PCIe switch**  has 4 EFA (Elastic Fabric Adapter) NICs, meaning each GPU has access to 4 EFA adapters.  **EFA**  is AWS's custom high-performance network interface for cloud instances, designed to provide low-latency, high-throughput inter-instance communication. On p5 instances, EFA exposes a  **libfabric**  interface (a specific communication API for high performance computations) that applications can use, and provides RDMA-like capabilities that enable  **GPUDirect RDMA**  for direct GPU-to-GPU communication across nodes.
+回到前面的拓扑图，我们可以看到每个 **PCIe switch** 下都挂着 4 张 EFA（Elastic Fabric Adapter）NIC，也就是说每张 GPU 都能访问 4 个 EFA adapters。 **EFA** 是 AWS 为云实例设计的高性能网络接口，目标是提供低延迟、高吞吐的实例间通信。在 p5 实例上，EFA 会暴露一个 **libfabric** 接口（面向高性能计算的一类通信 API），供应用使用，并提供类似 RDMA 的能力，从而支持 **GPUDirect RDMA**，实现跨节点的直接 GPU-GPU 通信。
 
 <Sidenote>
 
-EFA uses a [reliable Ethernet-based transport protocol called Scalable Reliable Datagram (SRD)](https://ieeexplore.ieee.org/document/9167399), designed to use commodity datacenter networks (with a large number of network paths). Learn about its importance [here](https://aws.amazon.com/blogs/hpc/in-the-search-for-performance-theres-more-than-one-way-to-build-a-network/).
+EFA 使用了一种[基于以太网的可靠传输协议，叫做 Scalable Reliable Datagram（SRD）](https://ieeexplore.ieee.org/document/9167399)，它是为商用数据中心网络（具有大量网络路径）设计的。关于它的重要性，可以看[这里](https://aws.amazon.com/blogs/hpc/in-the-search-for-performance-theres-more-than-one-way-to-build-a-network/)。
 </Sidenote>
 
   
