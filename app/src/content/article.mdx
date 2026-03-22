@@ -4832,16 +4832,16 @@ $ fi_info --verbose
             network_type: Ethernet
 
 ```
-Each  **EFA link**  provides 100 Gbps (12.5 GB/s) of bandwidth. With  **4 EFA NICs**  per GPU and 8 GPUs per node, this gives an aggregate bandwidth of 100 × 4 × 8 =  **3200 Gbps per node**  (400GB/s). 
+每条 **EFA 链路** 都提供 100 Gbps（12.5 GB/s）的带宽。由于每张 GPU 配有 **4 张 EFA NICs**，而每个节点有 8 张 GPU，因此总带宽为 100 × 4 × 8 = **每节点 3200 Gbps**（400GB/s）。
 
 <Sidenote>
 
-For a detailed exploration of how to fully harness this 3200 Gbps bandwidth using libfabric and EFA, see Lequn Chen's excellent blog series: [Harnessing 3200 Gbps Network: A Journey with RDMA, EFA, and libfabric](https://le.qun.ch/en/blog/2024/12/25/libfabric-efa-0-intro/).
+如果你想深入了解如何利用 libfabric 和 EFA 吃满这 3200 Gbps 带宽，可以看 Lequn Chen 那组非常出色的博客系列：[Harnessing 3200 Gbps Network: A Journey with RDMA, EFA, and libfabric](https://le.qun.ch/en/blog/2024/12/25/libfabric-efa-0-intro/)。
 </Sidenote>
 
   
 
-To make sure we're enabling GPUDirect RDMA over EFA, you should set the  `FI_PROVIDER=efa`  and  `NCCL_P2P_DISABLE=1`  environment variables. When this mode is activated, you can verify it that it's working by setting  `NCCL_DEBUG=INFO` , which will show messages like:
+为了确保我们启用了走 EFA 的 GPUDirect RDMA，你需要设置环境变量 `FI_PROVIDER=efa` 和 `NCCL_P2P_DISABLE=1`。开启之后，可以再设置 `NCCL_DEBUG=INFO` 来验证它是否真的生效。你会看到类似下面这样的信息：
 
 ```
 NCCL INFO Channel 01/1 : 1[1] -> 0[0] [receive] via NET/Libfabric/0/GDRDMA/Shared
@@ -4852,31 +4852,31 @@ NCCL INFO Channel 01/1 : 1[1] -> 0[0] [receive] via NET/Libfabric/0/GDRDMA/Share
 <HtmlEmbed
 src="/embeds/aws-bandwidth-bottleneck.html"
 config={{ initialFilter: 'gpu-gpu-efa-intranode' }}
-caption="GPU-to-GPU communication path through Libfabric EFA. Note that this is less efficient for intranode communications compared to using NVLink."
+caption="通过 Libfabric EFA 进行的 GPU-GPU 通信路径。需要注意的是，对于节点内通信，它不如 NVLink 高效。"
 />
 </Wide>
 
 
 
-While GPUDirect RDMA over EFA provides significant improvements over CPU-mediated transfers, achieving around  **50 GB/s**  with 4 EFA cards per GPU, can we do even better? This is where NVLink comes into play.
+虽然通过 EFA 的 GPUDirect RDMA 相比经由 CPU 中转已经有了显著提升，在每张 GPU 使用 4 张 EFA 卡的情况下可达到大约 **50 GB/s**，但我们还能不能做得更好？这就是 NVLink 登场的地方。
 
-#### Through NVLink
+#### 通过 NVLink
 
- **NVLink**  is NVIDIA's high-speed, direct GPU-to-GPU interconnect technology that enables fast multi-GPU communication within servers. The  **H100**  employs fourth-generation NVLink (NVLink 4.0), providing 900 GB/s bidirectional bandwidth per GPU through 18 links, each operating at 50 GB/s bidirectional ([NVIDIA H100 Tensor Core GPU Datasheet](https://resources.nvidia.com/en-us-hopper-architecture/nvidia-h100-tensor-c)). 
+ **NVLink** 是 NVIDIA 的高速、直接 GPU-GPU 互连技术，用于在服务器内部实现快速多 GPU 通信。 **H100** 使用的是第四代 NVLink（NVLink 4.0），每张 GPU 通过 18 条链路提供 900 GB/s 的双向带宽，每条链路的双向带宽为 50 GB/s（见 [NVIDIA H100 Tensor Core GPU Datasheet](https://resources.nvidia.com/en-us-hopper-architecture/nvidia-h100-tensor-c)）。 
 
-In the  **DGX H100**  architecture, 4 third-generation NVSwitches connect the 8 GPUs using a layered topology where each GPU connects with 5+4+4+5 links across the switches. This configuration ensures multiple direct paths between any GPU pair with a constant hop count of just 1 NVSwitch, resulting in 3.6 TB/s total bidirectional NVLink network bandwidth.
+在 **DGX H100** 的架构中，4 个第三代 NVSwitch 使用分层拓扑连接 8 张 GPU，每张 GPU 分别通过 5+4+4+5 条链路连接到这些 switches。这个配置保证任意一对 GPU 之间都存在多条直接路径，并且 hop 数恒定为 1 个 NVSwitch，因此整个 NVLink 网络总共能提供 3.6 TB/s 的双向带宽。
 
 | NVLink 2.0 (Volta) | NVLink 3.0 (Ampere) | NVLink 4.0 (Hopper) | NVLink 5.0 (Blackwell) |
 | --- | --- | --- | --- |
 | Bandwidth | 300 GB/s | 600 GB/s | 900 GB/s | 1800 GB/s |
 
- *Table: NVLink bandwidth comparison across generations, showing theoretical specifications* 
+ *表：各代 NVLink 带宽对比，展示理论规格* 
 
-By default, NCCL prioritizes NVLink for intra-node GPU communication when available, as it provides the lowest latency and highest bandwidth path between GPUs on the same machine. However, if you did not set your flags properly, you could be preventing the use of NVLink! 😱
+默认情况下，只要可用，NCCL 就会优先使用 NVLink 进行节点内 GPU 通信，因为它在同机 GPU 之间提供了最低延迟和最高带宽的路径。不过，如果你的 flags 没设置对，反而可能会阻止 NVLink 被使用！😱
 
-NVLink enables direct GPU-to-GPU memory access without involving the CPU or system memory. When NVLink is unavailable, NCCL falls back to GPUDirect P2P over PCIe, or uses Shared Memory (SHM) transport when inter-socket PCIe transfers would be suboptimal.
+NVLink 允许 GPU 直接访问彼此的内存，而不需要经过 CPU 或系统内存。当 NVLink 不可用时，NCCL 会回退到走 PCIe 的 GPUDirect P2P；如果跨 socket 的 PCIe 传输并不理想，还可能回退到 Shared Memory（SHM）传输。
 
-To verify that NVLink is being used, set  `NCCL_DEBUG=INFO`  and look for messages like:
+要验证 NVLink 是否正在被使用，可以设置 `NCCL_DEBUG=INFO`，然后查找类似下面这样的输出：
 
 ```
 NCCL INFO Channel 00/1 : 0[0] -> 1[1] via P2P/CUMEM
@@ -4884,22 +4884,22 @@ NCCL INFO Channel 00/1 : 0[0] -> 1[1] via P2P/CUMEM
 
 <Sidenote>
 
-**CUMEM**  indicates that the peer-to-peer operations use  **CUDA memory handles (cuMem API).**  [Learn more here.](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html#cumem-host-allocations)
+**CUMEM** 表示 peer-to-peer 操作使用的是 **CUDA memory handles（cuMem API）**。[更多说明见这里。](https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html#cumem-host-allocations)
 </Sidenote>
 
   
 
-The following diagram illustrates the direct path that data takes when using NVLink:
+下图展示了在使用 NVLink 时，数据所走的直接路径：
 
 <HtmlEmbed
 src="/embeds/aws-bandwidth-bottleneck.html"
 config={{ initialFilter: 'gpu-gpu-nvswitch' }}
-caption="GPU-to-GPU communication path through NVLink."
+caption="通过 NVLink 进行的 GPU-GPU 通信路径。"
 />
 
 
 
-With  **NVLink 4.0** 's theoretical bandwidth of 900 GB/s compared to  **EFA** 's ~50 GB/s, we expect an 18x advantage for intra-node communication. To validate this in practice, we ran [NCCL's SendRecv performance test](https://github.com/NVIDIA/nccl-tests/blob/master/src/sendrecv.cu) to measure actual bandwidth across different communication paths:
+与 **EFA** 的约 ~50 GB/s 相比， **NVLink 4.0** 的理论带宽是 900 GB/s，因此我们预期它在节点内通信上有 18 倍优势。为了在实践中验证这一点，我们运行了 [NCCL 的 SendRecv 性能测试](https://github.com/NVIDIA/nccl-tests/blob/master/src/sendrecv.cu)，测量不同通信路径下的实际带宽：
 
 ```markdown
 $ FI_PROVIDER=XXX NCCL_P2P_DISABLE=X sendrecv_perf -b 8 -e 8G -f 2 -g 1 -c 1 -n 100
@@ -4916,13 +4916,11 @@ $ FI_PROVIDER=XXX NCCL_P2P_DISABLE=X sendrecv_perf -b 8 -e 8G -f 2 -g 1 -c 1 -n 
     xAxisLabel: "Message Size (bytes)",
     yAxisLabel: "Bandwidth (GB/s)"
   }}
-  title="GPU->
-
-GPU measured bandwidth with NCCL's SendRecv test (H100 GPUs, 1 Node, 2 GPUs)"
+  title="使用 NCCL SendRecv 测得的 GPU-GPU 带宽（H100 GPUs，1 节点，2 GPUs）"
 />
 
 
-This shows without a doubt how much more efficient NVLink is: it achieves 364.93 GB/s compared to EFA's 38.16 GB/s (9x faster, or 18x bidirectional) and the CPU baseline's 3.24 GB/s (112.6x faster). These measurements confirm why NCCL prioritizes NVLink for intra-node GPU communication, but to further check NVLink's performance, let's use  `nvbandwidth`  to measure bidirectional bandwidth between all GPU pairs using simultaneous copies in both directions:
+这个结果毫无疑问地说明了 NVLink 的高效程度：它达到了 364.93 GB/s，而 EFA 只有 38.16 GB/s（快 9 倍，若按双向算则是 18 倍），CPU 基线更是只有 3.24 GB/s（快了 112.6 倍）。这些测量结果也解释了为什么 NCCL 会优先用 NVLink 进行节点内 GPU 通信。为了进一步检查 NVLink 的性能，我们再用 `nvbandwidth` 来测量所有 GPU 对之间的双向带宽，也就是在两个方向上同时做拷贝：
 
 ```
 ./nvbandwidth -t device_to_device_bidirectional_memcpy_write_ce -b <message_size> -i 5
@@ -4939,76 +4937,76 @@ memcpy CE GPU(row) <-> GPU(column) Total bandwidth (GB/s)
 
 SUM device_to_device_bidirectional_memcpy_write_ce_total 44013.06
 ```
-The measured bidirectional bandwidth of  **786 GB/s**  represents 85% of  **NVLink 4.0** 's theoretical 900 GB/s specification. Using NVLink has bypassed the CPU bottleneck entirely (for gpu-to-gpu communication)!
+测得的双向带宽为 **786 GB/s**，相当于 **NVLink 4.0** 理论 900 GB/s 规格的 85%。使用 NVLink 后，我们就在 GPU-GPU 通信路径上彻底绕开了 CPU 瓶颈！
 
-But how does this translate to collective communication patterns? Let's measure  `allreduce`  performance within a single node with the  `all_reduce_perf`  [benchmark from NCCL tests.](https://github.com/NVIDIA/nccl-tests/blob/master/src/all_reduce.cu) 
+但这在 collective communication 模式下又意味着什么？下面我们使用 NCCL tests 中的 `all_reduce_perf` [benchmark](https://github.com/NVIDIA/nccl-tests/blob/master/src/all_reduce.cu) 来测量单节点内的 `allreduce` 性能。 
 
 <Sidenote>
 
-For a quick refresher on collective communication patterns, see the [UltraScale Playbook Appendix](https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=ring_allreduce).
+如果你想快速回顾一下 collective communication 模式，可以看 [UltraScale Playbook Appendix](https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=ring_allreduce)。
 </Sidenote>
 
 ```
 $ ./all_reduce_perf -b 8 -e 16G -f 2 -g 1 -c 1 -n 100
 ```
 
-<HtmlEmbed src="/embeds/nccl-all-reduce-singlenode-bandwidth-plot.html" title="NCCL's All-Reduce performance test intranode" />
+<HtmlEmbed src="/embeds/nccl-all-reduce-singlenode-bandwidth-plot.html" title="NCCL 的单节点 All-Reduce 性能测试" />
 
 
 
 <Sidenote>
 
-For comprehensive benchmarking scripts and configurations, see the excellent collection at [AWS Distributed Training Samples](https://github.com/aws-samples/awsome-distributed-training/tree/main/micro-benchmarks/nccl-tests).
+如果你想查看更完整的 benchmark 脚本和配置，可以参考 [AWS Distributed Training Samples](https://github.com/aws-samples/awsome-distributed-training/tree/main/micro-benchmarks/nccl-tests) 这个非常优秀的资源集合。
 </Sidenote>
 
-But wait… We are achieving 480 GB/s, which exceeds the theoretical unidirectional bandwidth of 450 GB/s for NVLink 4.0 😮 What is this sorcery, and how is this possible? 
+等等……我们测到了 480 GB/s，这竟然超过了 NVLink 4.0 理论上的单向带宽 450 GB/s 😮 这是什么魔法，为什么会这样？ 
 
-Diving a bit in the docs, it seems like the answer lies in  **NVLink SHARP (NVLS)** , NVIDIA's hardware-accelerated collective operations technology. They provide approximately 1.3x speedup for allreduce operations on a single node with H100 GPUs!
+稍微翻一下文档，答案似乎在于 **NVLink SHARP（NVLS）**，也就是 NVIDIA 的硬件加速 collective operations 技术。它能让单节点 H100 GPU 上的 allreduce 获得大约 1.3 倍加速！
 
 <Image src={image_2891384e_bcac_80e2_9cc5_c2c46c7ab39b} alt="Image" />
 
-For technical details on how NVSwitch enables these hardware-accelerated collective operations, see the [NVSwitch architecture presentation](https://hc34.hotchips.org/assets/program/conference/day2/Network%20and%20Switches/NVSwitch%20HotChips%202022%20r5.pdf).
+关于 NVSwitch 如何支持这种硬件加速 collective operations 的技术细节，可以参考 [NVSwitch architecture presentation](https://hc34.hotchips.org/assets/program/conference/day2/Network%20and%20Switches/NVSwitch%20HotChips%202022%20r5.pdf)。
 
-Can they help in other places too? Let's examine [alltoall performance](https://github.com/NVIDIA/nccl-tests/blob/master/src/alltoall.cu):
+那么它在其他场景里也有帮助吗？我们来看看 [alltoall 性能](https://github.com/NVIDIA/nccl-tests/blob/master/src/alltoall.cu)：
 
 ```
 $ ./all_to_all_perf -b 8 -e 16G -f 2 -g 1 -c 1 -n 100
 ```
 
-<HtmlEmbed src="/embeds/nccl-alltoall-singlenode-bandwidth-plot.html" title="NCCL's All-to-All performance test intranode" />
+<HtmlEmbed src="/embeds/nccl-alltoall-singlenode-bandwidth-plot.html" title="NCCL 的单节点 All-to-All 性能测试" />
 
 
 
-We achieve  **340 GB/s**  for alltoall operations, which aligns with published benchmarks showing similar performance characteristics for H100 systems with NVLink 4.0 ([source](https://juser.fz-juelich.de/record/1019178/files/02-NCCL_NVSHMEM.pdf#page=20.00)). Unlike allreduce, alltoall operations don't benefit from NVLS hardware acceleration, which explains why we see 340 GB/s here compared to the 480 GB/s achieved with allreduce. The alltoall pattern requires more complex point-to-point data exchanges between all GPU pairs, relying purely on NVLink's base bandwidth rather than NVSwitch's collective acceleration features.
+我们在 alltoall 操作上测到了 **340 GB/s**，这与公开 benchmark 中 H100 + NVLink 4.0 系统所表现出的性能特征一致（[来源](https://juser.fz-juelich.de/record/1019178/files/02-NCCL_NVSHMEM.pdf#page=20.00)）。与 allreduce 不同，alltoall 并不能从 NVLS 的硬件加速中获益，这也解释了为什么这里是 340 GB/s，而 allreduce 能做到 480 GB/s。alltoall 模式需要所有 GPU 对之间进行更复杂的点对点数据交换，因此它依赖的只是 NVLink 的基础带宽，而不是 NVSwitch 提供的 collective acceleration 特性。
 
 <Sidenote>
 
-For custom NVLink communication patterns, keep an eye on PyTorch's [SymmetricMemory API](https://dev-discuss.pytorch.org/t/pytorch-symmetricmemory-harnessing-nvlink-programmability-with-ease/2798), which enables fine-grained control over NVLink and NVLS operations.
+对于自定义 NVLink 通信模式，可以关注 PyTorch 的 [SymmetricMemory API](https://dev-discuss.pytorch.org/t/pytorch-symmetricmemory-harnessing-nvlink-programmability-with-ease/2798)。它可以对 NVLink 与 NVLS 操作进行更细粒度的控制。
 </Sidenote>
 
-<Note title="Advanced Kernel Optimization" emoji="⚡" variant="info">
+<Note title="高级 Kernel 优化" emoji="⚡" variant="info">
 
-Some optimized kernels separate NVLink communication from compute by assigning dedicated warps to handle transfers. For example, ThunderKittens uses a warp-level design where specific warps issue NVLink transfers and wait for completion, while other warps continue compute operations. This fine-grained overlap of SM compute and NVLink communication can hide most inter-GPU communication latency. For implementation details, see the <a href="https://hazyresearch.stanford.edu/blog/2025-09-22-pgl#fine-grained-overlap-of-sm-compute-and-nvlink-communication-with-thunderkittens" target="_blank">ThunderKittens blog post on multi-GPU kernels</a>.
+一些优化过的 kernels 会把 NVLink 通信与计算分离开来，为传输专门分配独立的 warps。例如，ThunderKittens 使用一种 warp-level 设计：部分 warps 负责发起 NVLink 传输并等待完成，而其他 warps 则继续进行计算。这种在细粒度上重叠 SM 计算与 NVLink 通信的方式，可以隐藏掉大部分跨 GPU 通信延迟。实现细节可以参考 <a href="https://hazyresearch.stanford.edu/blog/2025-09-22-pgl#fine-grained-overlap-of-sm-compute-and-nvlink-communication-with-thunderkittens" target="_blank">ThunderKittens 关于多 GPU kernels 的博客文章</a>。
 </Note>
 
-While NVLink provides exceptional bandwidth within a single node, training frontier models requires scaling across multiple nodes. 
+虽然 NVLink 在单节点内提供了极高带宽，但训练 frontier 模型终究需要扩展到多个节点。 
 
-This introduces a new potential bottleneck: the inter-node network interconnect, which operates at significantly lower bandwidths than NVLink.
+这就引入了一个新的潜在瓶颈：节点间网络互连，它的带宽远低于 NVLink。
 
-#### GPU-to-GPU Internode
+#### 跨节点 GPU 到 GPU 通信
 
 <Note>
 
-<b>TL;DR</b> Multi-node GPU communication uses high-speed networks like InfiniBand (400 Gbps) or RoCE (100 Gbps). Allreduce scales well (320-350 GB/s stable across nodes), enabling massive training clusters. Alltoall degrades more sharply due to algorithm complexity. Latency jumps from ~13μs intra-node to 55μs+ inter-node. For MoE workloads requiring frequent all-to-all operations, NVSHMEM offers asynchronous GPU-initiated communication with significantly better performance than CPU-orchestrated transfers.
+<b>TL;DR</b> 多节点 GPU 通信依赖于 InfiniBand（400 Gbps）或 RoCE（100 Gbps）等高速网络。Allreduce 的扩展性较好（跨节点后仍能稳定在 320-350 GB/s），这也是超大训练集群能够工作的关键。由于算法复杂度更高，alltoall 的退化要明显得多。延迟则会从节点内约 ~13μs 跳升到跨节点 55μs 以上。对于需要频繁 all-to-all 的 MoE 工作负载，NVSHMEM 提供了由 GPU 发起的异步通信，相比由 CPU 协调的数据传输具有显著更好的性能。
 </Note>
 
-As models scale beyond what a single node can accommodate, training requires distributing computation across multiple nodes connected via high-speed networks. Before diving into the benchmarks, let's look at the 3 key networking technologies connecting nodes you'll encounter in multi-node GPU clusters:
+当模型规模超出单节点能容纳的范围后，训练就必须分布到通过高速网络互联的多个节点上。在看 benchmark 之前，我们先看看多节点 GPU 集群中最常见的 3 类关键网络技术：
 
--  **Ethernet**  has evolved from 1 Gbps to 100+ Gbps speeds and remains widely used in HPC and data center clusters.
--  **RoCE (RDMA over Converged Ethernet)**  brings RDMA capabilities to Ethernet networks, using ECN for congestion control instead of traditional TCP mechanisms.
--  **InfiniBand**  is NVIDIA's industry-standard switch fabric, providing up to 400 Gbps bandwidth and sub-microsecond latency with RDMA support that enables direct GPU-to-GPU memory access while bypassing the host CPU through GPUDirect RDMA.
+-  **Ethernet** 已经从 1 Gbps 发展到 100+ Gbps，并且仍然被广泛用于 HPC 和数据中心集群。
+-  **RoCE（RDMA over Converged Ethernet）** 把 RDMA 能力带到了以太网中，并使用 ECN 而不是传统 TCP 机制来做拥塞控制。
+-  **InfiniBand** 是 NVIDIA 的行业标准交换网络，带宽可达 400 Gbps，延迟低于 1 微秒，并支持 RDMA，从而借助 GPUDirect RDMA 实现绕过 host CPU 的直接 GPU-GPU 内存访问。
 
-As a summary:
+总结如下：
 
 | Name | Ethernet (25–100 Gbps) | Ethernet (200–400 Gbps) | RoCE | Infiniband |
 | --- | --- | --- | --- | --- |
@@ -5017,106 +5015,106 @@ As a summary:
 | End to End Latency (μs) | 10-30 | N/A | ~1 | \<1 |
 | RDMA | No | No | Yes | Yes |
 
-Table: Comparison of Interconnects. Source: [https://www.sciencedirect.com/science/article/pii/S2772485922000618](https://www.sciencedirect.com/science/article/pii/S2772485922000618)
+表：互连技术对比。来源：[https://www.sciencedirect.com/science/article/pii/S2772485922000618](https://www.sciencedirect.com/science/article/pii/S2772485922000618)
 
-For AWS p5 instances we have [Elastic Fabric Adapter (](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html)[ **EFA** ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html)[)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html) as the  **NIC**  (Network Interface Card), where each GPU connects to four 100 Gbps EFA network cards through PCIe Gen5 x16 lanes, as we've seen before.
+在 AWS p5 实例上，我们使用的是 [Elastic Fabric Adapter（**EFA**）](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html) 作为 **NIC**（Network Interface Card）。正如前面看到的，每张 GPU 都通过 PCIe Gen5 x16 lanes 连接到 4 张 100 Gbps 的 EFA 网卡。
 
 <Wide>
 
-<HtmlEmbed src="/embeds/aws-bandwidth-bottleneck.html" config={{ initialFilter: 'gpu-gpu-efa-internode' }} caption="Internode GPU-to-GPU communication path through Libfabric EFA" />
+<HtmlEmbed src="/embeds/aws-bandwidth-bottleneck.html" config={{ initialFilter: 'gpu-gpu-efa-internode' }} caption="通过 Libfabric EFA 进行的跨节点 GPU-GPU 通信路径" />
 </Wide>
 
 
 
-As illustrated above, when GPUs and network cards are connected to the same PCIe switch,  **GPUDirect RDMA**  enables their communication to occur solely through that switch. This setup allows for full utilization of the PCIe Gen5 x16 bandwidth and avoids involving other PCIe switches or the CPU memory bus.
-Theoretically, 8 PCIe Switches per node x 4 EFA NICs per switch x 100 Gbps each EFA NIC gives  **3200 Gbps**(400GB/s)**  of bandwidth which is the bandwidth we find in [AWS p5's specs).](https://aws.amazon.com/ec2/instance-types/p5/) So how does it hold in practice? Let's find out by running the same benchmarks as before but across different nodes!
+如上图所示，当 GPU 和网卡连接在同一个 PCIe switch 上时， **GPUDirect RDMA** 能让它们的通信仅在该 switch 内完成。这样就可以充分利用 PCIe Gen5 x16 的带宽，同时避免经过其他 PCIe switches 或 CPU 内存总线。
+从理论上看，每个节点有 8 个 PCIe Switches，每个 switch 下有 4 张 EFA NIC，每张 EFA NIC 提供 100 Gbps，因此总带宽是 **3200 Gbps**（400GB/s），这也正是 [AWS p5 规格](https://aws.amazon.com/ec2/instance-types/p5/) 里给出的数字。那么实践中到底表现如何？下面我们继续运行和前面同样的 benchmarks，只不过这次跨不同节点来测！
 
- **Bandwidth Analysis** 
+ **带宽分析** 
 
 <Wide>
 
-<HtmlEmbed src="/embeds/nccl-bandwidth-comparison.html" caption="Bandwidth scaling of collective operations across different number of nodes on our AWS p5 instances, using recommendations from <a href='https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/nccl-tests-container.sbatch'>
+<HtmlEmbed src="/embeds/nccl-bandwidth-comparison.html" caption="在 AWS p5 实例上，collective operations 随节点数变化的带宽扩展情况，使用了 <a href='https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/nccl-tests-container.sbatch'>
 
-aws-samples/awsome-distributed-training.</a>"/>
+aws-samples/awsome-distributed-training</a> 中的建议配置。"/>
 </Wide>
 
 
 
-Point-to-point send/receive operations achieve around  **42-43 GB/s**  for 2-4 nodes but drop to approximately 21 GB/s for 5+ nodes. This performance degradation occurs because NCCL automatically reduces the number of point-to-point channels per peer from 2 to 1 when scaling beyond 4 nodes, effectively halving the available bandwidth utilization, while theoretical maximum remains ~50 GB/s (4 EFA NICs × 12.5 GB/s each). We successfully managed to restore the full throughput for this test on 5+ nodes by setting  `NCCL_NCHANNELS_PER_NET_PEER=2` , though this flag should be used with caution as it may degrade all-to-all performance for example (see [GitHub issue #1272](https://github.com/NVIDIA/nccl/issues/1272) for details).
+点对点 send/receive 操作在 2 到 4 个节点时能达到大约 **42-43 GB/s**，但在 5 个及以上节点时会下降到约 21 GB/s。这种性能下降是因为，当节点数超过 4 时，NCCL 会自动把每个 peer 的 point-to-point channels 数量从 2 降到 1，等于把可用带宽利用率直接砍半；而理论最大值仍然约为 ~50 GB/s（4 张 EFA NIC × 每张 12.5 GB/s）。我们通过设置 `NCCL_NCHANNELS_PER_NET_PEER=2`，成功在 5 个以上节点上恢复了该测试的完整吞吐。不过，这个 flag 需要谨慎使用，因为它可能会让 all-to-all 性能变差（详见 [GitHub issue #1272](https://github.com/NVIDIA/nccl/issues/1272)）。
 
-The all-reduce operation demonstrates excellent performance within a single node, achieving  **480 GB/s**  of bus bandwidth. When scaling to 2 nodes, bandwidth remains nearly identical at 479 GB/s, after which it stabilizes at around 320-350 GB/s for 3-16 nodes. This pattern reveals an important characteristic: while there's an initial drop when crossing node boundaries due to the transition from NVLink to the inter-node network fabric,  *the bandwidth then scales almost constantly as we add more nodes.* 
+all-reduce 在单节点内表现非常出色，bus bandwidth 可达 **480 GB/s**。扩展到 2 个节点时，带宽几乎不变，仍有 479 GB/s；之后在 3 到 16 个节点之间，会稳定在约 320-350 GB/s。这个现象揭示了一个重要特性：虽然在跨节点时，由于从 NVLink 切换到节点间网络 fabric，带宽会先掉一截，但 *随着节点继续增加，带宽随后会近似保持稳定扩展。* 
 
 <Note title="Scaling All-Reduce Across Nodes" emoji="💡" variant="tip">
 
 <p>
-This near-constant scaling behavior beyond 2 nodes is actually quite encouraging for large-scale training. The relatively stable 320-350 GB/s across 3-16 nodes suggests that parallelism strategies relying on all-reduce operations (for example, in data parallelism) can scale to hundreds or even thousands of GPUs without significant per-GPU bandwidth degradation. This logarithmic scaling characteristic is typical of well-designed multi-tier network topologies using 8-rail optimized fat trees, where each of the 8 GPUs connects to a separate switch rail to maximize bisection bandwidth. Modern frontier training clusters routinely operate at 100,000+ GPUs, and this stable scaling behavior is what makes such massive deployments feasible.
+这种在 2 个节点之后近似恒定的扩展行为，其实对大规模训练来说非常令人鼓舞。3 到 16 个节点之间相对稳定的 320-350 GB/s，说明依赖 all-reduce 的并行策略（例如数据并行）可以扩展到数百甚至数千张 GPU，而不会出现显著的单 GPU 带宽劣化。这种近似对数式的扩展特征，通常出现在设计良好的多层网络拓扑中，例如使用 8-rail 优化 fat tree 的集群，在这种结构里，8 张 GPU 会分别连接到不同的 switch rail，以最大化 bisection bandwidth。现代 frontier 训练集群经常运行在 10 万张以上 GPU 的规模上，而这种稳定扩展行为正是这种超大部署成为可能的原因。
 </p>
 <p>
-When working with different bandwidth links (NVLink within nodes vs. inter-node network), consider adapting your parallelism strategy to each bandwidth tier to fully utilize all available bandwidths. See the <a href="[https://huggingface.co/spaces/nanotron/ultrascale-playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)">Ultrascale playbook</a> for detailed guidance on optimizing parallelism configurations for heterogeneous network topologies.
+当系统里同时存在不同带宽层级的链路（例如节点内的 NVLink 与节点间网络）时，应考虑针对不同带宽层来调整并行策略，以充分利用所有可用带宽。关于如何在异构网络拓扑下优化并行配置，可参考 <a href="[https://huggingface.co/spaces/nanotron/ultrascale-playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)">Ultrascale playbook</a>。
 </p>
 </Note>
 
-The all-to-all operation shows more dramatic scaling challenges: starting at 344 GB/s for a single node, bandwidth drops to 81 GB/s at 2 nodes and continues declining to approximately 45-58 GB/s for larger clusters. This steeper degradation reflects the all-to-all pattern's intensive network demands, where each GPU must communicate with every other GPU across nodes, creating significantly more network congestion than all-reduce operations.
+all-to-all 则表现出更加明显的扩展挑战：单节点时起步有 344 GB/s，但到了 2 个节点就掉到 81 GB/s，在更大的集群里还会继续下降到约 45-58 GB/s。相比之下更陡峭的退化，反映的是 all-to-all 模式对网络的高强度需求，因为每张 GPU 都必须跨节点和所有其他 GPU 通信，这会比 all-reduce 产生更严重的网络拥塞。
 
- **Latency Analysis** 
+ **延迟分析** 
 
 <Wide>
 
-<HtmlEmbed src="/embeds/nccl-latency-comparison.html" caption="Latency scaling of collective operations across different number of nodes on our AWS p5 instances, using recommendations from <a href='https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/nccl-tests-container.sbatch'>
+<HtmlEmbed src="/embeds/nccl-latency-comparison.html" caption="在 AWS p5 实例上，collective operations 随节点数变化的延迟扩展情况，使用了 <a href='https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/nccl-tests-container.sbatch'>
 
 [aws-samples/awsome-distributed-training](https://github.com/aws-samples/awsome-distributed-training/blob/main/micro-benchmarks/nccl-tests/slurm/nccl-tests-container.sbatch)</a>." />
 </Wide>
 
 
 
- **Latency**  measurements reveal the fundamental cost of crossing node boundaries. Send/receive operations maintain relatively stable latencies of  **40-53 μs**  across all multi-node configurations, demonstrating that point-to-point communication latency is primarily determined by the base network round-trip time rather than cluster size, though some variation suggests network topology and routing effects still play a role.
+ **Latency** 测量揭示了跨越节点边界的基本代价。send/receive 操作在所有多节点配置下都维持在相对稳定的 **40-53 μs**，这说明点对点通信延迟主要由网络基础往返时间决定，而不是由集群规模决定，不过其中的一些波动也说明网络拓扑和路由路径仍然会产生影响。
 
-All-reduce operations show minimal latency of  **12.9 μs**  within a single node, but this jumps to  **55.5 μs**  for 2 nodes and continues increasing nearly linearly with cluster size, reaching  **235 μs** at 16 nodes. This progression reflects both the increased communication distance and the growing complexity of the reduction tree across more nodes.
+all-reduce 在单节点内的最小延迟只有 **12.9 μs**，但到了 2 个节点时就会跳到 **55.5 μs**，并且几乎随着集群规模线性上升，在 16 个节点时达到 **235 μs**。这种增长同时反映了通信距离变长，以及 reduction tree 在节点增多后变得更复杂。
 
-All-to-all operations exhibit similar trends, starting at  **7.6 μs**  for single-node communication but climbing to  **60 μs**  at 2 nodes and reaching  **621**  μs at 16 nodes. The superlinear growth in latency for all-to-all operations indicates that network congestion and coordination overhead compound as more nodes participate in the collective.
+all-to-all 也表现出类似趋势：单节点时只有 **7.6 μs**，到了 2 个节点就涨到 **60 μs**，在 16 个节点时更是达到 **621 μs**。all-to-all 延迟的超线性增长说明，随着更多节点参与 collective，网络拥塞与协调开销会叠加放大。
 
-<Note title="NVSHMEM for Optimized GPU Communication" emoji="🚀" variant="info">
+<Note title="用 NVSHMEM 优化 GPU 通信" emoji="🚀" variant="info">
 
 <p>
-With the rise of Mixture of Experts (MoE) architectures, which require frequent all-to-all communication patterns for expert routing, optimized GPU communication libraries have become increasingly critical. 
+随着 Mixture of Experts（MoE）架构的兴起，由于 expert routing 需要频繁执行 all-to-all 通信模式，优化过的 GPU 通信库也变得越来越关键。
 </p>
 <p>
-<a href="https://developer.nvidia.com/nvshmem" target="_blank">NVSHMEM</a> is gaining significant traction as a high-performance communication library that combines the memory of multiple GPUs into a partitioned global address space (PGAS). Unlike traditional MPI-based approaches that rely on CPU-orchestrated data transfers, NVSHMEM enables asynchronous, GPU-initiated operations that eliminate CPU-GPU synchronization overhead. 
+<a href="https://developer.nvidia.com/nvshmem" target="_blank">NVSHMEM</a> 作为一种高性能通信库，正在迅速获得关注。它把多张 GPU 的内存组合成一个 partitioned global address space（PGAS）。与依赖 CPU 协调数据传输的传统 MPI 方法不同，NVSHMEM 支持由 GPU 发起的异步操作，从而消除了 CPU-GPU 同步开销。
 </p>
 <p>
-NVSHMEM offers several key advantages for GPU communication: Through technologies like GPUDirect Async, GPUs can bypass the CPU entirely when issuing internode communication, achieving up to 9.5x higher throughput for small messages (\<1 KiB). This is particularly beneficial for collective operations that require intensive network communication patterns. 
+NVSHMEM 在 GPU 通信上有几个关键优势：通过 GPUDirect Async 之类的技术，GPU 在发起跨节点通信时可以完全绕过 CPU，在小消息（\<1 KiB）场景下可实现最高 9.5 倍吞吐提升。这对那些需要高强度网络通信模式的 collective operations 尤其有利。
 </p>
 <p>
-The library currently supports InfiniBand/RoCE with Mellanox adapters (CX-4 or later), Slingshot-11 (Libfabric CXI), and Amazon EFA (Libfabric EFA). For applications requiring strong scaling with fine-grain communication, NVSHMEM's low-overhead, one-sided communication primitives can significantly improve performance compared to traditional CPU-proxy methods. 
+目前，这个库支持搭配 Mellanox 适配器（CX-4 及以后版本）的 InfiniBand/RoCE、Slingshot-11（Libfabric CXI），以及 Amazon EFA（Libfabric EFA）。对于那些要求强扩展且通信粒度很细的应用，NVSHMEM 的低开销、单边通信 primitives 相比传统 CPU-proxy 方法能显著提升性能。
 </p>
 <p>
-Learn more in the <a href="https://developer.nvidia.com/nvshmem" target="_blank">NVSHMEM documentation</a> and this detailed <a href="https://developer.nvidia.com/blog/improving-network-performance-of-hpc-systems-using-nvidia-magnum-io-nvshmem-and-gpudirect-async/" target="_blank">blog post on GPUDirect Async</a>.
+更多内容可参考 <a href="https://developer.nvidia.com/nvshmem" target="_blank">NVSHMEM documentation</a>，以及这篇详细介绍 <a href="https://developer.nvidia.com/blog/improving-network-performance-of-hpc-systems-using-nvidia-magnum-io-nvshmem-and-gpudirect-async/" target="_blank">GPUDirect Async</a> 的博客文章。
 </p>
 </Note>
 
-When bandwidth measurements fall short of expectations, several factors could be limiting performance. Understanding these potential bottlenecks is essential for achieving optimal interconnect utilization.
+当带宽测量结果低于预期时，可能有多个因素在限制性能。理解这些潜在瓶颈，是把互连利用率调到最优的关键。
 
-#### Troubleshooting Interconnect
+#### 互连故障排查
 
-If you're experiencing lower than expected bandwidth, systematically check the following areas:
+如果你遇到的带宽低于预期，可以系统地检查以下几个方面：
 
- **Library Versions** 
+ **库版本** 
 
-Outdated NCCL, EFA, or CUDA libraries may lack critical performance optimizations or bug fixes. Always verify you're running recent, compatible versions of all communication libraries. e.g. AWS regularly updates their Deep Learning AMIs with optimized library versions for their hardware. It's also recommended to log these library versions for important experiments.
+过旧的 NCCL、EFA 或 CUDA 库，可能缺少关键性能优化或 bug 修复。应始终确认你使用的是近期且兼容的通信库版本。例如，AWS 会定期更新其 Deep Learning AMIs，为他们的硬件提供优化过的库版本。对于重要实验，也建议把这些库版本记录下来。
 
- **CPU Affinity Configuration** 
+ **CPU Affinity 配置** 
 
-Improper CPU affinity settings can significantly impact NCCL performance by causing unnecessary cross-NUMA traffic. Each GPU should be bound to CPUs on the same NUMA node to minimize memory access latency. In practice, [this Github issue](https://github.com/NVIDIA/nccl/issues/1017#issuecomment-1751385723) demonstrates how using  `NCCL_IGNORE_CPU_AFFINITY=1`  and  `--cpu-bind none`  helped reduce container latency significantly. [You can read more about it here.](https://enterprise-support.nvidia.com/s/article/understanding-numa-node-for-performance-benchmarks#Mapping-between-PCI-device-driver-port-and-NUMA)
+不正确的 CPU affinity 设置会造成不必要的跨 NUMA 流量，从而显著影响 NCCL 性能。每张 GPU 都应绑定到同一个 NUMA 节点上的 CPU，以尽量降低内存访问延迟。在实践中，[这个 Github issue](https://github.com/NVIDIA/nccl/issues/1017#issuecomment-1751385723) 展示了使用 `NCCL_IGNORE_CPU_AFFINITY=1` 和 `--cpu-bind none` 如何显著降低容器延迟。[相关背景可见这里。](https://enterprise-support.nvidia.com/s/article/understanding-numa-node-for-performance-benchmarks#Mapping-between-PCI-device-driver-port-and-NUMA)
 
- **Network Topology and Placement** 
+ **网络拓扑与放置位置** 
 
-Understanding your network topology is crucial for diagnosing performance issues. Cloud placement groups, while helpful, don't guarantee minimal network hops between instances. In modern datacenter fat-tree topologies, instances placed under different top-level switches will experience higher latency and potentially lower bandwidth due to additional network hops in the routing path.
+理解你的网络拓扑对于诊断性能问题非常关键。云上的 placement groups 虽然有帮助，但并不能保证实例之间的网络跳数最小。在现代数据中心的 fat-tree 拓扑中，如果实例落在不同的顶层 switch 下，由于路由路径中多了额外的网络跳数，就会带来更高延迟，以及潜在更低的带宽。
 
-For  **AWS EC2**  users, the [Instance Topology API](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-ec2-instance-topology-works.html) provides valuable visibility into network node placement. Instances sharing t"he same network node at the bottom layer (directly connected to the instance) are physically closest and will achieve the lowest latency communication.
+对于 **AWS EC2** 用户来说，[Instance Topology API](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-ec2-instance-topology-works.html) 能够提供非常有价值的网络节点放置信息。那些共享同一个底层网络节点（也就是直接连接到实例的那一层）的实例，在物理上彼此最近，因此能够实现最低延迟的通信。
 
 <FullWidth>
 
-<Reference caption="Network topology visualization showing instance placement.">
+<Reference caption="展示实例放置位置的网络拓扑可视化。">
 
 ```mermaid
 graph TD
@@ -5198,54 +5196,54 @@ graph TD
 
 
 
-Minimizing network hops between communicating nodes directly translates to better interconnect performance. For small-scale experiments and ablations, ensuring your instances are co-located on the same network switch can make a measurable difference in both latency and bandwidth utilization.
+尽量减少通信节点之间的网络跳数，会直接转化为更好的互连性能。对于小规模实验和消融测试来说，确保实例被放置在同一个网络 switch 下，往往会在延迟和带宽利用率上带来可观且可测的提升。
 
- **Correct Environment Variables** 
+ **正确的环境变量** 
 
-Missing or incorrect environment variables for your network adapter can severely limit bandwidth utilization. Communication libraries like NCCL rely on specific configuration flags to enable optimal performance features such as adaptive routing, GPU-initiated transfers, and proper buffer sizing.
+网络适配器所需的环境变量如果缺失或设置错误，会严重限制带宽利用率。像 NCCL 这样的通信库依赖特定配置 flags 来启用最优性能特性，例如自适应路由、GPU 发起传输，以及合适的 buffer sizing。
 
-For example, when using AWS EFA (Elastic Fabric Adapter), ensure you're setting the recommended NCCL and EFA environment variables for your instance type. The [AWS EFA cheatsheet](https://github.com/aws-samples/awsome-distributed-training/blob/main/1.architectures/efa-cheatsheet.md) provides comprehensive guidance on optimal flag configurations for different scenarios.
+例如，在使用 AWS EFA（Elastic Fabric Adapter）时，一定要确认你已经为对应实例类型设置了推荐的 NCCL 与 EFA 环境变量。[AWS EFA cheatsheet](https://github.com/aws-samples/awsome-distributed-training/blob/main/1.architectures/efa-cheatsheet.md) 提供了针对不同场景的完整 flag 配置建议。
 
- **Container-specific Considerations** 
+ **容器相关注意事项** 
 
-When using containers (Docker/Enroot), several configuration steps are critical for optimal NCCL performance:
+当你使用容器（Docker/Enroot）时，有几个配置步骤对 NCCL 性能至关重要：
 
--  **Shared and Pinned Memory** : Docker containers default to limited shared and pinned memory resources. Launch containers with  `-shm-size=1g --ulimit memlock=-1`  to prevent initialization failures.
--  **NUMA Support** : Docker disables NUMA support by default, which can prevent cuMem host allocations from working correctly. Enable NUMA support by invoking Docker with  `-cap-add SYS_NICE` .
--  **PCI Topology Discovery** : Ensure  `/sys`  is properly mounted to allow NCCL to discover the PCI topology of GPUs and network cards. Having  `/sys`  expose a virtual PCI topology can result in sub-optimal performance.
+-  **Shared 和 Pinned Memory**：Docker 容器默认可用的 shared memory 和 pinned memory 资源有限。启动容器时应加上 `-shm-size=1g --ulimit memlock=-1`，以避免初始化失败。
+-  **NUMA 支持**：Docker 默认会禁用 NUMA 支持，这可能导致 cuMem host allocations 无法正常工作。可以通过 `-cap-add SYS_NICE` 启动 Docker，以启用 NUMA 支持。
+-  **PCI 拓扑发现**：确保 `/sys` 被正确挂载，这样 NCCL 才能识别 GPU 与网卡的 PCI 拓扑。如果 `/sys` 暴露的是虚拟化后的 PCI 拓扑，可能会导致次优性能。
 
-<Note title="Community Troubleshooting" emoji="🤗" variant="tip">
+<Note title="社区排障经验" emoji="🤗" variant="tip">
 
-We're gathering troubleshooting findings here as a community effort. If you've encountered performance issues or discovered effective debugging methods, please jump to the [Discussion Tab](https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook/discussions) and share your experience to help others optimize their interconnect utilization.
+我们正在把这些排障经验整理成一个社区共同维护的知识库。如果你也遇到过性能问题，或者找到了有效的调试方法，欢迎到 [Discussion Tab](https://huggingface.co/spaces/HuggingFaceTB/smol-training-playbook/discussions) 分享你的经验，帮助其他人更好地优化互连利用率。
 </Note>
 
-Now that you know how to debug bottlenecks in GPU-CPU and GPU-GPU communication let's have a look at a GPU communication part that typically gets less attention, namely communication with the storage layer! 
+既然你已经知道如何排查 GPU-CPU 和 GPU-GPU 通信中的瓶颈，我们再来看一个通常更容易被忽略的通信环节：也就是 GPU 与存储层之间的通信。 
 
-#### GPU-to-Storage
+#### GPU 到存储
 
-The connection between GPUs and storage systems is often overlooked but can significantly impact training efficiency. During training, GPUs need to continuously read data from storage (data loading, especially for multimodal data with large image/video files) and periodically write model states back to storage (aka checkpointing). For modern large-scale training runs, these I/O operations can become bottlenecks if not properly optimized.
+GPU 与存储系统之间的连接常常被忽视，但它对训练效率的影响可能非常大。在训练过程中，GPU 需要持续从存储中读取数据（data loading，尤其是带有大图像/视频文件的多模态数据），还需要定期把模型状态写回存储（也就是 checkpointing）。在现代大规模训练任务中，如果这些 I/O 操作没有优化好，它们就可能成为瓶颈。
 
 <Note>
 
-<b>TL;DR:</b> GPU-storage I/O impacts training through data loading and checkpointing. GPUDirect Storage (GDS) enables direct GPU-to-storage transfers, bypassing CPU for better performance. Even without GDS enabled in our cluster, local NVMe RAID (8×3.5TB drives in RAID 0) delivers 26.59 GiB/s and 337K IOPS (6.3x faster than network storage), making it ideal for checkpoints.
+<b>TL;DR:</b> GPU-存储 I/O 会通过 data loading 和 checkpointing 直接影响训练。GPUDirect Storage（GDS）允许数据直接在 GPU 与存储之间传输，从而绕过 CPU、获得更好的性能。即使我们的集群当前没有启用 GDS，本地 NVMe RAID（8×3.5TB，RAID 0）也能提供 26.59 GiB/s 和 337K IOPS（比网络存储快 6.3 倍），因此非常适合存放 checkpoints。
 </Note>
 
- **Understanding Storage Topology** 
+ **理解存储拓扑** 
 
-The physical connection between GPUs and storage devices follows a similar hierarchical structure to GPU interconnects. Storage devices connect through PCIe bridges, and understanding this topology helps explain performance characteristics and potential bottlenecks.
+GPU 与存储设备之间的物理连接，其实也遵循着与 GPU 互连类似的层级结构。存储设备通过 PCIe bridges 接入系统，而理解这种拓扑结构，有助于解释性能特征以及潜在瓶颈。
 
-Looking at the system topology from  `lstopo` , we can see how NVMe drives connect to the system. In our p5 instance, we have 1 NVMe SSD per GPU:
+从 `lstopo` 提供的系统拓扑中，我们可以看到 NVMe 硬盘是如何接入系统的。在我们的 p5 实例中，每张 GPU 对应 1 块 NVMe SSD：
 
 ```
 PCIBridge L#13 (busid=0000:46:01.5 id=1d0f:0200 class=0604(PCIBridge) link=15.75GB/s buses=0000:[54-54] PCIVendor="Amazon.com, Inc.")
 PCI L#11 (busid=0000:54:00.0 id=1d0f:cd01 class=0108(NVMExp) link=15.75GB/s PCISlot=87-1 PCIVendor="Amazon.com, Inc." PCIDevice="NVMe SSD Controller")
     Block(Disk) L#9 (Size=3710937500 SectorSize=512 LinuxDeviceID=259:2 Model="Amazon EC2 NVMe Instance Storage" Revision=0 SerialNumber=AWS110C9F44F9A530351) "nvme1n1"
 ```
-A natural question would be whether GPUs can directly access NVMe drives without involving the CPU. The answer is yes, through  **GPUDirect Storage (GDS)** .
+一个很自然的问题是：GPU 能否在不经过 CPU 的情况下直接访问 NVMe 硬盘？答案是可以，通过 **GPUDirect Storage（GDS）**。
 
- **GPUDirect Storage**  is part of NVIDIA's [GPUDirect](https://developer.nvidia.com/gpudirect) family of technologies that enables a direct data path between storage (local NVMe or remote NVMe-oF) and GPU memory. It eliminates unnecessary memory copies through CPU bounce buffers by allowing the DMA engine near the storage controller to move data directly into or out of GPU memory. This reduces CPU overhead, decreases latency, and significantly improves I/O performance for data-intensive workloads like training on large multimodal datasets.
+ **GPUDirect Storage** 是 NVIDIA [GPUDirect](https://developer.nvidia.com/gpudirect) 技术家族的一部分，它在存储（本地 NVMe 或远程 NVMe-oF）与 GPU 内存之间建立了一条直接数据通路。它允许存储控制器附近的 DMA engine 直接把数据搬进或搬出 GPU 内存，从而消除了通过 CPU bounce buffers 的不必要内存拷贝。这会降低 CPU 开销、减少延迟，并显著提升大规模多模态数据训练这类数据密集型工作负载的 I/O 性能。
 
-To verify if GPUDirect Storage is properly configured on your system, you can check the GDS configuration file and use the provided diagnostic tools:
+如果你想确认系统上的 GPUDirect Storage 是否配置正确，可以检查 GDS 的配置文件，并使用随附的诊断工具：
 
 ```
 $ /usr/local/cuda/gds/tools/gdscheck.py -p
@@ -5269,11 +5267,11 @@ $ /usr/local/cuda/gds/tools/gdscheck.py -p
  --rdma_device_status  : Up: 0 Down: 0
  =====================
 ```
-We see  `NVMe: Supported`  which informs that GDS is currently configured to work for NVMe drives, and all other storage types are not properly configured as apparent from the Unsupported flag. If GDS is not properly configured for your storage type, refer to the [NVIDIA GPUDirect Storage Configuration Guide](https://docs.nvidia.com/gpudirect-storage/configuration-guide/index.html) for instructions on modifying the configuration file at  `/etc/cufile.json` .
+这里可以看到 `NVMe: Supported`，说明 GDS 当前已经被配置为支持 NVMe 硬盘；其他存储类型则都显示为 Unsupported，说明还没有正确配置。如果你的目标存储类型尚未正确配置 GDS，可以参考 [NVIDIA GPUDirect Storage Configuration Guide](https://docs.nvidia.com/gpudirect-storage/configuration-guide/index.html)，修改 `/etc/cufile.json` 中的相关配置。
 
- **Block Storage Devices** 
+ **块存储设备** 
 
-To understand the storage devices available on your system, you can use  `lsblk`  to display the block device hierarchy:
+要了解系统中有哪些可用存储设备，可以使用 `lsblk` 来查看块设备层级：
 
 ```
 $ lsblk --fs -M
@@ -5291,24 +5289,24 @@ $ lsblk --fs -M
 └┬▶ nvme7n1     linux_raid_member ip-26-0-164-236:MY_RAID d0795631-71f0-37e5-133b-e748befec126
  └┈┈md0         xfs                                       dddb6849-e5b5-4828-9034-96da65da27f0   27.5T     1% /scratch
 ```
-This output shows the block device hierarchy on the system. The key observations:
+这段输出展示了系统中的块设备层级结构。关键信息包括：
 
--  `nvme0n1p1`  is the root [Amazon EBS](https://aws.amazon.com/ebs/) filesystem mounted at  `/` , using 35% of its full ~300GB capacity
-- Eight NVMe drives ( `nvme1n1`  through  `nvme8n1` ) are configured as a RAID array named  `MY_RAID` 
-- The RAID array is exposed as  `/dev/md0` , formatted with XFS, and mounted at  `/scratch`  with 28TB available (8x3.5TB)
+-  `nvme0n1p1` 是根 [Amazon EBS](https://aws.amazon.com/ebs/) 文件系统，挂载在 `/`，总容量约 300GB，目前用了 35%
+-  8 块 NVMe 硬盘（`nvme1n1` 到 `nvme8n1`）被配置成一个名为 `MY_RAID` 的 RAID 阵列
+-  这个 RAID 阵列以 `/dev/md0` 的形式暴露出来，使用 XFS 格式化，并挂载在 `/scratch`，可用容量为 28TB（8×3.5TB）
 
-The arrows (┈▶) indicate that multiple NVMe devices are members of the same RAID array, which then combines into the single  `md0`  device.
+箭头（┈▶）表示多个 NVMe 设备都是同一个 RAID 阵列的成员，最终汇总成单个 `md0` 设备。
 
 <Sidenote>
 
-[Amazon Elastic Block Store (EBS)](https://aws.amazon.com/ebs/) is a high-performance, scalable block storage service designed for use with Amazon EC2 instances.
+[Amazon Elastic Block Store（EBS）](https://aws.amazon.com/ebs/) 是 AWS 面向 Amazon EC2 实例提供的一种高性能、可扩展块存储服务。
 </Sidenote>
 
   
 
- **Network Storage** 
+ **网络存储** 
 
-In addition to local NVMe storage, the system has access to network-attached storage systems:
+除了本地 NVMe 存储之外，系统还可以访问网络挂载的存储系统：
 
 ```
 $ df -h
@@ -5318,115 +5316,99 @@ weka-hopper.hpc.internal.huggingface.tech/default  393T  263T  131T  67% /fsx
 10.53.83.155@tcp:/fg7ntbev                         4.5T  2.9T  1.7T  63% /admin
 /dev/md0                                            28T  206G   28T   1% /scratch
 ```
-This output shows:
+这段输出表明：
 
--  `/dev/root`  (291GB [Amazon EBS](https://aws.amazon.com/ebs/)) is the root filesystem at 35% capacity
--  `/fsx`  (393TB WekaFS) is 67% full with 131TB available
--  `/admin`  (4.5TB FSx Lustre) is 63% full with 1.7TB available
--  `/dev/md0`  (28TB local NVMe RAID) is only 1% full with 28TB available at  `/scratch` . This is our 8×3.5TB SSD NVMe instance store drives in RAID.
+-  `/dev/root`（291GB [Amazon EBS](https://aws.amazon.com/ebs/)）是根文件系统，目前使用了 35%
+-  `/fsx`（393TB WekaFS）已使用 67%，还剩 131TB
+-  `/admin`（4.5TB FSx Lustre）已使用 63%，还剩 1.7TB
+-  `/dev/md0`（28TB 本地 NVMe RAID）只用了 1%，挂载在 `/scratch`，还剩 28TB。这就是我们的 8×3.5TB SSD NVMe instance store drives 组成的 RAID。
 
 <Sidenote>
 
-Note that  `/fsx`  isn't actually Amazon FSx, but WekaFS. We kept the same mount point name for convenience when we migrated from FSx to WekaFS.
+需要注意的是，`/fsx` 实际上并不是 Amazon FSx，而是 WekaFS。我们从 FSx 迁移到 WekaFS 后，出于使用方便，保留了同样的挂载点名称。
 </Sidenote>
 
-The local NVMe RAID array ( `/scratch` ) provides the fastest I/O performance, while the network filesystems offer larger capacity for shared data storage.
+本地 NVMe RAID 阵列（`/scratch`）提供了最快的 I/O 性能，而网络文件系统则提供了更大的共享存储容量。
 
-<Note title="Storage Technologies" emoji="💾" variant="info">
+<Note title="存储技术" emoji="💾" variant="info">
 
 <p>
-    <b>RAID (Redundant Array of Independent Disks)</b>: Combines multiple drives
-    to improve performance and/or reliability through data striping, parity, or
-    mirroring.
+    <b>RAID（Redundant Array of Independent Disks）</b>：通过数据条带化、校验或镜像等方式，把多块硬盘组合起来，以提升性能和/或可靠性。
   </p>
   <p>
-    <b>NVMe (Non-Volatile Memory Express)</b>: High-performance storage protocol
-    for SSDs that connects directly to PCIe, delivering higher throughput and
-    lower latency than SATA/SAS.
+    <b>NVMe（Non-Volatile Memory Express）</b>：一种面向 SSD 的高性能存储协议，直接连接到 PCIe，因此相比 SATA/SAS 能提供更高吞吐和更低延迟。
   </p>
   <p>
-    <b>WekaFS</b>: A high-performance parallel file system designed for AI/ML
-    workloads, providing low-latency access and high throughput across multiple
-    nodes.
+    <b>WekaFS</b>：一种面向 AI/ML 工作负载设计的高性能并行文件系统，能够在多节点之间提供低延迟访问和高吞吐。
   </p>
   <p>
-    <b>FSx Lustre</b>: A parallel file system designed for HPC that separates
-    metadata and data services across different servers to enable parallel
-    access. While effective for large files, it can struggle with
-    metadata-intensive AI/ML workloads involving many small files.
+    <b>FSx Lustre</b>：一种面向 HPC 的并行文件系统，它把 metadata 和 data 服务分布在不同服务器上，以支持并行访问。虽然它对大文件很有效，但在涉及大量小文件、metadata 压力很大的 AI/ML 工作负载中可能会表现不佳。
   </p>
 </Note>
 
- **Benchmarking Storage Bandwidth** 
+ **存储带宽基准测试** 
 
-To understand the performance characteristics of each storage system, we can benchmark their read/write speeds using GPUDirect Storage (GDS). Here's a comprehensive parametric benchmark script that tests various configurations:
+为了理解不同存储系统的性能特征，我们可以使用 GPUDirect Storage（GDS）对它们的读写速度进行 benchmark。下面是一个可测试多种配置的参数化 benchmark 脚本：
 
 ```
 gdsio -f /<disk_path>/gds_test.dat -d 0 -w <n_threads> -s 10G -i <io_size> -x 1 -I 1 -T 10
 ```
-The benchmark evaluates storage system performance across Throughput, Latency, IOPS but also:
+这个 benchmark 除了评估 Throughput、Latency、IOPS 之外，还能帮助我们理解：
 
- **Scalability** : How performance changes with different thread counts and I/O sizes. This reveals optimal configurations for different workload patterns:
+ **可扩展性**：不同线程数和 I/O 大小时性能如何变化。这可以帮助我们找出不同工作负载模式下的最优配置：
 
-- Small I/O sizes (64K to 256K) typically maximize IOPS but may not saturate bandwidth
-- Large I/O sizes (2M to 8M) typically maximize throughput but reduce IOPS
-- Thread count affects both: more threads can increase total IOPS and throughput up to hardware limits
+- 小 I/O（64K 到 256K）通常能最大化 IOPS，但未必能打满带宽
+- 大 I/O（2M 到 8M）通常能最大化吞吐，但会降低 IOPS
+- 线程数会同时影响两者：更多线程可以在达到硬件上限之前提升总 IOPS 和总吞吐
 
- **Transfer Method Efficiency** : Comparing GPU_DIRECT vs CPU_GPU vs CPUONLY shows the benefit of bypassing CPU memory:
+ **传输方式效率**：比较 GPU_DIRECT、CPU_GPU 和 CPUONLY，可以看出绕过 CPU 内存到底能带来多少收益：
 
--  **GPU_DIRECT** : Uses RDMA to transfer data directly to GPU memory, bypassing CPU entirely (lowest latency, highest efficiency, best IOPS for small operations)
--  **CPU_GPU** : Traditional path where data goes to CPU memory first, then copied to GPU (adds CPU overhead and memory bandwidth contention, reduces effective IOPS)
--  **CPUONLY** : Baseline CPU-only I/O without GPU involvement
+-  **GPU_DIRECT**：使用 RDMA 直接把数据传进 GPU 内存，完全绕过 CPU（延迟最低、效率最高、小操作下 IOPS 最佳）
+-  **CPU_GPU**：传统路径，数据先进入 CPU 内存，再复制到 GPU（会增加 CPU 开销并争用内存带宽，从而降低有效 IOPS）
+-  **CPUONLY**：不涉及 GPU 的纯 CPU I/O 基线
 
 <Note title="IOPS (I/O Operations Per Second)" emoji="📊" variant="info">
 
 <p>
-    IOPS is the number of individual I/O operations completed per second.
-    Calculated as <code>ops / total_time</code> from the gdsio output. IOPS is
-    particularly important for:
+    IOPS 指的是每秒完成的独立 I/O 操作次数。
+    它可通过 gdsio 输出中的 <code>ops / total_time</code> 计算得到。IOPS 在以下场景中特别重要：
   </p>
   <ul>
-    <li>Random access patterns with small I/O sizes</li>
-    <li>Workloads with many small files or scattered data access</li>
-    <li>
-      Database-like operations where latency per operation matters more than raw
-      bandwidth
-    </li>
-    <li>
-      Higher IOPS indicates better ability to handle concurrent, fine-grained
-      data access
-    </li>
+    <li>小 I/O 尺寸下的随机访问模式</li>
+    <li>包含大量小文件或离散数据访问的工作负载</li>
+    <li>类似数据库的场景，在这种场景下，单次操作延迟比原始带宽更重要</li>
+    <li>更高的 IOPS 表示系统更擅长处理并发的、细粒度的数据访问</li>
   </ul>
 </Note>
 
-<HtmlEmbed src="/embeds/gds-interactive-heatmaps.html" caption="Benchmark results comparing storage system performance across varying thread counts and I/O sizes. The heatmaps visualize throughput (GiB/s) and IOPS patterns, revealing optimal configurations for each storage tier. Note: GPUDirect Storage (GDS) is not currently supported in this cluster configuration."/>
+<HtmlEmbed src="/embeds/gds-interactive-heatmaps.html" caption="对不同线程数和 I/O 大小下的存储系统性能进行 benchmark 后的结果。热力图展示了 throughput（GiB/s）与 IOPS 的模式，揭示了各存储层级的最优配置。注意：当前集群配置尚未支持 GPUDirect Storage（GDS）。"/>
 
 
 
-The benchmarks reveal dramatic performance differences across our four storage systems:
+benchmark 揭示了我们四套存储系统之间巨大的性能差异：
 
- **/scratch (Local NVMe RAID)**  dominates with  **26.59 GiB/s**  throughput and  **337K IOPS** , making it 6.3× faster than FSx for throughput and 6.6× better for IOPS. This local RAID array of 8×3.5TB NVMe drives delivers the lowest latency (190μs at peak IOPS) and scales exceptionally well with thread count, achieving peak performance at 64 threads with 1M I/O sizes for throughput.
+ **/scratch（本地 NVMe RAID）** 遥遥领先，吞吐达到 **26.59 GiB/s**，IOPS 达到 **337K**，吞吐比 FSx 快 6.3 倍，IOPS 也高出 6.6 倍。这个由 8×3.5TB NVMe 组成的本地 RAID 阵列，提供了最低延迟（峰值 IOPS 下为 190μs），并且随着线程数增加扩展得非常好；在吞吐上，它在 64 线程、1M I/O 尺寸下达到峰值。
 
- **/fsx (WekaFS)**  provides solid network storage performance at  **4.21 GiB/s**  and  **51K IOPS** , making it the best choice for shared data that needs reasonable performance. FSx achieves its best throughput (4.21 GiB/s) using CPUONLY transfer, while its best IOPS (51K) uses GPUD transfer type.
+ **/fsx（WekaFS）** 提供了相当不错的网络存储性能，达到 **4.21 GiB/s** 和 **51K IOPS**，因此它是需要共享、同时又要求一定性能的数据的最佳选择。FSx 在 CPUONLY 传输模式下实现了最佳吞吐（4.21 GiB/s），而其最高 IOPS（51K）则出现在 GPUD 传输模式下。
 
- **/admin (FSx Lustre)**  and  **/root (EBS)**  filesystems show similar modest performance around  **1.1 GiB/s**  throughput, but differ significantly in IOPS capability. Admin achieves its peak throughput (1.13 GiB/s) with GPUD transfer and peaks at 17K IOPS with CPU_GPU transfer (24× better than Root), making it more suitable for workloads with many small operations. Root's poor IOPS performance (730) confirms it's best suited for large sequential operations only.
+ **/admin（FSx Lustre）** 和 **/root（EBS）** 文件系统在吞吐上都只有大约 **1.1 GiB/s** 的一般水平，但在 IOPS 能力上差别很大。Admin 在 GPUD 传输模式下达到了峰值吞吐（1.13 GiB/s），并在 CPU_GPU 传输模式下达到 17K IOPS（比 Root 高 24 倍），因此它更适合包含大量小操作的工作负载。Root 极差的 IOPS 表现（730）说明它只适合大块顺序访问。
 
 <Note>
 
-<b>Note on GPU_DIRECT Results:</b> GPUDirect Storage (GDS) is not currently enabled in our cluster, which explains why GPUD results for NVMe storage (Scratch and Root) underperform compared to CPUONLY transfers. With GDS properly configured, we would expect GPUD to show significant advantages for direct GPU-to-storage transfers, particularly for the high-performance NVMe arrays.
+<b>关于 GPU_DIRECT 结果的说明：</b> 我们当前集群里并没有启用 GPUDirect Storage（GDS），这也解释了为什么 NVMe 存储（Scratch 和 Root）上的 GPUD 结果会比 CPUONLY 传输更差。如果 GDS 被正确配置，我们预期 GPUD 在 GPU 到存储的直接传输中会表现出明显优势，尤其是在高性能 NVMe 阵列上。
 </Note>
 
- **Optimal Configuration Patterns** : Across all storage types, maximum throughput occurs at 1M I/O sizes, while maximum IOPS occurs at the smallest tested size (64K). This classic tradeoff means choosing between raw bandwidth (large I/O) and operation concurrency (small I/O) based on workload characteristics. For ML training with large checkpoint files, the 1M-8M range on Scratch provides optimal performance.
+ **最优配置模式**：在所有存储类型中，最大吞吐都出现在 1M 的 I/O 尺寸下，而最大 IOPS 则都出现在最小测试尺寸（64K）下。这种经典权衡意味着：你需要根据工作负载特点，在原始带宽（大 I/O）和操作并发性（小 I/O）之间做选择。对于包含大 checkpoint 文件的 ML 训练来说，Scratch 上的 1M-8M 区间会提供最佳性能。
 
-#### Summary
+#### 小结
 
-If you've made it this far, congratulations! You now have a comprehensive understanding of the storage hierarchy and how different components interact in our training infrastructure. But here's the key insight we hope you take home:  **identifying bottlenecks is what separates theoretical knowledge from practical optimization** .
+如果你已经读到这里，恭喜你。你现在已经对存储层级以及不同组件在训练基础设施中的交互方式有了完整理解。但我们最希望你带走的核心洞察是： **真正把理论知识和实际优化区分开的，是对瓶颈的识别能力。** 
 
-Throughout this guide, we've measured actual bandwidths at every level of the stack: HBM3's 3TB/s within a single GPU, NVLink's 786 GB/s between GPUs in a node, PCIe Gen4 x8's 14.2 GB/s for CPU-GPU transfers, inter-node network's 42 GB/s for point-to-point communication, and storage systems ranging from 26.59 GB/s (local NVMe) down to 1.1 GB/s (shared filesystems). These measurements reveal where your training pipeline will slow down and are essential for achieving high Model FLOPs Utilization (MFU).
+在这一整节中，我们测量了整个栈上各层级的真实带宽：单块 GPU 内部 HBM3 的 3TB/s、节点内 GPU 间 NVLink 的 786 GB/s、CPU-GPU 之间 PCIe Gen4 x8 的 14.2 GB/s、节点间网络点对点通信的 42 GB/s，以及从 26.59 GB/s（本地 NVMe）到 1.1 GB/s（共享文件系统）不等的存储系统性能。这些测量揭示了训练流水线会在哪里变慢，也是实现高 Model FLOPs Utilization（MFU）的关键。
 
-However, raw bandwidth numbers alone don't tell the complete story. Modern training systems can  **overlap computation with communication** , effectively hiding communication costs behind compute operations. This parallelization helps alleviate the bottleneck even when interconnects is slow. For detailed strategies on overlapping compute and communication to maximize throughput, see the Ultra-Scale Playbook.
+不过，原始带宽数字本身并不能讲完整个故事。现代训练系统可以 **把计算和通信重叠起来**，从而把通信成本隐藏在计算背后。即便互连较慢，这种并行化方式也能缓解瓶颈。关于如何通过重叠计算与通信来最大化吞吐，可以参考 Ultra-Scale Playbook。
 
-The diagram below synthesizes all our benchmarked measurements into a single view, showing how bandwidth decreases dramatically as we move further from the GPU:
+下图把我们所有 benchmark 得到的测量结果综合到了一张视图中，展示了带宽如何随着离 GPU 越来越远而急剧下降：
 
 <Wide>
 
@@ -5436,21 +5418,21 @@ config={{ showRealBandwidths: true }}
 />
 </Wide>
 
-Now that we know how to identify bottlenecks in our hardware and software setup, lets see how we can go one step further and ensure we have a resilient system that can run stable for months.
+既然我们已经知道如何识别硬件和软件环境中的瓶颈，接下来就再往前走一步，看看怎样构建一个足够有韧性的系统，让它可以稳定运行数月。
 
-### Building Resilient Training Systems
+### 构建具备韧性的训练系统
 
-Having fast hardware is just the entry ticket to having good and stable infrastructure for LLM training. To go from a training amateur to a professional, we need to think beyond raw speed and focus on the less glamorous but critical infrastructure pieces that make the entire training experience smoother and with minimal downtime. 
+拥有快速硬件，只是构建稳定优质 LLM 训练基础设施的入场券。要从训练新手走向专业实践，我们必须超越“原始速度”本身，把注意力放到那些不那么光鲜、但极其关键的基础设施组件上。正是它们决定了整个训练过程能否更顺畅、停机时间更低。 
 
-In this section, we shift from hardware & software optimization to  **production readiness** : building systems  **robust**  enough to survive inevitable failures,  **automated**  enough to run without constant babysitting, and  **flexible**  enough to adapt when things go wrong.
+在这一节中，我们会把重点从硬件和软件优化，转向 **production readiness**：构建一个足够 **robust**、能扛住不可避免故障；足够 **automated**、无需时刻盯着；也足够 **flexible**、在出问题时还能快速适应的系统。
 
-####  **Node Health Monitoring and Replacement** 
+#### **节点健康监控与替换** 
 
-Having enough fast GPUs is important for training, but since LLM trainings run for weeks or months rather than single days, tracking GPU health over time becomes critical. GPUs that pass initial benchmarks can develop thermal throttling, memory errors, or performance degradation during extended training runs. In this section, we will share how we approach this challenge and the tools we use.
+训练时，拥有足够多且足够快的 GPU 当然重要；但由于 LLM 训练往往持续数周甚至数月，而不是只有几天，因此长期追踪 GPU 健康状况就变得极其关键。即便某些 GPU 一开始通过了 benchmark，它们在长时间训练中也可能出现 thermal throttling、memory errors 或性能退化。在这一节里，我们会分享自己是如何应对这一问题的，以及所使用的工具。
 
- **Upfront tests:**  Before launching SmolLM3, we ran comprehensive GPU diagnostics using multiple tools. We used [GPU Fryer](https://github.com/huggingface/gpu-fryer), an internal tool that stress-tests GPUs for thermal throttling, memory errors, and performance anomalies. We also ran [NVIDIA's DCGM diagnostics](https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-diagnostics.html), a widely-used tool for validating GPU hardware, monitoring performance, and identifying root causes of failures or power anomalies through deep diagnostic tests covering compute, PCIe connectivity, memory integrity, and thermal stability. These upfront tests caught two problematic GPUs that would have caused issues during training.
+ **前置测试：** 在启动 SmolLM3 之前，我们使用多种工具对 GPU 做了全面诊断。我们使用了 [GPU Fryer](https://github.com/huggingface/gpu-fryer)，这是一个内部工具，用来对 GPU 做压力测试，以发现 thermal throttling、memory errors 和性能异常。我们还运行了 [NVIDIA 的 DCGM diagnostics](https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-diagnostics.html)，这是一个广泛使用的工具，可用于验证 GPU 硬件、监控性能，并通过覆盖 compute、PCIe 连通性、内存完整性和热稳定性的深度诊断测试，找出故障或供电异常的根因。这些前置测试帮我们提前发现了两块有问题的 GPU，否则它们会在训练中造成麻烦。
 
-You can see in the following table what can be tested with the DCGM diagnostic tool:
+下表展示了 DCGM 诊断工具可以覆盖哪些测试内容：
 
 | Test Level | Duration | Software | PCIe + NVLink | GPU Memory | Memory Bandwidth | Diagnostics | Targeted Stress | Targeted Power | NVBandwidth | Memory Stress | Input EDPp |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -5459,7 +5441,7 @@ You can see in the following table what can be tested with the DCGM diagnostic t
 | r3 (Long) | \< 30 mins | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | r4 (Extra Long) | 1-2 hours | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
- *DCGM diagnostic run levels. Source:* [ *NVIDIA DCGM Documentation* ](https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-diagnostics.html#run-levels-and-tests)
+ *DCGM 诊断运行级别。来源：* [ *NVIDIA DCGM Documentation* ](https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-diagnostics.html#run-levels-and-tests)
 
 ```
 $ dcgmi diag -r 2 -v -d VERB
@@ -5506,113 +5488,113 @@ Successfully ran diagnostic for group.
 +-----  Stress  ------------+------------------------------------------------+
 
 ```
- **Node reservation:**  Because SmolLM3 was trained on a Slurm managed cluster, we booked a fixed 48-node reservation for the entire run. This setup allowed us to track the health and performance of the exact same nodes over time, it was also necessary to solve a data storage issues we discussed. We also reserved a spare node (like a car's spare wheel) so if one failed, we could swap it in immediately without waiting for repairs. While idle, the spare node ran eval jobs or dev experiments.
+ **节点预留：** 因为 SmolLM3 是在一个由 Slurm 管理的集群上训练的，所以我们为整个训练过程预定了固定的 48 个节点。这种做法让我们能够长期跟踪同一批节点的健康状况和性能表现，同时它也有助于解决前面提到的数据存储问题。我们还额外预留了一个备用节点（就像汽车里的备胎），这样一旦某个节点故障，就可以立刻顶上，而不用等待修复。空闲时，这个备用节点会跑 eval 作业或开发实验。
 
- **Continuous monitoring:**  During training, we tracked key metrics across all nodes such as GPU temperatures, memory usage, compute utilization and throughput fluctuations. We use [Prometheus](https://prometheus.io/) to collect [DCGM](https://github.com/NVIDIA/DCGM) metrics from all GPUs and visualize them in [Grafana](https://grafana.com/) dashboards for real-time monitoring. For detailed setup instructions on deploying Prometheus and Grafana for GPU monitoring on AWS infrastructure, see [this example setup guide](https://github.com/aws-samples/awsome-distributed-training/tree/3ae961d022399021cc4053c3ba19b182ca6b8dc8/4.validation_and_observability/4.prometheus-grafana). A Slack bot alerted us when any node showed suspicious behavior, allowing us to proactively replace failing hardware before it crashed the entire training run.
+ **持续监控：** 在训练期间，我们持续跟踪所有节点上的关键指标，例如 GPU 温度、内存使用量、计算利用率，以及吞吐波动。我们使用 [Prometheus](https://prometheus.io/) 收集全部 GPU 的 [DCGM](https://github.com/NVIDIA/DCGM) 指标，再通过 [Grafana](https://grafana.com/) 仪表盘进行实时可视化监控。如果你想了解如何在 AWS 基础设施上部署用于 GPU 监控的 Prometheus 和 Grafana，可以参考[这个示例部署指南](https://github.com/aws-samples/awsome-distributed-training/tree/3ae961d022399021cc4053c3ba19b182ca6b8dc8/4.validation_and_observability/4.prometheus-grafana)。此外，我们还配了一个 Slack bot，一旦某个节点出现可疑行为，它就会提醒我们，从而能在硬件彻底拖垮整次训练之前，主动把故障节点替换掉。
 
 
 
-<a href="/screencapture-grafana-huggingface.pdf" target="_blank">Access to dashboard</a>
-This multi-layered approach meant hardware issues became manageable interruptions.
+<a href="/screencapture-grafana-huggingface.pdf" target="_blank">查看仪表盘</a>
+这种多层次的方案让硬件问题从“致命故障”，变成了“可管理的中断”。
 
- **Thermal Reality Check: When GPUs Slow Down** 
+ **热现实检查：GPU 什么时候会变慢** 
 
-Marketing specs assume perfect cooling, but reality is messier. GPUs automatically reduce clock speeds when they overheat, cutting performance below theoretical maximums even in well-designed systems.
+营销规格默认假设散热是完美的，但现实远没有这么理想。当 GPU 过热时，它会自动降低时钟频率，即使在设计良好的系统里，性能也会因此低于理论最大值。
 
-<Reference caption="This Grafana dashboard shows thermal throttling events across our GPU cluster. The bars in the bottom panel indicate when GPUs automatically reduced clock speeds due to overheating.">
+<Reference caption="这个 Grafana 仪表盘展示了我们 GPU 集群中的 thermal throttling 事件。底部面板中的条形图表示 GPU 何时因过热而自动降低了时钟频率。">
 
 <Image src={image_27d1384e_bcac_80b1_9ffb_ec29d0021ccc} alt="Image" />
 </Reference>
 
-We monitor the  `DCGM_FI_DEV_CLOCK_THROTTLE_REASONS`  metric from [NVIDIA's DCGM](https://github.com/NVIDIA/DCGM/tree/master) to detect thermal throttling. When this metric shows non-zero values, the GPUs are automatically reducing clock speeds due to overheating. The dashboard above shows how these throttling events manifest in practice.
+我们通过 [NVIDIA DCGM](https://github.com/NVIDIA/DCGM/tree/master) 中的 `DCGM_FI_DEV_CLOCK_THROTTLE_REASONS` 指标来检测 thermal throttling。当这个指标出现非零值时，就说明 GPU 正在因为过热而自动降频。上面的仪表盘展示了这类事件在实际中的表现方式。
 
-Thermal throttling doesn't just hurt the affected GPU; it cascades across your entire distributed training setup. During our testing, we observed how a single throttling node can dramatically impact collective communication performance.
+thermal throttling 受害的不只是那一块 GPU，它会把影响扩散到整个分布式训练系统。在我们的测试中就观察到，单个发生降频的节点就足以显著拖垮 collective communication 的性能。
 
 <HtmlEmbed 
   src="/embeds/nccl-all-reduce-bandwidth-plot-throttling.html" 
-  caption="AllReduce bandwidth degradation across nodes during our stress testing. The sharp drop after 14 nodes (from 350 GB/s to 100 GB/s) was caused by a single thermally throttled GPU, demonstrating how one slow node can bottleneck the entire distributed training pipeline."
+  caption="我们在压力测试中观察到的跨节点 AllReduce 带宽退化。14 个节点之后出现的陡降（从 350 GB/s 跌到 100 GB/s），是由单个发生 thermal throttling 的 GPU 导致的，这说明一个慢节点就足以卡住整个分布式训练流水线。"
 />
 
 
 
-The chart above shows AllReduce bandwidth degrading as we scale from 1 to 16 nodes. Notice the sharp drop after 14 nodes, from  **350 GB/s**  to  **100 GB/s** while we expect the bandwidth to stay above 300GB/s as we've seen before. This wasn't a network issue: a single node with thermal throttling became the bottleneck, forcing all other nodes to wait during gradient synchronization. In distributed training, you're only as fast as your slowest node.
+上图展示了 AllReduce 带宽在我们从 1 个节点扩展到 16 个节点时如何退化。注意 14 个节点之后出现的剧烈下降：从 **350 GB/s** 掉到 **100 GB/s**，而按我们前面的测量，本来应该保持在 300GB/s 以上。这并不是网络问题，而是单个发生 thermal throttling 的节点成了瓶颈，迫使其他所有节点在梯度同步时等待它。在分布式训练里，你的速度永远不会快过最慢的那个节点。
 
-👉  **Key lesson:**  Before committing to long training runs, stress-test your hardware using the tools mentioned earlier to identify thermal and power limitations. Monitor temperatures continuously using DCGM telemetry and plan for real-world thermal limits. It's also good practice to verify that GPU clocks are set to maximum performance. For a deeper dive into why GPUs can't sustain their advertised performance due to power constraints, see [this excellent analysis on power throttling](https://www.thonking.ai/p/strangely-matrix-multiplications).
+👉 **关键教训：** 在投入长时间训练之前，一定要用前面提到的工具对硬件做压力测试，以发现热和供电限制。训练过程中也要持续通过 DCGM telemetry 监控温度，并针对真实的热约束来做规划。同时，确认 GPU 时钟已经设在最高性能模式，也是一个值得养成的好习惯。如果你想更深入理解为什么 GPU 无法长期维持宣传中的性能峰值，可以看看[这篇关于 power throttling 的优秀分析](https://www.thonking.ai/p/strangely-matrix-multiplications)。
 
-####  **Checkpoint Management** 
+#### **Checkpoint 管理** 
 
-Checkpoints are our safety net during long training runs. We save them regularly for three practical reasons: recovering from failures, monitoring training progress through evaluation and sharing intermediate models with the community for research. The recovery aspect matters most. If our run fails, we want to restart from the latest saved checkpoint so we lose at most the save interval if we resume immediately (e.g., 4 hours of training if we save every 4 hours).
+checkpoint 是长时间训练中的安全网。我们定期保存它们，主要出于三个现实原因：故障恢复、通过评测监控训练进展，以及把中间模型分享给社区做研究。其中最重要的是恢复能力。如果训练失败，我们希望能从最近一次保存的 checkpoint 继续启动，这样只要能立即恢复，损失最多也就是一个保存周期（例如每 4 小时保存一次，那最多损失 4 小时训练）。
 
 <Note title="Automate your resume process" emoji="💡" variant="tip">
 
-Try to automate your resume process. On Slurm, for example, you can you can just use `SBATCH --requeue` so the job restarts automatically from the latest checkpoint. That way, you avoid losing time waiting for someone to notice the failure and manually restart.
+尽量把 resume 过程自动化。比如在 Slurm 中，你可以直接使用 `SBATCH --requeue`，让作业自动从最新 checkpoint 重新启动。这样就不会因为等待某个人发现故障并手动重启而白白浪费时间。
 </Note>
 
-There's two important details to keep in mind when implementing your resume mechanism:
+在实现 resume 机制时，有两个非常重要的细节需要注意：
 
-- Checkpoint saving should happen in the background without impacting training throughput.
-- Watch your storage, over a 24-day run, saving every 4 hours means ~144 checkpoints. With large models and optimizer states, this adds up fast. In our case, we store only one local checkpoint (the latest saved) at a time and offload the rest to S3 to avoid filling up cluster storage.
+- checkpoint 保存应在后台进行，不能影响训练吞吐。
+- 要盯紧存储容量。一个持续 24 天的训练，如果每 4 小时保存一次，就意味着大约有 ~144 个 checkpoints。对大模型和优化器状态来说，这很快就会堆满存储。我们在实践中一次只保留一个本地 checkpoint（最新的那个），其他都转存到 S3，以免集群存储被占满。
 
- **A painful lesson from the past:** 
+ **一次惨痛的历史教训：** 
 
-During our first large-scale run (StarCoder 15B), training proceeded smoothly through multiple restarts. On the final day, we discovered the entire checkpoint folder had been deleted by a leftover  `rm -rf $CHECKPOINT_PATH`  command at the very end of the script from old throughput tests. This destructive command only triggered when the Slurm job actually finished, which hadn't happened in previous restarts.
+在我们第一次大规模训练（StarCoder 15B）时，训练经过多次重启都很顺利。直到最后一天，我们才发现整个 checkpoint 文件夹被删掉了，原因是脚本末尾还残留着一个来自早期吞吐测试的 `rm -rf $CHECKPOINT_PATH` 命令。这个破坏性命令只有在 Slurm 作业真正“跑完”时才会触发，而之前那些中途重启的情况都没有走到这一步。
 
-Luckily, we had the checkpoint from the day before saved, so it only cost us one day of retraining. The takeaways were clear: never leave destructive commands in production scripts, and automate checkpoint backups immediately after saving rather than relying on manual intervention.
+幸运的是，我们还保留着前一天的 checkpoint，所以最终只损失了 1 天的重训时间。这次经历的教训非常明确：生产脚本里绝不能残留破坏性命令；而且 checkpoint 备份必须在保存后立刻自动完成，而不能依赖人工操作。
 
-In our nanotron trainings, we save checkpoints every 2 hours locally, immediately upload each one to S3, then delete the local copy once backup is confirmed. On resume, we pull from S3 if the latest checkpoint isn't available locally. This approach saves storage, ensures backups, and enables quick recovery.
+在我们的 nanotron 训练中，checkpoint 每 2 小时先保存到本地，然后立刻上传到 S3，等确认备份成功后再删除本地副本。恢复时，如果本地没有最新 checkpoint，就从 S3 拉取。这种做法能节省存储、确保备份可靠，并且支持快速恢复。
 
-####  **Automated Evaluations** 
+#### **自动化评测** 
 
-Running evaluations manually becomes a bottleneck fast. They look simple until you're doing them repeatedly. Running benchmarks, tracking and plotting results for every run adds up to significant overhead. The solution? Automate everything upfront.
+手动跑评测很快就会变成瓶颈。它们看上去很简单，直到你不得不反复做很多遍。每次都去跑 benchmark、跟踪结果、画图，累积起来会形成相当大的额外开销。解决方案是什么？一开始就全部自动化。
 
-For SmolLM3, we use [LightEval](https://github.com/huggingface/lighteval) to run evaluations on nanotron checkpoints. Every saved checkpoint triggers an evaluation job on the cluster. The results are pushed directly to Weights & Biases or [Trackio](https://github.com/gradio-app/trackio), so we just open the dashboard and watch the curves evolve. This saved us a huge amount of time and kept eval tracking consistent throughout the run.
+在 SmolLM3 上，我们使用 [LightEval](https://github.com/huggingface/lighteval) 对 nanotron checkpoints 做评测。每次保存 checkpoint，都会自动触发一个集群上的 evaluation job。结果会直接推送到 Weights & Biases 或 [Trackio](https://github.com/gradio-app/trackio)，这样我们只需要打开仪表盘，看曲线如何演化即可。这帮我们节省了大量时间，也让整个训练过程中的 eval tracking 始终保持一致。
 
-If you can automate only one thing in your training setup, automate evaluations. 
+如果你的训练系统里只能自动化一件事，那就优先自动化评测。 
 
-Finally, lets have a look at how we can optimize the training layout, ie how the model is distributed across the available GPUs, to maximize the throughput.
+最后，我们再来看一下怎样优化训练布局，也就是：如何把模型分布到可用 GPU 上，以最大化吞吐。
 
-### Optimizing Training Throughput
+### 优化训练吞吐
 
-####  **How Many GPUs Do We Need?** 
+#### **我们到底需要多少张 GPU？** 
 
-Great question! After all this talk about specs and benchmarks, you still need to figure out the practical question: how many GPUs should you actually rent or buy?
+这是个很好的问题。说了这么多规格和 benchmark，最后你还是得回答一个最现实的问题：到底应该租多少张 GPU，或者买多少张 GPU？
 
-Determining the right number of GPUs requires balancing training time, cost, and scaling efficiency. Here's the framework we used:
+决定 GPU 数量，本质上是在训练时间、成本和扩展效率之间做平衡。下面是我们使用的框架：
 
- **Basic Sizing Formula:** 
+ **基础估算公式：** 
 
 $$
 \text{GPU Count} = \frac{\text{Total FLOPs Required}}{\text{Per-GPU Throughput} \times \text{Target Training Time}}
 $$
 
-This formula breaks down the problem into three key components:
+这个公式把问题拆成了三个关键组成部分：
 
--  **Total FLOPs Required** : The computational work needed to train your model (depends on model size, training tokens, and architecture)
--  **Per-GPU Throughput** : How many FLOPs per second each GPU can actually deliver (not theoretical peak!)
--  **Target Training Time** : How long you're willing to wait for training to complete
+-  **Total FLOPs Required**：训练模型所需的总计算量（取决于模型规模、训练 tokens 和模型架构）
+-  **Per-GPU Throughput**：每张 GPU 实际每秒能提供多少 FLOPs（不是理论峰值！）
+-  **Target Training Time**：你愿意等待训练完成的时间长度
 
-The key insight: you need to estimate  **realistic throughput** , not peak specs. This means accounting for Model FLOPs Utilization (MFU): the percentage of theoretical peak performance you actually achieve in practice.
+关键洞察在于：你需要估计的是 **现实可达的吞吐**，而不是规格表上的峰值。这意味着你必须考虑 Model FLOPs Utilization（MFU），也就是实践中你实际达到的理论峰值性能比例。
 
-For SmolLM3, our calculation looked like this:
+对于 SmolLM3，我们的估算方式如下：
 
--  **Model size** : 3B parameters
--  **Training tokens** : 11 trillion tokens
--  **Target training time** : ~4 weeks
--  **Expected MFU** : 30% (based on similar scale experiments)
+-  **模型规模**：30 亿参数
+-  **训练 tokens**：11 万亿
+-  **目标训练时长**：约 4 周
+-  **预期 MFU**：30%（基于类似规模实验的经验）
 
-First, we calculate total FLOPs needed using the standard transformer approximation of  **6N FLOPs per token**  (where N = parameters):
+首先，我们使用标准 transformer 近似公式 **每个 token 需要 6N FLOPs**（其中 N 为参数量）来计算总 FLOPs：
 
 $$
 \text{Total FLOPs} = 6 \times 3 \times 10^9 \text{ params} \times 11 \times 10^{12} \text{ tokens} = 1.98 \times 10^{23} \text{ FLOPs}
 $$
 
-With our expected MFU of 30%, our effective per-GPU throughput becomes:
+在预期 MFU 为 30% 的情况下，每张 GPU 的有效吞吐变成：
 
 $$
 \text{Effective Throughput} = 720 \times 10^{12} \text{ FLOPs/sec} \times 0.30 = 216 \times 10^{12} \text{ FLOPs/sec}
 $$
 
-Now plugging into our sizing formula:
+把这些代入估算公式：
 
 $$
 \text{GPU Count} = \frac{1.98 \times 10^{23} \text{ FLOPs}}{216 \times 10^{12} \text{ FLOPs/sec} \times 4 \text{ weeks} \times 604,800 \text{ sec/week}}
@@ -5622,121 +5604,121 @@ $$
 = \frac{1.98 \times 10^{23}}{5.23 \times 10^{20}} \approx 379 \text{ GPUs}
 $$
 
-This calculation pointed us toward 375-400 H100s, and we secured 384 H100s, a number that aligned well with our parallelism strategy and gave us a realistic 4-week timeline with some buffer for unexpected issues like node failures and restarts.
+这个计算结果把我们引向了 375 到 400 张 H100 的区间，最终我们拿到了 384 张 H100。这个数字既和我们的并行策略很好地匹配，也能让 4 周时间线变得现实，并且还留出了一些 buffer，来应对节点故障、训练重启等意外情况。
 
- **Why More GPUs Isn't Always Better: Amdahl's Law in Action** 
+ **为什么 GPU 越多不一定越好：Amdahl 定律的现实表现** 
 
-Here's a counterintuitive truth:  **adding more GPUs can actually make your training slower** . This is where [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) comes into play.
+这里有一个反直觉的事实： **增加更多 GPU，反而可能让训练更慢**。这正是 [Amdahl's Law](https://en.wikipedia.org/wiki/Amdahl%27s_law) 发挥作用的地方。
 
-Amdahl's Law states that the speedup from parallelization is fundamentally limited by the serial (non-parallelizable) portion of your workload. In LLM training, this "serial" portion is primarily  **communication overhead:** the time spent synchronizing gradients/weights/activations across GPUs that can't be parallelized away (read more [here](https://acenet-arc.github.io/ACENET_Summer_School_General/05-performance/index.html)).
+Amdahl 定律指出：并行化带来的加速，从根本上受限于工作负载中那部分串行（无法并行化）的内容。在 LLM 训练中，这部分“串行”主要就是 **通信开销**：也就是在 GPU 之间同步 gradients、weights 和 activations 所花的时间，而这些开销无法被简单并行化掉（可参考[这里](https://acenet-arc.github.io/ACENET_Summer_School_General/05-performance/index.html)）。
 
-The formula is:  **Maximum Speedup = 1 / (Serial Fraction + Parallel Fraction / Number of Processors)** 
+它的公式是： **Maximum Speedup = 1 / (Serial Fraction + Parallel Fraction / Number of Processors)** 
 
 <Wide>
 
 <HtmlEmbed 
   src="/embeds/amdahl-law-gpu-scaling.html" 
-  title="GPU Scaling in distributed LLM Training: Amdahl's Law in action" 
+  title="分布式 LLM 训练中的 GPU 扩展：Amdahl 定律的实际表现" 
 />
 </Wide>
 
 
 
-For SmolLM3's 3B model, if communication takes 10% of each training step, then no matter how many GPUs you add, you'll never get more than 10x speedup. Worse, as you add more GPUs, the communication fraction often  *increases*  because:
+对于 SmolLM3 的 3B 模型，如果每个训练 step 中有 10% 时间都花在通信上，那么不管你加多少 GPU，加速比都永远不可能超过 10 倍。更糟的是，随着 GPU 数量增加，通信占比往往还会 *继续上升*，因为：
 
-- More GPUs = more AllReduce participants = longer synchronization
-- Network latency/bandwidth becomes the bottleneck
-- Small models can't hide communication behind compute
+- 更多 GPU = 更多 AllReduce 参与者 = 更长的同步时间
+- 网络延迟/带宽会变成瓶颈
+- 小模型无法用足够的计算把通信隐藏起来
 
-For SmolLM3, we used weak scaling principles: our global batch size scaled with our GPU count, maintaining roughly 8K tokens per GPU globally. This kept our communication-to-computation ratio reasonable while maximizing throughput.
+在 SmolLM3 上，我们采用了 weak scaling 思路：global batch size 随 GPU 数量一起扩展，让整体保持大约每张 GPU 对应 8K tokens。这样既能保持通信与计算的比例合理，又能最大化吞吐。
 
-#### Finding the Optimal Parallelism Configuration
+#### 寻找最优并行配置
 
-Once you've secured your GPUs, the next challenge is configuring them to actually train efficiently. For this the parallelism strategy becomes critical.
+一旦 GPU 资源到位，接下来的挑战就是：怎样把它们配置成真正高效训练的系统。这里并行策略就变得至关重要。
 
-We follow the [ **Ultra-Scale Playbook** ](https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=step_1%3A_fitting_a_training_step_in_memory)['s approach to finding optimal training configurations](https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=step_1%3A_fitting_a_training_step_in_memory). The playbook breaks the problem into three sequential steps: first ensure the model fits in memory, then achieve your target batch size, and finally optimize for maximum throughput. Let's walk through how we applied this to SmolLM3.
+我们遵循 [**Ultra-Scale Playbook**](https://huggingface.co/spaces/nanotron/ultrascale-playbook?section=step_1%3A_fitting_a_training_step_in_memory) 中关于寻找最优训练配置的方法。这个 playbook 把问题拆成三个连续步骤：先确保模型能塞进内存，再达到目标 batch size，最后优化到最大吞吐。下面我们就以 SmolLM3 为例，看看我们是如何应用这一方法的。
 
 <Sidenote>
 
-For detailed explanations of different parallelism strategies (Data Parallelism, Tensor Parallelism, Pipeline Parallelism, ZeRO, etc.), we urge you once again to checkout the [Ultra-Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook) \*inserts Bernie meme\*
+关于各种并行策略（Data Parallelism、Tensor Parallelism、Pipeline Parallelism、ZeRO 等）的详细解释，我们再次强烈建议你去看 [Ultra-Scale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook) \*插入 Bernie 梗图\*
 </Sidenote>
 
-#### Step 1: Fitting a training step in memory
+#### 第一步：让一个训练 step 能装进内存
 
-The first question is simple: does our SmolLM3 3B model even fit in a single H100's 80GB of memory? To answer this, we use [nanotron's ](https://huggingface.co/spaces/nanotron/predict_memory)[ `predict_memory` ](https://huggingface.co/spaces/nanotron/predict_memory)[ tool](https://huggingface.co/spaces/nanotron/predict_memory), which estimates memory consumption for model parameters, optimizer states, gradients, and activations.
+第一个问题很简单：我们的 SmolLM3 3B 模型，真的能装进单张 H100 的 80GB 显存里吗？为了回答这个问题，我们使用了 [nanotron 的 `predict_memory` 工具](https://huggingface.co/spaces/nanotron/predict_memory)，它可以估算模型参数、优化器状态、梯度以及激活值所占用的内存。
 
 <Wide>
 
-<HtmlEmbed src="/embeds/d3-memory-analysis.html" caption="Memory timeline from <a href='https://huggingface.co/spaces/nanotron/predict_memory'>
+<HtmlEmbed src="/embeds/d3-memory-analysis.html" caption="来自 <a href='https://huggingface.co/spaces/nanotron/predict_memory'>
 
-nanotron's predict_memory tool</a> showing SmolLM3 3B peaks at 74GB, approaching the H100's 80GB limit." />
+nanotron predict_memory 工具</a>的内存时间线，显示 SmolLM3 3B 的峰值达到了 74GB，已经逼近 H100 的 80GB 上限。" />
 </Wide>
 
 
 
-The results show we're pushing close to the 80GB limit. This means we need some form of parallelism that reduces per-GPU memory footprint, whether that's Tensor Parallelism (splitting model layers across GPUs), Pipeline Parallelism (splitting model depth across GPUs), or ZeRO optimizer sharding (distributing optimizer states). Without at least one of these strategies, we won't be able to train efficiently or at all.
+结果显示，我们已经非常接近 80GB 上限了。这意味着我们必须使用某种能降低单 GPU 显存占用的并行方式，无论是 Tensor Parallelism（把模型层分到多张 GPU 上）、Pipeline Parallelism（按模型深度切分到多张 GPU 上），还是 ZeRO 优化器切分（把优化器状态分布出去）。如果没有这些策略中的至少一种，我们要么根本训不起来，要么效率会非常差。
 
-#### Step 2: Achieving the target global batch size
+#### 第二步：达到目标 global batch size
 
-Now that we know the model fits in memory with some form of parallelism, we need to determine how to achieve our target global batch size (GBS) of approximately 2 million tokens. This constraint gives us our first equation:
+既然我们已经知道，借助某种并行方式模型是可以装进内存的，接下来就需要确定如何达到目标 global batch size（GBS），也就是约 200 万 tokens。这个约束给出了我们的第一个方程：
 
 $$
 \text{GBS} = \text{DP} \times \text{MBS} \times \text{GRAD\_ACC} \times \text{SEQLEN} \approx 2\text{M tokens}
 $$
 
-Where:
+其中：
 
--  **DP (Data Parallelism)** : Number of data-parallel replicas
--  **MBS (Micro Batch Size)** : Tokens processed per GPU per micro-batch
--  **GRAD_ACC (Gradient Accumulation)** : Number of forward-backwards before optimizer step
--  **SEQLEN (Sequence Length)** : Tokens per sequence (4096 for the 1st pretraining stage)
+-  **DP（Data Parallelism）**：数据并行副本数量
+-  **MBS（Micro Batch Size）**：每张 GPU、每个 micro-batch 处理的 tokens 数
+-  **GRAD_ACC（Gradient Accumulation）**：在执行 optimizer step 之前累计多少次 forward-backward
+-  **SEQLEN（Sequence Length）**：每个序列的 token 长度（预训练第一阶段使用 4096）
 
-We also have a hardware constraint from our 384 H100s:
+我们还受到 384 张 H100 的硬件约束：
 
 $$
 \text{DP} \times \text{TP} \times \text{PP} = 384 = 2^7 \times 3
 $$
 
-Where:
+其中：
 
--  **TP (Tensor Parallelism)** : GPUs per model layer (splits weight matrices)
--  **PP (Pipeline Parallelism)** : GPUs per model depth (splits layers vertically)
+-  **TP（Tensor Parallelism）**：每层模型使用多少张 GPU（切分权重矩阵）
+-  **PP（Pipeline Parallelism）**：按模型深度把层垂直切分到多少张 GPU 上
 
-These two equations define our search space. We need to find values that satisfy both constraints while maximizing training throughput.
+这两个方程一起定义了我们的搜索空间。我们需要找到一组同时满足这两个约束、并且能最大化训练吞吐的取值。
 
-#### Step 3: Optimizing training throughput
+#### 第三步：优化训练吞吐
 
-With our constraints established, we need to find the parallelism configuration that maximizes training throughput. The search space is defined by our hardware topology and model architecture.
+在这些约束明确之后，我们就要从中找出能最大化训练吞吐的并行配置。搜索空间由硬件拓扑和模型架构共同决定。
 
-Our hardware setup presents two distinct types of interconnects, as we saw in the section above: NVLink for intra-node communication (900 GB/s) and EFA for inter-node communication (~50 GB/s). This topology naturally suggests using at least two forms of parallelism to match our network characteristics. The dramatic bandwidth difference between these interconnects will heavily influence which parallelism strategies work best.
+正如前面看到的，我们的硬件环境里存在两类截然不同的互连：节点内通信使用 NVLink（900 GB/s），节点间通信使用 EFA（~50 GB/s）。这种拓扑天然意味着，我们至少应该使用两类并行策略，来匹配这两种网络特性。互连之间巨大的带宽差异，会强烈影响哪种并行策略最有效。
 
-From a model perspective, SmolLM3's architecture constrains our options. Since we're not using a Mixture-of-Experts architecture, we don't need  **Expert Parallelism** . Similarly, training with a 4096 sequence length in the first stage means  **Context Parallelism**  isn't required. This leaves us with three primary parallelism dimensions to explore:  **Data Parallelism**  (DP),  **Tensor Parallelism**  (TP), and  **Pipeline Parallelism**  (PP).
+从模型角度来看，SmolLM3 的架构也限制了我们的选择。由于它不是 Mixture-of-Experts 架构，所以我们不需要 **Expert Parallelism**。同样，由于第一阶段训练时 sequence length 只有 4096，也不需要 **Context Parallelism**。因此，真正需要探索的并行维度只剩下三个： **Data Parallelism**（DP）、 **Tensor Parallelism**（TP）和 **Pipeline Parallelism**（PP）。
 
-Given our constraints from Step 2, we need to sweep across several parameters:
+基于第二步的约束，我们需要扫描以下几个参数：
 
--  **DP with ZeRO variants**  (ZeRO-0, ZeRO-1, ZeRO-3): Values from 1 to 384, constrained to multiples of 2 and/or 3
--  **TP**  (1, 2, 3, 4, 6, 8): Keep within a single node to fully leverage NVLink's high bandwidth
--  **PP**  (1..48): Split model depth across GPUs
--  **MBS**  (2, 3, 4, 5): Depending on memory savings from parallelism, we can increase MBS to better utilize Tensor Cores
--  **Activation checkpointing**  (none, selective, full): Trade additional compute for reduced memory and communication
--  **Kernel optimizations** : CUDA graphs and optimized kernels where available
+-  **带不同 ZeRO 变体的 DP**（ZeRO-0、ZeRO-1、ZeRO-3）：取值从 1 到 384，且必须满足 2 和/或 3 的倍数约束
+-  **TP**（1、2、3、4、6、8）：尽量限制在单节点内，以充分利用 NVLink 的高带宽
+-  **PP**（1..48）：沿模型深度切分到多张 GPU 上
+-  **MBS**（2、3、4、5）：根据并行策略节省下来的内存情况，我们可以增大 MBS，从而更好利用 Tensor Cores
+-  **Activation checkpointing**（none、selective、full）：用额外计算换取更少的内存占用与更低的通信压力
+-  **Kernel 优化**：在可用时启用 CUDA graphs 与优化过的 kernels
 
-While this may seem like an overwhelming number of combinations, a practical approach is to benchmark each dimension independently first, then eliminate configurations that significantly hurt throughput. The key insight is that not all parallelism strategies are created equal. Some introduce communication overhead that far outweighs their benefits, especially at our scale.
+虽然这些组合看起来很多，但一种务实做法是：先分别 benchmark 每个维度，再把明显会拖垮吞吐的配置排除掉。这里的关键洞察在于，并不是所有并行策略都同样有效。有些策略引入的通信开销，远远超过了它们带来的好处，尤其是在我们这个规模下。
 
-In our case,  **Pipeline Parallelism**  showed poor performance characteristics. PP requires frequent pipeline bubble synchronization across nodes, and with our relatively small 3B model, the communication overhead dominated any potential benefits. Additionally, we didn't have access to highly efficient PP schedules that could eliminate the pipeline bubble entirely, which further limited PP's viability. Similarly,  **ZeRO**  levels above 0 introduced significant all-gather and reduce-scatter operations that hurt throughput more than they helped with memory. These early benchmarks allowed us to narrow our search space dramatically, focusing on configurations that combined  **Data Parallelism** with modest  **Tensor Parallelism** .
+在我们的实验中， **Pipeline Parallelism** 表现很差。PP 需要频繁进行跨节点的 pipeline bubble 同步，而对于相对较小的 3B 模型来说，通信开销完全压过了可能带来的任何收益。此外，我们当时也没有足够高效的 PP schedule，无法把 pipeline bubble 基本消掉，这进一步限制了 PP 的可行性。类似地， **ZeRO** 在 0 以上的级别会引入大量 all-gather 和 reduce-scatter 操作，它们对吞吐的伤害大于对显存节省的帮助。这些早期 benchmark 让我们大幅缩小了搜索空间，最后把注意力集中到 **Data Parallelism** 配合适度 **Tensor Parallelism** 的配置上。
 
-👉 To evaluate each configuration, we run benchmarks for 5 iterations and record  **tokens per second per GPU (tok/s/gpu)** , which is ultimately the metric we care about. We use Weights & Biases and Trackio to log throughputs and configurations, making it easy to compare different parallelism strategies.
+👉 为了评估每一种配置，我们会跑 5 个 iteration 的 benchmark，并记录 **tokens per second per GPU（tok/s/gpu）**，因为这才是我们最终真正关心的指标。我们使用 Weights & Biases 和 Trackio 来记录吞吐和配置，从而方便地比较不同的并行策略。
 
-After systematically benchmarking the available options in nanotron, we settled on  **DP = 192** , which leverages inter-node EFA bandwidth for data-parallel gradient synchronization. This means 192 independent model replicas, each processing different batches of data. For Tensor Parallelism, we chose  **TP = 2** , keeping tensor-parallel communication within a single node to fully exploit NVLink's high bandwidth. This splits each layer's weight matrices across two GPUs, requiring fast communication for the forward and backward passes.
+在系统性 benchmark 了 nanotron 里可用的选项之后，我们最终选择了 **DP = 192**，让数据并行梯度同步走跨节点的 EFA 带宽。也就是说，系统中有 192 个独立模型副本，每个处理不同的数据 batch。对于 Tensor Parallelism，我们选择了 **TP = 2**，把 tensor-parallel 通信控制在单节点内，以充分利用 NVLink 的高带宽。这意味着每层的权重矩阵会被切分到两张 GPU 上，forward 和 backward 时都需要高速通信。
 
-Our  **Micro Batch Size = 3**  strikes a balance between memory usage and compute efficiency. Larger batch sizes would better utilize Tensor Cores, but we're already pushing close to memory limits. Finally, we opted for ZeRO-0, meaning no optimizer state sharding. While ZeRO-1 or ZeRO-3 could reduce memory footprint, the communication overhead from gathering and scattering optimizer states across our 384 GPUs would significantly hurt throughput.
+我们的 **Micro Batch Size = 3**，在内存使用和计算效率之间做了平衡。更大的 batch size 确实能更好地利用 Tensor Cores，但我们已经很接近显存上限了。最后，我们选择了 ZeRO-0，也就是不做优化器状态切分。虽然 ZeRO-1 或 ZeRO-3 可以降低显存占用，但在 384 张 GPU 之间 gather 和 scatter 优化器状态所带来的通信开销，会严重伤害吞吐。
 
 <Sidenote>
 
-Many of these parallelism decisions were influenced by the state of libraries at the time of experiments. For instance, nanotron didn't support ZeRO-3 yet, and we lacked access to highly optimized Pipeline Parallelism schedules that could eliminate pipeline bubbles. As the framework evolves, some of these trade-offs may shift. Contributions are always welcome!
+这些并行决策中的很多，都受当时库实现状态的影响。例如，nanotron 当时还不支持 ZeRO-3，我们也没有拿到能消除 pipeline bubbles 的高优化 PP schedules。随着框架演进，这些取舍未来可能会发生变化。欢迎贡献！
 </Sidenote>
 
-This configuration achieves our target global batch size of approximately 2 million tokens (192 × 3 × 1 × 4096 ≈ 2.3M) while maximizing throughput on our 384 H100 cluster. You can see the full training configuration in our [stage1_8T.yaml](https://github.com/huggingface/smollm/blob/main/text/pretraining/smollm3/stage1_8T.yaml).
+这个配置在最大化 384 张 H100 集群吞吐的同时，也达到了我们约 200 万 tokens 的目标 global batch size（192 × 3 × 1 × 4096 ≈ 2.3M）。完整训练配置可以在我们的 [stage1_8T.yaml](https://github.com/huggingface/smollm/blob/main/text/pretraining/smollm3/stage1_8T.yaml) 中查看。
 
 ## Conclusion
 
