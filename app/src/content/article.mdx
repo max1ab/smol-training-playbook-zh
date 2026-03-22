@@ -3961,51 +3961,51 @@ DPO 之所以受到欢迎，是因为它实现简单、实践中稳定，而且�
 正如上面的结果所示，偏好优化不仅能让模型更有帮助性、更对齐，它还能教会模型 *更好地推理*。如果你想快速提升推理模型，不妨尝试构造 strong-vs-weak 偏好数据，并对不同损失函数做消融实验；你很可能会看到相较于 vanilla DPO 的显著收益。
 </Note>
 
-#### Which hyperparameters matter most for preference optimisation?
+#### 哪些超参数对偏好优化最重要？
 
-For preference optimisation, there are typically only three hyperparameters that impact the training dynamics:
+对于偏好优化来说，通常只有三个超参数会明显影响训练动态：
 
-- The learning rate, typically a factor of 10-100x smaller than the one used for SFT.
-- The β parameter, which typically controls the size of the margin between preference pairs.
-- The batch size.
+- 学习率，通常应比 SFT 使用的学习率小 10 到 100 倍。
+- β 参数，通常用于控制偏好对之间的间隔大小。
+- batch size。
 
-Let's take a look at how these played out for SmolLM3, starting from the [SFT checkpoint](https://huggingface.co/HuggingFaceTB/SmolLM3-3B-checkpoints/tree/it-SFT) we trained over the whole of  `smoltalk2` .
+下面我们以在完整 `smoltalk2` 上训练得到的 [SFT checkpoint](https://huggingface.co/HuggingFaceTB/SmolLM3-3B-checkpoints/tree/it-SFT) 为起点，看看这些因素在 SmolLM3 上分别带来了什么影响。
 
- **Use small learning rates for best performance** 
+ **使用较小的学习率以获得最佳性能** 
 
-The first ablation we ran was to check the influence of the learning rate on model performance. We ran experiments to determine the influence of learning rates between ~200x smaller (1e-7) and ~2x smaller (1e-5) than the SFT learning rate (2e-5). Previous projects like Zephyr 7B had taught us that the best learning rate for preference optimisation methods is around 10x smaller than the one used for SFT, and the ablations we ran for SmolLM3 confirmed this rule of thumb. 
+我们做的第一个消融实验，是检查学习率对模型性能的影响。我们测试的学习率范围，从比 SFT 学习率（2e-5）小约 200 倍（1e-7），到小约 2 倍（1e-5）。此前像 Zephyr 7B 这样的项目已经告诉我们，对于偏好优化方法，最佳学习率通常比 SFT 所用学习率小约 10 倍；而我们在 SmolLM3 上做的消融实验，也验证了这条经验法则。
 
-As shown in the figure below, learning rates ~10x smaller improve the performance of the SFT model in both reasoning modes, but all learning rates beyond that 10x limit result in worse performance for the extended thinking mode:
+如下图所示，当学习率缩小约 10 倍时，SFT 模型在两种推理模式下的性能都会提升；但一旦超过这个 10 倍阈值，在 extended thinking 模式下，性能就会变差：
 
 <HtmlEmbed src="/embeds/d3-po-lr-ablation.html" />
 
 
 
-The trend for the  `/no_think`  reasoning mode is more stable, with the best learning rate at 5e-6. This is mostly driven by a single benchmark (LiveCodeBench v4), so we opted for 1e-6 in our SmolLM3 runs. 
+对于 `/no_think` 推理模式，这一趋势更稳定，其中最优学习率是 5e-6。不过，这主要是由单一基准（LiveCodeBench v4）驱动的，因此我们在 SmolLM3 的实际训练中选择了 1e-6。
 
-Our recommendation for your training runs is to run scans of your learning rate at a range of 5x to 20x smaller than your SFT learning rate. It is highly likely that you will find your optimal performance within that range!
+我们对你的训练建议是：将学习率扫描范围设置为比 SFT 学习率小 5 倍到 20 倍。在这个区间里，你极有可能找到最优性能点。
 
- **Tune your β** 
+ **调节你的 β** 
 
-The experiments we ran for the ß parameter ranged from 0.01 to 0.99 to explore values that encourage different degrees of alignment to the reference model. As a reminder, lower values of beta encourage staying close to the reference model while higher values allow the model to match the preference data more closely. The model performance for β=0.1 is the highest for both reasoning modes and improves compared to the metrics from the SFT checkpoint. Using a low beta value hurts model performance and results in a worse model than the SFT checkpoint, while performance remains stable across multiple ß values without extended thinking.
+我们对 ß 参数做的实验，取值范围是 0.01 到 0.99，以探索不同程度“向 reference model 对齐”的效果。回顾一下，较小的 beta 值会鼓励模型更贴近 reference model，而较大的值则允许模型更紧密地贴合偏好数据。实验结果显示，β=0.1 时，模型在两种推理模式下的表现都是最好的，并且相较于 SFT checkpoint 的指标都有提升。相反，beta 值太低会损害模型性能，使模型甚至比 SFT checkpoint 更差；而在不使用 extended thinking 的情况下，跨多个 ß 取值，性能则基本保持稳定。
 
-These results suggest that values greater than 0.1 are preferable for preference optimisation, and that aligning the model with the preference data is more beneficial than staying close to the reference model. However, we suggest exploring ß values in the range 0.01 and 0.5. Higher values may erase capabilities from the SFT checkpoint that we might not be capturing in the evals shown on the plot.
+这些结果表明，对于偏好优化来说，大于 0.1 的取值更值得优先考虑；同时，与其尽量贴近 reference model，不如更好地向偏好数据对齐，收益更大。不过，我们仍建议把 ß 的探索范围设在 0.01 到 0.5 之间。更高的取值可能会抹掉 SFT checkpoint 中的一些能力，而这些能力未必能在图中展示的评测里被捕捉到。
 
 <HtmlEmbed src="/embeds/d3-po-beta-ablation.html" />
 
 
 
- **Scaling the preference data** 
+ **扩大偏好数据规模** 
 
-We also ran experiments to determine how dataset size influences results, testing values from 2k to 340k preference pairs. Across this range, performance remained stable. Performance drops in the extended thinking mode occur for datasets beyond 100k preference pairs, but the drop is not as pronounced as we saw with different learning rate values. The dataset we used for the SmolLM3 training run was 169k preference pairs, but the results show that smaller datasets also show improvements over the SFT checkpoint. For future projects, we know we can experiment with smaller datasets during the iteration phase, as it is important to try multiple ideas and quickly identify the most promising configurations.
+我们还做了实验来观察数据集大小如何影响结果，测试范围从 2k 到 340k 个偏好对。在这个区间内，整体性能基本保持稳定。当数据集超过 100k 个偏好对时，extended thinking 模式下会出现性能下降，但下降幅度没有学习率变化时那么明显。我们在 SmolLM3 正式训练中使用的数据集规模是 169k 个偏好对，但结果表明，更小的数据集同样能带来相较于 SFT checkpoint 的提升。对于未来项目，这意味着我们可以在迭代阶段先用更小的数据集做实验，因为尝试更多想法、快速识别最有前景的配置非常重要。
 
 <HtmlEmbed src="/embeds/d3-po-size-ablation.html" />
 
 
 
- **Bringing it all together** 
+ **把这些结论整合起来** 
 
-Bringing all these threads together produced the final SmolLM3-3B model: best-in-class for its size and sat on the Pareto front with Qwen's own hybrid reasoning models. 
+把这些线索综合起来之后，我们得到了最终的 SmolLM3-3B 模型：在同尺寸模型中属于最优，并且与 Qwen 自家的 hybrid reasoning 模型一起位于 Pareto front 上。
 
 <Wide>
 
@@ -4014,77 +4014,77 @@ Bringing all these threads together produced the final SmolLM3-3B model: best-in
 
 
 
-Not too shabby for a few weeks work!
+对于几周时间做出来的成果来说，这已经相当不错了。
 
-#### Rules of engagement
+#### 实战原则
 
-To summarise our findings about preference optimisation that could be useful for your future projects:
+下面总结一下我们关于偏好优化的发现，这些结论可能会对你未来的项目有帮助：
 
-- Don't be afraid to create your own preference data! With inference becoming "too cheap to meter", it's nowadays simple and cost-effective to generate LLM preferences from various [inference providers](https://huggingface.co/docs/inference-providers/en/index).
-- Pick DPO as your initial baseline and iterate from there. We've found that depending on the type of preference data, other algorithms like ORPO, KTO, or APO can provide significant gains over DPO.
-- Use a learning rate that's around 10x smaller than the one used for SFT.
-- Scan over β, usually in the range 0.01 to 0.5
-- Since most preference algorithms overfit after one epoch, partition your data and train iteratively for best performance.
+- 不要害怕自己构造偏好数据！随着推理成本变得“低到几乎可以忽略不计”，现在通过各种 [inference providers](https://huggingface.co/docs/inference-providers/en/index) 生成 LLM 偏好数据，已经变得既简单又划算。
+- 把 DPO 作为初始 baseline，然后从那里开始迭代。我们的经验是，具体哪种算法最好，取决于偏好数据的类型；像 ORPO、KTO 或 APO 这样的算法，往往能相较于 DPO 带来显著收益。
+- 使用比 SFT 小约 10 倍的学习率。
+- 对 β 做扫描，通常探索范围设在 0.01 到 0.5。
+- 大多数偏好算法训练 1 个 epoch 后就会过拟合，因此最好对数据做分块，并以迭代方式训练，以获得最佳效果。
 
-Preference optimisation is often the sweet spot between simplicity and performance, but it still inherits a key limitation: it's only as good as the offline preference data you can collect. At some point, static datasets run out of signal and you need methods that can generate fresh training feedback online as the model interacts with prompts and environment. That's where preference optimisation meets the broader family of  *on-policy and RL-based methods.* 
+偏好优化通常是在“简单性”和“性能”之间的最佳平衡点，但它仍然继承了一个关键限制：它的效果上限，取决于你能收集到的离线偏好数据质量。静态数据集终究会耗尽有效信号；到了某个阶段，你就需要能够在模型与 prompt 和环境交互时，在线生成新训练反馈的方法。也正是在这里，偏好优化开始与更广义的 *on-policy 和基于 RL 的方法* 汇合。
 
-### Going on-policy and beyond supervised labels
+### 走向 on-policy，并超越监督标签
 
-If you want your model to consistently solve math problems, generate executable code, or plan across multiple steps, you often need a  **reward signal**  rather than just "A is better than B".
+如果你希望模型能够稳定地解数学题、生成可执行代码，或者完成多步规划，那么你通常需要的就不只是“答案 A 比答案 B 更好”这种信号，而是一个 **reward signal**。
 
-This is where RL starts to make sense. Instead of supervising the model with preferences, you let it interact with an environment (which could be a math verifier, a code executor, or even real user feedback), and learn directly from the outcomes. RL shines when:
+这正是 RL 开始发挥作用的地方。你不再只是用偏好来监督模型，而是让它与环境交互（这个环境可以是数学验证器、代码执行器，甚至是真实用户反馈），并直接从结果中学习。RL 在以下情形中特别适合：
 
--  **You can check correctness automatically,** e.g., unit tests, mathematical proofs, API calls, or have access to a high-quality verifier or reward model.
--  **The task requires multi-step reasoning or planning** , where local preferences may not capture long-term success.
--  **You want to optimise for objectives beyond preference labels** , like passing unit tests for code or maximising some objective.
+-  **你能够自动检查正确性，** 例如通过单元测试、数学证明、API 调用，或者你有高质量的 verifier 或 reward model。
+-  **任务需要多步推理或规划**，这时局部偏好未必能反映长期成功。
+-  **你想优化的不只是偏好标签所表达的目标**，例如让代码通过单元测试，或最大化某种具体目标。
 
-When it comes to LLMs, there are two main flavours of RL:
+在 LLM 场景中，RL 主要有两种形式：
 
--  **Reinforcement Learning from Human Feedback (RLHF):**  this is the approach that was popularised by OpenAI's InstructGPT paper [[@instructgpt](https://huggingface.co/papers/2203.02155)] and the basis for gpt-3.5 and many modern LLMs. Here, human annotators compare model outputs (e.g. "A is better than B") and a reward model is trained to predict those preferences. The policy is then fine-tuned with RL to maximise the learned reward.
-
-<Sidenote>
-
-Because the reward model only approximates human preferences, it can sometimes encourage reward hacking, where the policy emits an out-of-distribution sequence like "the the the the" which is given a spurious high reward and is then baked into the model via the RL loop.
-</Sidenote>
-
--  **Reinforcement Learning with Verifiable Rewards (RLVR):** this is the approach that was popularised by DeepSeek-R1 and involves the use of verifiers that check whether a model's output meets some clearly defined correctness criteria (e.g. does the code compile and pass all tests, or is the mathematical answer correct?). The policy is then fine-tuned with RL to produce more verifiably-correct outputs. 
-
-Both RLHF and RLVR define  *what* the model is being optimised for, but they don't tell us  *how*  that optimisation should be carried out. In practice, the efficiency and stability of RL-based training depends heavily on whether the learning algorithm is  **on-policy** or  **off-policy** .
-
-Methods such as GRPO typically fall into the category of on-policy optimisation algorithms, where the model (the policy) that generates the completions is the same as the one being optimised. While it is broadly the case that GRPO is an on-policy algorithm, there are a few caveats. First, to optimise the generation step, several batches of generations may be sampled and then  $k$  updates are made to the model, with the first batch being on-policy with the next few batches being slightly off-policy. 
-
-To account for policy-lag between the model used for generation and the current model being optimised, importance sampling and clipping are used to re-weight the token probabilities and restrict the size of the updates.
+-  **Reinforcement Learning from Human Feedback（RLHF）：** 这是由 OpenAI 的 InstructGPT 论文 [[@instructgpt](https://huggingface.co/papers/2203.02155)] 推广开来的方法，也是 gpt-3.5 和许多现代 LLM 的基础。在这种方法中，由人工标注者比较模型输出（例如“答案 A 比答案 B 更好”），再训练一个 reward model 去预测这些偏好。随后，用 RL 微调 policy，使其最大化学到的 reward。
 
 <Sidenote>
 
-We mention here off-policy RL, but there are several truly off-policy RL algorithms, such as Q-learning, where the policy used for generate trajectories can be totally different to the policy being optimized. When GRPO is applied to LLMs, the policy used for generation can lag behind the one used for optimization, but typically there are less than 16 steps difference between the two.
+由于 reward model 只是对人类偏好的近似，它有时会诱发 reward hacking。比如，policy 可能会输出像 "the the the the" 这样分布外的序列，却意外获得很高的 reward，然后在 RL 循环中被进一步固化进模型。
 </Sidenote>
 
-As autoregressive generation from LLMs is slow, many frameworks like [verl](https://github.com/volcengine/verl) and [PipelineRL](https://github.com/ServiceNow/PipelineRL) have added asynchronous generation of completions and "in-flight" updates of model weights to maximise training throughput. These approaches require more complex and careful implementation, but can achieve training speeds that are 4-5x higher than synchronous training methods. As we'll see later, these improvements in training efficiency are especially pronounced for reasoning models, which have long-tail token distributions.
+-  **Reinforcement Learning with Verifiable Rewards（RLVR）：** 这是由 DeepSeek-R1 推广开来的方法，它依赖 verifier 去检查模型输出是否满足某些明确定义的正确性标准（例如代码能否编译并通过全部测试，或者数学答案是否正确）。然后再用 RL 微调 policy，以产生更多可验证为正确的输出。 
 
-For SmolLM3, we skipped RL altogether, mostly due to time constraints and having a model that was already best-in-class with offline preference optimisation. However, since the release, we have revisited the topic and will close out the post-training chapter by sharing some of our lessons from applying RLVR to hybrid reasoning models.
+RLHF 和 RLVR 都定义了模型究竟在为 *什么* 目标优化，但它们并没有告诉我们这种优化应当 *如何* 执行。实际上，基于 RL 的训练在效率和稳定性上的表现，很大程度取决于所用学习算法是 **on-policy** 还是 **off-policy**。
 
-#### Applying RLVR to hybrid reasoning models
+像 GRPO 这样的方法，通常属于 on-policy 优化算法：生成 completions 的模型（也就是 policy）与正在被优化的模型是同一个。虽然从整体上看 GRPO 确实是 on-policy 算法，但其中还是有一些细节需要注意。首先，为了优化生成步骤，训练中可能会先采样若干个 batch 的生成结果，然后对模型执行 $k$ 次更新；其中第一个 batch 是 on-policy 的，而后续几个 batch 则会轻微偏离 on-policy。
 
-Hybrid reasoning models pose additional complexity for RLVR because generation lengths vary considerably depending on the reasoning mode. For example, in the figure below, we plot the token length distributions on AIME25 for the [final APO checkpoint](https://huggingface.co/HuggingFaceTB/SmolLM3-3B-checkpoints/tree/it-soup-APO) from SmolLM3:
+为了处理“用于生成的模型”和“当前正在优化的模型”之间的 policy lag，通常会使用 importance sampling 和 clipping，来对 token 概率重新加权，并限制更新步长的大小。
+
+<Sidenote>
+
+这里我们提到了 off-policy RL，但其实还有一些真正意义上的 off-policy RL 算法，比如 Q-learning。在这些方法里，用于生成 trajectory 的 policy 可以与被优化的 policy 完全不同。而当 GRPO 应用于 LLM 时，用于生成的 policy 可能会落后于用于优化的 policy，但两者之间通常相差不到 16 个 step。
+</Sidenote>
+
+由于 LLM 的自回归生成速度较慢，许多框架，例如 [verl](https://github.com/volcengine/verl) 和 [PipelineRL](https://github.com/ServiceNow/PipelineRL)，都加入了异步 completion 生成和模型权重的 “in-flight” 更新，以最大化训练吞吐。这些方法实现起来更复杂，也更需要谨慎设计，但训练速度可以达到同步训练方法的 4 到 5 倍。后文我们会看到，对于 token 分布呈长尾特征的推理模型，这类训练效率提升尤其明显。
+
+对于 SmolLM3，我们当时完全跳过了 RL，主要原因是时间有限，而且依靠离线偏好优化，我们已经得到一个在同尺寸中表现最优的模型。不过在发布之后，我们重新回到了这个话题，并将在后训练章节的最后，分享一些将 RLVR 应用于 hybrid reasoning 模型时得到的经验。
+
+#### 将 RLVR 应用于 hybrid reasoning 模型
+
+Hybrid reasoning 模型会给 RLVR 带来额外复杂度，因为生成长度会随着推理模式不同而显著变化。例如，在下图中，我们展示了 SmolLM3 的 [final APO checkpoint](https://huggingface.co/HuggingFaceTB/SmolLM3-3B-checkpoints/tree/it-soup-APO) 在 AIME25 上的 token 长度分布：
 
 <HtmlEmbed src="/embeds/d3-rl-token-histogram.html" />
 
 
 
-As you can see, the  `/no_think`  mode generates solutions with a median length of around 2k tokens, while the  `/think`  mode is much larger with 16k tokens and a fat-tailed distribution. Ideally, we would like to improve the overall performance of both modes with RLVR, without changing their respective length distributions too radically.
+可以看到，`/no_think` 模式生成解答的中位长度约为 2k tokens，而 `/think` 模式则大得多，中位长度达到 16k tokens，并且呈现明显的 fat-tailed distribution。理想情况下，我们希望用 RLVR 同时提升这两种模式的整体性能，同时又不要过于剧烈地改变它们各自的长度分布。
 
-To explore this, we focused on optimising the  `/no_think`  mode first and took a subset of prompts from [Big-Math](https://huggingface.co/datasets/SynthLabsAI/Big-Math-RL-Verified), a dataset of over 250k math problems with verified answers.
+为了研究这一点，我们先专注于优化 `/no_think` 模式，并从 [Big-Math](https://huggingface.co/datasets/SynthLabsAI/Big-Math-RL-Verified) 中抽取了一部分 prompt。这个数据集包含超过 25 万道带有已验证答案的数学题。
 
-To our surprise, naively applying GRPO leads to a form of  *reward hacking* : despite never being prompted to emit a long CoT, the model learns to exploit its base reasoning capabilities to increase the reward. As shown in the figure below, not only does the reward go up, but so too does the length of the completions:
+令人意外的是，直接、朴素地应用 GRPO 会导致一种 *reward hacking*：尽管我们从未提示模型输出长 CoT，它还是学会了利用自身已有的推理能力来提高 reward。如下图所示，不仅 reward 上升了，completion 的长度也一并暴涨：
 
 <HtmlEmbed src="embeds/d3-rl-full-length.html" caption="Naively applying RLVR to SmolLM3 achieves high reward and improved downstream performance, but comes at the cost of exploding completion lengths."/>
 
 
 
-In other words, RLVR with GRPO has converted the  `/no_think`  mode of our reasoning model into one which looks very similar to the  `/think`  mode!
+换句话说，带有 GRPO 的 RLVR 把我们推理模型中的 `/no_think` 模式，训练成了一个看起来非常像 `/think` 模式的东西！
 
-When we review the model's completions, we see that the model now generates a long CoT and even includes some of the cognitive behaviours [@cognitivebehaviours] like  "Wait, …"  that are associated with reasoning models. An example of this is shown below:
+当我们检查模型生成的 completions 时，会发现模型现在会输出很长的 CoT，甚至还会包含一些与推理模型相关的认知行为 [@cognitivebehaviours]，比如 "Wait, …"。下面就是一个例子：
 
 ```
 However, since the jogger and the train are moving in the same direction, the relative speed between them is the difference of their speeds:
@@ -4108,9 +4108,9 @@ But first, the initial position: the jogger is 340 meters ahead of the engine. S
 
 Hmm, so the jogger is 340 m ahead of the engine along the track. Since they're moving in the same direction, the train is behind the jogger by 340 meters. To pass the jogger, the train has to cover that 340 meters plus the length of the train itself?
 ```
- **Mitigating reward hacking with overlong penalties** 
+ **用超长惩罚缓解 reward hacking** 
 
-This issue can mitigated by including an  *overlong completion penalty* , that penalises completions over a certain length. The penalty is parameterised by two arguments max completion length  $L_{max}$  and soft punishment cache  $L_{cache}$ . This penalty was one of the improvements proposed in the DAPO paper [[@dapo](https://huggingface.co/papers/2503.14476)] and amounts to applying a reward function as follows:
+这个问题可以通过加入 *overlong completion penalty* 来缓解，也就是对超过某个长度阈值的 completion 施加惩罚。这个惩罚由两个参数控制：最大 completion 长度 $L_{max}$ 和 soft punishment cache $L_{cache}$。这一惩罚项是 DAPO 论文 [[@dapo](https://huggingface.co/papers/2503.14476)] 提出的改进之一，对应的 reward function 如下：
 
 $$
 
@@ -4122,59 +4122,59 @@ R_{\text{length}}(y) = \begin{cases}
 
 $$
 
-Using this penalty, we can directly control the model's output distribution and measure the tradeoff between increasing response length and performance. An example is shown in the figure below, where we vary the overlong penalty from 1.5k to 4k in steps of 512 tokens:
+通过这个惩罚项，我们就可以直接控制模型的输出分布，并衡量“回复长度增加”与“性能提升”之间的权衡。下图给出了一个例子：我们将 overlong penalty 从 1.5k 调到 4k，每次步进 512 tokens：
 
 <HtmlEmbed src="/embeds/d3-rl-reward-curves.html" caption="Applying an overlong penalty constrains the length of each rollout, while also reducing the average reward." />
 
 
 
-The tradeoff between response length and performance is clearer when we examine the improvements on AIME25:
+当我们观察 AIME25 上的性能提升时，这种“回复长度与性能之间的权衡”会变得更加清晰：
 
 <HtmlEmbed src="/embeds/d3-rl-aime25.html" caption="Downstream performance of Smollm3 with RLVR on AIME25."/>
 
 
 
-Now we can clearly see how the overlong penalty impacts downstream performance, with penalties in the range 2-4k producing significant improvements, while keeping the token distribution in check. As shown in the figure below, if we take the checkpoints from step 400, we can compare the output token distributions between the initial policy and final model across a range of different penalties:
+现在我们可以清楚地看到 overlong penalty 如何影响下游性能：当惩罚范围设在 2k 到 4k 时，模型能够获得显著提升，同时 token 分布仍然保持可控。如下图所示，如果取 step 400 时的 checkpoints，就可以比较不同惩罚设置下，初始 policy 与最终模型之间的输出 token 分布差异：
 
 <HtmlEmbed src="/embeds/d3-rl-token-comparison.html" />
 
 
 
- **Bringing it all together** 
+ **把这些结果整合起来** 
 
-We find that applying a length penalty in the range 2.5-3k gives the best tradeoff between performance and response length, with the figure below showing that GRPO nearly doubles the performance on AIME 2025 over offline methods like APO:
+我们发现，把长度惩罚设在 2.5k 到 3k 的范围内，可以在性能和回复长度之间取得最佳平衡。下图显示，相比 APO 这样的离线方法，GRPO 在 AIME 2025 上几乎把性能翻了一倍：
 
 <HtmlEmbed src="/embeds/d3-rl-aime25-comparisons.html" />
 
 
 
-Now that we know how to improve performance in the  `/no_think`  reasoning mode, the next step in the RL training pipeline would be  *joint training*  of the model in both reasoning modes at once. However, we have found this to be quite a tough nut to crack because each mode requires it's own length penalty and the interplay has thus far produced unstable training. This highlights the main challenge with trying to apply RL on hybrid reasoning models, and we can see this reflected in a new trend from model developers like Qwen to release the [instruct](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507) and [reasoning](https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507) variants separately.
+现在我们已经知道如何提升 `/no_think` 推理模式下的性能，那么 RL 训练流水线的下一步，本应是同时对两种推理模式进行 *joint training*。但我们发现，这件事相当难啃，因为每种模式都需要各自独立的长度惩罚，而两者之间的相互作用到目前为止都会导致训练不稳定。这也凸显了将 RL 应用于 hybrid reasoning 模型时的核心挑战。我们也能从一个新趋势中看到这一点：像 Qwen 这样的模型开发者，开始分别发布 [instruct](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507) 和 [reasoning](https://huggingface.co/Qwen/Qwen3-4B-Thinking-2507) 两种变体。
 
-Our experiments show that RLVR can steer reasoning behaviour effectively, but only with careful reward shaping and stability mechanisms. Given this complexity, it's worth asking whether reinforcement learning is the only viable path forward. In fact, several lighter-weight, on-policy optimisation strategies have been proposed in recent literature, yet remain surprisingly under explored by the open-source community. Let's close out this chapter by taking a look at some of them.
+我们的实验表明，RLVR 的确能够有效引导推理行为，但前提是必须精心设计 reward shaping 和稳定性机制。考虑到这种复杂度，一个自然的问题是：强化学习真的是唯一可行的前进方向吗？事实上，最近的文献中已经提出了几种更轻量级的 on-policy 优化策略，但在开源社区里却仍然没有得到充分探索。下面就用它们来结束这一章。
 
-#### Is RL the only game in town?
+#### RL 是唯一的选择吗？
 
-Other approaches to on-policy learning extend preference optimisation and distillation into iterative loops that refresh the training signal as the model evolves:
+其他 on-policy 学习方法，会把偏好优化和蒸馏扩展为一个迭代循环，让训练信号随着模型演化而不断刷新：
 
--  **Online DPO:**  rather than training once on a fixed preference dataset, the model continually samples new responses, collects fresh preference labels (from reward models or LLM graders), and updates itself. This keeps the optimisation  *on-policy*  and reduces drift between training data and the model's current behaviour [@onlinedpo].
--  **On-policy distillation:**  instead of preferences, the signal comes from a stronger teacher model. The student samples responses at every training step and the KL divergence between the student and teacher logits on these samples provides the learning signal. This allows the student to continuously absorb the teacher's capabilities, without needing explicit preference labels or verifiers [@gkd].
+-  **Online DPO：** 不再是在一个固定的偏好数据集上训练一次，而是让模型持续采样新的回复、收集新的偏好标签（来自 reward models 或 LLM graders），再不断更新自身。这使优化过程保持 *on-policy*，并减少训练数据与模型当前行为之间的漂移 [@onlinedpo]。
+-  **On-policy distillation：** 信号不再来自偏好，而是来自一个更强的 teacher model。student 在每一个训练 step 上采样回复，而 student 与 teacher 在这些样本上的 logits 之间的 KL divergence 就构成学习信号。这样一来，student 就能持续吸收 teacher 的能力，而不需要显式的偏好标签或 verifier [@gkd]。
 
-These methods blur the line between static preference optimisation and full RL: you still get the benefits of adapting to the model's current distribution, but without the full complexity of designing and stabilising a reinforcement learning loop.
+这些方法模糊了静态偏好优化与完整 RL 之间的边界：你仍然可以获得“适应模型当前分布”的好处，但不需要承担设计并稳定整个强化学习循环的全部复杂性。
 
-#### Which method do I pick?
+#### 我该选哪种方法？
 
-Although there are a gazillion research papers about which on-policy method is "best", in practice the decision depends on a few factors shown in the table below:
+虽然关于哪种 on-policy 方法“最好”的研究论文已经多到数不过来，但在实践里，决策通常取决于下表所示的几个因素：
 
 <Wide>
 
 | Algorithm | When to Use | Tradeoffs | Best for Model Size |
 | --- | --- | --- | --- |
-| **Online DPO** | You can get preference labels cheaply. Best for aligning behaviour with evolving distributions. | Easy to scale iteratively, more stable than RL, but depends on label quality and coverage. Supported in few training frameworks. | Any size, where preferences capture improvements beyond imitation. |
-| **On-policy distillation** | You have access to a stronger teacher model and want to transfer capabilities efficiently. | Simple to implement, cheap to run, inherits teacher biases, ceiling limited by teacher. Supported only in TRL and NemoRL | Most effective for small to mid-sized models (\<30B). |
-| **Reinforcement learning** | Best when you have verifiable rewards or tasks requiring multi-step reasoning/planning. Can be used with reward models, but there are challenges like reward-hacking, where the model takes advantage in weaknesses in the reward model. | Flexible and powerful, but costly and harder to stabilise; requires careful reward shaping. Supported in most post-training frameworks. | Mid to large models (20B+), where extra capacity lets them exploit structured reward signals. |
+| **Online DPO** | 当你可以低成本获得偏好标签时使用。最适合让行为对齐不断演化的分布。 | 易于做迭代扩展，比 RL 更稳定，但依赖标签质量和覆盖范围。支持它的训练框架较少。 | 适用于任意尺寸，只要偏好信号能捕捉到超越模仿学习的提升。 |
+| **On-policy distillation** | 当你能访问更强的 teacher model，并希望高效转移能力时使用。 | 实现简单、运行便宜，但会继承 teacher 的偏差，能力上限也受 teacher 限制。当前只有 TRL 和 NemoRL 支持。 | 对小到中等规模模型最有效（\<30B）。 |
+| **Reinforcement learning** | 当你有可验证奖励，或任务需要多步推理/规划时最适合。也可以配合 reward model 使用，但会面临 reward-hacking 等问题，即模型会利用 reward model 的弱点。 | 灵活且强大，但成本更高，也更难稳定；需要精细的 reward shaping。大多数后训练框架都支持。 | 更适合中到大规模模型（20B+），因为额外容量能帮助模型利用结构化 reward signal。 |
 </Wide>
 
-In the open-source ecosystem, reinforcement learning methods like GRPO and REINFORCE tend to be the most widely used, although the Qwen3 tech report [[@qwen3](https://arxiv.org/abs/2505.09388)] highlighted the use of on-policy distillation to train the models under 32B parameters:
+在开源生态中，像 GRPO 和 REINFORCE 这样的强化学习方法通常是使用最广泛的。不过，Qwen3 技术报告 [[@qwen3](https://arxiv.org/abs/2505.09388)] 特别强调了：对于 32B 参数以下的模型，他们采用的是 on-policy distillation：
 
 <Wide>
 
@@ -4205,7 +4205,7 @@ flowchart LR
 ```
 </Wide>
 
-One interesting property of on-policy distillation with small models is that it typically outperforms RL-based methods at a fraction of the compute cost. This is because instead of generating multiple rollouts per prompt, we only sample one, which is then graded by the teacher in a single forward-backward pass. As the Qwen3 tech report shows, the gains over GRPO can be significant:
+on-policy distillation 在小模型上的一个有趣特性是：它通常能以远低于 RL 方法的计算成本，取得更好的效果。原因在于，它不需要为每个 prompt 生成多个 rollout，我们只采样一次，然后由 teacher 在一次前向-反向传播中完成评估。正如 Qwen3 技术报告所展示的，相比 GRPO，这种收益可能非常显著：
 
 <Wide>
 
@@ -4216,13 +4216,13 @@ One interesting property of on-policy distillation with small models is that it 
 | + On-policy Distillation | **74.4** | **65.5** | **97.0** | **60.3** | **88.3** | **63.3** | 1,800 |
 </Wide>
 
-More recently, [Thinking Machines](https://thinkingmachines.ai/blog/on-policy-distillation/) have shown that on-policy distillation is also effective at mitigating  *catastrophic forgetting* , where a post-trained model is further trained on a new domain and it's prior performance regresses. In the table below, they show that although the chat performance of Qwen3-8b (IFEval) tanks when it's fine-tuned on internal data, the behaviour can be restored with cheap distillation:
+最近，[Thinking Machines](https://thinkingmachines.ai/blog/on-policy-distillation/) 还表明，on-policy distillation 对缓解 *catastrophic forgetting* 也很有效。所谓 catastrophic forgetting，是指一个后训练模型在新领域上继续训练后，先前的性能反而退化。在下表中，他们展示了这样一个现象：Qwen3-8b 的 chat 性能（IFEval）虽然会在内部数据上微调后明显下滑，但可以通过低成本蒸馏把这种行为恢复回来：
 
 <Image src={Screenshot_2025_10_30_at_13_02_36_29c1384e_bcac_80d6_a72d_ff34bc221b60} alt="Image" />
 
-We ourselves are quite excited by on-policy distillation as there's a huge diversity of capable, open-weight LLMs that can be distilled into smaller, task-specific models. However, one weakness with all on-policy distillation methods is that the teacher and student must share the same tokenizer. To address that, we've developed a new method called General On-Policy Logit Distillation (GOLD), which allows any teacher to be distilled into any student. We recommend checking out our [technical write-up](https://huggingface.co/spaces/HuggingFaceH4/on-policy-distillation) if you're interested in these topics.
+我们自己也对 on-policy distillation 非常兴奋，因为现在已经有大量能力很强的 open-weight LLM，可以被蒸馏成更小、更面向特定任务的模型。不过，所有 on-policy distillation 方法都有一个弱点：teacher 和 student 必须共享同一个 tokenizer。为了解决这个问题，我们开发了一种新方法，叫做 General On-Policy Logit Distillation（GOLD），它允许任意 teacher 被蒸馏到任意 student 中。如果你对这些话题感兴趣，我们建议阅读我们的 [technical write-up](https://huggingface.co/spaces/HuggingFaceH4/on-policy-distillation)。
 
-Similarly, researchers at FAIR have compared the effect of being fully off-policy to on-policy for DPO and shown that it's possible to match the performance of GRPO using far less compute [[@online-offline](https://huggingface.co/papers/2506.21495)]:
+类似地，FAIR 的研究者比较了 DPO 在 fully off-policy 与 on-policy 两种设定下的效果，并表明：用远少于 GRPO 的计算量，也有可能匹配 GRPO 的性能 [[@online-offline](https://huggingface.co/papers/2506.21495)]：
 
 <Wide>
 
@@ -4231,7 +4231,7 @@ Similarly, researchers at FAIR have compared the effect of being fully off-polic
 
 
 
-As shown in their paper, online DPO works well for math tasks and even the semi-on-policy variant achieves comparable performance despite being many steps off-policy:
+正如他们论文所示，online DPO 在数学任务上表现良好；即便是 semi-on-policy 变体，虽然已经偏离 on-policy 很多个 step，依然能取得可比的性能：
 
 | Training method | Math500 | NuminaMath | AMC23 |
 | --- | --- | --- | --- |
@@ -4242,13 +4242,13 @@ As shown in their paper, online DPO works well for math tasks and even the semi-
 | Online DPO (s = 1) | 58.7 | **39.6** | 32.9 |
 | GRPO | 58.1 | 38.8 | 33.6 |
 
-Overall, we feel that there still remains much to be done with both scaling RL effectively [@scalerl] and exploring other methods for computational efficiency. Exciting times indeed!
+总体来看，我们认为，无论是在有效扩展 RL 方面 [@scalerl]，还是在探索其他计算效率更高的方法方面，都还有大量工作可以做。的确是一个很令人兴奋的时期。
 
-### Wrapping up post-training
+### 后训练小结
 
-If you've made it this far, congrats: you now have all the core ingredients needed for success with post-training. You're now ready to run many experiments and test different algorithms to get SOTA results. 
+如果你已经读到这里，那么恭喜你：你现在已经掌握了做好后训练所需的全部核心要素。你已经准备好去跑大量实验，测试不同算法，并争取做到 SOTA 结果。 
 
-But as you've probably realised, knowing how to train great models is only half the story. To actually bring those models to life, you need the right infrastructure. Let's finish this opus with the unsung hero of LLM training.
+但正如你可能已经意识到的，知道如何训练出优秀模型，只是故事的一半。要真正把这些模型变成现实，你还需要合适的基础设施。下面就让我们用 LLM 训练中那位“无名英雄”来为这部作品收尾。
 
 [^f1]: The idea to compute these statistics comes from the Llama 3 tech report [[@llama3](https://arxiv.org/abs/2407.21783)].
 
