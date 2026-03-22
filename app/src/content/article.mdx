@@ -5720,78 +5720,78 @@ $$
 
 这个配置在最大化 384 张 H100 集群吞吐的同时，也达到了我们约 200 万 tokens 的目标 global batch size（192 × 3 × 1 × 4096 ≈ 2.3M）。完整训练配置可以在我们的 [stage1_8T.yaml](https://github.com/huggingface/smollm/blob/main/text/pretraining/smollm3/stage1_8T.yaml) 中查看。
 
-## Conclusion
+## 结语
 
-We started this journey with a simple question: what does it actually take to train a high-performance LLM in 2025? After walking through the complete pipeline—from pretraining to post-training—we've shown you not just the techniques, but the methodology that makes them work.
+这段旅程始于一个简单的问题：在 2025 年，训练一个高性能 LLM，到底需要什么？从预训练到后训练，我们一路走完整条流水线，想展示给你的不只是具体技巧，更是让这些技巧真正发挥作用的方法论。
 
- **Pretraining at scale.**  We walked through the Training Compass framework for deciding whether to train at all, then showed how to translate goals into concrete architectural decisions. You've seen how to set up reliable ablation pipelines, test changes individually, and scale from few-billion-token experiments to multi-trillion-token runs. We documented the infrastructure challenges that can emerge at scale (throughput collapses, dataloader bottlenecks, subtle bugs) and how monitoring and systematic derisking help you catch them early and debug quickly.
+ **大规模预训练。** 我们介绍了如何用 Training Compass 框架来判断“究竟该不该训”，以及如何把目标翻译成具体的架构决策。你已经看到，怎样搭建可靠的消融实验流程、如何一次只测试一个变化，以及如何把几亿到几十亿 token 级别的实验，逐步扩展到多万亿 token 级别的训练。我们也记录了在大规模环境下会遇到的各种基础设施挑战（吞吐崩塌、dataloader 瓶颈、隐蔽 bug），以及监控和系统化降风险策略如何帮助你更早发现问题、更快完成调试。
 
- **Post-training in practice.**  We showed that going from a base model to a production assistant requires its own systematic approach: establishing evals before training anything, iterating on SFT data mixtures, applying preference optimization, and optionally pushing further with RL. You've seen how vibe testing catches bugs that metrics miss, how chat templates can silently break instruction-following, and why data mixture balance matters as much in post-training as it does in pretraining.
+ **实践中的后训练。** 我们展示了，从一个 base model 走向可生产使用的 assistant，需要另一套同样系统化的方法：先建立评测，再去训练；迭代 SFT 数据配比；应用偏好优化；有需要的话，再继续往 RL 推进。你已经看到，vibe testing 如何抓住那些评测指标看不到的 bug，chat template 又如何在不知不觉中破坏 instruction-following，以及为什么数据混合的平衡在后训练中和在预训练中一样重要。
 
-Throughout both phases, we kept coming back to the same core insights: validate everything through experiments, change one thing at a time, expect scale to break things in new ways, and let your use case drive decisions rather than chasing every new paper. Following this process, we trained SmolLM3: a competitive 3B multilingual reasoner with long context. Along the way, we learned a lot about what works, what breaks, and how to debug when things go wrong. We've tried to document it all, the successes and failures alike.
+贯穿这两个阶段，我们不断回到同样的核心原则：一切都要通过实验验证；一次只改一个变量；要预期规模变大时会以新的方式把问题暴露出来；而且应当让你的 use case 来驱动决策，而不是追着每一篇新论文跑。沿着这套过程，我们训练出了 SmolLM3：一个具备长上下文能力、具有竞争力的 3B 多语言推理模型。在这个过程中，我们学到了很多关于什么有效、什么会坏、以及当问题出现时该如何调试的经验。我们也尽量把这些都记录下来，无论是成功，还是失败。
 
- **What's next?** 
+ **接下来呢？** 
 
-This blog covers the fundamentals of modern LLM training, but the field evolves rapidly. Here are ways to go deeper:
+这篇博客覆盖了现代 LLM 训练的核心基础，但这个领域变化极快。如果你想继续深入，可以从下面几个方向出发：
 
--  **Run experiments yourself.**  Reading about ablations is useful; running your own teaches you what actually matters. Pick a small model, set up evals, and start experimenting.
--  **Read the source code.**  Training frameworks like nanotron, TRL, and others are open source. Understanding their implementations reveals details that papers gloss over.
--  **Follow recent work.**  Papers of recent state-of-the-art models show where the field is heading. The references section contains our curated list of impactful papers and resources.
+-  **自己动手做实验。** 阅读消融实验当然有帮助，但亲自跑一遍，才能真正知道什么重要。选一个小模型，搭好 eval，然后开始试验。
+-  **阅读源码。** nanotron、TRL 等训练框架都是开源的。理解它们的实现细节，往往能看到论文里一笔带过、却真正影响结果的关键之处。
+-  **关注最新工作。** 最新 SOTA 模型的论文，能直接反映这个领域正在走向哪里。参考文献部分整理了我们认为最有影响力的一批论文和资源。
 
-We hope this blog helps you approach your next training project with clarity and confidence, whether you're at a large lab pushing the frontier or a small team solving a specific problem.
+我们希望这篇博客能帮助你以更清晰的思路、更有把握的方式去面对下一个训练项目，无论你是在大型实验室推动前沿，还是在一个小团队里解决具体问题。
 
-Now go train something. And when your loss spikes mysteriously at 2am, remember: every great model has debugging stories behind it. May the force of open source and open science always be with you!
+现在，去训练点什么吧。等到某天凌晨两点，你的 loss 突然莫名其妙地飙升时，记住：每个伟大的模型背后，都有一堆调试故事。愿开源与开放科学的原力始终与你同在。
 
-####  **Acknowledgments** 
+#### **致谢** 
 
-We thank [Guilherme](https://huggingface.co/guipenedo), [Hugo](https://huggingface.co/hlarcher) and [Mario](https://huggingface.co/mariolr) for their valuable feedback, and [Abubakar](https://huggingface.co/abidlabs) for his help with Trackio features.
+感谢 [Guilherme](https://huggingface.co/guipenedo)、[Hugo](https://huggingface.co/hlarcher) 和 [Mario](https://huggingface.co/mariolr) 提供的宝贵反馈，也感谢 [Abubakar](https://huggingface.co/abidlabs) 在 Trackio 功能方面提供的帮助。
 
-## References
+## 参考资料
 
-Below is a curated list of papers, books, and blog posts that have informed us the most on our LLM training journey.
+下面是一份我们在 LLM 训练之路上最受启发的论文、书籍和博客文章精选清单。
 
-#### LLM Architecture 
+#### LLM 架构
 
 - Dense models: [Llama3](https://huggingface.co/papers/2407.21783), [Olmo2](https://huggingface.co/papers/2501.00656), [MobileLLM](https://huggingface.co/papers/2402.14905)
 - MoEs: [DeepSeek V2](https://huggingface.co/papers/2405.04434), [DeepSeek V3](https://huggingface.co/papers/2412.19437), [Scaling Laws of Efficient MoEs](https://huggingface.co/papers/2507.17702)
 - Hybrid: [MiniMax-01,](https://huggingface.co/papers/2501.08313) [Mamba2](https://huggingface.co/papers/2405.21060)
 
-#### Optimisers & training parameters
+#### 优化器与训练参数
 
 -  [Muon is Scalable for LLM Training](https://huggingface.co/papers/2502.16982), [Fantastic pretraining optimisers](https://huggingface.co/papers/2509.02046)
 - [Large Batch Training](https://arxiv.org/abs/1812.06162), [DeepSeekLLM](https://arxiv.org/abs/2401.02954)
 
-#### Data curation 
+#### 数据整理
 
 - Web: [FineWeb & FineWeb-Edu](https://huggingface.co/papers/2406.17557), [FineWeb2](https://huggingface.co/papers/2506.20920), [DCLM](https://huggingface.co/papers/2406.11794)
 - Code: [The Stack v2](https://huggingface.co/papers/2402.19173), [To Code or Not to Code](https://huggingface.co/papers/2408.10914)
 - Math: [DeepSeekMath](https://huggingface.co/papers/2402.03300), [FineMath](https://huggingface.co/papers/2502.02737), [MegaMath](https://huggingface.co/papers/2504.02807)
 - Data mixtures: [SmolLM2](https://huggingface.co/papers/2502.02737), [Does your data spark joy](https://huggingface.co/papers/2406.03476)
 
-#### Scaling laws 
+#### Scaling laws
 
 - [Kaplan](https://huggingface.co/papers/2001.08361), [Chinchilla](https://huggingface.co/papers/2203.15556), [Scaling Data-Constrained Language Models](https://huggingface.co/papers/2305.16264)
 
-#### Post-training
+#### 后训练
 
-- [InstructGPT:](https://huggingface.co/papers/2203.02155) OpenAI's foundational paper to turn base models into helpful assistants. The precursor to ChatGPT and a key step on humanity's path up the Kardashev scale.
-- [Llama 2](https://huggingface.co/papers/2307.09288) & [3](https://huggingface.co/papers/2407.21783): Extremely detailed tech reports from Meta on the training behind their Llama models (may they rest in peace). They each contain many insights into human data collection, both for human preferences and model evaluation.
-- Secrets of RLHF in LLMs, [Part I](https://huggingface.co/papers/2307.04964) & [II](https://huggingface.co/papers/2401.06080): these papers contain lots of goodies on the nuts and bolts for RLHF, specifically on how to train strong reward models. 
-- [Direct Preference Optimisation:](https://huggingface.co/papers/2305.18290) the breakthrough paper from 2023 that convinced everyone to stop doing RL with LLMs.
-- [DeepSeek-R1](https://huggingface.co/papers/2501.12948): the breakthrough paper from 2025 that convinced everyone to start doing RL with LLMs.
-- [Dr. GRPO:](https://huggingface.co/papers/2503.20783) one of the most important papers on understanding the baked-in biases with GRPO and how to fix them.
-- [DAPO: ](https://huggingface.co/papers/2503.14476)Bytedance shares many implementation details to unlock stable R1-Zero-like training for the community.
-- [ScaleRL:](https://huggingface.co/papers/2510.13786) a massive flex from Meta to derive scaling laws for RL. Burns over 400k GPU hours to establish a training recipe that scales reliably over many orders of compute.
-- [LoRA without Regret:](https://thinkingmachines.ai/blog/lora/) a beautifully written blog post which finds that RL with low-rank LoRA can match full-finetuning (a most surprising result).
-- [Command A:](https://huggingface.co/papers/2504.00698) a remarkably detailed tech report from Cohere on various strategies to post-train LLMs effectively.
+- [InstructGPT:](https://huggingface.co/papers/2203.02155) OpenAI 用来把 base model 变成有帮助 assistant 的奠基性论文。它既是 ChatGPT 的前身，也是人类朝 Kardashev 等级迈进过程中的一个关键节点。
+- [Llama 2](https://huggingface.co/papers/2307.09288) & [3](https://huggingface.co/papers/2407.21783): Meta 关于 Llama 模型训练过程的超详细技术报告（愿其安息）。其中都包含了大量关于人类数据收集的洞察，既包括偏好数据，也包括模型评测数据。
+- Secrets of RLHF in LLMs, [Part I](https://huggingface.co/papers/2307.04964) & [II](https://huggingface.co/papers/2401.06080): 这两篇论文包含了大量 RLHF 实践层面的关键细节，尤其是如何训练强 reward models。
+- [Direct Preference Optimisation:](https://huggingface.co/papers/2305.18290) 2023 年的突破性论文，它说服了几乎所有人停止在 LLM 上继续用传统 RL。
+- [DeepSeek-R1](https://huggingface.co/papers/2501.12948): 2025 年的突破性论文，它又说服了几乎所有人重新开始在 LLM 上做 RL。
+- [Dr. GRPO:](https://huggingface.co/papers/2503.20783) 这是理解 GRPO 内建偏差及其修复方法的最重要论文之一。
+- [DAPO: ](https://huggingface.co/papers/2503.14476) Bytedance 分享了大量实现细节，帮助社区解锁稳定的 R1-Zero 风格训练。
+- [ScaleRL:](https://huggingface.co/papers/2510.13786) Meta 的一次“秀肌肉”之作，用超过 40 万 GPU 小时为 RL 推导 scaling laws，并建立了一套能跨多个数量级稳定扩展的训练 recipe。
+- [LoRA without Regret:](https://thinkingmachines.ai/blog/lora/) 一篇写得非常漂亮的博客，发现低秩 LoRA 上的 RL 可以匹配 full-finetuning（这是个相当出人意料的结果）。
+- [Command A:](https://huggingface.co/papers/2504.00698) Cohere 关于如何高效进行 LLM 后训练的技术报告，细节非常丰富。
 
-#### Infrastructure
+#### 基础设施
 
 - [UltraScale Playbook](https://huggingface.co/spaces/nanotron/ultrascale-playbook)
 - [Jax scaling book](https://jax-ml.github.io/scaling-book/)
 - [Modal GPU Glossary](https://modal.com/gpu-glossary/readme)
 
-#### Training frameworks
+#### 训练框架
 
 - [Megatron-LM](https://github.com/NVIDIA/Megatron-LM)
 - [DeepSpeed](https://github.com/deepspeedai/DeepSpeed)
@@ -5800,7 +5800,7 @@ Below is a curated list of papers, books, and blog posts that have informed us t
 - [NanoChat](https://github.com/karpathy/nanochat)
 - [TRL](https://github.com/huggingface/trl)
 
-#### Evaluation
+#### 评测
 
 - [The LLM Evaluation Guidebook](https://github.com/huggingface/evaluation-guidebook)
 - [OLMES](https://huggingface.co/papers/2406.08446)
